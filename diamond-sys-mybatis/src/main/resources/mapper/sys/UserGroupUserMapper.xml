@@ -3,7 +3,7 @@
 <mapper namespace="com.hoioy.diamond.sys.mapper.UserGroupUserMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.hoioy.diamond.sys.domain.UserGroupUser">
+    <resultMap id="BaseResultMap" type="UserGroupUser">
         <id column="group_id" property="groupId"/>
         <result column="user_id" property="userId"/>
     </resultMap>

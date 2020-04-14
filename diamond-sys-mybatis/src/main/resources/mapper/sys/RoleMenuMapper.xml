@@ -3,7 +3,7 @@
 <mapper namespace="com.hoioy.diamond.sys.mapper.RoleMenuMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.hoioy.diamond.sys.domain.RoleMenu">
+    <resultMap id="BaseResultMap" type="RoleMenu">
         <id column="menu_id" property="menuId"/>
         <result column="role_id" property="roleId"/>
     </resultMap>

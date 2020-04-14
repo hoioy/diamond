@@ -3,7 +3,7 @@
 <mapper namespace="com.hoioy.diamond.sys.mapper.MenuMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.hoioy.diamond.sys.domain.Menu">
+    <resultMap id="BaseResultMap" type="Menu">
         <result column="id" property="id"/>
         <result column="flag" property="flag"/>
         <result column="created_by" property="createdBy"/>
@@ -31,7 +31,7 @@
         created_by, created_date, modified_by, modified_date, authority_id, controller_class, icon_path, mark, menu_classify, menu_desc, menu_index, menu_name, menu_url, remark, small_icon_path, parent_id
     </sql>
 
-    <select id="selectPage" resultType="com.hoioy.diamond.sys.domain.Menu">
+    <select id="selectPage" resultType="Menu">
         select
         <include refid="Base_Column_List"/>
         from
@@ -88,7 +88,7 @@
         </if>
     </select>
 
-    <select id="findByRoleId" resultType="com.hoioy.diamond.sys.domain.Menu">
+    <select id="findByRoleId" resultType="Menu">
         select
         <include refid="Base_Column_List"/>
         from
@@ -100,7 +100,7 @@
         flag=1
     </select>
 
-    <select id="findMenusByRoleIds" resultType="com.hoioy.diamond.sys.domain.Menu">
+    <select id="findMenusByRoleIds" resultType="Menu">
         select
         <include refid="Base_Column_List"/>
         from
@@ -124,7 +124,7 @@
         and
         menu_url=#{menuUrl}
     </select>
-    <select id="findChildrenByParentId" resultType="com.hoioy.diamond.sys.domain.Menu">
+    <select id="findChildrenByParentId" resultType="Menu">
         select
         <include refid="Base_Column_List"/>
         from

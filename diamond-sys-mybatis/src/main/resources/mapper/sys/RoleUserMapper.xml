@@ -3,7 +3,7 @@
 <mapper namespace="com.hoioy.diamond.sys.mapper.RoleUserMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.hoioy.diamond.sys.domain.RoleUser">
+    <resultMap id="BaseResultMap" type="RoleUser">
         <id column="role_id" property="roleId" />
         <result column="user_id" property="userId" />
     </resultMap>

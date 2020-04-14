@@ -3,7 +3,7 @@
 <mapper namespace="com.hoioy.diamond.sys.mapper.DeptUserMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.hoioy.diamond.sys.domain.DeptUser">
+    <resultMap id="BaseResultMap" type="DeptUser">
         <id column="dept_id" property="deptId"/>
         <result column="user_id" property="userId"/>
     </resultMap>

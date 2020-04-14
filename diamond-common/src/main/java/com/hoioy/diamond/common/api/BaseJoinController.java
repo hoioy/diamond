@@ -1,0 +1,57 @@
+package com.hoioy.diamond.common.api;
+
+import com.hoioy.diamond.common.dto.BaseJoinDTO;
+import com.hoioy.diamond.common.dto.ResultDTO;
+import com.hoioy.diamond.common.exception.BaseException;
+import com.hoioy.diamond.common.service.IBaseJoinService;
+import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
+import io.swagger.annotations.ApiOperation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
+import javax.validation.Valid;
+import java.util.List;
+
+public abstract class BaseJoinController<S extends IBaseJoinService, DTO extends BaseJoinDTO> {
+    protected Logger log = LoggerFactory.getLogger(getClass());
+    @Autowired
+    protected S iBaseService;
+
+    @Valid
+    @ApiOperation(value = "001.新增")
+    @ApiOperationSupport(order = 1)
+    @PostMapping("/save")
+    public ResultDTO<Boolean> save(@RequestBody DTO dto) throws BaseException {
+        Boolean id = iBaseService.save(dto);
+        return new ResultDTO<Boolean>(id);
+    }
+
+    @Valid
+    @ApiOperation(value = "002.批量新增")
+    @ApiOperationSupport(order = 2)
+    @PostMapping("/batchSave")
+    public ResultDTO<Boolean> batchSave(@RequestBody List<DTO> dtos) throws BaseException {
+        Boolean isSuccess = iBaseService.batchSave(dtos);
+        return new ResultDTO<Boolean>(isSuccess);
+    }
+
+    @ApiOperation(value = "003.根据DTO删除")
+    @ApiOperationSupport(order = 3)
+    @DeleteMapping("/deleteByDTO")
+    public ResultDTO<Boolean> deleteById(@RequestBody DTO dto) throws BaseException {
+        Boolean isSuccess = iBaseService.remove(dto);
+        return new ResultDTO<Boolean>(isSuccess);
+    }
+
+    @ApiOperation(value = "004.根据多个DTO批量删除")
+    @ApiOperationSupport(order = 4)
+    @DeleteMapping("/deleteByDTOs")
+    public ResultDTO<Boolean> deleteByIds(@RequestBody List<DTO> dtos) throws BaseException {
+        Boolean isSuccess = iBaseService.batchRemove(dtos);
+        return new ResultDTO<Boolean>(isSuccess);
+    }
+}

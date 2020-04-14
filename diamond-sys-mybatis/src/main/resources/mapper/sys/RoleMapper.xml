@@ -3,7 +3,7 @@
 <mapper namespace="com.hoioy.diamond.sys.mapper.RoleMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.hoioy.diamond.sys.domain.Role">
+    <resultMap id="BaseResultMap" type="Role">
         <result column="id" property="id"/>
         <result column="flag" property="flag"/>
         <result column="created_by" property="createdBy"/>
@@ -23,7 +23,7 @@
         created_by, created_date, modified_by, modified_date, remark, role_description, role_index, role_name
     </sql>
 
-    <select id="selectPage" resultType="com.hoioy.diamond.sys.domain.Role">
+    <select id="selectPage" resultType="Role">
         select
         <include refid="Base_Column_List"/>
         from
@@ -56,7 +56,7 @@
         </if>
     </select>
 
-    <select id="findByRoleName" resultType="com.hoioy.diamond.sys.domain.Role">
+    <select id="findByRoleName" resultType="Role">
         select
         <include refid="Base_Column_List"/>
         from

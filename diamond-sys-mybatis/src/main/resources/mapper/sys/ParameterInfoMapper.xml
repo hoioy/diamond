@@ -3,7 +3,7 @@
 <mapper namespace="com.hoioy.diamond.sys.mapper.ParameterInfoMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.hoioy.diamond.sys.domain.ParameterInfo">
+    <resultMap id="BaseResultMap" type="ParameterInfo">
         <result column="id" property="id"/>
         <result column="flag" property="flag"/>
         <result column="created_by" property="createdBy"/>

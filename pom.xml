@@ -126,6 +126,7 @@
                 <artifactId>jakarta.validation-api</artifactId>
                 <version>${jakarta.valitation.version}</version>
             </dependency>
+            <!--jwt-->
             <dependency>
                 <groupId>org.springframework.security</groupId>
                 <artifactId>spring-security-jwt</artifactId>
@@ -142,16 +143,11 @@
                 <artifactId>commons-beanutils</artifactId>
                 <version>${commons-beanutils.version}</version>
             </dependency>
-            <!--json-->
+            <!--fast json-->
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>fastjson</artifactId>
                 <version>${fastjson.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.belerweb</groupId>
-                <artifactId>pinyin4j</artifactId>
-                <version>${pinyin.version}</version>
             </dependency>
             <!--swagger-->
             <dependency>
@@ -166,19 +162,7 @@
                 <version>${mybatis-plus.version}</version>
             </dependency>
 
-            <!--poi-->
-            <dependency>
-                <groupId>org.apache.poi</groupId>
-                <artifactId>poi</artifactId>
-                <version>${poi.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.poi</groupId>
-                <artifactId>poi-scratchpad</artifactId>
-                <version>${poi.version}</version>
-            </dependency>
-
-            <!-- orcal连接-->
+            <!-- oracal连接-->
             <dependency>
                 <groupId>com.oracle.database.jdbc</groupId>
                 <artifactId>ojdbc8</artifactId>
