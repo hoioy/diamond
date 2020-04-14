@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hoioy.diamond.sys.mapper.DataItemMapper">
+
+
+    <resultMap id="TDFResultMap" type="com.hoioy.diamond.sys.domain.DataItem">
+        <result column="id" property="id"/>
+        <result column="flag" property="flag"/>
+        <result column="created_by" property="createdBy"/>
+        <result column="created_date" property="createdDate"/>
+        <result column="modified_by" property="modifiedBy"/>
+        <result column="modified_date" property="modifiedDate"/>
+        <result column="code" property="code"/>
+        <result column="code_index" property="codeIndex"/>
+        <result column="name" property="name"/>
+        <result column="remark" property="remark"/>
+        <result column="state" property="state"/>
+        <result column="parent_id" property="parentId"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,
+        flag,
+        created_by, created_date, modified_by, modified_date, code, code_index, name, remark, state, parent_id
+    </sql>
+    <sql id="TDF_Base_Column_List">
+        id,
+        flag,
+        created_by, created_date, modified_by, modified_date, code, code_index, name, remark, state, parent_id,parent,children
+    </sql>
+
+    <select id="selectPage" resultMap="TDFResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        data_item
+        where
+        flag=1
+        <if test="dataItem.code != null and dataItem.code != ''">
+            AND code = #{dataItem.code}
+        </if>
+        <if test="dataItem.name != null and dataItem.name != ''">
+            AND name = #{dataItem.name}
+        </if>
+        <if test="dataItem.parentId != null and dataItem.parentId != ''">
+            AND parent_id = #{dataItem.parentId}
+        </if>
+    </select>
+    <select id="findByCode" resultMap="TDFResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        data_item
+        where
+        code = #{code}
+        and
+        flag=1
+    </select>
+    <select id="selectByParentId" resultMap="TDFResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        data_item
+        where
+        parent_id = #{parentId}
+        and
+        flag=1
+    </select>
+
+
+</mapper>

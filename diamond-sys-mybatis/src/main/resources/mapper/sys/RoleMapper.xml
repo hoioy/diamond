@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hoioy.diamond.sys.mapper.RoleMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.hoioy.diamond.sys.domain.Role">
+        <result column="id" property="id"/>
+        <result column="flag" property="flag"/>
+        <result column="created_by" property="createdBy"/>
+        <result column="created_date" property="createdDate"/>
+        <result column="modified_by" property="modifiedBy"/>
+        <result column="modified_date" property="modifiedDate"/>
+        <result column="remark" property="remark"/>
+        <result column="role_description" property="roleDescription"/>
+        <result column="role_index" property="roleIndex"/>
+        <result column="role_name" property="roleName"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,
+        flag,
+        created_by, created_date, modified_by, modified_date, remark, role_description, role_index, role_name
+    </sql>
+
+    <select id="selectPage" resultType="com.hoioy.diamond.sys.domain.Role">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        role
+        where
+        flag=1
+        <if test="role.createdBy != null and role.createdBy != ''">
+            AND created_by = #{role.createdBy}
+        </if>
+        <if test="role.createdDate != null and role.createdDate != ''">
+            AND created_date = #{role.createdDate}
+        </if>
+        <if test="role.modifiedBy != null and role.modifiedBy != ''">
+            AND modified_by = #{role.modifiedBy}
+        </if>
+        <if test="role.modifiedDate != null and role.modifiedDate != ''">
+            AND modified_date = #{role.modifiedDate}
+        </if>
+        <if test="role.remark != null and role.remark != ''">
+            AND remark = #{role.remark}
+        </if>
+        <if test="role.roleDescription != null and role.roleDescription != ''">
+            AND role_description = #{role.roleDescription}
+        </if>
+        <if test="role.roleIndex != null and role.roleIndex != ''">
+            AND role_index = #{role.roleIndex}
+        </if>
+        <if test="role.roleName != null and role.roleName != ''">
+            AND role_name = #{role.roleName}
+        </if>
+    </select>
+
+    <select id="findByRoleName" resultType="com.hoioy.diamond.sys.domain.Role">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        role
+        where
+        flag=1
+        and
+        role_name = #{role_name}
+    </select>
+</mapper>

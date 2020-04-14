@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hoioy.diamond.sys.mapper.DeptInfoMapper">
+
+
+    <resultMap id="TreeResultMap" type="com.hoioy.diamond.sys.domain.DeptInfo">
+        <result column="id" property="id"/>
+        <result column="flag" property="flag"/>
+        <result column="created_by" property="createdBy"/>
+        <result column="created_date" property="createdDate"/>
+        <result column="modified_by" property="modifiedBy"/>
+        <result column="modified_date" property="modifiedDate"/>
+        <result column="dept_desc" property="deptDesc"/>
+        <result column="dept_index" property="deptIndex"/>
+        <result column="dept_name" property="deptName"/>
+        <result column="dept_state" property="deptState"/>
+        <result column="dept_type" property="deptType"/>
+        <result column="dept_url" property="deptUrl"/>
+        <result column="remark" property="remark"/>
+        <result column="parent_id" property="parentId"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,
+        flag,
+        created_by, created_date, modified_by, modified_date, dept_desc, dept_index, dept_name, dept_state, dept_type, dept_url, remark, parent_id
+    </sql>
+
+
+    <select id="findAll" resultMap="TreeResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        dept_info
+        where
+        flag=1
+        <if test="deptInfo.deptName != null and deptInfo.deptName != ''">
+            AND dept_name = #{deptInfo.deptName}
+        </if>
+        <if test="deptInfo.deptState != null and deptInfo.deptState != ''">
+            AND dept_state = #{deptInfo.deptState}
+        </if>
+        <if test="deptInfo.deptType != null and deptInfo.deptType != ''">
+            AND dept_type = #{deptInfo.deptType}
+        </if>
+        <if test="deptInfo.parentId != null and deptInfo.parentId != ''">
+            AND parent_id = #{deptInfo.parentId}
+        </if>
+    </select>
+    <select id="findByDeptName" resultMap="TreeResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        dept_info
+        where
+        flag=1
+        and
+        dept_name = #{deptName}
+    </select>
+
+
+    <select id="findByParentId" resultMap="TreeResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        dept_info
+        where
+        flag=1
+        and
+        parent_id = #{parentId}
+    </select>
+    <select id="findAllSort" resultMap="TreeResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        FROM
+        dept_info
+        order by
+        dept_index
+    </select>
+</mapper>

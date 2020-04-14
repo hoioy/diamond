@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hoioy.diamond.sys.mapper.UserGroupUserMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.hoioy.diamond.sys.domain.UserGroupUser">
+        <id column="group_id" property="groupId"/>
+        <result column="user_id" property="userId"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        group_id, user_id
+    </sql>
+    <select id="findGroupIdsByUserIds" resultType="string">
+        select
+        group_id
+        FROM
+        user_group_user
+        WHERE
+        user_id in
+        <foreach collection="userIds" item="userId" index="index" open="(" close=")" separator=",">
+            #{userId}
+        </foreach>
+    </select>
+    <select id="findUserIdsByGroupIds" resultType="string">
+        select
+        user_id
+        FROM
+        user_group_user
+        WHERE
+        group_id in
+        <foreach collection="groupIds" item="groupId" index="index" open="(" close=")" separator=",">
+            #{groupId}
+        </foreach>
+    </select>
+</mapper>

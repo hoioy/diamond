@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hoioy.diamond.sys.mapper.UserGroupMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.hoioy.diamond.sys.domain.UserGroup">
+    <result column="id" property="id" />
+    <result column="flag" property="flag" />
+        <result column="created_by" property="createdBy" />
+        <result column="created_date" property="createdDate" />
+        <result column="modified_by" property="modifiedBy" />
+        <result column="modified_date" property="modifiedDate" />
+        <result column="group_index" property="groupIndex" />
+        <result column="group_name" property="groupName" />
+        <result column="remark" property="remark" />
+        <result column="state" property="state" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,
+        flag,
+        created_by, created_date, modified_by, modified_date, group_index, group_name, remark, state
+    </sql>
+
+    <select id="selectPage" resultType="com.hoioy.diamond.sys.domain.UserGroup">
+        select
+           <include refid="Base_Column_List" />
+        from
+           user_group
+        where
+           flag=1
+        <if test="userGroup.createdBy != null and userGroup.createdBy != ''">
+            AND created_by = #{userGroup.createdBy}
+        </if>
+        <if test="userGroup.createdDate != null and userGroup.createdDate != ''">
+            AND created_date = #{userGroup.createdDate}
+        </if>
+        <if test="userGroup.modifiedBy != null and userGroup.modifiedBy != ''">
+            AND modified_by = #{userGroup.modifiedBy}
+        </if>
+        <if test="userGroup.modifiedDate != null and userGroup.modifiedDate != ''">
+            AND modified_date = #{userGroup.modifiedDate}
+        </if>
+        <if test="userGroup.groupIndex != null and userGroup.groupIndex != ''">
+            AND group_index = #{userGroup.groupIndex}
+        </if>
+        <if test="userGroup.groupName != null and userGroup.groupName != ''">
+            AND group_name = #{userGroup.groupName}
+        </if>
+        <if test="userGroup.remark != null and userGroup.remark != ''">
+            AND remark = #{userGroup.remark}
+        </if>
+        <if test="userGroup.state != null and userGroup.state != ''">
+            AND state = #{userGroup.state}
+        </if>
+    </select>
+</mapper>

@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hoioy.diamond.sys.mapper.MenuMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.hoioy.diamond.sys.domain.Menu">
+        <result column="id" property="id"/>
+        <result column="flag" property="flag"/>
+        <result column="created_by" property="createdBy"/>
+        <result column="created_date" property="createdDate"/>
+        <result column="modified_by" property="modifiedBy"/>
+        <result column="modified_date" property="modifiedDate"/>
+        <result column="authority_id" property="authorityId"/>
+        <result column="controller_class" property="controllerClass"/>
+        <result column="icon_path" property="iconPath"/>
+        <result column="mark" property="mark"/>
+        <result column="menu_classify" property="menuClassify"/>
+        <result column="menu_desc" property="menuDesc"/>
+        <result column="menu_index" property="menuIndex"/>
+        <result column="menu_name" property="menuName"/>
+        <result column="menu_url" property="menuUrl"/>
+        <result column="remark" property="remark"/>
+        <result column="small_icon_path" property="smallIconPath"/>
+        <result column="parent_id" property="parentId"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,
+        flag,
+        created_by, created_date, modified_by, modified_date, authority_id, controller_class, icon_path, mark, menu_classify, menu_desc, menu_index, menu_name, menu_url, remark, small_icon_path, parent_id
+    </sql>
+
+    <select id="selectPage" resultType="com.hoioy.diamond.sys.domain.Menu">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        menu
+        where
+        flag=1
+        <if test="menu.createdBy != null and menu.createdBy != ''">
+            AND created_by = #{menu.createdBy}
+        </if>
+        <if test="menu.createdDate != null and menu.createdDate != ''">
+            AND created_date = #{menu.createdDate}
+        </if>
+        <if test="menu.modifiedBy != null and menu.modifiedBy != ''">
+            AND modified_by = #{menu.modifiedBy}
+        </if>
+        <if test="menu.modifiedDate != null and menu.modifiedDate != ''">
+            AND modified_date = #{menu.modifiedDate}
+        </if>
+        <if test="menu.authorityId != null and menu.authorityId != ''">
+            AND authority_id = #{menu.authorityId}
+        </if>
+        <if test="menu.controllerClass != null and menu.controllerClass != ''">
+            AND controller_class = #{menu.controllerClass}
+        </if>
+        <if test="menu.iconPath != null and menu.iconPath != ''">
+            AND icon_path = #{menu.iconPath}
+        </if>
+        <if test="menu.mark != null and menu.mark != ''">
+            AND mark = #{menu.mark}
+        </if>
+        <if test="menu.menuClassify != null and menu.menuClassify != ''">
+            AND menu_classify = #{menu.menuClassify}
+        </if>
+        <if test="menu.menuDesc != null and menu.menuDesc != ''">
+            AND menu_desc = #{menu.menuDesc}
+        </if>
+        <if test="menu.menuIndex != null and menu.menuIndex != ''">
+            AND menu_index = #{menu.menuIndex}
+        </if>
+        <if test="menu.menuName != null and menu.menuName != ''">
+            AND menu_name = #{menu.menuName}
+        </if>
+        <if test="menu.menuUrl != null and menu.menuUrl != ''">
+            AND menu_url = #{menu.menuUrl}
+        </if>
+        <if test="menu.remark != null and menu.remark != ''">
+            AND remark = #{menu.remark}
+        </if>
+        <if test="menu.smallIconPath != null and menu.smallIconPath != ''">
+            AND small_icon_path = #{menu.smallIconPath}
+        </if>
+        <if test="menu.parentId != null and menu.parentId != ''">
+            AND parent_id = #{menu.parentId}
+        </if>
+    </select>
+
+    <select id="findByRoleId" resultType="com.hoioy.diamond.sys.domain.Menu">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        menu
+        left join role_menu b on id = b.menu_id
+        where
+        b.role_id = #{roleId}
+        and
+        flag=1
+    </select>
+
+    <select id="findMenusByRoleIds" resultType="com.hoioy.diamond.sys.domain.Menu">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        menu
+        left join role_menu b on id = b.menu_id
+        where
+        flag=1
+        and
+        role_id in
+        <foreach collection="roleIds" item="roleId" index="index" open="(" close=")" separator=",">
+            #{roleId}
+        </foreach>
+    </select>
+    <select id="findIdsByMenuUrl" resultType="string">
+        select
+        id
+        from
+        menu
+        where
+        flag=1
+        and
+        menu_url=#{menuUrl}
+    </select>
+    <select id="findChildrenByParentId" resultType="com.hoioy.diamond.sys.domain.Menu">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        menu
+        where
+        flag=1
+        and
+        parent_id =#{parentId}
+
+
+    </select>
+
+</mapper>

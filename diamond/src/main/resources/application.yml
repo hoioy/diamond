@@ -1,0 +1,49 @@
+server:
+  port: 7779
+
+spring:  #多环境切换
+  profiles:
+    active: dev
+  messages:       #配置引用国际化文件
+    basename: messages
+    cache-duration: -1
+    encoding: UTF-8
+  jackson:                                          #解决时区相差8问题
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  cache:
+    redis:
+      time-to-live: 2H                          # 缓存时间，2小时
+    type: redis
+
+# 日志配置
+logging:
+  level:
+    org.springframework.web: info
+    com.hoioy.diamond: info
+---
+spring:
+  servlet:
+    multipart:  #上传文件配置
+      enabled: true
+      max-file-size: 20MB
+      max-request-size: 20MB
+
+diamond:
+  sys:
+    file-storage:
+      root-path: "D:\\tdfStorage"  # TDF提供简单的文件上传功能，文件上传的根路径
+  log:
+    lock: 'on'  # 业务日志开关，off关闭业务日志，on开启
+  security:
+    jwt:
+      secret: mySecret      #签名秘钥，一定要保密，一定要保密，一定要保密，生产环境需要保护起来不被其他人员看到
+      jwkSetUri: http://192.168.99.77:9998/.well-known/jwks.json  # 使用OAuth2太极统一认证登录时候需要指定
+      expiration: 120  #token的过期时间，单位：秒
+      refresh: 72000  #token的可自动刷新时间，单位：秒
+    login:
+      retry-time: 5    # 登录错误在locked-recover-second时间范围内允许的最大次数
+      locked-recover-second: 36000 # 登录错误超过最大次数后不可登录的恢复时间
+    captcha-enable: 'off'            #验证码开关  off关闭  on打开
+    captcha-max-wait-second: 600  #验证码有效期，单位秒，10分钟
+    captcha-same-ip-limit-per-minutes: 60 #同一个ip每分钟请求验证码的最大次数

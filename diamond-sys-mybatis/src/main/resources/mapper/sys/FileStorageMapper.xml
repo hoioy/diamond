@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hoioy.diamond.sys.mapper.FileStorageMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.hoioy.diamond.sys.domain.FileStorage">
+        <result column="id" property="id"/>
+        <result column="created_by" property="createdBy"/>
+        <result column="created_date" property="createdDate"/>
+        <result column="flag" property="flag"/>
+        <result column="modified_by" property="modifiedBy"/>
+        <result column="modified_date" property="modifiedDate"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="remark" property="remark"/>
+        <result column="version" property="version"/>
+        <result column="extension" property="extension"/>
+        <result column="file_name" property="fileName"/>
+        <result column="relative_path" property="relativePath"/>
+        <result column="state" property="state"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,
+        created_by,
+        created_date,
+        flag,
+        modified_by,
+        modified_date,
+        parent_id,
+        remark,
+        version, extension, file_name, relative_path, state
+    </sql>
+
+    <select id="selectPage" resultType="com.hoioy.diamond.sys.domain.FileStorage">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        file_storage
+        where
+        flag=1
+        <if test="fileStorage.version != null and fileStorage.version != ''">
+            AND version = #{fileStorage.version}
+        </if>
+        <if test="fileStorage.extension != null and fileStorage.extension != ''">
+            AND extension = #{fileStorage.extension}
+        </if>
+        <if test="fileStorage.fileName != null and fileStorage.fileName != ''">
+            AND file_name = #{fileStorage.fileName}
+        </if>
+        <if test="fileStorage.relativePath != null and fileStorage.relativePath != ''">
+            AND relative_path = #{fileStorage.relativePath}
+        </if>
+        <if test="fileStorage.state != null and fileStorage.state != ''">
+            AND state = #{fileStorage.state}
+        </if>
+    </select>
+</mapper>

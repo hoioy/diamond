@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hoioy.diamond.sys.mapper.UserInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.hoioy.diamond.sys.domain.UserInfo">
+        <result column="id" property="id"/>
+        <result column="flag" property="flag"/>
+        <result column="created_by" property="createdBy"/>
+        <result column="created_date" property="createdDate"/>
+        <result column="modified_by" property="modifiedBy"/>
+        <result column="modified_date" property="modifiedDate"/>
+        <result column="address" property="address"/>
+        <result column="avatar" property="avatar"/>
+        <result column="avatar_content" property="avatarContent"/>
+        <result column="birthday" property="birthday"/>
+        <result column="blog" property="blog"/>
+        <result column="email" property="email"/>
+        <result column="gender" property="gender"/>
+        <result column="id_number" property="idNumber"/>
+        <result column="integral" property="integral"/>
+        <result column="login_name" property="loginName"/>
+        <result column="nickname" property="nickname"/>
+        <result column="password" property="password"/>
+        <result column="phone_num" property="phoneNum"/>
+        <result column="remark" property="remark"/>
+        <result column="state" property="state"/>
+        <result column="tag" property="tag"/>
+        <result column="user_index" property="userIndex"/>
+        <result column="user_name" property="userName"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,
+        flag,
+        created_by, created_date, modified_by, modified_date, address, avatar, avatar_content, birthday, blog, email, gender, id_number, integral, login_name, nickname, password, phone_num, remark, state, tag, user_index, user_name
+    </sql>
+
+    <select id="selectPage" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        user_info
+        where
+        flag=1
+        <if test="userInfo.createdBy != null and userInfo.createdBy != ''">
+            AND created_by = #{userInfo.createdBy}
+        </if>
+        <if test="userInfo.createdDate != null and userInfo.createdDate != ''">
+            AND created_date = #{userInfo.createdDate}
+        </if>
+        <if test="userInfo.modifiedBy != null and userInfo.modifiedBy != ''">
+            AND modified_by = #{userInfo.modifiedBy}
+        </if>
+        <if test="userInfo.modifiedDate != null and userInfo.modifiedDate != ''">
+            AND modified_date = #{userInfo.modifiedDate}
+        </if>
+        <if test="userInfo.address != null and userInfo.address != ''">
+            AND address = #{userInfo.address}
+        </if>
+        <if test="userInfo.avatar != null and userInfo.avatar != ''">
+            AND avatar = #{userInfo.avatar}
+        </if>
+        <if test="userInfo.avatarContent != null and userInfo.avatarContent != ''">
+            AND avatar_content = #{userInfo.avatarContent}
+        </if>
+        <if test="userInfo.birthday != null and userInfo.birthday != ''">
+            AND birthday = #{userInfo.birthday}
+        </if>
+        <if test="userInfo.blog != null and userInfo.blog != ''">
+            AND blog = #{userInfo.blog}
+        </if>
+        <if test="userInfo.email != null and userInfo.email != ''">
+            AND email = #{userInfo.email}
+        </if>
+        <if test="userInfo.gender != null and userInfo.gender != ''">
+            AND gender = #{userInfo.gender}
+        </if>
+        <if test="userInfo.idNumber != null and userInfo.idNumber != ''">
+            AND id_number = #{userInfo.idNumber}
+        </if>
+        <if test="userInfo.integral != null and userInfo.integral != ''">
+            AND integral = #{userInfo.integral}
+        </if>
+        <if test="userInfo.loginName != null and userInfo.loginName != ''">
+            AND login_name = #{userInfo.loginName}
+        </if>
+        <if test="userInfo.nickname != null and userInfo.nickname != ''">
+            AND nickname = #{userInfo.nickname}
+        </if>
+        <if test="userInfo.password != null and userInfo.password != ''">
+            AND password = #{userInfo.password}
+        </if>
+        <if test="userInfo.phoneNum != null and userInfo.phoneNum != ''">
+            AND phone_num = #{userInfo.phoneNum}
+        </if>
+        <if test="userInfo.remark != null and userInfo.remark != ''">
+            AND remark = #{userInfo.remark}
+        </if>
+        <if test="userInfo.state != null and userInfo.state != ''">
+            AND state = #{userInfo.state}
+        </if>
+        <if test="userInfo.tag != null and userInfo.tag != ''">
+            AND tag = #{userInfo.tag}
+        </if>
+        <if test="userInfo.userIndex != null and userInfo.userIndex != ''">
+            AND user_index = #{userInfo.userIndex}
+        </if>
+        <if test="userInfo.userName != null and userInfo.userName != ''">
+            AND user_name = #{userInfo.userName}
+        </if>
+    </select>
+    <select id="findByLoginName" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        user_info
+        where
+        flag=1 and login_name=#{loginName}
+    </select>
+    <select id="findUsersByDeptId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        user_info ui
+        left join
+        dept_user du
+        on du.user_id = ui.id
+        where
+        du.dept_id = #{deptId}
+        and flag =1
+    </select>
+    <select id="findUserByRoleId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        dept_user du
+        left join
+        user_info ui
+        on du.user_id = ui.id
+        where
+        du.dept_id = #{deptId}
+        and flag =1
+    </select>
+</mapper>
