@@ -62,8 +62,8 @@ public class Swagger2Config implements WebMvcConfigurer {
 
     private ApiInfo apiInfo() {
         return new ApiInfo(
-                "太极开发框架",
-                "太极开发框架",
+                "hoioy开发框架",
+                "hoioy开发框架",
                 "1.0.0",
                 "http://localhost:7779/",
                 new Contact("diamond", "xxx", "xxx@diamond.com.cn"),

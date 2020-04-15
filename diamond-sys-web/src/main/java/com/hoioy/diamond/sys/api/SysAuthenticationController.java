@@ -34,7 +34,7 @@ public class SysAuthenticationController {
     private IRoleUserService iRoleUserService;
 
     /**
-     * 使用太极统一认证服务时，将统一认证中的用户信息，与本系统的权限体系进行绑定
+     * 使用hoioy统一认证服务时，将统一认证中的用户信息，与本系统的权限体系进行绑定
      * 目前采用最简单的绑定策略：如果本系统用户表没有统一认证服务中的用户，则本系统默认添加
      *
      * @param userInfo
@@ -49,7 +49,7 @@ public class SysAuthenticationController {
         UserInfoDTO dto = new UserInfoDTO();
         String name = (String) userInfo.get("name");
         String loginName = (String) userInfo.get("loginName");
-        //有一些用户不在太极的用户表中-比如测试用户admin，可能这部分逻辑还要改。
+        //有一些用户不在hoioy的用户表中-比如测试用户admin，可能这部分逻辑还要改。
         if (null == loginName) {
             loginName = name;
         }

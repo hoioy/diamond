@@ -24,7 +24,7 @@
 #### 安装到本地仓库
 `mvn install -Dmaven.test.skip=true`
 
-#### 包发布到太极中央仓库
+#### 包发布到hoioy中央仓库
 `mvn deploy -Dmaven.test.skip=true`
 
 

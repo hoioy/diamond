@@ -3,7 +3,7 @@
 <mapper namespace="com.hoioy.diamond.sys.mapper.DataItemMapper">
 
 
-    <resultMap id="DiamondResultMap" type="DataItem">
+    <resultMap id="DiamondResultMap" type="com.hoioy.diamond.sys.domain.DataItem">
         <result column="id" property="id"/>
         <result column="flag" property="flag"/>
         <result column="created_by" property="createdBy"/>

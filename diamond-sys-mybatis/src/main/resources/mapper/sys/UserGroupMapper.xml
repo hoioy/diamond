@@ -3,7 +3,7 @@
 <mapper namespace="com.hoioy.diamond.sys.mapper.UserGroupMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="UserGroup">
+    <resultMap id="BaseResultMap" type="com.hoioy.diamond.sys.domain.UserGroup">
     <result column="id" property="id" />
     <result column="flag" property="flag" />
         <result column="created_by" property="createdBy" />
@@ -23,7 +23,7 @@
         created_by, created_date, modified_by, modified_date, group_index, group_name, remark, state
     </sql>
 
-    <select id="selectPage" resultType="UserGroup">
+    <select id="selectPage" resultType="com.hoioy.diamond.sys.domain.UserGroup">
         select
            <include refid="Base_Column_List" />
         from

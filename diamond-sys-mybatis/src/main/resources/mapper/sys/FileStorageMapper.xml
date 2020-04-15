@@ -3,7 +3,7 @@
 <mapper namespace="com.hoioy.diamond.sys.mapper.FileStorageMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="FileStorage">
+    <resultMap id="BaseResultMap" type="com.hoioy.diamond.sys.domain.FileStorage">
         <result column="id" property="id"/>
         <result column="created_by" property="createdBy"/>
         <result column="created_date" property="createdDate"/>
@@ -32,7 +32,7 @@
         version, extension, file_name, relative_path, state
     </sql>
 
-    <select id="selectPage" resultType="FileStorage">
+    <select id="selectPage" resultType="com.hoioy.diamond.sys.domain.FileStorage">
         select
         <include refid="Base_Column_List"/>
         from

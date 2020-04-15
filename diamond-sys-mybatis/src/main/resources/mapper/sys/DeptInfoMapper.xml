@@ -3,7 +3,7 @@
 <mapper namespace="com.hoioy.diamond.sys.mapper.DeptInfoMapper">
 
 
-    <resultMap id="TreeResultMap" type="DeptInfo">
+    <resultMap id="TreeResultMap" type="com.hoioy.diamond.sys.domain.DeptInfo">
         <result column="id" property="id"/>
         <result column="flag" property="flag"/>
         <result column="created_by" property="createdBy"/>

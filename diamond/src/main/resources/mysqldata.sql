@@ -62,7 +62,7 @@ INSERT INTO `role` (`id`,`version`, `created_by`, `created_date`, `flag`, `modif
 -- Records of dept_info
 -- ----------------------------
 
-INSERT INTO `dept_info` (`id`, `created_by`, `created_date`, `flag`, `modified_by`, `modified_date`, `dept_desc`, `dept_index`, `dept_name`, `dept_state`, `dept_type`, `dept_url`, `remark`, `parent_id`) VALUES ('227b237a8be04452abd223ed271f8189', NULL, '2018-4-26 13:20:13', 1, NULL, '2019-3-29 16:03:16', NULL, 1, '太极计算机', '1', 'TDC', 'TDC', 'TDC', NULL);
+INSERT INTO `dept_info` (`id`, `created_by`, `created_date`, `flag`, `modified_by`, `modified_date`, `dept_desc`, `dept_index`, `dept_name`, `dept_state`, `dept_type`, `dept_url`, `remark`, `parent_id`) VALUES ('227b237a8be04452abd223ed271f8189', NULL, '2018-4-26 13:20:13', 1, NULL, '2019-3-29 16:03:16', NULL, 1, 'hoioy计算机', '1', 'TDC', 'TDC', 'TDC', NULL);
 INSERT INTO `dept_info` (`id`, `created_by`, `created_date`, `flag`, `modified_by`, `modified_date`, `dept_desc`, `dept_index`, `dept_name`, `dept_state`, `dept_type`, `dept_url`, `remark`, `parent_id`) VALUES ('cde254475a744d75ad3c24ba599f4890', NULL, '2019-3-18 17:27:01', 1, NULL, '2018-12-29 13:46:18', NULL, 12, '创新研究院', '1', 'TDC', NULL, 'TDC', '227b237a8be04452abd223ed271f8189');
 
 -- ----------------------------
