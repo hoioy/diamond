@@ -1,6 +1,6 @@
 package com.hoioy.diamond.sys.service;
 
-import com.hoioy.diamond.common.domain.TDFDomain;
+import com.hoioy.diamond.common.domain.DiamondDomain;
 import com.hoioy.diamond.common.service.IBaseService;
 import com.hoioy.diamond.sys.dto.MenuDTO;
 import com.hoioy.diamond.sys.dto.MenuRouterDTO;
@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public interface IMenuService<D extends TDFDomain> extends IBaseService<MenuDTO, D> {
+public interface IMenuService<D extends DiamondDomain> extends IBaseService<MenuDTO, D> {
     Logger logger = LoggerFactory.getLogger(IMenuService.class);
 
     /**

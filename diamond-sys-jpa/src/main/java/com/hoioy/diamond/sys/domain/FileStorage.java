@@ -1,7 +1,7 @@
 package com.hoioy.diamond.sys.domain;
 
 import com.hoioy.diamond.common.base.BaseDomain;
-import com.hoioy.diamond.common.util.TDFJpaQueryWord;
+import com.hoioy.diamond.common.util.DiamondJpaQueryWord;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Where;
@@ -19,17 +19,17 @@ import javax.persistence.UniqueConstraint;
 public class FileStorage extends BaseDomain {
     private static final long serialVersionUID = 1L;
     //文件名
-    @TDFJpaQueryWord(func = TDFJpaQueryWord.MatchType.like)
+    @DiamondJpaQueryWord(func = DiamondJpaQueryWord.MatchType.like)
     @Column(name = "file_name")
     private String fileName;
     //文件扩展名
-    @TDFJpaQueryWord(func = TDFJpaQueryWord.MatchType.like)
+    @DiamondJpaQueryWord(func = DiamondJpaQueryWord.MatchType.like)
     @Column(name = "extension")
     private String extension;
     //文件路径
     @Column(name = "relative_path")
     private String relativePath;
-    @TDFJpaQueryWord(func = TDFJpaQueryWord.MatchType.equal)
+    @DiamondJpaQueryWord(func = DiamondJpaQueryWord.MatchType.equal)
     @Column(name = "state")
     private Integer state;
 }

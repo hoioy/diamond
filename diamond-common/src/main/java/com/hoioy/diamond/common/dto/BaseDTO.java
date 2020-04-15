@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
-public abstract class BaseDTO<T extends BaseDTO> extends TDFDTO {
+public abstract class BaseDTO<T extends BaseDTO> extends DiamondDTO {
     @ApiModelProperty(value = "parent id")
     private String parentId;
     @ApiModelProperty(value = "创建人", accessMode = ApiModelProperty.AccessMode.READ_ONLY)
@@ -24,7 +24,7 @@ public abstract class BaseDTO<T extends BaseDTO> extends TDFDTO {
     private String remark;
     @ApiModelProperty(value = "乐观锁", hidden = true, accessMode = ApiModelProperty.AccessMode.READ_ONLY)
     private Integer version;
-    //TODO zhaozhao重构前端和tdf-sys-web时候，将前后端的token都删除，只保留version
+    //TODO zhaozhao重构前端和diamond-sys-web时候，将前后端的token都删除，只保留version
     @ApiModelProperty(value = "乐观锁2", hidden = true, accessMode = ApiModelProperty.AccessMode.READ_ONLY)
     private String token;
     @ApiModelProperty(value = "树型结构DTO子对象", hidden = true)

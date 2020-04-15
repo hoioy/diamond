@@ -1,6 +1,6 @@
 package com.hoioy.diamond.sys.service;
 
-import com.hoioy.diamond.common.domain.TDFDomain;
+import com.hoioy.diamond.common.domain.DiamondDomain;
 import com.hoioy.diamond.sys.dto.RoleDTO;
 import com.hoioy.diamond.common.service.IBaseService;
 
@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * 类名称：角色Service
  */
-public interface IRoleService<D extends TDFDomain> extends IBaseService<RoleDTO, D> {
+public interface IRoleService<D extends DiamondDomain> extends IBaseService<RoleDTO, D> {
     /**
      * 查询所有角色
      */

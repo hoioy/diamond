@@ -32,7 +32,7 @@ spring:
 diamond:
   sys:
     file-storage:
-      root-path: "D:\\tdfStorage"  # TDF提供简单的文件上传功能，文件上传的根路径
+      root-path: "D:\\diamondStorage"  # Diamond提供简单的文件上传功能，文件上传的根路径
   log:
     lock: 'on'  # 业务日志开关，off关闭业务日志，on开启
   security:

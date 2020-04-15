@@ -30,11 +30,11 @@ spring:
 #  datasource:
 #    data: classpath:/oracledata.sql
 #    data-password: 123456
-#    data-username: TDFNEW
+#    data-username: DiamondNEW
 #    driver-class-name: oracle.jdbc.driver.OracleDriver
 #    password: 123456
 #    url: jdbc:oracle:thin:@192.168.19.1:1522:ORCL1
-#    username: TDFNEW
+#    username: DiamondNEW
 #  jpa:
 #    database-platform: org.hibernate.dialect.Oracle12cDialect
 #mybatis-plus:

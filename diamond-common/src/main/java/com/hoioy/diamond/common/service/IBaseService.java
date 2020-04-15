@@ -1,10 +1,10 @@
 package com.hoioy.diamond.common.service;
 
 
-import com.hoioy.diamond.common.domain.TDFDomain;
+import com.hoioy.diamond.common.domain.DiamondDomain;
 import com.hoioy.diamond.common.dto.BaseDTO;
 import com.hoioy.diamond.common.dto.PageDTO;
-import com.hoioy.diamond.common.util.TDFBeanUtil;
+import com.hoioy.diamond.common.util.DiamondBeanUtil;
 
 import java.util.Collection;
 import java.util.List;
@@ -13,7 +13,7 @@ import java.util.Optional;
 /**
  * 基础service，要求其他service继承
  */
-public interface IBaseService<DTO extends BaseDTO, D extends TDFDomain> extends ITDFService<DTO, D> {
+public interface IBaseService<DTO extends BaseDTO, D extends DiamondDomain> extends IDiamondService<DTO, D> {
     PageDTO getPage(final PageDTO pageDTO);
 
     /**
@@ -23,12 +23,12 @@ public interface IBaseService<DTO extends BaseDTO, D extends TDFDomain> extends 
      * @param rootId 根节点的Id，如果根节点Id为null，则传null即可
      */
     default List<DTO> listToTree(Collection<DTO> list, String rootId) {
-        return TDFBeanUtil.getInstance().listToTree(list, rootId);
+        return DiamondBeanUtil.getInstance().listToTree(list, rootId);
     }
 
     // 成功返回ID
 //    @CachePut(value = "dto", key = "#dto.id")
-//    @CachePut(value="DataItem", keyGenerator="TDFCacheKeyGenerator")
+//    @CachePut(value="DataItem", keyGenerator="DiamondCacheKeyGenerator")
     String save(DTO dto);
 
     //成功返回ID

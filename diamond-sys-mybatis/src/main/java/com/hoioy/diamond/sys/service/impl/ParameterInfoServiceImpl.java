@@ -3,7 +3,7 @@ package com.hoioy.diamond.sys.service.impl;
 import com.hoioy.diamond.common.base.BaseServiceImpl;
 import com.hoioy.diamond.common.dto.PageDTO;
 import com.hoioy.diamond.common.exception.BaseException;
-import com.hoioy.diamond.common.util.TDFMybatisPageUtil;
+import com.hoioy.diamond.common.util.DiamondMybatisPageUtil;
 import com.hoioy.diamond.sys.domain.ParameterInfo;
 import com.hoioy.diamond.sys.dto.ParameterInfoDTO;
 import com.hoioy.diamond.sys.exception.SysException;
@@ -62,9 +62,9 @@ public class ParameterInfoServiceImpl extends BaseServiceImpl<ParameterInfoMappe
 
     @Override
     public PageDTO getPage(PageDTO pageDTO) {
-        ParameterInfo domain = TDFMybatisPageUtil.getBean(pageDTO, ParameterInfo.class);
-        IPage<ParameterInfo> data = baseMapper.selectPage(TDFMybatisPageUtil.getPage(pageDTO), domain);
-        return TDFMybatisPageUtil.getPageDTO(data);
+        ParameterInfo domain = DiamondMybatisPageUtil.getBean(pageDTO, ParameterInfo.class);
+        IPage<ParameterInfo> data = baseMapper.selectPage(DiamondMybatisPageUtil.getPage(pageDTO), domain);
+        return DiamondMybatisPageUtil.getPageDTO(data);
     }
 
     @Override

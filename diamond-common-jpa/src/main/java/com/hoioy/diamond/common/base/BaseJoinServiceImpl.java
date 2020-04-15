@@ -2,8 +2,8 @@ package com.hoioy.diamond.common.base;
 
 import com.hoioy.diamond.common.dto.BaseJoinDTO;
 import com.hoioy.diamond.common.service.IBaseJoinService;
-import com.hoioy.diamond.common.util.TDFBeanUtil;
-import com.hoioy.diamond.common.util.TDFReflectionUtil;
+import com.hoioy.diamond.common.util.DiamondBeanUtil;
+import com.hoioy.diamond.common.util.DiamondReflectionUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +12,8 @@ import java.util.List;
 
 public abstract class BaseJoinServiceImpl<I extends IBaseJoinRepository<D, String>, D extends BaseJoinDomain, DTO extends BaseJoinDTO> implements IBaseJoinService<DTO, D> {
     protected Logger log = LoggerFactory.getLogger(getClass());
-    protected Class<D> domainClass = (Class<D>) TDFReflectionUtil.getSuperClassGenericType(getClass(), 1);
-    protected Class<DTO> dtoClass = (Class<DTO>) TDFReflectionUtil.getSuperClassGenericType(getClass(), 2);
+    protected Class<D> domainClass = (Class<D>) DiamondReflectionUtil.getSuperClassGenericType(getClass(), 1);
+    protected Class<DTO> dtoClass = (Class<DTO>) DiamondReflectionUtil.getSuperClassGenericType(getClass(), 2);
 
     @Autowired
     protected I iBaseRepository;
@@ -30,7 +30,7 @@ public abstract class BaseJoinServiceImpl<I extends IBaseJoinRepository<D, Strin
 
     @Override
     public boolean save(DTO dto) {
-        dto.setId(TDFBeanUtil.getInstance().generateJoinId(dto));
+        dto.setId(DiamondBeanUtil.getInstance().generateJoinId(dto));
         D t = dtoToDomain(dto, true);
         t = iBaseRepository.saveAndFlush(t);
         return true;
@@ -39,7 +39,7 @@ public abstract class BaseJoinServiceImpl<I extends IBaseJoinRepository<D, Strin
     @Override
     public boolean batchSave(List<DTO> dtoList) {
         dtoList.forEach(t -> {
-            t.setId(TDFBeanUtil.getInstance().generateJoinId(t));
+            t.setId(DiamondBeanUtil.getInstance().generateJoinId(t));
         });
         List<D> ts = dtoListToDomainList(dtoList, true);
         iBaseRepository.saveAll(ts);
@@ -49,7 +49,7 @@ public abstract class BaseJoinServiceImpl<I extends IBaseJoinRepository<D, Strin
 
     @Override
     public boolean remove(DTO dto) {
-        dto.setId(TDFBeanUtil.getInstance().generateJoinId(dto));
+        dto.setId(DiamondBeanUtil.getInstance().generateJoinId(dto));
         D t = dtoToDomain(dto, true);
         iBaseRepository.delete(t);
         return true;
@@ -58,7 +58,7 @@ public abstract class BaseJoinServiceImpl<I extends IBaseJoinRepository<D, Strin
     @Override
     public boolean batchRemove(List<DTO> dtoList) {
         dtoList.forEach(t -> {
-            t.setId(TDFBeanUtil.getInstance().generateJoinId(t));
+            t.setId(DiamondBeanUtil.getInstance().generateJoinId(t));
         });
         List<D> ts = dtoListToDomainList(dtoList, true);
         iBaseRepository.deleteInBatch(ts);

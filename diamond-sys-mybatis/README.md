@@ -2,13 +2,13 @@
 
 ## 简述功能
 
-       该子项目主要给TDF_sys_web、TDF_security等项目提供数据模型、数据访问服务，是整个系统的基础项目。
+       该子项目主要给Diamond_sys_web、Diamond_security等项目提供数据模型、数据访问服务，是整个系统的基础项目。
 
 ## 包路径规划
 
     cn
       +-com
-        +-taiji
+        +-diamond
           +-sys
              |
              +-domain         实体（Entity）与数据访问层（Repository）置于此包
@@ -27,7 +27,7 @@
 
 ## 相关数据库结构
 
-![系统表关系图](http://gitlab.taiji.com.cn/IRI/TDF_sys/raw/master/images/sys-db.png)
+![系统表关系图](http://gitlab.diamond.com.cn/IRI/Diamond_sys/raw/master/images/sys-db.png)
 
 ## 常用小技巧
 

@@ -10,7 +10,7 @@
 - mybatis IDE插件
 
 ### 运行
-1. 运行启动tdf项目
+1. 运行启动diamond项目
 1. 默认管理员用户名/密码：admin/admin
 1. Swagger访问路径：http://{ip}:{port}/swagger-ui.html 或者 http://{ip}:{port}/doc.html
 

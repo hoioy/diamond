@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * tdf业务异常类
+ * diamond业务异常类
  */
 @Data
 @NoArgsConstructor

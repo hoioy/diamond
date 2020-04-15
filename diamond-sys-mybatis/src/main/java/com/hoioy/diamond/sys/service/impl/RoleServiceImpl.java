@@ -2,7 +2,7 @@ package com.hoioy.diamond.sys.service.impl;
 
 import com.hoioy.diamond.common.base.BaseServiceImpl;
 import com.hoioy.diamond.common.dto.PageDTO;
-import com.hoioy.diamond.common.util.TDFMybatisPageUtil;
+import com.hoioy.diamond.common.util.DiamondMybatisPageUtil;
 import com.hoioy.diamond.sys.domain.Role;
 import com.hoioy.diamond.sys.dto.RoleDTO;
 import com.hoioy.diamond.sys.mapper.RoleMapper;
@@ -25,9 +25,9 @@ public class RoleServiceImpl extends BaseServiceImpl<RoleMapper, Role, RoleDTO> 
 
     @Override
     public PageDTO getPage(PageDTO pageDTO) {
-        Role role = TDFMybatisPageUtil.getBean(pageDTO, Role.class);
-        IPage<Role> data = baseMapper.selectPage(TDFMybatisPageUtil.getPage(pageDTO), role);
-        return TDFMybatisPageUtil.getPageDTO(data);
+        Role role = DiamondMybatisPageUtil.getBean(pageDTO, Role.class);
+        IPage<Role> data = baseMapper.selectPage(DiamondMybatisPageUtil.getPage(pageDTO), role);
+        return DiamondMybatisPageUtil.getPageDTO(data);
     }
 
     @Override

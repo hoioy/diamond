@@ -1,7 +1,7 @@
 package com.hoioy.diamond.security.jwt;
 
-import com.hoioy.diamond.security.jwt.converter.CustomJwtAccessTokenConverter;
-import com.hoioy.diamond.security.jwt.converter.TDFOauthServerJwtAccessTokenConverter;
+import com.hoioy.diamond.security.jwt.converter.DiamondJwtAccessTokenConverter;
+import com.hoioy.diamond.security.jwt.converter.DiamondOauthServerJwtAccessTokenConverter;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,10 +31,10 @@ public class JwtAuthorizationTokenFilter extends OncePerRequestFilter {
     private UserDetailsService userDetailsService;
 
     @Autowired
-    private CustomJwtAccessTokenConverter customJwtAccessTokenConverter;
+    private DiamondJwtAccessTokenConverter diamondJwtAccessTokenConverter;
 
     @Autowired
-    private TDFOauthServerJwtAccessTokenConverter tdfOauthServerJwtAccessTokenConverter;
+    private DiamondOauthServerJwtAccessTokenConverter diamondOauthServerJwtAccessTokenConverter;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
@@ -51,15 +51,15 @@ public class JwtAuthorizationTokenFilter extends OncePerRequestFilter {
                 Boolean isValid = false;
                 if (jwtClaimDTO.getRefreshDate() == null) {
                     //Diamond-oauth-server的token没有refreshdate
-                    if (!tdfOauthServerJwtAccessTokenConverter.isInExpired(jwtClaimDTO)) {
+                    if (!diamondOauthServerJwtAccessTokenConverter.isInExpired(jwtClaimDTO)) {
                         //没有过期
                         isValid = true;
                     }
-                } else if (customJwtAccessTokenConverter.isInRefreshDate(jwtClaimDTO)) {
+                } else if (diamondJwtAccessTokenConverter.isInRefreshDate(jwtClaimDTO)) {
                     //token在可刷新时间范围内，有效
-                    if (customJwtAccessTokenConverter.isInExpired(jwtClaimDTO)) {
+                    if (diamondJwtAccessTokenConverter.isInExpired(jwtClaimDTO)) {
                         //token可刷新但是已经过期，需要刷新token
-                        String newToken = customJwtAccessTokenConverter.refreshToken(jwtClaimDTO);
+                        String newToken = diamondJwtAccessTokenConverter.refreshToken(jwtClaimDTO);
                         response.addHeader(tokenHeader, newToken);
                         logger.debug("new token '{}'", newToken);
                     }
@@ -101,27 +101,27 @@ public class JwtAuthorizationTokenFilter extends OncePerRequestFilter {
     private JwtClaimDTO convert(String token) {
         JwtClaimDTO jwtClaimDTO = null;
         try {
-            jwtClaimDTO = customJwtAccessTokenConverter.convert(token);
+            jwtClaimDTO = diamondJwtAccessTokenConverter.convert(token);
         } catch (IllegalArgumentException e) {
-            logger.error("an error occured during customJwtAccessTokenConverter convert from token", e);
+            logger.error("an error occured during diamondJwtAccessTokenConverter convert from token", e);
         } catch (IOException e) {
-            logger.error("an error occured during customJwtAccessTokenConverter convert from token", e);
+            logger.error("an error occured during diamondJwtAccessTokenConverter convert from token", e);
         }
 
         if(jwtClaimDTO == null){
-            //如果为空，继续使用TDF-oquth-server的token解析
+            //如果为空，继续使用Diamond-oquth-server的token解析
             try {
-                jwtClaimDTO = tdfOauthServerJwtAccessTokenConverter.convert(token);
+                jwtClaimDTO = diamondOauthServerJwtAccessTokenConverter.convert(token);
             } catch (IllegalArgumentException e) {
-                logger.error("an error occured during tdfOauthServerJwtAccessTokenConverter convert from token", e);
+                logger.error("an error occured during diamondOauthServerJwtAccessTokenConverter convert from token", e);
             } catch (IOException e) {
-                logger.error("an error occured during tdfOauthServerJwtAccessTokenConverter convert from token", e);
+                logger.error("an error occured during diamondOauthServerJwtAccessTokenConverter convert from token", e);
             } catch (InvocationTargetException e) {
-                logger.error("an error occured during tdfOauthServerJwtAccessTokenConverter convert from token", e);
+                logger.error("an error occured during diamondOauthServerJwtAccessTokenConverter convert from token", e);
             } catch (IllegalAccessException e) {
-                logger.error("an error occured during tdfOauthServerJwtAccessTokenConverter convert from token", e);
+                logger.error("an error occured during diamondOauthServerJwtAccessTokenConverter convert from token", e);
             } catch (JwtValidationException e){
-                logger.error("an JwtValidationException occured during tdfOauthServerJwtAccessTokenConverter convert from token", e);
+                logger.error("an JwtValidationException occured during diamondOauthServerJwtAccessTokenConverter convert from token", e);
             }
         }
         return jwtClaimDTO;

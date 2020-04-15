@@ -1,7 +1,7 @@
 package com.hoioy.diamond.sys.api;
 
 import com.hoioy.diamond.common.dto.ResultDTO;
-import com.hoioy.diamond.common.util.TDFSecurityUtils;
+import com.hoioy.diamond.common.util.DiamondSecurityUtils;
 import com.hoioy.diamond.sys.dto.RoleDTO;
 import com.hoioy.diamond.sys.dto.UserInfoDTO;
 import com.hoioy.diamond.sys.service.IRoleMenuService;
@@ -42,7 +42,7 @@ public class SysAuthenticationController {
      * @throws RuntimeException
      * @throws JsonProcessingException
      */
-    @PostMapping(value = "/bindTDFUaaUser")
+    @PostMapping(value = "/bindDiamondUaaUser")
     @ResponseBody
     public ResultDTO bindUser(@RequestBody Map userInfo) throws RuntimeException {
         logger.info("bindUser");
@@ -89,7 +89,7 @@ public class SysAuthenticationController {
     public ResultDTO getUserByToken(@RequestParam(value = "token", required = false) String token) {
         UserInfoDTO user = null;
         try {
-            final String userName = TDFSecurityUtils.getCurrentLogin();
+            final String userName = DiamondSecurityUtils.getCurrentLogin();
             user = userService.findByLoginName(userName);
             user.setPassword(null);
         } catch (Exception e) {
@@ -123,7 +123,7 @@ public class SysAuthenticationController {
     @GetMapping(value = "/routers")
     @ResponseBody
     public ResultDTO getRouter(@RequestParam(value = "token", required = false) String token) {
-        final String userName = TDFSecurityUtils.getCurrentLogin();
+        final String userName = DiamondSecurityUtils.getCurrentLogin();
         UserInfoDTO user = userService.findByLoginName(userName);
 
         Optional<UserInfoDTO> userDTO = userService.findById(user.getId());

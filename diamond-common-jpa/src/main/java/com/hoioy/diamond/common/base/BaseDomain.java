@@ -1,8 +1,8 @@
 package com.hoioy.diamond.common.base;
 
-import com.hoioy.diamond.common.domain.TDFDomain;
-import com.hoioy.diamond.common.util.TDFJpaQueryWord;
-import com.hoioy.diamond.common.util.TDFSecurityUtils;
+import com.hoioy.diamond.common.domain.DiamondDomain;
+import com.hoioy.diamond.common.util.DiamondJpaQueryWord;
+import com.hoioy.diamond.common.util.DiamondSecurityUtils;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedBy;
@@ -18,7 +18,7 @@ import java.util.UUID;
 @MappedSuperclass
 @Data
 @NoArgsConstructor
-public class BaseDomain extends TDFDomain {
+public class BaseDomain extends DiamondDomain {
 
     @Id
     @Column(name = "id")
@@ -29,7 +29,7 @@ public class BaseDomain extends TDFDomain {
 
     @CreatedBy
     @Column(name = "created_by")
-    @TDFJpaQueryWord(func = TDFJpaQueryWord.MatchType.like)
+    @DiamondJpaQueryWord(func = DiamondJpaQueryWord.MatchType.like)
     protected String createdBy;
 
     @CreatedDate
@@ -38,7 +38,7 @@ public class BaseDomain extends TDFDomain {
 
     @LastModifiedBy
     @Column(name = "modified_by")
-    @TDFJpaQueryWord(func = TDFJpaQueryWord.MatchType.like)
+    @DiamondJpaQueryWord(func = DiamondJpaQueryWord.MatchType.like)
     protected String modifiedBy;
 
     @LastModifiedDate
@@ -51,7 +51,7 @@ public class BaseDomain extends TDFDomain {
 
     //删除标志
     @Column(name = "flag")
-    @TDFJpaQueryWord(func = TDFJpaQueryWord.MatchType.equal)
+    @DiamondJpaQueryWord(func = DiamondJpaQueryWord.MatchType.equal)
     public Integer flag;
 
     //乐观锁
@@ -60,7 +60,7 @@ public class BaseDomain extends TDFDomain {
 
     @PrePersist
     public void createAuditInfo() {
-        String loginName = TDFSecurityUtils.getCurrentLogin();
+        String loginName = DiamondSecurityUtils.getCurrentLogin();
         setCreatedBy(loginName);
         setCreatedDate(LocalDateTime.now());
         String id = UUID.randomUUID().toString().replaceAll("-", "");

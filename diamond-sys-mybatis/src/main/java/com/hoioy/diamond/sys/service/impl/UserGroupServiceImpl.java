@@ -7,7 +7,7 @@ import com.hoioy.diamond.sys.dto.UserGroupDTO;
 import com.hoioy.diamond.sys.mapper.UserGroupMapper;
 import com.hoioy.diamond.sys.mapper.UserGroupUserMapper;
 import com.hoioy.diamond.sys.service.IUserGroupService;
-import com.hoioy.diamond.common.util.TDFMybatisPageUtil;
+import com.hoioy.diamond.common.util.DiamondMybatisPageUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,9 +24,9 @@ public class UserGroupServiceImpl extends BaseServiceImpl<UserGroupMapper, UserG
 
     @Override
     public PageDTO getPage(PageDTO pageDTO) {
-        UserGroup userGroup = TDFMybatisPageUtil.getBean(pageDTO, UserGroup.class);
-        IPage<UserGroup> data = userGroupMapper.selectPage(TDFMybatisPageUtil.getPage(pageDTO), userGroup);
-        return TDFMybatisPageUtil.getPageDTO(data);
+        UserGroup userGroup = DiamondMybatisPageUtil.getBean(pageDTO, UserGroup.class);
+        IPage<UserGroup> data = userGroupMapper.selectPage(DiamondMybatisPageUtil.getPage(pageDTO), userGroup);
+        return DiamondMybatisPageUtil.getPageDTO(data);
     }
 
     @Override

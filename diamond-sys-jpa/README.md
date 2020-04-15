@@ -1,4 +1,4 @@
-该子项目主要给tdf_sys_web、TDF_security等项目提供数据模型、数据访问服务，是整个系统的基础项目。    
+该子项目主要给diamond_sys_web、Diamond_security等项目提供数据模型、数据访问服务，是整个系统的基础项目。    
 ### mysql 的配置
 ```
 spring.datasource.url=jdbc:mysql://127.0.0.1:3306/db_name?useUnicode=true&characterEncoding=utf-8

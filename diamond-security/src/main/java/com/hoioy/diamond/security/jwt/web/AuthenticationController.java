@@ -2,11 +2,11 @@ package com.hoioy.diamond.security.jwt.web;
 
 import com.hoioy.diamond.common.dto.ResultDTO;
 import com.hoioy.diamond.common.util.RedisCommonUtil;
-import com.hoioy.diamond.common.util.TDFBeanUtil;
+import com.hoioy.diamond.common.util.DiamondBeanUtil;
 import com.hoioy.diamond.common.util.WebSiteUtil;
-import com.hoioy.diamond.security.exception.TDFSecurityException;
+import com.hoioy.diamond.security.exception.DiamondSecurityException;
 import com.hoioy.diamond.security.jwt.JwtAuthenticationRequest;
-import com.hoioy.diamond.security.jwt.converter.CustomJwtAccessTokenConverter;
+import com.hoioy.diamond.security.jwt.converter.DiamondJwtAccessTokenConverter;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -58,7 +58,7 @@ public class AuthenticationController {
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    private CustomJwtAccessTokenConverter customJwtAccessTokenConverter;
+    private DiamondJwtAccessTokenConverter diamondJwtAccessTokenConverter;
 
     @Autowired
     private UserDetailsService userDetailsService;
@@ -81,7 +81,7 @@ public class AuthenticationController {
 
         Integer t = Integer.parseInt(time);
         if (t <= 0) {
-            throw new TDFSecurityException("您已经超过今天的重试次数，请明天再试。");
+            throw new DiamondSecurityException("您已经超过今天的重试次数，请明天再试。");
         }
         redisCommonUtil.increment(lockedRedisKey, -1);
 
@@ -89,17 +89,17 @@ public class AuthenticationController {
             //验证码校验逻辑启用
             String captchaKey = authenticationRequest.getCaptchaKey();
             if (StringUtils.isEmpty(captchaKey)) {
-                throw new TDFSecurityException("验证码Key不可以为空");
+                throw new DiamondSecurityException("验证码Key不可以为空");
             }
             String storedCaptchaCode = redisCommonUtil.get(captchaRedisKeyPre + ":" + captchaKey);
             if (StringUtils.isBlank(storedCaptchaCode) || !storedCaptchaCode.equals(authenticationRequest.getCaptchaValue())) {
-                throw new TDFSecurityException("验证码错误或已过期，请刷新验证码");
+                throw new DiamondSecurityException("验证码错误或已过期，请刷新验证码");
             }
         }
         authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
 
         final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
-        final String token = customJwtAccessTokenConverter.generateToken(userDetails);
+        final String token = diamondJwtAccessTokenConverter.generateToken(userDetails);
         redisCommonUtil.remove(lockedRedisKey);
         return new ResultDTO(token);
     }
@@ -122,11 +122,11 @@ public class AuthenticationController {
         }
         Integer t = Integer.parseInt(time);
         if (t <= 0) {
-            throw new TDFSecurityException("每分钟只能获取60次验证码");
+            throw new DiamondSecurityException("每分钟只能获取60次验证码");
         }
 
         String captchaCode = (int) ((Math.random() * 9 + 1) * 1000) + "";
-        String key = TDFBeanUtil.generateBeanId();
+        String key = DiamondBeanUtil.generateBeanId();
         redisCommonUtil.set(captchaRedisKeyPre + ":" + key, captchaCode, captchaMaxWaitSecond);
 
         Map<String, String> result = new HashMap<String, String>();

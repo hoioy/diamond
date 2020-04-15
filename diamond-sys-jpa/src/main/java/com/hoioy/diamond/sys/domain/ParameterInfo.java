@@ -2,7 +2,7 @@ package com.hoioy.diamond.sys.domain;
 
 
 import com.hoioy.diamond.common.base.BaseDomain;
-import com.hoioy.diamond.common.util.TDFJpaQueryWord;
+import com.hoioy.diamond.common.util.DiamondJpaQueryWord;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
@@ -30,20 +30,20 @@ public class ParameterInfo extends BaseDomain implements Serializable {
      * 参数键名
      */
     @Column(name = "parameter_key")
-    @TDFJpaQueryWord(func = TDFJpaQueryWord.MatchType.equal)
+    @DiamondJpaQueryWord(func = DiamondJpaQueryWord.MatchType.equal)
     private String parameterKey;
 
     /**
      * 参数键值
      */
     @Column(name = "parameter_value")
-    @TDFJpaQueryWord(func = TDFJpaQueryWord.MatchType.like)
+    @DiamondJpaQueryWord(func = DiamondJpaQueryWord.MatchType.like)
     private String parameterValue;
 
     /**
      * 参数名称
      */
     @Column(name = "parameter_name")
-    @TDFJpaQueryWord(func = TDFJpaQueryWord.MatchType.like)
+    @DiamondJpaQueryWord(func = DiamondJpaQueryWord.MatchType.like)
     private String parameterName;
 }

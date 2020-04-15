@@ -5,7 +5,7 @@ import com.hoioy.diamond.common.api.BaseController;
 import com.hoioy.diamond.common.dto.PageDTO;
 import com.hoioy.diamond.common.dto.ResultDTO;
 import com.hoioy.diamond.common.exception.BaseException;
-import com.hoioy.diamond.common.util.TDFSecurityUtils;
+import com.hoioy.diamond.common.util.DiamondSecurityUtils;
 import com.hoioy.diamond.sys.dto.*;
 import com.hoioy.diamond.sys.exception.SysException;
 import com.hoioy.diamond.sys.service.*;
@@ -388,7 +388,7 @@ public class UserController extends BaseController<IUserInfoService, UserInfoDTO
     @GetMapping(value = "/findUserRoleForBackToVue")
     public ResultDTO findUserRoleForBackToVue() {
         log.info("Begin findUserRoleForBackToVue");
-        String loginName = TDFSecurityUtils.getCurrentLogin();
+        String loginName = DiamondSecurityUtils.getCurrentLogin();
         UserInfoDTO userInfoDTO = iBaseService.findByLoginName(loginName);
         List<String> roleIds = iRoleUserService.findRoleIdsByUserIds(Arrays.asList(userInfoDTO.getId()));
         List<RoleDTO> roleDTOS = iRoleService.findByIds(roleIds);

@@ -3,8 +3,8 @@ package com.hoioy.diamond.sys.service.impl;
 import com.hoioy.diamond.common.base.BaseServiceImpl;
 import com.hoioy.diamond.common.dto.PageDTO;
 import com.hoioy.diamond.common.exception.BaseException;
-import com.hoioy.diamond.common.util.TDFBeanUtil;
-import com.hoioy.diamond.common.util.TDFMybatisPageUtil;
+import com.hoioy.diamond.common.util.DiamondBeanUtil;
+import com.hoioy.diamond.common.util.DiamondMybatisPageUtil;
 import com.hoioy.diamond.sys.domain.Menu;
 import com.hoioy.diamond.sys.domain.UserInfo;
 import com.hoioy.diamond.sys.dto.MenuDTO;
@@ -62,9 +62,9 @@ public class MenuServiceImpl extends BaseServiceImpl<MenuMapper, Menu, MenuDTO> 
 
     @Override
     public PageDTO getPage(PageDTO pageDTO) {
-        Menu menu = TDFMybatisPageUtil.getBean(pageDTO, Menu.class);
-        IPage<Menu> data = baseMapper.selectPage(TDFMybatisPageUtil.getPage(pageDTO), menu);
-        return TDFMybatisPageUtil.getPageDTO(data);
+        Menu menu = DiamondMybatisPageUtil.getBean(pageDTO, Menu.class);
+        IPage<Menu> data = baseMapper.selectPage(DiamondMybatisPageUtil.getPage(pageDTO), menu);
+        return DiamondMybatisPageUtil.getPageDTO(data);
     }
 
     @Override
@@ -98,7 +98,7 @@ public class MenuServiceImpl extends BaseServiceImpl<MenuMapper, Menu, MenuDTO> 
         List<MenuDTO> menuDTOs = findByIds(menuIds);
 
         List<MenuRouterDTO> menuRouterDTOList = menuListToMenuRouterList(menuDTOs);
-        List<MenuRouterDTO> menuTree = TDFBeanUtil.getInstance().listToTree(menuRouterDTOList, null);
+        List<MenuRouterDTO> menuTree = DiamondBeanUtil.getInstance().listToTree(menuRouterDTOList, null);
 
         resultMaprouter.put("router", menuTree);
         return resultMaprouter;

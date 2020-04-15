@@ -2,7 +2,7 @@ package com.hoioy.diamond.sys.service.impl;
 
 import com.hoioy.diamond.common.base.BaseServiceImpl;
 import com.hoioy.diamond.common.exception.BaseException;
-import com.hoioy.diamond.common.util.TDFStatic;
+import com.hoioy.diamond.common.util.DiamondStatic;
 import com.hoioy.diamond.sys.domain.UserInfo;
 import com.hoioy.diamond.sys.domain.UserInfoRepository;
 import com.hoioy.diamond.sys.dto.RoleUserJoinDTO;
@@ -86,13 +86,13 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfoRepository, Use
     @Override
     public String save(UserInfoDTO dto) throws BaseException {
         // 设置默认密码
-        dto.setPassword(passwordEncoder.encode(TDFStatic.DEFAULT_PASSWORD));
+        dto.setPassword(passwordEncoder.encode(DiamondStatic.DEFAULT_PASSWORD));
         return super.save(dto);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    @PreAuthorize("hasAuthority('" + TDFStatic.ROLE_ID_KEY + "')")
+    @PreAuthorize("hasAuthority('" + DiamondStatic.ROLE_ID_KEY + "')")
     public boolean removeByIds(List<String> ids) throws BaseException {
         if (CollectionUtils.isEmpty(ids)) {
             return true;

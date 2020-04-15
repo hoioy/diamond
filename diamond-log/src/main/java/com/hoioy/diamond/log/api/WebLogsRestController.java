@@ -4,7 +4,7 @@ import com.hoioy.diamond.common.api.BaseController;
 import com.hoioy.diamond.common.dto.PageDTO;
 import com.hoioy.diamond.common.dto.ResultDTO;
 import com.hoioy.diamond.log.dto.WebLogsDTO;
-import com.hoioy.diamond.log.exception.TDFLogException;
+import com.hoioy.diamond.log.exception.DiamondLogException;
 import com.hoioy.diamond.log.service.IWebLogsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,7 +31,7 @@ public class WebLogsRestController extends BaseController<IWebLogsService, WebLo
             return new ResultDTO(pageDTO);
         } catch (Exception e) {
             log.error("查询日志列表-Exception{}:", e.getMessage());
-            throw new TDFLogException("查询日志列表-Exception{}:", e.getMessage());
+            throw new DiamondLogException("查询日志列表-Exception{}:", e.getMessage());
         }
     }
 

@@ -3,7 +3,7 @@
 <mapper namespace="com.hoioy.diamond.sys.mapper.DataItemMapper">
 
 
-    <resultMap id="TDFResultMap" type="DataItem">
+    <resultMap id="DiamondResultMap" type="DataItem">
         <result column="id" property="id"/>
         <result column="flag" property="flag"/>
         <result column="created_by" property="createdBy"/>
@@ -24,13 +24,13 @@
         flag,
         created_by, created_date, modified_by, modified_date, code, code_index, name, remark, state, parent_id
     </sql>
-    <sql id="TDF_Base_Column_List">
+    <sql id="Diamond_Base_Column_List">
         id,
         flag,
         created_by, created_date, modified_by, modified_date, code, code_index, name, remark, state, parent_id,parent,children
     </sql>
 
-    <select id="selectPage" resultMap="TDFResultMap">
+    <select id="selectPage" resultMap="DiamondResultMap">
         select
         <include refid="Base_Column_List"/>
         from
@@ -47,7 +47,7 @@
             AND parent_id = #{dataItem.parentId}
         </if>
     </select>
-    <select id="findByCode" resultMap="TDFResultMap">
+    <select id="findByCode" resultMap="DiamondResultMap">
         select
         <include refid="Base_Column_List"/>
         from
@@ -57,7 +57,7 @@
         and
         flag=1
     </select>
-    <select id="selectByParentId" resultMap="TDFResultMap">
+    <select id="selectByParentId" resultMap="DiamondResultMap">
         select
         <include refid="Base_Column_List"/>
         from

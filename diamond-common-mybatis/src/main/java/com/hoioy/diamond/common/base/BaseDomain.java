@@ -1,13 +1,13 @@
 package com.hoioy.diamond.common.base;
 
-import com.hoioy.diamond.common.domain.TDFDomain;
+import com.hoioy.diamond.common.domain.DiamondDomain;
 import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;
 
 import java.time.LocalDateTime;
 
 @Data
-public class BaseDomain extends TDFDomain {
+public class BaseDomain extends DiamondDomain {
 
     @TableId(value = "id", type = IdType.ASSIGN_UUID)
     private String id;

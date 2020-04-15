@@ -8,7 +8,7 @@ import com.hoioy.diamond.sys.dto.DeptInfoDTO;
 import com.hoioy.diamond.sys.exception.SysException;
 import com.hoioy.diamond.sys.mapper.DeptInfoMapper;
 import com.hoioy.diamond.sys.service.*;
-import com.hoioy.diamond.common.util.TDFMybatisPageUtil;
+import com.hoioy.diamond.common.util.DiamondMybatisPageUtil;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import org.springframework.stereotype.Service;
@@ -28,7 +28,7 @@ import java.util.List;
 public class DeptInfoServiceImpl extends BaseServiceImpl<DeptInfoMapper, DeptInfo, DeptInfoDTO> implements IDeptInfoService<DeptInfo> {
     @Override
     public PageDTO getPage(PageDTO pageDTO) {
-        DeptInfo bean = TDFMybatisPageUtil.getBean(pageDTO, DeptInfo.class);
+        DeptInfo bean = DiamondMybatisPageUtil.getBean(pageDTO, DeptInfo.class);
         List<DeptInfo> all = baseMapper.findAll(bean);
         List<DeptInfoDTO> deptInfoDTOS = domainListToDTOList(all);
 

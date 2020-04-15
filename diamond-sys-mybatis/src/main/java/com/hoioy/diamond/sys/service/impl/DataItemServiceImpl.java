@@ -3,7 +3,7 @@ package com.hoioy.diamond.sys.service.impl;
 import com.hoioy.diamond.common.base.BaseServiceImpl;
 import com.hoioy.diamond.common.dto.PageDTO;
 import com.hoioy.diamond.common.exception.BaseException;
-import com.hoioy.diamond.common.util.TDFMybatisPageUtil;
+import com.hoioy.diamond.common.util.DiamondMybatisPageUtil;
 import com.hoioy.diamond.sys.domain.DataItem;
 import com.hoioy.diamond.sys.dto.DataItemDTO;
 import com.hoioy.diamond.sys.exception.SysException;
@@ -30,10 +30,10 @@ public class DataItemServiceImpl extends BaseServiceImpl<DataItemMapper, DataIte
 
     @Override
     public PageDTO getPage(PageDTO pageDTO) throws BaseException {
-        Page page = TDFMybatisPageUtil.getPage(pageDTO);
-        DataItem dataItem = TDFMybatisPageUtil.getBean(pageDTO, DataItem.class);
+        Page page = DiamondMybatisPageUtil.getPage(pageDTO);
+        DataItem dataItem = DiamondMybatisPageUtil.getBean(pageDTO, DataItem.class);
         IPage<DataItem> dataItemIPage = baseMapper.selectPage(page, dataItem);
-        PageDTO resultPage = TDFMybatisPageUtil.getPageDTO(dataItemIPage);
+        PageDTO resultPage = DiamondMybatisPageUtil.getPageDTO(dataItemIPage);
         return resultPage;
     }
 

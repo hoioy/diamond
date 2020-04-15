@@ -31,7 +31,7 @@ http://blog.leapoahead.com/2015/09/07/user-authentication-with-jwt/
 ### 普通登录自定义jwt token的生命周期
 #### 一.token的生成
 1. 调用AuthenticationController的“/auth”接口登录，登录成功后返回JWT格式的token。
-1. TDF的JWT Token的payload里面存储了预置属性，用户也可以自定扩展属性，可以参考CustomJwtAccessTokenConverter类，预置属性有（参考JwtClaimDTO）；
+1. Diamond的JWT Token的payload里面存储了预置属性，用户也可以自定扩展属性，可以参考CustomJwtAccessTokenConverter类，预置属性有（参考JwtClaimDTO）；
     ```
     @Data
     @NoArgsConstructor
@@ -65,7 +65,7 @@ token过期了，但是如果token还在可刷新时间范围内，就可以给�
 给token“续命”。
 
 #### 二.token的自动刷新
-每次调用后台接口都会经过tdf-security提供的过滤器 JwtAuthorizationTokenFilter。
+每次调用后台接口都会经过diamond-security提供的过滤器 JwtAuthorizationTokenFilter。
 JwtAuthorizationTokenFilter有自动刷新token的逻辑；
 1. 解析传递过来的jwt token获取jwt中存储的数据并解析为JwtClaimDTO。
 1. 获取到`expirationDate`和`refreshDate`

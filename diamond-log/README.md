@@ -1,9 +1,9 @@
-# 太极开源框架之TDF-log
+# 太极开源框架之Diamond-log
 
 
 ## 如何使用
 
-- 如果需要在其他项目上增加日志则需要引入tdf-log的依赖并且修改切入规则，否则日志是不生效的
+- 如果需要在其他项目上增加日志则需要引入diamond-log的依赖并且修改切入规则，否则日志是不生效的
 
 ~~~ xml
 <dependency>
@@ -12,7 +12,7 @@
 </dependency>
 ~~~
 - eg：
-	本项目记录的是web层的日志，所以在tdf-sys-web的pom文件中引入tdf-log的依赖；
+	本项目记录的是web层的日志，所以在diamond-sys-web的pom文件中引入diamond-log的依赖；
 	其切入规则为："within(com.hoioy.diamond.*.web..*)"
 	
 ~~~ java

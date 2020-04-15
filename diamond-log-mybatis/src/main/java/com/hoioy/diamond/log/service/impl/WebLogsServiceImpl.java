@@ -3,7 +3,7 @@ package com.hoioy.diamond.log.service.impl;
 import com.hoioy.diamond.common.base.BaseServiceImpl;
 import com.hoioy.diamond.common.dto.PageDTO;
 import com.hoioy.diamond.common.exception.BaseException;
-import com.hoioy.diamond.common.util.TDFMybatisPageUtil;
+import com.hoioy.diamond.common.util.DiamondMybatisPageUtil;
 import com.hoioy.diamond.log.domain.WebLogs;
 import com.hoioy.diamond.log.dto.WebLogsDTO;
 import com.hoioy.diamond.log.mapper.WebLogsMapper;
@@ -25,15 +25,15 @@ public class WebLogsServiceImpl extends BaseServiceImpl<WebLogsMapper, WebLogs, 
 
     @Override
     public PageDTO getPage(PageDTO pageDTO) throws BaseException {
-        Page page = TDFMybatisPageUtil.getPage(pageDTO);
-        WebLogs webLogs = TDFMybatisPageUtil.getBean(pageDTO, WebLogs.class);
+        Page page = DiamondMybatisPageUtil.getPage(pageDTO);
+        WebLogs webLogs = DiamondMybatisPageUtil.getBean(pageDTO, WebLogs.class);
         IPage<WebLogs> webLogsIPage = null;
         try {
             webLogsIPage = baseMapper.getPage(page, webLogs);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        PageDTO resultPage = TDFMybatisPageUtil.getPageDTO(webLogsIPage);
+        PageDTO resultPage = DiamondMybatisPageUtil.getPageDTO(webLogsIPage);
         return resultPage;
     }
 }

@@ -1,6 +1,6 @@
 package com.hoioy.diamond.common.base;
 
-import com.hoioy.diamond.common.domain.TDFDomain;
+import com.hoioy.diamond.common.domain.DiamondDomain;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,7 +12,7 @@ import javax.persistence.MappedSuperclass;
 @MappedSuperclass
 @Data
 @NoArgsConstructor
-public class BaseJoinDomain extends TDFDomain {
+public class BaseJoinDomain extends DiamondDomain {
 
     @Id
     @Column(name = "id")

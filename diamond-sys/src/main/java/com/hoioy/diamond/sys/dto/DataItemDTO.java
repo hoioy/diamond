@@ -24,7 +24,7 @@ public class DataItemDTO extends BaseDTO {
     //是否启用:0不启用
     private String state;
 
-    //TODO zhaozhao type和category 在优化tdf-sys-web时候删除
+    //TODO zhaozhao type和category 在优化diamond-sys-web时候删除
     private String type;
     private Integer category;
 

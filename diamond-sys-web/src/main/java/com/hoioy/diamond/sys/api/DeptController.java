@@ -3,7 +3,7 @@ package com.hoioy.diamond.sys.api;
 import com.hoioy.diamond.common.api.BaseController;
 import com.hoioy.diamond.common.dto.PageDTO;
 import com.hoioy.diamond.common.dto.ResultDTO;
-import com.hoioy.diamond.common.util.TDFBeanUtil;
+import com.hoioy.diamond.common.util.DiamondBeanUtil;
 import com.hoioy.diamond.sys.dto.DeptInfoDTO;
 import com.hoioy.diamond.sys.dto.DeptUserJoinDTO;
 import com.hoioy.diamond.sys.dto.UserInfoDTO;
@@ -45,7 +45,7 @@ public class DeptController extends BaseController<IDeptInfoService, DeptInfoDTO
     @GetMapping(value = "/query-all-tree")
     public ResultDTO queryAllTree(@RequestParam String id) {
         List<DeptInfoDTO> list = iBaseService.findAll();
-        List<DeptInfoDTO> menuTree = TDFBeanUtil.getInstance().listToTree(list, null);
+        List<DeptInfoDTO> menuTree = DiamondBeanUtil.getInstance().listToTree(list, null);
         return new ResultDTO(menuTree);
     }
 

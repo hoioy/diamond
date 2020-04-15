@@ -3,11 +3,11 @@ package com.hoioy.diamond.common.base;
 import com.hoioy.diamond.common.dto.BaseDTO;
 import com.hoioy.diamond.common.dto.PageDTO;
 import com.hoioy.diamond.common.exception.BaseException;
-import com.hoioy.diamond.common.exception.TDFCommonJPAException;
+import com.hoioy.diamond.common.exception.DiamondCommonJPAException;
 import com.hoioy.diamond.common.service.IBaseService;
-import com.hoioy.diamond.common.util.TDFBeanUtil;
-import com.hoioy.diamond.common.util.TDFJpaPageUtil;
-import com.hoioy.diamond.common.util.TDFReflectionUtil;
+import com.hoioy.diamond.common.util.DiamondBeanUtil;
+import com.hoioy.diamond.common.util.DiamondJpaPageUtil;
+import com.hoioy.diamond.common.util.DiamondReflectionUtil;
 import com.hoioy.diamond.common.validator.exception.ValidateException;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -34,8 +34,8 @@ import java.util.*;
  */
 public abstract class BaseServiceImpl<I extends IBaseRepository<D, String>, D extends BaseDomain, DTO extends BaseDTO> implements IBaseService<DTO, D> {
     protected Logger log = LoggerFactory.getLogger(getClass());
-    protected Class<D> domainClass = (Class<D>) TDFReflectionUtil.getSuperClassGenericType(getClass(), 1);
-    protected Class<DTO> dtoClass = (Class<DTO>) TDFReflectionUtil.getSuperClassGenericType(getClass(), 2);
+    protected Class<D> domainClass = (Class<D>) DiamondReflectionUtil.getSuperClassGenericType(getClass(), 1);
+    protected Class<DTO> dtoClass = (Class<DTO>) DiamondReflectionUtil.getSuperClassGenericType(getClass(), 2);
 
     @Autowired
     protected I iBaseRepository;
@@ -87,7 +87,7 @@ public abstract class BaseServiceImpl<I extends IBaseRepository<D, String>, D ex
     @Transactional(rollbackFor = Exception.class)
     public String save(DTO dto) throws BaseException {
         if (!StringUtils.isEmpty(dto.getId())) {
-            throw new TDFCommonJPAException("此方法只能用于新增操作，更新请调用update方法");
+            throw new DiamondCommonJPAException("此方法只能用于新增操作，更新请调用update方法");
         }
         D t = dtoToDomain(dto, true);
         String id = UUID.randomUUID().toString().replaceAll("-", "");
@@ -127,10 +127,10 @@ public abstract class BaseServiceImpl<I extends IBaseRepository<D, String>, D ex
                 oldDomain.setModifiedBy(null == userDetails ? "" : userDetails.getUsername());
             }
             oldDomain.setModifiedDate(LocalDateTime.now());
-            TDFBeanUtil.updateCopy(t, oldDomain);
+            DiamondBeanUtil.updateCopy(t, oldDomain);
             return iBaseRepository.saveAndFlush(oldDomain).getId();
         }
-        throw new TDFCommonJPAException("没有找到此对象，无法更新");
+        throw new DiamondCommonJPAException("没有找到此对象，无法更新");
     }
 
     @Override
@@ -167,17 +167,17 @@ public abstract class BaseServiceImpl<I extends IBaseRepository<D, String>, D ex
     }
 
     public PageDTO getPage(final PageDTO pageDTO) {
-        PageRequest pageable = TDFJpaPageUtil.getInstance().toPageRequest(pageDTO);
+        PageRequest pageable = DiamondJpaPageUtil.getInstance().toPageRequest(pageDTO);
         Specification<D> specification = null;
         if (CollectionUtils.isEmpty(pageDTO.getFilters())) {
             pageDTO.setFilters(new ArrayList());
         }
         Map<Object, Object> map = new HashMap<>();
-        map.put(TDFJpaPageUtil.FIELD_FOR_SEARCH, "flag");
-        map.put(TDFJpaPageUtil.VALUE_FOR_SEARCH, "1");
+        map.put(DiamondJpaPageUtil.FIELD_FOR_SEARCH, "flag");
+        map.put(DiamondJpaPageUtil.VALUE_FOR_SEARCH, "1");
         pageDTO.getFilters().add(map);
 
-        D main = (D) TDFJpaPageUtil.getInstance().getBean(pageDTO, createDomain().getClass());
+        D main = (D) DiamondJpaPageUtil.getInstance().getBean(pageDTO, createDomain().getClass());
         specification = toSpecWithLogicType(main, "and");
 
         Page<D> pageList = iBaseRepository.findAll(specification, pageable);
@@ -195,6 +195,6 @@ public abstract class BaseServiceImpl<I extends IBaseRepository<D, String>, D ex
      * @return
      */
     protected Specification<D> toSpecWithLogicType(D main, String logicType) {
-        return TDFJpaPageUtil.getInstance().toSpecWithLogicType(main, logicType);
+        return DiamondJpaPageUtil.getInstance().toSpecWithLogicType(main, logicType);
     }
 }

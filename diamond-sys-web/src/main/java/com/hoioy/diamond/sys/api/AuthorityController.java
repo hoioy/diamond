@@ -1,7 +1,7 @@
 package com.hoioy.diamond.sys.api;
 
 import com.hoioy.diamond.common.dto.ResultDTO;
-import com.hoioy.diamond.common.util.TDFSecurityUtils;
+import com.hoioy.diamond.common.util.DiamondSecurityUtils;
 import com.hoioy.diamond.sys.dto.MenuDTO;
 import com.hoioy.diamond.sys.dto.UserInfoDTO;
 import com.hoioy.diamond.sys.exception.SysException;
@@ -39,7 +39,7 @@ public class AuthorityController {
      */
     @GetMapping(path = "/hasPermission")
     public ResultDTO<Set<String>> hasPermission(@RequestParam(value="menuId", required = false) String menuId) {
-        String userNames = TDFSecurityUtils.getCurrentLogin();
+        String userNames = DiamondSecurityUtils.getCurrentLogin();
         UserInfoDTO findByLoginNameRest = userService.findByLoginName(userNames);
         if (findByLoginNameRest == null) {
             throw new SysException("没有找登录用户");

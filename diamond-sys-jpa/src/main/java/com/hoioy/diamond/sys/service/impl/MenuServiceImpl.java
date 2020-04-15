@@ -2,7 +2,7 @@ package com.hoioy.diamond.sys.service.impl;
 
 import com.hoioy.diamond.common.base.BaseServiceImpl;
 import com.hoioy.diamond.common.exception.BaseException;
-import com.hoioy.diamond.common.util.TDFBeanUtil;
+import com.hoioy.diamond.common.util.DiamondBeanUtil;
 import com.hoioy.diamond.sys.domain.Menu;
 import com.hoioy.diamond.sys.domain.MenuRepository;
 import com.hoioy.diamond.sys.domain.RoleMenuRepository;
@@ -106,7 +106,7 @@ public class MenuServiceImpl extends BaseServiceImpl<MenuRepository, Menu, MenuD
         List<MenuDTO> menuDTOs = findByIds(menuIds);
 
         List<MenuRouterDTO> menuRouterDTOList = menuListToMenuRouterList(menuDTOs);
-        List<MenuRouterDTO> menuTree = TDFBeanUtil.getInstance().listToTree(menuRouterDTOList, null);
+        List<MenuRouterDTO> menuTree = DiamondBeanUtil.getInstance().listToTree(menuRouterDTOList, null);
 
         resultMaprouter.put("router", menuTree);
         return resultMaprouter;

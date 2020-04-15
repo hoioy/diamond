@@ -1,7 +1,7 @@
 package com.hoioy.diamond.sys.domain;
 
 import com.hoioy.diamond.common.base.BaseDomain;
-import com.hoioy.diamond.common.util.TDFJpaQueryWord;
+import com.hoioy.diamond.common.util.DiamondJpaQueryWord;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,10 +28,10 @@ public class UserGroup extends BaseDomain {
     private Integer groupIndex;
 
     @Column(name = "group_name")
-    @TDFJpaQueryWord(func = TDFJpaQueryWord.MatchType.like)
+    @DiamondJpaQueryWord(func = DiamondJpaQueryWord.MatchType.like)
     private String groupName;
 
     @Column(name = "state")
-    @TDFJpaQueryWord(func = TDFJpaQueryWord.MatchType.like)
+    @DiamondJpaQueryWord(func = DiamondJpaQueryWord.MatchType.like)
     private String state;
 }

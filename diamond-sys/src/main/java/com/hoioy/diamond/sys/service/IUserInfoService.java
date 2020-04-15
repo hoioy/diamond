@@ -1,6 +1,6 @@
 package com.hoioy.diamond.sys.service;
 
-import com.hoioy.diamond.common.domain.TDFDomain;
+import com.hoioy.diamond.common.domain.DiamondDomain;
 import com.hoioy.diamond.common.service.IBaseService;
 import com.hoioy.diamond.sys.dto.UserInfoDTO;
 import org.springframework.web.multipart.MultipartFile;
@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * 用户Service
  */
-public interface IUserInfoService<D extends TDFDomain> extends IBaseService<UserInfoDTO, D> {
+public interface IUserInfoService<D extends DiamondDomain> extends IBaseService<UserInfoDTO, D> {
     /**
      * 带有角色的用户保存(为community单独的方法)
      */

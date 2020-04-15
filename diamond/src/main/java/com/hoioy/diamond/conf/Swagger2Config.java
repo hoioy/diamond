@@ -66,7 +66,7 @@ public class Swagger2Config implements WebMvcConfigurer {
                 "太极开发框架",
                 "1.0.0",
                 "http://localhost:7779/",
-                new Contact("taiji", "xxx", "xxx@taiji.com.cn"),
+                new Contact("diamond", "xxx", "xxx@diamond.com.cn"),
                 "License of API", "API license URL", Collections.emptyList());
     }
 

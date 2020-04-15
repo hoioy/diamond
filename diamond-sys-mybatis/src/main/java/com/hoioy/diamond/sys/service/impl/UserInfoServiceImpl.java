@@ -3,8 +3,8 @@ package com.hoioy.diamond.sys.service.impl;
 import com.hoioy.diamond.common.base.BaseServiceImpl;
 import com.hoioy.diamond.common.dto.PageDTO;
 import com.hoioy.diamond.common.exception.BaseException;
-import com.hoioy.diamond.common.util.TDFMybatisPageUtil;
-import com.hoioy.diamond.common.util.TDFStatic;
+import com.hoioy.diamond.common.util.DiamondMybatisPageUtil;
+import com.hoioy.diamond.common.util.DiamondStatic;
 import com.hoioy.diamond.sys.domain.UserInfo;
 import com.hoioy.diamond.sys.dto.RoleUserJoinDTO;
 import com.hoioy.diamond.sys.dto.UserInfoDTO;
@@ -53,9 +53,9 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfoMapper, UserInf
 
     @Override
     public PageDTO getPage(PageDTO pageDTO) {
-        UserInfo userInfo = TDFMybatisPageUtil.getBean(pageDTO, UserInfo.class);
-        IPage<UserInfo> data = baseMapper.selectPage(TDFMybatisPageUtil.getPage(pageDTO), userInfo);
-        return TDFMybatisPageUtil.getPageDTO(data);
+        UserInfo userInfo = DiamondMybatisPageUtil.getBean(pageDTO, UserInfo.class);
+        IPage<UserInfo> data = baseMapper.selectPage(DiamondMybatisPageUtil.getPage(pageDTO), userInfo);
+        return DiamondMybatisPageUtil.getPageDTO(data);
     }
 
     @Override
@@ -113,13 +113,13 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfoMapper, UserInf
     @Override
     public String save(UserInfoDTO dto) throws BaseException {
         // 设置默认密码
-        dto.setPassword(passwordEncoder.encode(TDFStatic.DEFAULT_PASSWORD));
+        dto.setPassword(passwordEncoder.encode(DiamondStatic.DEFAULT_PASSWORD));
         return super.save(dto);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    @PreAuthorize("hasAuthority('" + TDFStatic.ROLE_ID_KEY + "')")
+    @PreAuthorize("hasAuthority('" + DiamondStatic.ROLE_ID_KEY + "')")
     public boolean removeByIds(List<String> ids) throws BaseException {
         if (CollectionUtils.isEmpty(ids)) {
             return true;
