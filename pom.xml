@@ -38,7 +38,7 @@
     </properties>
 
     <modules>
-        <module>diamond</module>
+        <module>diamond-application</module>
         <module>diamond-common</module>
         <module>diamond-common-jpa</module>
         <module>diamond-common-mybatis</module>
