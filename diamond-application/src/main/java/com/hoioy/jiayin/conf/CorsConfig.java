@@ -1,4 +1,4 @@
-package com.hoioy.diamond.conf;
+package com.hoioy.jiayin.conf;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
