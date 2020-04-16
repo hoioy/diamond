@@ -1,4 +1,4 @@
-package com.hoioy.jiayin.conf;
+package com.hoioy.diamond.conf;
 
 import com.github.xiaoymin.knife4j.spring.annotations.EnableKnife4j;
 import com.google.common.base.Predicates;

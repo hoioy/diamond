@@ -1,4 +1,4 @@
-package com.hoioy.jiayin.conf;
+package com.hoioy.diamond.conf;
 
 import com.hoioy.diamond.sys.api.DataItemController;
 import org.slf4j.Logger;

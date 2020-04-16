@@ -8,7 +8,7 @@
         <version>2.1.13.RELEASE</version>
         <relativePath/>
     </parent>
-    <groupId>com.hoioy.diamond</groupId>
+    <groupId>com.hoioy</groupId>
     <artifactId>diamond-bom</artifactId>
     <packaging>pom</packaging>
     <version>2.1.13-SNAPSHOT</version>
@@ -57,57 +57,57 @@
         <dependencies>
             <!--diamond-->
             <dependency>
-                <groupId>com.hoioy.diamond</groupId>
+                <groupId>com.hoioy</groupId>
                 <artifactId>diamond-common</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.hoioy.diamond</groupId>
+                <groupId>com.hoioy</groupId>
                 <artifactId>diamond-common-jpa</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.hoioy.diamond</groupId>
+                <groupId>com.hoioy</groupId>
                 <artifactId>diamond-common-mybatis</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.hoioy.diamond</groupId>
+                <groupId>com.hoioy</groupId>
                 <artifactId>diamond-sys-web</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.hoioy.diamond</groupId>
+                <groupId>com.hoioy</groupId>
                 <artifactId>diamond-sys</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.hoioy.diamond</groupId>
+                <groupId>com.hoioy</groupId>
                 <artifactId>diamond-sys-mybatis</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.hoioy.diamond</groupId>
+                <groupId>com.hoioy</groupId>
                 <artifactId>diamond-sys-jpa</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.hoioy.diamond</groupId>
+                <groupId>com.hoioy</groupId>
                 <artifactId>diamond-security</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.hoioy.diamond</groupId>
+                <groupId>com.hoioy</groupId>
                 <artifactId>diamond-log</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.hoioy.diamond</groupId>
+                <groupId>com.hoioy</groupId>
                 <artifactId>diamond-log-mybatis</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.hoioy.diamond</groupId>
+                <groupId>com.hoioy</groupId>
                 <artifactId>diamond-log-jpa</artifactId>
                 <version>${project.version}</version>
             </dependency>

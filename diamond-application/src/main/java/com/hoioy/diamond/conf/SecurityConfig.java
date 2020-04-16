@@ -1,4 +1,4 @@
-package com.hoioy.jiayin.conf;
+package com.hoioy.diamond.conf;
 
 import com.hoioy.diamond.common.dto.DiamondUserDTO;
 import com.hoioy.diamond.security.jwt.annotation.DiamondJwtWebSecurityConfigurerAdapter;

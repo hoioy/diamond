@@ -5,14 +5,14 @@
     <artifactId>diamond-common-mybatis</artifactId>
     <packaging>jar</packaging>
     <parent>
-        <groupId>com.hoioy.diamond</groupId>
+        <groupId>com.hoioy</groupId>
         <artifactId>diamond-bom</artifactId>
         <version>2.1.13-SNAPSHOT</version>
     </parent>
 
     <dependencies>
         <dependency>
-            <groupId>com.hoioy.diamond</groupId>
+            <groupId>com.hoioy</groupId>
             <artifactId>diamond-common</artifactId>
         </dependency>
         <dependency>
