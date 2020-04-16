@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hoioy.diamond.jiayin.mapper.JiayinMsgCollectMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.hoioy.diamond.jiayin.domain.JiayinMsgCollect">
+    <result column="id" property="id" />
+        <result column="msg_id" property="msgId" />
+        <result column="user_id" property="userId" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,
+        msg_id, user_id
+    </sql>
+
+    <select id="selectPage" resultType="com.hoioy.diamond.jiayin.domain.JiayinMsgCollect">
+        select
+           <include refid="Base_Column_List" />
+        from
+           jiayin_msg_collect
+        where
+           flag=1
+        <if test="jiayinMsgCollect.msgId != null and jiayinMsgCollect.msgId != ''">
+            AND msg_id = #{jiayinMsgCollect.msgId}
+        </if>
+        <if test="jiayinMsgCollect.userId != null and jiayinMsgCollect.userId != ''">
+            AND user_id = #{jiayinMsgCollect.userId}
+        </if>
+    </select>
+</mapper>

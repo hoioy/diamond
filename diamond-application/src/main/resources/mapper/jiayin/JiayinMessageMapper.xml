@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hoioy.diamond.jiayin.mapper.JiayinMessageMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.hoioy.diamond.jiayin.domain.JiayinMessage">
+    <result column="id" property="id" />
+        <result column="title" property="title" />
+        <result column="msg_type" property="msgType" />
+        <result column="content" property="content" />
+        <result column="views" property="views" />
+        <result column="status" property="status" />
+        <result column="expare_time" property="expareTime" />
+        <result column="contacts" property="contacts" />
+        <result column="contact_phone" property="contactPhone" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,
+        title, msg_type, content, views, status, expare_time, contacts, contact_phone
+    </sql>
+
+    <select id="selectPage" resultType="com.hoioy.diamond.jiayin.domain.JiayinMessage">
+        select
+           <include refid="Base_Column_List" />
+        from
+           jiayin_message
+        where
+           flag=1
+        <if test="jiayinMessage.title != null and jiayinMessage.title != ''">
+            AND title = #{jiayinMessage.title}
+        </if>
+        <if test="jiayinMessage.msgType != null and jiayinMessage.msgType != ''">
+            AND msg_type = #{jiayinMessage.msgType}
+        </if>
+        <if test="jiayinMessage.content != null and jiayinMessage.content != ''">
+            AND content = #{jiayinMessage.content}
+        </if>
+        <if test="jiayinMessage.views != null and jiayinMessage.views != ''">
+            AND views = #{jiayinMessage.views}
+        </if>
+        <if test="jiayinMessage.status != null and jiayinMessage.status != ''">
+            AND status = #{jiayinMessage.status}
+        </if>
+        <if test="jiayinMessage.expareTime != null and jiayinMessage.expareTime != ''">
+            AND expare_time = #{jiayinMessage.expareTime}
+        </if>
+        <if test="jiayinMessage.contacts != null and jiayinMessage.contacts != ''">
+            AND contacts = #{jiayinMessage.contacts}
+        </if>
+        <if test="jiayinMessage.contactPhone != null and jiayinMessage.contactPhone != ''">
+            AND contact_phone = #{jiayinMessage.contactPhone}
+        </if>
+    </select>
+</mapper>
