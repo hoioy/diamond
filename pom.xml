@@ -14,10 +14,31 @@
     <version>2.1.13-SNAPSHOT</version>
 
     <description>diamond快速开发框架</description>
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
     <organization>
         <name>hoioy</name>
         <url>https://github.com/hoioy</url>
     </organization>
+    <developers>
+        <developer>
+            <name>andyzhaozhao</name>
+            <email>andy_zhaozhao@hotmail.com</email>
+        </developer>
+        <developer>
+            <name>chenzhe</name>
+            <url>https://github.com/orgs/hoioy/people/ChenZheOnePiece</url>
+        </developer>
+    </developers>
+    <scm>
+        <url>https://github.com/hoioy/diamond</url>
+        <connection>https://github.com/hoioy/diamond.git</connection>
+        <developerConnection>https://github.com/hoioy</developerConnection>
+    </scm>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -50,7 +71,7 @@
         <module>diamond-sys-jpa</module>
         <module>diamond-sys-mybatis</module>
         <module>diamond-sys-web</module>
-        <module>jiayin</module>
+<!--        <module>jiayin</module>-->
     </modules>
 
     <dependencyManagement>
@@ -177,4 +198,14 @@
         </dependencies>
     </dependencyManagement>
 
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
 </project>
