@@ -22,9 +22,9 @@ public class PageDTO implements Serializable {
     @ApiModelProperty(example = "10")
     private int pageSize;
 
-    private List<Map> sorts;
+    private Map<String,Object> sorts;
 
-    private List<Map> filters;
+    private Map<String,Object> filters;
 
     private Long total;
 
