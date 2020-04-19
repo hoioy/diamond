@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.hoioy.diamond.jiayin.mapper.JiayinMsgTypeMapper">
+<mapper namespace="com.hoioy.diamond.jiayin.mapper.MsgTypeMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.hoioy.diamond.jiayin.domain.JiayinMsgType">
+    <resultMap id="BaseResultMap" type="com.hoioy.diamond.jiayin.domain.MsgType">
     <result column="id" property="id" />
         <result column="type_name" property="typeName" />
         <result column="money" property="money" />
@@ -16,21 +16,21 @@
         type_name, money, expiry_date
     </sql>
 
-    <select id="selectPage" resultType="com.hoioy.diamond.jiayin.domain.JiayinMsgType">
+    <select id="selectPage" resultType="com.hoioy.diamond.jiayin.domain.MsgType">
         select
            <include refid="Base_Column_List" />
         from
            jiayin_msg_type
         where
            flag=1
-        <if test="jiayinMsgType.typeName != null and jiayinMsgType.typeName != ''">
-            AND type_name = #{jiayinMsgType.typeName}
+        <if test="msgType.typeName != null and msgType.typeName != ''">
+            AND type_name = #{msgType.typeName}
         </if>
-        <if test="jiayinMsgType.money != null and jiayinMsgType.money != ''">
-            AND money = #{jiayinMsgType.money}
+        <if test="msgType.money != null and msgType.money != ''">
+            AND money = #{msgType.money}
         </if>
-        <if test="jiayinMsgType.expiryDate != null and jiayinMsgType.expiryDate != ''">
-            AND expiry_date = #{jiayinMsgType.expiryDate}
+        <if test="msgType.expiryDate != null and msgType.expiryDate != ''">
+            AND expiry_date = #{msgType.expiryDate}
         </if>
     </select>
 </mapper>

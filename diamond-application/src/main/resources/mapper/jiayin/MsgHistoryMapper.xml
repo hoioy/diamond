@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.hoioy.diamond.jiayin.mapper.JiayinMsgHistoryMapper">
+<mapper namespace="com.hoioy.diamond.jiayin.mapper.MsgHistoryMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.hoioy.diamond.jiayin.domain.JiayinMsgHistory">
+    <resultMap id="BaseResultMap" type="com.hoioy.diamond.jiayin.domain.MsgHistory">
     <result column="id" property="id" />
         <result column="msg_id" property="msgId" />
         <result column="user_id" property="userId" />
@@ -15,18 +15,18 @@
         msg_id, user_id
     </sql>
 
-    <select id="selectPage" resultType="com.hoioy.diamond.jiayin.domain.JiayinMsgHistory">
+    <select id="selectPage" resultType="com.hoioy.diamond.jiayin.domain.MsgHistory">
         select
            <include refid="Base_Column_List" />
         from
            jiayin_msg_history
         where
            flag=1
-        <if test="jiayinMsgHistory.msgId != null and jiayinMsgHistory.msgId != ''">
-            AND msg_id = #{jiayinMsgHistory.msgId}
+        <if test="msgHistory.msgId != null and msgHistory.msgId != ''">
+            AND msg_id = #{msgHistory.msgId}
         </if>
-        <if test="jiayinMsgHistory.userId != null and jiayinMsgHistory.userId != ''">
-            AND user_id = #{jiayinMsgHistory.userId}
+        <if test="msgHistory.userId != null and msgHistory.userId != ''">
+            AND user_id = #{msgHistory.userId}
         </if>
     </select>
 </mapper>
