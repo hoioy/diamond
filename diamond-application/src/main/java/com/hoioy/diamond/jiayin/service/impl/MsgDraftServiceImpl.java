@@ -1,14 +1,18 @@
 package com.hoioy.diamond.jiayin.service.impl;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.hoioy.diamond.common.dto.PageDTO;
+import com.hoioy.diamond.common.exception.BaseException;
+import com.hoioy.diamond.common.util.DiamondMybatisPageUtil;
+import com.hoioy.diamond.jiayin.domain.MsgCount;
 import com.hoioy.diamond.jiayin.domain.MsgDraft;
 import com.hoioy.diamond.jiayin.mapper.MsgDraftMapper;
 import com.hoioy.diamond.jiayin.service.IMsgDraftService;
 import com.hoioy.diamond.common.base.BaseServiceImpl;
 import com.hoioy.diamond.jiayin.dto.MsgDraftDTO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.hoioy.diamond.common.dto.ResultDTO;
-import com.hoioy.diamond.common.dto.ResultDTO;
-import com.hoioy.diamond.common.BaseException;
 /**
  * <p>
  * 消息草稿 服务实现类
@@ -26,11 +30,11 @@ public class MsgDraftServiceImpl extends BaseServiceImpl<MsgDraftMapper, MsgDraf
 
         @Override
         public PageDTO getPage(PageDTO pageDTO) throws BaseException {
-            Page page = TDFMybatisPageUtil.getPage(pageDTO);
-            MsgDraft msgDraft = TDFMybatisPageUtil.getBean(pageDTO, MsgDraft.class);
-            IPage<MsgDraft> msgDraftIPage = msgDraftMapper.selectPage(page, msgDraft);
-            PageDTO resultPage = TDFMybatisPageUtil.getPageDTO(msgDraftIPage);
-            return resultPage;
+            Page page = DiamondMybatisPageUtil.getPage(pageDTO);
+            MsgDraft msg = DiamondMybatisPageUtil.getBean(pageDTO, MsgDraft.class);
+            IPage<MsgDraft> messageIPage = msgDraftMapper.selectPage(page, msg);
+            PageDTO returnPageDTO = DiamondMybatisPageUtil.getPageDTO(messageIPage);
+            return returnPageDTO;
         }
 
         @Override

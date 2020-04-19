@@ -1,14 +1,17 @@
 package com.hoioy.diamond.jiayin.service.impl;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.hoioy.diamond.common.base.BaseServiceImpl;
+import com.hoioy.diamond.common.dto.PageDTO;
+import com.hoioy.diamond.common.exception.BaseException;
+import com.hoioy.diamond.common.util.DiamondMybatisPageUtil;
 import com.hoioy.diamond.jiayin.domain.MsgType;
+import com.hoioy.diamond.jiayin.dto.MsgTypeDTO;
 import com.hoioy.diamond.jiayin.mapper.MsgTypeMapper;
 import com.hoioy.diamond.jiayin.service.IMsgTypeService;
-import com.hoioy.diamond.common.base.BaseServiceImpl;
-import com.hoioy.diamond.jiayin.dto.MsgTypeDTO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.hoioy.diamond.common.dto.ResultDTO;
-import com.hoioy.diamond.common.dto.ResultDTO;
-import com.hoioy.diamond.common.BaseException;
 /**
  * <p>
  * 消息类型 服务实现类
@@ -26,11 +29,11 @@ public class MsgTypeServiceImpl extends BaseServiceImpl<MsgTypeMapper, MsgType,M
 
         @Override
         public PageDTO getPage(PageDTO pageDTO) throws BaseException {
-            Page page = TDFMybatisPageUtil.getPage(pageDTO);
-            MsgType msgType = TDFMybatisPageUtil.getBean(pageDTO, MsgType.class);
-            IPage<MsgType> msgTypeIPage = msgTypeMapper.selectPage(page, msgType);
-            PageDTO resultPage = TDFMybatisPageUtil.getPageDTO(msgTypeIPage);
-            return resultPage;
+            Page page = DiamondMybatisPageUtil.getPage(pageDTO);
+            MsgType msgType = DiamondMybatisPageUtil.getBean(pageDTO, MsgType.class);
+            IPage<MsgType> messageIPage = msgTypeMapper.selectPage(page, msgType);
+            PageDTO returnPageDTO = DiamondMybatisPageUtil.getPageDTO(messageIPage);
+            return returnPageDTO;
         }
 
         @Override

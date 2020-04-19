@@ -1,14 +1,17 @@
 package com.hoioy.diamond.jiayin.service.impl;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.hoioy.diamond.common.dto.PageDTO;
+import com.hoioy.diamond.common.exception.BaseException;
+import com.hoioy.diamond.common.util.DiamondMybatisPageUtil;
 import com.hoioy.diamond.jiayin.domain.Message;
 import com.hoioy.diamond.jiayin.mapper.MessageMapper;
 import com.hoioy.diamond.jiayin.service.IMessageService;
 import com.hoioy.diamond.common.base.BaseServiceImpl;
 import com.hoioy.diamond.jiayin.dto.MessageDTO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.hoioy.diamond.common.dto.ResultDTO;
-import com.hoioy.diamond.common.dto.ResultDTO;
-import com.hoioy.diamond.common.BaseException;
 /**
  * <p>
  * 消息表 服务实现类
@@ -26,20 +29,15 @@ public class MessageServiceImpl extends BaseServiceImpl<MessageMapper, Message,M
 
         @Override
         public PageDTO getPage(PageDTO pageDTO) throws BaseException {
-            Page page = TDFMybatisPageUtil.getPage(pageDTO);
-            Message message = TDFMybatisPageUtil.getBean(pageDTO, Message.class);
-            IPage<Message> messageIPage = messageMapper.selectPage(page, message);
-            PageDTO resultPage = TDFMybatisPageUtil.getPageDTO(messageIPage);
-            return resultPage;
+            Page page = DiamondMybatisPageUtil.getPage(pageDTO);
+            Message msg = DiamondMybatisPageUtil.getBean(pageDTO, Message.class);
+            IPage<Message> messageIPage = messageMapper.selectPage(page, msg);
+            PageDTO returnPageDTO = DiamondMybatisPageUtil.getPageDTO(messageIPage);
+            return returnPageDTO;
         }
 
-        @Override
-        public Message createDomain() {
-        return new  Message();
-        }
-
-        @Override
-        public MessageDTO createDTO() {
-        return new MessageDTO();
-        }
+    @Override
+    public String publishMsg(MessageDTO dto) {
+        return null;
+    }
 }

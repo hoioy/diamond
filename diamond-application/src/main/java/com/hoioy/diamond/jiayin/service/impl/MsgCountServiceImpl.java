@@ -1,14 +1,18 @@
 package com.hoioy.diamond.jiayin.service.impl;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.hoioy.diamond.common.dto.PageDTO;
+import com.hoioy.diamond.common.exception.BaseException;
+import com.hoioy.diamond.common.util.DiamondMybatisPageUtil;
+import com.hoioy.diamond.jiayin.domain.MsgCollect;
 import com.hoioy.diamond.jiayin.domain.MsgCount;
 import com.hoioy.diamond.jiayin.mapper.MsgCountMapper;
 import com.hoioy.diamond.jiayin.service.IMsgCountService;
 import com.hoioy.diamond.common.base.BaseServiceImpl;
 import com.hoioy.diamond.jiayin.dto.MsgCountDTO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.hoioy.diamond.common.dto.ResultDTO;
-import com.hoioy.diamond.common.dto.ResultDTO;
-import com.hoioy.diamond.common.BaseException;
 /**
  * <p>
  * 消息次数 服务实现类
@@ -26,11 +30,11 @@ public class MsgCountServiceImpl extends BaseServiceImpl<MsgCountMapper, MsgCoun
 
         @Override
         public PageDTO getPage(PageDTO pageDTO) throws BaseException {
-            Page page = TDFMybatisPageUtil.getPage(pageDTO);
-            MsgCount msgCount = TDFMybatisPageUtil.getBean(pageDTO, MsgCount.class);
-            IPage<MsgCount> msgCountIPage = msgCountMapper.selectPage(page, msgCount);
-            PageDTO resultPage = TDFMybatisPageUtil.getPageDTO(msgCountIPage);
-            return resultPage;
+            Page page = DiamondMybatisPageUtil.getPage(pageDTO);
+            MsgCount msg = DiamondMybatisPageUtil.getBean(pageDTO, MsgCount.class);
+            IPage<MsgCount> messageIPage = msgCountMapper.selectPage(page, msg);
+            PageDTO returnPageDTO = DiamondMybatisPageUtil.getPageDTO(messageIPage);
+            return returnPageDTO;
         }
 
         @Override

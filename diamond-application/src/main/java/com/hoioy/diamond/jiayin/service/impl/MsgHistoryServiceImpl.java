@@ -1,14 +1,17 @@
 package com.hoioy.diamond.jiayin.service.impl;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.hoioy.diamond.common.base.BaseServiceImpl;
+import com.hoioy.diamond.common.dto.PageDTO;
+import com.hoioy.diamond.common.exception.BaseException;
+import com.hoioy.diamond.common.util.DiamondMybatisPageUtil;
 import com.hoioy.diamond.jiayin.domain.MsgHistory;
+import com.hoioy.diamond.jiayin.dto.MsgHistoryDTO;
 import com.hoioy.diamond.jiayin.mapper.MsgHistoryMapper;
 import com.hoioy.diamond.jiayin.service.IMsgHistoryService;
-import com.hoioy.diamond.common.base.BaseServiceImpl;
-import com.hoioy.diamond.jiayin.dto.MsgHistoryDTO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.hoioy.diamond.common.dto.ResultDTO;
-import com.hoioy.diamond.common.dto.ResultDTO;
-import com.hoioy.diamond.common.BaseException;
 /**
  * <p>
  * 观看历史 服务实现类
@@ -26,11 +29,11 @@ public class MsgHistoryServiceImpl extends BaseServiceImpl<MsgHistoryMapper, Msg
 
         @Override
         public PageDTO getPage(PageDTO pageDTO) throws BaseException {
-            Page page = TDFMybatisPageUtil.getPage(pageDTO);
-            MsgHistory msgHistory = TDFMybatisPageUtil.getBean(pageDTO, MsgHistory.class);
-            IPage<MsgHistory> msgHistoryIPage = msgHistoryMapper.selectPage(page, msgHistory);
-            PageDTO resultPage = TDFMybatisPageUtil.getPageDTO(msgHistoryIPage);
-            return resultPage;
+            Page page = DiamondMybatisPageUtil.getPage(pageDTO);
+            MsgHistory msgHistory = DiamondMybatisPageUtil.getBean(pageDTO, MsgHistory.class);
+            IPage<MsgHistory> messageIPage = msgHistoryMapper.selectPage(page, msgHistory);
+            PageDTO returnPageDTO = DiamondMybatisPageUtil.getPageDTO(messageIPage);
+            return returnPageDTO;
         }
 
         @Override
