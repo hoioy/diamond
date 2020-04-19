@@ -19,49 +19,31 @@ public class DiamondMybatisPageUtil {
         ValidationUtil.validate(pageDTO);
         int pageSize = pageDTO.getPageSize();
         int pageNumber = pageDTO.getPage();
-        List<Map> sorts = pageDTO.getSorts();
+        Map<String, Object> sorts = pageDTO.getSorts();
         Page page = new Page();
         page.setSize(pageSize);
         page.setCurrent(pageNumber);
         List<OrderItem> orderItems = new ArrayList<>();
         if (sorts!=null) {
-            for (Map sort : sorts) {
-                String field = (String) sort.get("field");
-                String[] ss = field.split("(?<!^)(?=[A-Z])");
-                int length = ss.length;
-                StringBuilder stringBuilder = new StringBuilder();
-                for (int i = 0; i <length ; i++) {
-                    if (i == length -1) {
-                        stringBuilder.append(ss[i].toLowerCase());
-                    }else {
-                        stringBuilder.append(ss[i].toLowerCase()).append("_");
-                    }
-                }
-                String value = (String) sort.get("value");
-                if ("asc".equals(value.toLowerCase())) {
-                    OrderItem asc = OrderItem.asc(stringBuilder.toString());
+            sorts.forEach((k,v) ->{
+                String sort = v.toString().toLowerCase();
+                if ("asc".equals(sort)) {
+                    OrderItem asc = OrderItem.asc(k);
                     orderItems.add(asc);
                 } else {
-                    OrderItem desc = OrderItem.desc(stringBuilder.toString());
+                    OrderItem desc = OrderItem.desc(k);
                     orderItems.add(desc);
                 }
-            }
+            });
+            OrderItem orderItem = BeanUtil.mapToBean(sorts, OrderItem.class, false);
             page.setOrders(orderItems);
         }
         return page;
     }
 
     public static  <T> T getBean(PageDTO pageDTO, Class<T> beanClass) throws BaseException {
-        List<Map> filters = pageDTO.getFilters();
-        Map<Object, Object> map = new HashMap<>();
-        if (filters!=null) {
-            for (Map filter : filters) {
-                Object field =  filter.get("field");
-                Object value =  filter.get("value");
-                map.put(field, value);
-            }
-        }
-      return BeanUtil.mapToBean(map, beanClass, true);
+        Map<String, Object> filters = pageDTO.getFilters();
+      return BeanUtil.mapToBean(filters, beanClass, true);
     }
 
     public static PageDTO getPageDTO(IPage page)throws BaseException {
