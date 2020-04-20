@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RestController;
 import com.hoioy.diamond.common.api.BaseController;
 
+import javax.validation.Valid;
+
 /**
  * <p>
  * 消息表 前端控制器
@@ -37,7 +39,10 @@ import com.hoioy.diamond.common.api.BaseController;
              return new ResultDTO(page);
         }
 
-
-
+    @Override
+    public @Valid ResultDTO<String> save(MessageDTO dto) throws BaseException {
+        String id =  messageService.publishMsg(dto);
+        return super.save(dto);
     }
+}
 
