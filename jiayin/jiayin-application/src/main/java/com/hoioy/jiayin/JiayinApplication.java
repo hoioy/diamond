@@ -1,5 +1,6 @@
 package com.hoioy.jiayin;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
@@ -7,7 +8,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @EnableTransactionManagement
 @EnableCaching
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {"com.hoioy.diamond","com.hoioy.jiayin"})
+@MapperScan(basePackages = {"com.hoioy.jiayin.mapper"})
 public class JiayinApplication {
 
     public static void main(String[] args) {
