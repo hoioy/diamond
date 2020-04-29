@@ -1,6 +1,7 @@
 package com.hoioy.diamond.jiayin.api;
 
 import cn.hutool.http.HttpRequest;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,7 +16,7 @@ public class WeChatLoginController {
     final String AppSecret ="6e74498b801c4d4bcc7d6de18541cf1f";
     final String url = "https://api.weixin.qq.com/sns/jscode2session?";
 
-    @RequestMapping("/login")
+    @GetMapping("/login")
     public void Login(@RequestParam("code") String code) {
         Map<String, Object> map = new HashMap<>();
         map.put("appid", AppID);
