@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.hoioy.diamond.jiayin.mapper.MsgTypeMapper">
+<mapper namespace="com.hoioy.jiayin.mapper.MsgTypeMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.hoioy.diamond.jiayin.domain.MsgType">
+    <resultMap id="BaseResultMap" type="com.hoioy.jiayin.domain.MsgType">
     <result column="id" property="id" />
         <result column="type_name" property="typeName" />
         <result column="money" property="money" />
@@ -16,7 +16,7 @@
         type_name, money, expiry_date
     </sql>
 
-    <select id="selectPage" resultType="com.hoioy.diamond.jiayin.domain.MsgType">
+    <select id="selectPage" resultType="com.hoioy.jiayin.domain.MsgType">
         select
            <include refid="Base_Column_List" />
         from
