@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Api( tags = "观看历史接口" )
 @RestController
-@RequestMapping("/jiayin/msgHistory")
+@RequestMapping("/mapper/jiayin/msgHistory")
     public class MsgHistoryController extends BaseController<IMsgHistoryService,MsgHistoryDTO> {
         @Autowired
         private IMsgHistoryService msgHistoryService;

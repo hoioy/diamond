@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Api( tags = "消息收藏接口" )
 @RestController
-@RequestMapping("/jiayin/msgCollect")
+@RequestMapping("/mapper/jiayin/msgCollect")
     public class MsgCollectController extends BaseController<IMsgCollectService,MsgCollectDTO> {
         @Autowired
         private IMsgCollectService msgCollectService;

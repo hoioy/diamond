@@ -24,7 +24,7 @@ import javax.validation.Valid;
  */
 @Api( tags = "消息表接口" )
 @RestController
-@RequestMapping("/jiayin/message")
+@RequestMapping("/mapper/jiayin/message")
     public class MessageController extends BaseController<IMessageService,MessageDTO> {
         @Autowired
         private IMessageService messageService;
