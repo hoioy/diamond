@@ -49,6 +49,7 @@ public class Swagger2Config implements WebMvcConfigurer {
                 .apis(Predicates.or(
                         RequestHandlerSelectors.basePackage("com.hoioy.diamond.sys.api"),
                         RequestHandlerSelectors.basePackage("com.sample.diamond.api"),
+                        RequestHandlerSelectors.basePackage("com.hoioy.jiayin.api"),
                         RequestHandlerSelectors.basePackage("com.hoioy.diamond.security.jwt.web")))
                 .paths(PathSelectors.any())
                 .build()
