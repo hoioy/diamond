@@ -9,6 +9,7 @@ const request = function(data) {
 			data: data.data,
 			header: {
 				'Authorization': 'Bearer ' + uni.getStorageSync('token').access_token
+				// 'Authorization': 'Bearer ' + uni.getStorageSync('token').access_token
 			}
 		})
 	} else {

@@ -1,83 +1,91 @@
 <template>
-	<view class="content">
-		<view v-if="hasLogin" class="hello">
-			<view class="title">
-				您好 {{userName}}，您已成功登录。
-			</view>
-			<view class="ul">
-				<view>这是 uni-app 带登录模板的示例App首页。</view>
-				<view>在 “我的” 中点击 “退出” 可以 “注销当前账户”</view>
-			</view>
-		</view>
-		<view v-if="!hasLogin" class="hello">
-			<view class="title">
-				您好 游客。
-			</view>
-			<view class="ul">
-				<view>这是 uni-app 带登录模板的示例App首页。</view>
-				<view>在 “我的” 中点击 “登录” 可以 “登录您的账户”</view>
+	<view>
+		<view class="cate-section">
+			<view v-for="(menu,index) in menuData" :key="menu.id">
+				<view class="cate-item" @click="toPage(menu)">
+					<image class="cate-item-image" src="/static/temp/c8.png"></image>
+					<text class="cate-item-text">{{menu.menuName}}</text>
+				</view>
 			</view>
 		</view>
 	</view>
 </template>
 
 <script>
-	import {
-		mapState
-	} from 'vuex'
+	import * as menuAPI from '@/api/menu.js';
 
 	export default {
-		computed: mapState(['forcedLogin', 'hasLogin', 'userName']),
+		data() {
+			return {
+				// hasLogin: this.$store.state.authentication.token,
+				// user: this.$store.state.authentication.user,
+				menuData: []
+			};
+		},
 		onLoad() {
-			if (!this.hasLogin) {
-				uni.showModal({
-					title: '未登录',
-					content: '您未登录，需要登录后才能继续',
-					/**
-					 * 如果需要强制登录，不显示取消按钮
-					 */
-					showCancel: !this.forcedLogin,
-					success: (res) => {
-						if (res.confirm) {
-							/**
-							 * 如果需要强制登录，使用reLaunch方式
-							 */
-							if (this.forcedLogin) {
-								uni.reLaunch({
-									url: '../login/login'
-								});
-							} else {
-								uni.navigateTo({
-									url: '../login/login'
-								});
-							}
-						}
+			// if (!this.$store.state.authentication.token) {
+			// 	uni.reLaunch({
+			// 		url: '../login/login'
+			// 	});
+			// }
+			this.getMenuData();
+		},
+		methods: {
+			getMenuData() {
+				menuAPI.findMenu().then(data => {
+					var [error, res] = data;
+					if (res.data.code == 200) {
+						this.menuData = res.data.data;
 					}
+				})
+			},
+			toPage: function(menu) {
+				console.log(menu)
+				uni.navigateTo({
+					url: '../student/student-list/student-list'
 				});
 			}
 		}
 	}
 </script>
 
-<style>
-	.hello {
+<style lang="scss">
+	page {
+		.cate-section {
+			border-radius: 16rpx 16rpx 0 0;
+			margin-top: 20rpx;
+		}
+	}
+
+	/* 分类 */
+	.cate-section {
 		display: flex;
-		flex: 1;
-		flex-direction: column;
-	}
+		justify-content: flex-start;
+		align-items: center;
+		flex-wrap: wrap;
 
-	.title {
-		color: #8f8f94;
-		margin-top: 25px;
-	}
+		.cate-item {
+			display: flex;
+			flex-direction: column;
+			align-items: stretch;
+			padding: 20rpx;
 
-	.ul {
-		font-size: 15px;
-		color: #8f8f94;
-		margin-top: 25px;
-	}
+			.cate-item-text {
+				font-size: $uni-font-size-sm + 2rpx;
+				color: $uni-text-color;
+				width: 150rpx;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+				overflow: hidden;
+			}
 
-	.ul>view {
-		line-height: 25px;
+			.cate-item-image {
+				width: 110rpx;
+				height: 110rpx;
+				border-radius: 50%;
+				opacity: .7;
+				box-shadow: 4rpx 4rpx 20rpx rgba(250, 67, 106, 0.3);
+			}
+		}
 	}
 </style>
