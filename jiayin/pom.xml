@@ -11,7 +11,8 @@
     </parent>
    
     <modules>
-        <module>jiayin-application</module>
+<!--        <module>jiayin-application</module>-->
+        <module>jiayin-app</module>
     </modules>
 </project>
 

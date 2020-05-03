@@ -1,0 +1,115 @@
+---
+#全局datasource配置
+spring:
+  datasource:                            #初始化sql配置
+    initialization-mode: ALWAYS
+    continue-on-error: true                        #在初始化数据库时，遇到错误是否继续，默认false
+    test-on-borrow: false                           #当从连接池借用连接时，是否测试该连接.
+    test-while-idle: true                           #当连接空闲时，是否执行连接测试.
+    time-between-eviction-runs-millis: 3600000    #数据库连接时间
+
+---
+#mysql配置
+spring:
+  datasource:
+    driver-class-name: "com.mysql.cj.jdbc.Driver"     # mysql 8时候配置
+    url: "jdbc:mysql://localhost:3306/diamond?serverTimezone=GMT%2B8&amp&characterEncoding=utf-8&useSSL=false"  #  mysql 8时候配置
+    # url=jdbc:mysql://127.0.0.1:3306/diamond?useUnicode=true&characterEncoding=utf-8     # mysql 8以下配置
+    # type=com.zaxxer.hikari.HikariDataSource    # mysql 8以下配置
+    data: "classpath:/mysqldata.sql"      #初始化sql配置
+    username: root
+    password: admin
+    data-username: root
+    data-password: admin
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+
+##oracle配置
+#---
+#spring:
+#  datasource:
+#    data: classpath:/oracledata.sql
+#    data-password: 123456
+#    data-username: DiamondNEW
+#    driver-class-name: oracle.jdbc.driver.OracleDriver
+#    password: 123456
+#    url: jdbc:oracle:thin:@192.168.19.1:1522:ORCL1
+#    username: DiamondNEW
+#  jpa:
+#    database-platform: org.hibernate.dialect.Oracle12cDialect
+#mybatis-plus:
+#  jdbc-type-for-null: 'null'     #oracle数据库，要加上下面这个配置
+#
+##Kingbase8相关配置
+#---
+#spring:
+#  datasource:
+#    data-password: admin
+#    data-username: root
+#    driver-class-name: com.kingbase8.Driver
+#    password: admin
+#    url: jdbc:kingbase8://192.168.70.43:9092/SAMPLES
+#    username: root
+#    jpa:
+#      database-platform: org.hibernate.dialect.Kingbase8Dialect  #Kingbase8方言
+#---
+## TODO 进仓数据库，mybatis这个属性还没有测试 陈哲
+#mybatis-plus:
+#  jdbc-type-for-null: 'null'
+
+---
+# redis配置
+spring:
+  redis:
+    database: 2
+    host: 127.0.0.1
+    port: 6379
+    timeout: 3000
+
+# 日志配置
+logging:
+  level:
+    org.springframework.web: debug
+    com.hoioy.diamond: debug
+
+# swagger2是否开启
+swagger2:
+  enable: true
+
+---
+# TODO jpa配置，如果使用mybatis可以删除
+spring:
+  jpa:
+    hibernate:
+      enable_lazy_load_no_trans: true      #没有事务的情况下允许懒加载。
+      physical_naming_strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+      #ddl-auto 配置
+      #create：每次加载hibernate时都会删除上一次的生成的表，然后根据你的model类再重新来生成新表，哪怕两次没有任何改变也要这样执行，这就是导致数据库表数据丢失的一个重要原因。
+      #create-drop ：每次加载hibernate时根据model类生成表，但是sessionFactory一关闭,表就自动删除。
+      #update：最常用的属性，第一次加载hibernate时根据model类会自动建立起表的结构（前提是先建立好数据库），以后加载hibernate时根据 model类自动更新表结构，即使表结构改变了但表中的行仍然存在不会删除以前的行。要注意的是当部署到服务器后，表结构是不会被马上建立起来的，是要等 应用第一次运行起来后才会。
+      #validate ：每次加载hibernate时，验证创建数据库表结构，只会和数据库中的表进行比较，不会创建新表，但是会插入新值。
+      ddl-auto: create-drop
+    open-in-view: true                     #保证在controller层不会出现no session的问题
+    properties:
+      hibernate.hbm2ddl.auto: update                     #update自动更新数据表结构
+      hibernate.event.merge.entity_copy_observer: allow   # 解决 hibernate multiple merge
+#        format_sql: true                  #格式花sql
+    show-sql: true                        #打印sql
+
+---
+# TODO mybatis配置，如果使用jpa可以删除
+mybatis-plus:
+  #扫描多个模块下的mapper.xml
+  mapper-locations: classpath*:mapper/**/*.xml
+#  type-aliases-package: com.hoioy.diamond.log.domain,com.hoioy.diamond.sys.domain     #MyBaits 别名包扫描路径，通过该属性可以给包中的类注册别名，注册后在 Mapper 对应的 XML 文件中可以直接使用类名，而不用使用全限定的类名
+  type-aliases-package: com.hoioy.diamond.log.domain,com.hoioy.diamond.sys.domain,com.hoioy.jiayin.domain    #MyBaits 别名包扫描路径，通过该属性可以给包中的类注册别名，注册后在 Mapper 对应的 XML 文件中可以直接使用类名，而不用使用全限定的类名
+  #type-aliases-super-type: java.lang.Object     #该配置请和 typeAliasesPackage 一起使用，如果配置了该属性，则仅仅会扫描路径下以该类作为父类的域对象 。
+  global-config:
+    db-config:
+      logic-delete-field: flag             #全局逻辑删除字段值 3.3.0开始支持，详情看下面。
+      logic-delete-value: 0                # 逻辑已删除值(默认为 1)
+      logic-not-delete-value: 1            # 逻辑未删除值(默认为 0)
+  configuration:
+    map-underscore-to-camel-case: true     #是否开启自动驼峰命名规则（camel case）映射,如果明明规范不需要使用@TableField
+    cache-enabled: false
+    call-setters-on-nulls: true
