@@ -36,7 +36,7 @@ public class DiamondJpaPageUtil {
         int pageSize = pageDTO.getPageSize();
         PageRequest pageable = null;
 
-        List<Map> sortMaps = pageDTO.getSorts();
+        List<Map> sortMaps = null;
         if (CollectionUtils.isEmpty(sortMaps)) {
             pageable = of(pageIndex, pageSize);
         } else {
@@ -153,7 +153,7 @@ public class DiamondJpaPageUtil {
     }
 
     public <D extends Object> D getBean(PageDTO pageDTO, Class<D> beanClass) throws BaseException {
-        List<Map> filters = pageDTO.getFilters();
+        List<Map> filters = null;
         Map<Object, Object> map = new HashMap<>();
         if (filters != null) {
             for (Map filter : filters) {

@@ -169,13 +169,9 @@ public abstract class BaseServiceImpl<I extends IBaseRepository<D, String>, D ex
     public PageDTO getPage(final PageDTO pageDTO) {
         PageRequest pageable = DiamondJpaPageUtil.getInstance().toPageRequest(pageDTO);
         Specification<D> specification = null;
-        if (CollectionUtils.isEmpty(pageDTO.getFilters())) {
-            pageDTO.setFilters(new ArrayList());
-        }
         Map<Object, Object> map = new HashMap<>();
         map.put(DiamondJpaPageUtil.FIELD_FOR_SEARCH, "flag");
         map.put(DiamondJpaPageUtil.VALUE_FOR_SEARCH, "1");
-        pageDTO.getFilters().add(map);
 
         D main = (D) DiamondJpaPageUtil.getInstance().getBean(pageDTO, createDomain().getClass());
         specification = toSpecWithLogicType(main, "and");

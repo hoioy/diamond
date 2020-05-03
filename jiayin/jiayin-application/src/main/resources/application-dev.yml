@@ -101,7 +101,7 @@ spring:
 mybatis-plus:
   #扫描多个模块下的mapper.xml
   mapper-locations: classpath*:mapper/**/*.xml
-  type-aliases-package: com.hoioy.diamond.log.domain,com.hoioy.diamond.sys.domain     #MyBaits 别名包扫描路径，通过该属性可以给包中的类注册别名，注册后在 Mapper 对应的 XML 文件中可以直接使用类名，而不用使用全限定的类名
+  type-aliases-package: com.hoioy.diamond.log.domain,com.hoioy.diamond.sys.domain,com.hoioy.jiayin.domain     #MyBaits 别名包扫描路径，通过该属性可以给包中的类注册别名，注册后在 Mapper 对应的 XML 文件中可以直接使用类名，而不用使用全限定的类名
   #type-aliases-super-type: java.lang.Object     #该配置请和 typeAliasesPackage 一起使用，如果配置了该属性，则仅仅会扫描路径下以该类作为父类的域对象 。
   global-config:
     db-config:

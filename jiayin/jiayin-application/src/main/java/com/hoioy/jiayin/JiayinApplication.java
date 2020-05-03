@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 @EnableCaching
 @SpringBootApplication(scanBasePackages = {"com.hoioy.diamond","com.hoioy.jiayin"})
-@MapperScan(basePackages = {"com.hoioy.jiayin.mapper"})
+@MapperScan(basePackages = {"com.hoioy.diamond","com.hoioy.jiayin.mapper"})
 public class JiayinApplication {
 
     public static void main(String[] args) {
