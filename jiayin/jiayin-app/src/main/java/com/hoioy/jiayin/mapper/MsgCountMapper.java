@@ -20,4 +20,7 @@ public interface MsgCountMapper extends IBaseMapper<MsgCount> {
      *  分页
      */
     IPage<MsgCount> selectPage(@Param("page") Page page, @Param("msgCount") MsgCount msgCount);
+
+    MsgCount selectByOpenid(String openid);
+
 }
