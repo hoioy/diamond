@@ -333,121 +333,120 @@ CREATE TABLE `web_logs`  (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
-drop table if exists jiayin_message;
+DROP TABLE IF EXISTS `jiayin_message`;
+CREATE TABLE `jiayin_message`  (
+  `id` char(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '主键',
+  `openid` char(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '小程序用户唯一标识',
+  `title` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '标题',
+  `msg_type` int(11) NULL DEFAULT NULL COMMENT '消息类型',
+  `content` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '消息内容',
+  `views` int(11) NULL DEFAULT NULL COMMENT '浏览次数',
+  `status` int(11) NULL DEFAULT NULL COMMENT '(带交易 已完成)',
+  `expare_time` date NULL DEFAULT NULL COMMENT '过期时间',
+  `contacts` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '联系人',
+  `contact_phone` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '联系电话',
+  `created_by` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建人',
+  `modified_by` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '修改人',
+  `version` int(11) NULL DEFAULT NULL,
+  `created_date` date NULL DEFAULT NULL COMMENT '创建时间',
+  `modified_date` date NULL DEFAULT NULL COMMENT '修改时间',
+  `flag` int(11) NULL DEFAULT NULL COMMENT '删除标记'
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '消息表' ROW_FORMAT = Dynamic;
 
-/*==============================================================*/
-/* Table: jiayin_message                                        */
-/*==============================================================*/
-create table jiayin_message
-(
-   id                   char(32) not null comment '主键',
-   openid              char(32) comment '小程序用户唯一标识',
-   title                varchar(20) comment '标题',
-   msg_type             int comment '消息类型',
-   content              varchar(500) comment '消息内容',
-   views                int comment '浏览次数',
-   status               int comment '(带交易 已完成)',
-   expare_time          date comment '过期时间',
-   contacts             varchar(50) comment '联系人',
-   contact_phone        varchar(50) comment '联系电话',
-   created_by           varchar(50) comment '创建人',
-   modified_by          varchar(50) comment '修改人',
-   `version`            int(0)  NULL DEFAULT NULL,
-   created_date         date comment '创建时间',
-   modified_date        date comment '修改时间',
-   flag                 int comment '删除标记'
-)COMMENT='消息表';
-drop table if exists jiayin_msg_type;
+-- ----------------------------
+-- Records of jiayin_message
+-- ----------------------------
+INSERT INTO `jiayin_message` VALUES ('6e132350c9244ef99055432eece2b013', 'admin', '234234234', NULL, '123123123', NULL, NULL, NULL, '123123123', '123123123', NULL, NULL, NULL, '2020-05-05', '2020-05-05', 1);
+INSERT INTO `jiayin_message` VALUES ('1673c64385e3c29d006b741f4069cb60', 'admin', '234234234', NULL, '123123123', NULL, NULL, NULL, '123123123', '123123123', NULL, NULL, NULL, '2020-05-05', '2020-05-05', 1);
+INSERT INTO `jiayin_message` VALUES ('36b77035f76178b9b6dae6cca8a159a0', 'admin', '234234234', NULL, '123123123', NULL, NULL, NULL, '123123123', '123123123', NULL, NULL, NULL, '2020-05-05', '2020-05-05', 1);
 
-/*==============================================================*/
-/* Table: jia_msg_type                                          */
-/*==============================================================*/
-create table jiayin_msg_type
-(
-   id                   char(32) not null comment '主键',
-   type_name            varchar(50) comment '类型名称',
-   money                varchar(50) comment '价格',
-   expiry_date          int comment '有效期',
-   flag                 int comment '删除标记',
-   created_by           varchar(50) comment '创建人',
-   modified_by          varchar(50) comment '修改人',
-   created_date         date comment '创建时间',
-   `version`            int(0)  NULL DEFAULT NULL,
-   modified_date        date comment '修改时间'
-)COMMENT='消息类型表';
-drop table if exists 次数表;
+-- ----------------------------
+-- Table structure for jiayin_msg_collect
+-- ----------------------------
+DROP TABLE IF EXISTS `jiayin_msg_collect`;
+CREATE TABLE `jiayin_msg_collect`  (
+  `id` char(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '主键',
+  `msg_id` char(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '消息表主键',
+  `openid` char(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '小程序用户唯一标识',
+  `flag` int(11) NULL DEFAULT NULL COMMENT '删除标记',
+  `created_by` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建人',
+  `modified_by` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '修改人',
+  `created_date` date NULL DEFAULT NULL COMMENT '创建时间',
+  `version` int(11) NULL DEFAULT NULL,
+  `modified_date` date NULL DEFAULT NULL COMMENT '修改时间'
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '消息收藏' ROW_FORMAT = Dynamic;
 
-/*==============================================================*/
-/* Table: 次数表                                                   */
-/*==============================================================*/
-create table jiayin_msg_count
-(
-   id                   char(32) not null comment '主键',
-   openid              char(32) comment '小程序用户唯一标识',
-   number               int comment '剩余次数',
-   flag                 int comment '删除标记',
-   created_by           varchar(50) comment '创建人',
-   modified_by          varchar(50) comment '修改人',
-   created_date         date comment '创建时间',
-   `version`            int(0)  NULL DEFAULT NULL,
-   modified_date        date comment '修改时间'
-)COMMENT='可发消息次数';
-drop table if exists jiayin_msg_collect;
+-- ----------------------------
+-- Table structure for jiayin_msg_count
+-- ----------------------------
+DROP TABLE IF EXISTS `jiayin_msg_count`;
+CREATE TABLE `jiayin_msg_count`  (
+  `id` char(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '主键',
+  `openid` char(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '小程序用户唯一标识',
+  `msg_count` int(11) NULL DEFAULT NULL COMMENT '剩余次数',
+  `flag` int(11) NULL DEFAULT NULL COMMENT '删除标记',
+  `created_by` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建人',
+  `modified_by` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '修改人',
+  `created_date` date NULL DEFAULT NULL COMMENT '创建时间',
+  `version` int(11) NULL DEFAULT NULL,
+  `modified_date` date NULL DEFAULT NULL COMMENT '修改时间'
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '可发消息次数' ROW_FORMAT = Dynamic;
 
-/*==============================================================*/
-/* Table: jiayin_msg_collect                                    */
-/*==============================================================*/
-create table jiayin_msg_collect
-(
-   id                   char(32) not null comment '主键',
-   msg_id               char(32) comment '消息表主键',
-   openid              char(32) comment '小程序用户唯一标识',
-   flag                 int comment '删除标记',
-   created_by           varchar(50) comment '创建人',
-   modified_by          varchar(50) comment '修改人',
-   created_date         date comment '创建时间',
-   `version`            int(0)  NULL DEFAULT NULL,
-   modified_date        date comment '修改时间'
-)COMMENT='消息收藏';
-drop table if exists jiayin_msg_draft;
 
-/*==============================================================*/
-/* Table: jiayin_msg_draft                                      */
-/*==============================================================*/
-create table jiayin_msg_draft
-(
-   id                   char(32) not null comment '主键',
-   openid              char(32) comment '小程序用户唯一标识',
-   title                varchar(20) comment '标题',
-   msg_type             int comment '消息类型',
-   content              varchar(500) comment '消息内容',
-   views                int comment '浏览次数',
-   status               int comment '(带交易 已完成)',
-   contacts             varchar(50) comment '联系人',
-   contact_phone        varchar(50) comment '联系电话',
-   flag                 int comment '删除标记',
-   created_by           varchar(50) comment '创建人',
-   modified_by          varchar(50) comment '修改人',
-   `version`            int(0)  NULL DEFAULT NULL,
-   created_date         date comment '创建时间',
-   modified_date        date comment '修改时间'
-)COMMENT='消息草稿';
-drop table if exists jiayin_msg_history;
 
-/*==============================================================*/
-/* Table: jiayin_msg_history                                    */
-/*==============================================================*/
-create table jiayin_msg_history
-(
-   id                   char(32) not null comment '主键',
-   msg_id               char(32) comment '消息表主键键',
-   openid              char(32) comment '小程序用户唯一标识',
-   flag                 int comment '删除标记',
-   created_by           varchar(50) comment '创建人',
-   modified_by          varchar(50) comment '修改人',
-   created_date         date comment '创建时间',
-   `version`            int(0)  NULL DEFAULT NULL,
-   modified_date        date comment '修改时间'
-)COMMENT='浏览消息历史';
+-- ----------------------------
+-- Table structure for jiayin_msg_draft
+-- ----------------------------
+DROP TABLE IF EXISTS `jiayin_msg_draft`;
+CREATE TABLE `jiayin_msg_draft`  (
+  `id` char(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '主键',
+  `openid` char(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '小程序用户唯一标识',
+  `title` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '标题',
+  `msg_type` int(11) NULL DEFAULT NULL COMMENT '消息类型',
+  `content` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '消息内容',
+  `views` int(11) NULL DEFAULT NULL COMMENT '浏览次数',
+  `status` int(11) NULL DEFAULT NULL COMMENT '(带交易 已完成)',
+  `contacts` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '联系人',
+  `contact_phone` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '联系电话',
+  `flag` int(11) NULL DEFAULT NULL COMMENT '删除标记',
+  `created_by` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建人',
+  `modified_by` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '修改人',
+  `version` int(11) NULL DEFAULT NULL,
+  `created_date` date NULL DEFAULT NULL COMMENT '创建时间',
+  `modified_date` date NULL DEFAULT NULL COMMENT '修改时间'
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '消息草稿' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for jiayin_msg_history
+-- ----------------------------
+DROP TABLE IF EXISTS `jiayin_msg_history`;
+CREATE TABLE `jiayin_msg_history`  (
+  `id` char(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '主键',
+  `msg_id` char(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '消息表主键键',
+  `openid` char(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '小程序用户唯一标识',
+  `flag` int(11) NULL DEFAULT NULL COMMENT '删除标记',
+  `created_by` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建人',
+  `modified_by` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '修改人',
+  `created_date` date NULL DEFAULT NULL COMMENT '创建时间',
+  `version` int(11) NULL DEFAULT NULL,
+  `modified_date` date NULL DEFAULT NULL COMMENT '修改时间'
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '浏览消息历史' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for jiayin_msg_type
+-- ----------------------------
+DROP TABLE IF EXISTS `jiayin_msg_type`;
+CREATE TABLE `jiayin_msg_type`  (
+  `id` char(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '主键',
+  `type_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '类型名称',
+  `money` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '价格',
+  `expiry_date` int(11) NULL DEFAULT NULL COMMENT '有效期',
+  `flag` int(11) NULL DEFAULT NULL COMMENT '删除标记',
+  `created_by` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建人',
+  `modified_by` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '修改人',
+  `created_date` date NULL DEFAULT NULL COMMENT '创建时间',
+  `version` int(11) NULL DEFAULT NULL,
+  `modified_date` date NULL DEFAULT NULL COMMENT '修改时间'
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '消息类型表' ROW_FORMAT = Dynamic;
 
 SET FOREIGN_KEY_CHECKS = 1;
