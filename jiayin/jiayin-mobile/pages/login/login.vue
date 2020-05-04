@@ -31,6 +31,7 @@
 
 <script>
 	import service from '../../service.js';
+	import * as loginAPI from '@/api/login.js';
 	import {
 		mapState,
 		mapMutations
@@ -45,8 +46,8 @@
 			return {
 				providerList: [],
 				hasProvider: false,
-				account: '',
-				password: '',
+				account: 'admin',
+				password: 'admin',
 				positionTop: 0,
 				isDevtools: false,
 			}
@@ -95,10 +96,10 @@
 					});
 					return;
 				}
-				if (this.password.length < 6) {
+				if (this.password.length < 5) {
 					uni.showToast({
 						icon: 'none',
-						title: '密码最短为 6 个字符'
+						title: '密码最短为 5 个字符'
 					});
 					return;
 				}
@@ -107,21 +108,30 @@
 				 * 检测用户账号密码是否在已注册的用户列表中
 				 * 实际开发中，使用 uni.request 将账号信息发送至服务端，客户端在回调函数中获取结果信息。
 				 */
-				const data = {
-					account: this.account,
+				const toMainTmp = this.toMain
+				loginAPI.login({
+					username: this.account,
 					password: this.password
-				};
-				const validUser = service.getUsers().some(function(user) {
-					return data.account === user.account && data.password === user.password;
-				});
-				if (validUser) {
-					this.toMain(this.account);
-				} else {
-					uni.showToast({
-						icon: 'none',
-						title: '用户账号或密码不正确',
-					});
-				}
+				}).then(data=>{ //res为一个数组，数组第一项为错误信息，第二项为返回数据
+					var [error, res]  = data;
+					if(res.data.code==200){
+						this.$store.dispatch('LoginSuccess', res.data.data).then(() => {
+							loginAPI.getUser().then(userData=>{
+								var [userDataError, userDataRes]  = userData;
+								if(userDataRes.data.code==200){
+									this.$store.dispatch('GetUserSuccesss',userDataRes.data.data).then(() => {
+										toMainTmp();
+									 })
+								}
+							})
+						 })
+					}else{
+						uni.showToast({
+							icon: 'none',
+							title: '用户账号或密码不正确',
+						});
+					}
+				})
 			},
 			oauth(value) {
 				uni.login({
@@ -162,19 +172,9 @@
 				}
 			},
 			toMain(userName) {
-				this.login(userName);
-				/**
-				 * 强制登录时使用reLaunch方式跳转过来
-				 * 返回首页也使用reLaunch方式
-				 */
-				if (this.forcedLogin) {
-					uni.reLaunch({
-						url: '../main/main',
-					});
-				} else {
-					uni.navigateBack();
-				}
-
+				uni.reLaunch({
+					url: '/pages/message/message-list/message-list'
+				});
 			}
 		},
 		onReady() {
