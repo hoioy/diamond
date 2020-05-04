@@ -341,6 +341,7 @@ drop table if exists jiayin_message;
 create table jiayin_message
 (
    id                   char(32) not null comment '主键',
+   openid              char(32) comment '小程序用户唯一标识',
    title                varchar(20) comment '标题',
    msg_type             int comment '消息类型',
    content              varchar(500) comment '消息内容',
@@ -351,6 +352,7 @@ create table jiayin_message
    contact_phone        varchar(50) comment '联系电话',
    created_by           varchar(50) comment '创建人',
    modified_by          varchar(50) comment '修改人',
+   `version`            int(0)  NULL DEFAULT NULL,
    created_date         date comment '创建时间',
    modified_date        date comment '修改时间',
    flag                 int comment '删除标记'
@@ -370,6 +372,7 @@ create table jiayin_msg_type
    created_by           varchar(50) comment '创建人',
    modified_by          varchar(50) comment '修改人',
    created_date         date comment '创建时间',
+   `version`            int(0)  NULL DEFAULT NULL,
    modified_date        date comment '修改时间'
 )COMMENT='消息类型表';
 drop table if exists 次数表;
@@ -380,12 +383,13 @@ drop table if exists 次数表;
 create table jiayin_msg_count
 (
    id                   char(32) not null comment '主键',
-   user_id              char(32) comment '用户id',
+   openid              char(32) comment '小程序用户唯一标识',
    number               int comment '剩余次数',
    flag                 int comment '删除标记',
    created_by           varchar(50) comment '创建人',
    modified_by          varchar(50) comment '修改人',
    created_date         date comment '创建时间',
+   `version`            int(0)  NULL DEFAULT NULL,
    modified_date        date comment '修改时间'
 )COMMENT='可发消息次数';
 drop table if exists jiayin_msg_collect;
@@ -397,11 +401,12 @@ create table jiayin_msg_collect
 (
    id                   char(32) not null comment '主键',
    msg_id               char(32) comment '消息表主键',
-   user_id              char(32) comment '用户id',
+   openid              char(32) comment '小程序用户唯一标识',
    flag                 int comment '删除标记',
    created_by           varchar(50) comment '创建人',
    modified_by          varchar(50) comment '修改人',
    created_date         date comment '创建时间',
+   `version`            int(0)  NULL DEFAULT NULL,
    modified_date        date comment '修改时间'
 )COMMENT='消息收藏';
 drop table if exists jiayin_msg_draft;
@@ -412,6 +417,7 @@ drop table if exists jiayin_msg_draft;
 create table jiayin_msg_draft
 (
    id                   char(32) not null comment '主键',
+   openid              char(32) comment '小程序用户唯一标识',
    title                varchar(20) comment '标题',
    msg_type             int comment '消息类型',
    content              varchar(500) comment '消息内容',
@@ -422,6 +428,7 @@ create table jiayin_msg_draft
    flag                 int comment '删除标记',
    created_by           varchar(50) comment '创建人',
    modified_by          varchar(50) comment '修改人',
+   `version`            int(0)  NULL DEFAULT NULL,
    created_date         date comment '创建时间',
    modified_date        date comment '修改时间'
 )COMMENT='消息草稿';
@@ -434,11 +441,12 @@ create table jiayin_msg_history
 (
    id                   char(32) not null comment '主键',
    msg_id               char(32) comment '消息表主键键',
-   user_id              char(32) comment '用户id',
+   openid              char(32) comment '小程序用户唯一标识',
    flag                 int comment '删除标记',
    created_by           varchar(50) comment '创建人',
    modified_by          varchar(50) comment '修改人',
    created_date         date comment '创建时间',
+   `version`            int(0)  NULL DEFAULT NULL,
    modified_date        date comment '修改时间'
 )COMMENT='浏览消息历史';
 
