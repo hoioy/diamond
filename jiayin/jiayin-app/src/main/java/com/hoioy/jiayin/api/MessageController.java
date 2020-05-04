@@ -26,7 +26,7 @@ import javax.validation.Valid;
  */
 @Api(tags = "消息表接口")
 @RestController
-@RequestMapping("/mapper/jiayin/message")
+@RequestMapping("/jiayin/message")
 public class MessageController extends BaseController<IMessageService, MessageDTO> {
     @Autowired
     private IMessageService messageService;
@@ -39,10 +39,6 @@ public class MessageController extends BaseController<IMessageService, MessageDT
         return new ResultDTO(page);
     }
 
-    @Override
-    public @Valid ResultDTO<String> save(MessageDTO dto) throws BaseException {
-        String id = messageService.publishMsg(dto);
-        return super.save(dto);
-    }
+
 }
 
