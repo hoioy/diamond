@@ -15,20 +15,16 @@
 			</view>
 		</view>
 		<uni-load-more :status="status" :icon-size="16" :content-text="contentText" />
-		<uni-fab ref="fab" :pattern="fabPattern" :content="fabContent" horizontal="right" vertical="bottom" direction="horizontal"
-		 @trigger="trigger" />
 	</view>
 </template>
 
 <script>
-	import uniFab from '@/components/uni-fab/uni-fab.vue'
 	import uniLoadMore from '@/components/uni-load-more/uni-load-more.vue';
 	import * as messageAPI from '@/api/message.js';
 
 	export default {
 		components: {
-			uniLoadMore,
-			uniFab
+			uniLoadMore
 		},
 		data() {
 			return {
@@ -42,19 +38,7 @@
 					contentdown: '上拉加载更多',
 					contentrefresh: '加载中',
 					contentnomore: '没有更多'
-				},
-				fabPattern: {
-					color: '#7A7E83',
-					backgroundColor: '#fff',
-					selectedColor: '#007AFF',
-					buttonColor: '#007AFF'
-				},
-				fabContent: [{
-						iconPath: '/static/component.png',
-						selectedIconPath: '/static/componentHL.png',
-						text: '新增',
-						active: false
-					}]
+				}
 			};
 		},
 		onLoad() {

@@ -42,7 +42,7 @@ public class SecurityConfig extends DiamondJwtWebSecurityConfigurerAdapter {
         // @formatter:off
         // 过滤器的安全拦截器的每一次的要求
         http.authorizeRequests().filterSecurityInterceptorOncePerRequest(true)
-                .antMatchers("/auth/**", "/auth", "/captcha", "/error").permitAll()
+                .antMatchers("/auth/**", "/auth", "/captcha", "/error","/wx/user/**").permitAll()
                 .antMatchers("/system/user/save").permitAll()//注册用户
                 //通过Oauth2登录时绑定用户接口，暂时开启，否则与JwtAuthorizationTokenFilter逻辑冲突（本系统还没有用户所以查不出来）
                 .antMatchers("/bindDiamondUaaUser").permitAll()

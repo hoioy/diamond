@@ -1,6 +1,6 @@
 <template>
 	<view class="content">
-		<view class="input-group">
+		<!-- <view class="input-group">
 			<view class="input-row border">
 				<text class="title">账号：</text>
 				<m-input class="m-input" type="text" clearable focus v-model="account" placeholder="请输入账号"></m-input>
@@ -17,14 +17,17 @@
 			<navigator url="../reg/reg">注册账号</navigator>
 			<text>|</text>
 			<navigator url="../pwd/pwd">忘记密码</navigator>
-		</view>
-		<view class="oauth-row" v-if="hasProvider" v-bind:style="{top: positionTop + 'px'}">
-			<view class="oauth-image" v-for="provider in providerList" :key="provider.value">
-				<image :src="provider.image" @tap="oauth(provider.value)"></image>
-				<!-- #ifdef MP-WEIXIN -->
-				<button v-if="!isDevtools" open-type="getUserInfo" @getuserinfo="getUserInfo"></button>
-				<!-- #endif -->
-			</view>
+		</view> -->
+		<!-- <view class="oauth-row" v-if="hasProvider" v-bind:style="{top: positionTop + 'px'}"> -->
+		<!-- <view class="oauth-image" v-for="provider in providerList" :key="provider.value"> -->
+		<!-- <image :src="provider.image" @tap="oauth(provider.value)"></image> -->
+		<!-- #ifdef MP-WEIXIN -->
+		<!-- <button v-if="!isDevtools" open-type="getUserInfo" @getuserinfo="getUserInfo"></button> -->
+		<!-- #endif -->
+		<!-- </view> -->
+		<!-- </view> -->
+		<view v-if="hasProvider">
+			<button type="primary" class="primary" @tap="oauth('weixin')">登录</button>
 		</view>
 	</view>
 </template>
@@ -113,7 +116,7 @@
 					password: this.password
 				})
 			},
-			jwtLogin(param){
+			jwtLogin(param) {
 				const toMainTmp = this.toMain
 				loginAPI.login(param).then(data => { //res为一个数组，数组第一项为错误信息，第二项为返回数据
 					var [error, res] = data;
@@ -136,19 +139,25 @@
 					}
 				})
 			},
-			oauth(value) {
-				uni.login({
-					provider: value,
-					success: (res) => {
-						loginAPI.weChatMiniAppLogin('wxccbae6dc90e98a2f',res.code)
-						.then(data => { //res为一个数组，数组第一项为错误信息，第二项为返回数据
-							debugger
+			oauthGetUserInfo(provider, openId, sessionKey) {
+				uni.getUserInfo({
+					provider: provider,
+					success: (infoRes) => {
+						loginAPI.bindDiamondUaaUser({
+							name: infoRes.userInfo.nickName,
+							loginName: openId,
+							avatarUrl: infoRes.userInfo.avatarUrl,
+							country: infoRes.userInfo.country,
+							province: infoRes.userInfo.province,
+							city: infoRes.userInfo.city,
+							language: infoRes.userInfo.language
+						}).then(data => { //res为一个数组，数组第一项为错误信息，第二项为返回数据
 							var [error, res] = data;
 							if (res.data.code == 200) {
 								//绑定用户成功后，调用/auth接口登录后端获取自定义jwt token
-								jwtLogin({
-									username: this.account,
-									password: this.password
+								this.jwtLogin({
+									username: openId,
+									password: '123456'
 								})
 							} else {
 								uni.showToast({
@@ -157,46 +166,32 @@
 								});
 							}
 						})
-						
-						// uni.getUserInfo({
-						// 	provider: value,
-						// 	success: (infoRes) => {
-						// 		/**
-						// 		 * 实际开发中，获取用户信息后，需要将信息上报至服务端。
-						// 		 * 服务端可以用 userInfo.openId 作为用户的唯一标识新增或绑定用户信息。
-						// 		 */
-						// 		debugger
-						// 		loginAPI.bindDiamondUaaUser({
-						// 			name: infoRes.userInfo.nickName,
-						// 			loginName: infoRes.userInfo.openid,
-						// 			avatarUrl: infoRes.userInfo.avatarUrl,
-						// 			country: infoRes.userInfo.country,
-						// 			province: infoRes.userInfo.province,
-						// 			city: infoRes.userInfo.city,
-						// 			language: infoRes.userInfo.language
-						// 		}).then(data => { //res为一个数组，数组第一项为错误信息，第二项为返回数据
-						// 			var [error, res] = data;
-						// 			if (res.data.code == 200) {
-						// 				//绑定用户成功后，调用/auth接口登录后端获取自定义jwt token
-						// 				jwtLogin({
-						// 					username: this.account,
-						// 					password: this.password
-						// 				})
-						// 			} else {
-						// 				uni.showToast({
-						// 					icon: 'none',
-						// 					title: '用户账号或密码不正确',
-						// 				});
-						// 			}
-						// 		})
-						// 	},
-						// 	fail() {
-						// 		uni.showToast({
-						// 			icon: 'none',
-						// 			title: '登陆失败'
-						// 		});
-						// 	}
-						// });
+					},
+					fail() {
+						uni.showToast({
+							icon: 'none',
+							title: '登陆失败'
+						});
+					}
+				});
+			},
+			oauth(value) {
+				uni.login({
+					provider: value,
+					success: (res) => {
+						loginAPI.weChatMiniAppLogin('wxccbae6dc90e98a2f', res.code)
+							.then(data => { //res为一个数组，数组第一项为错误信息，第二项为返回数据
+								var [error, res] = data;
+								if (res.data.code == 200) {
+									//绑定用户成功后，调用/auth接口登录后端获取自定义jwt token
+									this.oauthGetUserInfo(value, res.data.data.openid, res.data.data.sessionKey)
+								} else {
+									uni.showToast({
+										icon: 'none',
+										title: '用户账号或密码不正确',
+									});
+								}
+							})
 					},
 					fail: (err) => {
 						console.error('授权登录失败：' + JSON.stringify(err));

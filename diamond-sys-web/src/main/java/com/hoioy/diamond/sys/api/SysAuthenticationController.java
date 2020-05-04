@@ -1,5 +1,6 @@
 package com.hoioy.diamond.sys.api;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.hoioy.diamond.common.dto.ResultDTO;
 import com.hoioy.diamond.common.util.DiamondSecurityUtils;
 import com.hoioy.diamond.sys.dto.RoleDTO;
@@ -8,7 +9,7 @@ import com.hoioy.diamond.sys.service.IRoleMenuService;
 import com.hoioy.diamond.sys.service.IRoleService;
 import com.hoioy.diamond.sys.service.IRoleUserService;
 import com.hoioy.diamond.sys.service.IUserInfoService;
-import com.fasterxml.jackson.core.JsonProcessingException;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +49,7 @@ public class SysAuthenticationController {
         UserInfoDTO dto = new UserInfoDTO();
         String name = (String) userInfo.get("name");
         String loginName = (String) userInfo.get("loginName");
+        String avatarUrl = (String) userInfo.get("avatarUrl");
         //有一些用户不在hoioy的用户表中-比如测试用户admin，可能这部分逻辑还要改。
         if (null == loginName) {
             loginName = name;
@@ -58,11 +60,15 @@ public class SysAuthenticationController {
         if (dto == null) {
             //如果本系统没有此用户，则新增
             //用户信息填充
-            dto =  new UserInfoDTO();
+            dto = new UserInfoDTO();
+            dto.setLoginName(loginName);
             dto.setUserName(name);
             dto.setEmail("未知");
             dto.setState("1");
-            dto.setAvatar("/common/images/default-head.jpg");
+            if (StringUtils.isEmpty(avatarUrl)) {
+                avatarUrl = "/common/images/default-head.jpg";
+            }
+            dto.setAvatar(avatarUrl);
             //用户所属角色填充
             //TODO 默认角色写死了
             RoleDTO role = roleService.findByRoleName("ROLE_USER");
