@@ -34,7 +34,7 @@ public class MsgCollect extends BaseDomain {
     /**
      * 用户id
      */
-    private String userId;
+    private String openid;
 
 
 }

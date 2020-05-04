@@ -33,6 +33,8 @@ public class Message extends BaseDomain {
      */
     private String title;
 
+    private String openid;
+
     /**
      * 消息类型
      */

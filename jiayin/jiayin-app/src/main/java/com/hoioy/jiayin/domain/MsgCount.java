@@ -29,12 +29,12 @@ public class MsgCount extends BaseDomain {
     /**
      * 用户id
      */
-    private String userId;
+    private String openid;
 
     /**
      * 剩余次数
      */
-    private Integer number;
+    private Integer msgCount;
 
 
 }

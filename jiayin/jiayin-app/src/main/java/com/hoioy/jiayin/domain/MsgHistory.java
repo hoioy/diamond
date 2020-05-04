@@ -34,7 +34,6 @@ public class MsgHistory extends BaseDomain {
     /**
      * 用户id
      */
-    private String userId;
-
+    private String openid;
 
 }

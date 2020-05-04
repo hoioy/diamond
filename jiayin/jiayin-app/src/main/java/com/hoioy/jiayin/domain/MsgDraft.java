@@ -25,7 +25,7 @@ import lombok.NoArgsConstructor;
 public class MsgDraft extends BaseDomain {
 
     private static final long serialVersionUID=1L;
-
+    private String openid;
     /**
      * 标题
      */
