@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Api(tags = "消息次数接口")
 @RestController
-@RequestMapping("/mapper/jiayin/msgCount")
+@RequestMapping("/jiayin/msgCount")
 public class MsgCountController extends BaseController<IMsgCountService, MsgCountDTO> {
     @Autowired
     private IMsgCountService msgCountService;

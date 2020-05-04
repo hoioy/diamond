@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Api(tags = "消息草稿接口")
 @RestController
-@RequestMapping("/mapper/jiayin/msgDraft")
+@RequestMapping("/jiayin/msgDraft")
 public class MsgDraftController extends BaseController<IMsgDraftService, MsgDraftDTO> {
     @Autowired
     private IMsgDraftService msgDraftService;

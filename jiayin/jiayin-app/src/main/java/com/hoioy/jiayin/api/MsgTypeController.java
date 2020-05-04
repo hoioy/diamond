@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Api( tags = "消息类型接口" )
 @RestController
-@RequestMapping("/mapper/jiayin/msgType")
+@RequestMapping("/jiayin/msgType")
     public class MsgTypeController extends BaseController<IMsgTypeService,MsgTypeDTO> {
         @Autowired
         private IMsgTypeService msgTypeService;
