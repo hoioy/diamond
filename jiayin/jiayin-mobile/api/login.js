@@ -14,4 +14,13 @@ export function getUser() {
 	})
 }
 
+//微信登录等OAuth2登录成功后做用户绑定
+export function bindDiamondUaaUser(userInfo) {
+	return request({
+		url: 'bindDiamondUaaUser', 
+		method: 'POST',
+		data: userInfo
+	})
+}
+
 

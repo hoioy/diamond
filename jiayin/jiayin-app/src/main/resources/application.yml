@@ -47,3 +47,12 @@ diamond:
     captcha-enable: 'off'            #验证码开关  off关闭  on打开
     captcha-max-wait-second: 600  #验证码有效期，单位秒，10分钟
     captcha-same-ip-limit-per-minutes: 60 #同一个ip每分钟请求验证码的最大次数
+
+wx:
+  miniapp:
+    configs:
+      - appid: wxccbae6dc90e98a2f
+        secret: 6e74498b801c4d4bcc7d6de18541cf1f
+#        token: #微信小程序消息服务器配置的token
+#        aesKey: #微信小程序消息服务器配置的EncodingAESKey
+#        msgDataFormat: JSON

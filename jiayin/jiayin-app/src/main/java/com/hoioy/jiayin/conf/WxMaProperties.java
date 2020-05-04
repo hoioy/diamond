@@ -2,12 +2,10 @@ package com.hoioy.jiayin.conf;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-/**
- * @author <a href="https://github.com/binarywang">Binary Wang</a>
- */
 @Data
 @ConfigurationProperties(prefix = "wx.miniapp")
 public class WxMaProperties {

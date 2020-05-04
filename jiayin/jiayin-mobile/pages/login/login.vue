@@ -108,24 +108,27 @@
 				 * 检测用户账号密码是否在已注册的用户列表中
 				 * 实际开发中，使用 uni.request 将账号信息发送至服务端，客户端在回调函数中获取结果信息。
 				 */
-				const toMainTmp = this.toMain
-				loginAPI.login({
+				jwtLogin({
 					username: this.account,
 					password: this.password
-				}).then(data=>{ //res为一个数组，数组第一项为错误信息，第二项为返回数据
-					var [error, res]  = data;
-					if(res.data.code==200){
+				})
+			},
+			jwtLogin(param){
+				const toMainTmp = this.toMain
+				loginAPI.login(param).then(data => { //res为一个数组，数组第一项为错误信息，第二项为返回数据
+					var [error, res] = data;
+					if (res.data.code == 200) {
 						this.$store.dispatch('LoginSuccess', res.data.data).then(() => {
-							loginAPI.getUser().then(userData=>{
-								var [userDataError, userDataRes]  = userData;
-								if(userDataRes.data.code==200){
-									this.$store.dispatch('GetUserSuccesss',userDataRes.data.data).then(() => {
+							loginAPI.getUser().then(userData => {
+								var [userDataError, userDataRes] = userData;
+								if (userDataRes.data.code == 200) {
+									this.$store.dispatch('GetUserSuccesss', userDataRes.data.data).then(() => {
 										toMainTmp();
-									 })
+									})
 								}
 							})
-						 })
-					}else{
+						})
+					} else {
 						uni.showToast({
 							icon: 'none',
 							title: '用户账号或密码不正确',
@@ -137,6 +140,7 @@
 				uni.login({
 					provider: value,
 					success: (res) => {
+						debugger
 						uni.getUserInfo({
 							provider: value,
 							success: (infoRes) => {
@@ -144,7 +148,30 @@
 								 * 实际开发中，获取用户信息后，需要将信息上报至服务端。
 								 * 服务端可以用 userInfo.openId 作为用户的唯一标识新增或绑定用户信息。
 								 */
-								this.toMain(infoRes.userInfo.nickName);
+								debugger
+								loginAPI.bindDiamondUaaUser({
+									name: infoRes.userInfo.nickName,
+									loginName: infoRes.userInfo.openid,
+									avatarUrl: infoRes.userInfo.avatarUrl,
+									country: infoRes.userInfo.country,
+									province: infoRes.userInfo.province,
+									city: infoRes.userInfo.city,
+									language: infoRes.userInfo.language
+								}).then(data => { //res为一个数组，数组第一项为错误信息，第二项为返回数据
+									var [error, res] = data;
+									if (res.data.code == 200) {
+										//绑定用户成功后，调用/auth接口登录后端获取自定义jwt token
+										jwtLogin({
+											username: this.account,
+											password: this.password
+										})
+									} else {
+										uni.showToast({
+											icon: 'none',
+											title: '用户账号或密码不正确',
+										});
+									}
+								})
 							},
 							fail() {
 								uni.showToast({
@@ -163,7 +190,7 @@
 				detail
 			}) {
 				if (detail.userInfo) {
-					this.toMain(detail.userInfo.nickName);
+					this.toMain();
 				} else {
 					uni.showToast({
 						icon: 'none',
@@ -171,7 +198,7 @@
 					});
 				}
 			},
-			toMain(userName) {
+			toMain() {
 				uni.reLaunch({
 					url: '/pages/message/message-list/message-list'
 				});

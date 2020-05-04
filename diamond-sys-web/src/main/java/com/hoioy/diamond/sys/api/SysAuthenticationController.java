@@ -43,7 +43,6 @@ public class SysAuthenticationController {
      * @throws JsonProcessingException
      */
     @PostMapping(value = "/bindDiamondUaaUser")
-    @ResponseBody
     public ResultDTO bindUser(@RequestBody Map userInfo) throws RuntimeException {
         logger.info("bindUser");
         UserInfoDTO dto = new UserInfoDTO();
@@ -54,11 +53,12 @@ public class SysAuthenticationController {
             loginName = name;
         }
         dto.setLoginName(loginName);
-        UserInfoDTO user = userService.findByLoginName(dto.getLoginName());
+        dto = userService.findByLoginName(dto.getLoginName());
 
-        if (user == null) {
+        if (dto == null) {
             //如果本系统没有此用户，则新增
             //用户信息填充
+            dto =  new UserInfoDTO();
             dto.setUserName(name);
             dto.setEmail("未知");
             dto.setState("1");
@@ -83,7 +83,6 @@ public class SysAuthenticationController {
      * @Date: 2018/11/16
      */
     @GetMapping(value = "/user-details")
-    @ResponseBody
     //TODO andyzhao token参数不需要传递，因为token在http的header中传递了，用户对象在security的过滤器链中已经构建，可以
     // 通过调用SecurityUtils.getCurrentLogin()获取
     public ResultDTO getUserByToken(@RequestParam(value = "token", required = false) String token) {
