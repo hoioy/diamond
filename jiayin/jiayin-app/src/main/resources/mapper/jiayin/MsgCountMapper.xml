@@ -4,29 +4,39 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.hoioy.jiayin.domain.MsgCount">
-    <result column="id" property="id" />
-        <result column="user_id" property="userId" />
-        <result column="number" property="number" />
+        <result column="id" property="id"/>
+        <result column="openid" property="openid"/>
+        <result column="msg_count " property="msgCount"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id,
-        user_id, number
+        openid, msg_count,version
     </sql>
+
 
     <select id="selectPage" resultType="com.hoioy.jiayin.domain.MsgCount">
         select
-           <include refid="Base_Column_List" />
+        <include refid="Base_Column_List"/>
         from
-           jiayin_msg_count
+        jiayin_msg_count
         where
-           flag=1
+        flag=1
         <if test="msgCount.userId != null and msgCount.userId != ''">
             AND user_id = #{msgCount.userId}
         </if>
         <if test="msgCount.number != null and msgCount.number != ''">
             AND number = #{msgCount.number}
         </if>
+    </select>
+    <select id="selectByOpenid" resultType="com.hoioy.jiayin.domain.MsgCount">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        jiayin_msg_count
+        where
+        flag=1
+        AND openid = #{openid}
     </select>
 </mapper>

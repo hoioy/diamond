@@ -6,6 +6,7 @@
     <resultMap id="BaseResultMap" type="com.hoioy.jiayin.domain.MsgDraft">
     <result column="id" property="id" />
         <result column="title" property="title" />
+        <result column="openid" property="openid" />
         <result column="msg_type" property="msgType" />
         <result column="content" property="content" />
         <result column="views" property="views" />
@@ -16,8 +17,8 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id,
-        title, msg_type, content, views, status, contacts, contact_phone
+        id,openid,
+        title, msg_type, content, views, status, contacts, contact_phone,version
     </sql>
 
     <select id="selectPage" resultType="com.hoioy.jiayin.domain.MsgDraft">

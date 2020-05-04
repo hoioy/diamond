@@ -13,7 +13,7 @@
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id,
-        type_name, money, expiry_date
+        type_name, money, expiry_date,version
     </sql>
 
     <select id="selectPage" resultType="com.hoioy.jiayin.domain.MsgType">

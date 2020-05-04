@@ -6,13 +6,13 @@
     <resultMap id="BaseResultMap" type="com.hoioy.jiayin.domain.MsgCollect">
     <result column="id" property="id" />
         <result column="msg_id" property="msgId" />
-        <result column="user_id" property="userId" />
+        <result column="openid" property="openid" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id,
-        msg_id, user_id
+        msg_id, openid,version
     </sql>
 
     <select id="selectPage" resultType="com.hoioy.jiayin.domain.MsgCollect">
