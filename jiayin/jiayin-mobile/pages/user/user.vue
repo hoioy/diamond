@@ -60,14 +60,13 @@
 </template>
 
 <script>
-	import service from '../../service.js';
 	import * as loginAPI from '@/api/login.js';
 	import * as userAPI from '@/api/user.js';
 	import {
 		mapState,
 		mapMutations
 	} from 'vuex'
-	import mInput from '../../components/m-input.vue'
+	import mInput from '@/components/m-input.vue'
 
 	export default {
 		components: {
