@@ -22,5 +22,11 @@ export function bindDiamondUaaUser(userInfo) {
 		data: userInfo
 	})
 }
+//微信登录等OAuth2登录成功后做用户绑定
+export function weChatMiniAppLogin(appId,code) {
+	return request({
+		url: 'wx/user/'+appId+"/login?code="+code
+	})
+}
 
 
