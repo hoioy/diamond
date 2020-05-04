@@ -124,3 +124,9 @@ INSERT INTO `role_menu`(`id`, `menu_id`, `role_id`) VALUES ('5b66ecf45d634159a08
 -- ----------------------------
 
 INSERT INTO `role_user` (`role_id`,`user_id`,`id`) VALUES ('5b66ecf45d634159a08468898b1b3217', '6613831cac9e4597abbd0138116a8f3c', '5b66ecf45d634159a08468898b1b32176613831cac9e4597abbd0138116a8f3c');
+
+
+-- ----------------------------
+-- Records of jiayin_msg_count
+-- ----------------------------
+INSERT INTO `jiayin_msg_count`(`id`,`openid`,`msg_count`,`flag`,`created_by`,`modified_by`,`created_date`,`version`,`modified_date`) VALUES ('123123', 'admin', 20, 1, NULL, NULL, NULL, 5, '2020-05-05');
