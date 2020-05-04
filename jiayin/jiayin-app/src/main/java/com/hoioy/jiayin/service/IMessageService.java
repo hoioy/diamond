@@ -15,5 +15,4 @@ import com.hoioy.jiayin.dto.MessageDTO;
 public interface IMessageService<D extends DiamondDomain>  extends IBaseService<MessageDTO,D> {
 
 
-    String publishMsg(MessageDTO dto);
 }
