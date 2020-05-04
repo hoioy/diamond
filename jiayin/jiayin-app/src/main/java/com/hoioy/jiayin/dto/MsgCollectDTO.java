@@ -30,8 +30,8 @@ public class MsgCollectDTO  extends BaseDTO implements Serializable {
     private String msgId;
 
 
-    @ApiModelProperty(value = "用户id")
-    private String userId;
+    @ApiModelProperty(value = "小程序openid")
+    private String openid;
 
 
 

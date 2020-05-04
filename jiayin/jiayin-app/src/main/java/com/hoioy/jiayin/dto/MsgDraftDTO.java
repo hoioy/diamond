@@ -21,10 +21,15 @@ import java.io.Serializable;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-@ApiModel(value="MsgDraft对象", description="消息草稿")
-public class MsgDraftDTO  extends BaseDTO implements Serializable {
+@ApiModel(value = "MsgDraft对象", description = "消息草稿")
+public class MsgDraftDTO extends BaseDTO implements Serializable {
 
-    private static final long serialVersionUID=1L;
+    private static final long serialVersionUID = 1L;
+
+
+    @ApiModelProperty(value = "小程序openid")
+    private String openid;
+
 
     @ApiModelProperty(value = "标题")
     private String title;
@@ -52,7 +57,6 @@ public class MsgDraftDTO  extends BaseDTO implements Serializable {
 
     @ApiModelProperty(value = "联系电话")
     private String contactPhone;
-
 
 
 }

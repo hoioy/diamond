@@ -26,7 +26,8 @@ import java.time.LocalDate;
 public class MessageDTO  extends BaseDTO implements Serializable {
 
     private static final long serialVersionUID=1L;
-
+    @ApiModelProperty(value = "小程序openid")
+    private String openid;
     @ApiModelProperty(value = "标题")
     private String title;
 

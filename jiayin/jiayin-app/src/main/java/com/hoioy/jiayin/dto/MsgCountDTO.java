@@ -27,11 +27,11 @@ public class MsgCountDTO  extends BaseDTO implements Serializable {
     private static final long serialVersionUID=1L;
 
     @ApiModelProperty(value = "用户id")
-    private String userId;
+    private String openid;
 
 
     @ApiModelProperty(value = "剩余次数")
-    private Integer number;
+    private Integer msgCount;
 
 
 
