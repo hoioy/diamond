@@ -18,9 +18,9 @@ spring:
     # type=com.zaxxer.hikari.HikariDataSource    # mysql 8以下配置
     data: "classpath:init/mysqldata.sql"      #初始化sql配置
     username: root
-    password: admin
+    password: root
     data-username: root
-    data-password: admin
+    data-password: root
     schema: classpath:init/schemamysql.sql
   jpa:
     database-platform: org.hibernate.dialect.MySQL8Dialect
