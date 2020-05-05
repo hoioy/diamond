@@ -31,7 +31,6 @@ public class MessageController extends BaseController<IMessageService, MessageDT
     @Autowired
     private IMessageService messageService;
 
-
     @ApiOperation(value = "分页", notes = "分页")
     @PostMapping("/page")
     public ResultDTO page(@RequestBody PageDTO pageDTO) throws BaseException {
