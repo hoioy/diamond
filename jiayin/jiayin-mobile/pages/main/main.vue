@@ -23,11 +23,6 @@
 			};
 		},
 		onLoad() {
-			// if (!this.$store.state.authentication.token) {
-			// 	uni.reLaunch({
-			// 		url: '../login/login'
-			// 	});
-			// }
 			this.getMenuData();
 		},
 		methods: {

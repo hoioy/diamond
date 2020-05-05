@@ -1,6 +1,7 @@
 <template>
 	<view class="content">
-		<!-- <view class="input-group">
+		<!-- #ifndef MP -->
+		<view class="input-group">
 			<view class="input-row border">
 				<text class="title">账号：</text>
 				<m-input class="m-input" type="text" clearable focus v-model="account" placeholder="请输入账号"></m-input>
@@ -13,6 +14,8 @@
 		<view class="btn-row">
 			<button type="primary" class="primary" @tap="bindLogin">登录</button>
 		</view>
+		<!-- #endif -->
+		<!-- 
 		<view class="action-row">
 			<navigator url="../reg/reg">注册账号</navigator>
 			<text>|</text>
@@ -81,24 +84,50 @@
 				positionTop: 0,
 				isDevtools: false,
 				hasLogin: this.$store.state.authentication.token,
-				user: this.$store.state.authentication.user
+				user: {}
 			}
 		},
-		onLoad() {
-			userAPI.getUser().then(data => {
-				var [error, res] = data;
-				if (res.data.code == 200) {
-					this.user = res.data.data;
-				}
-			})
-		},
 		computed: mapState(['forcedLogin']),
+		onLoad() {
+			this.initData();
+		},
 		methods: {
 			...mapMutations(['login']),
+			initData() {
+				if (this.hasLogin) {
+					userAPI.getUser((res) => {
+						this.user = res.data.data;
+					})
+				}
+			},
 			bindLogout() {
 				this.$store.dispatch('Logout').then(() => {
 					this.hasLogin = false
 					this.user = {}
+				})
+			},
+			bindLogin() {
+				/**
+				 * 客户端对账号信息进行一些必要的校验。
+				 * 实际开发中，根据业务需要进行处理，这里仅做示例。
+				 */
+				if (this.account.length < 5) {
+					uni.showToast({
+						icon: 'none',
+						title: '账号最短为 5 个字符'
+					});
+					return;
+				}
+				if (this.password.length < 5) {
+					uni.showToast({
+						icon: 'none',
+						title: '密码最短为 5 个字符'
+					});
+					return;
+				}
+				this.jwtLogin({
+					username: this.account,
+					password: this.password
 				})
 			},
 			initProvider() {
@@ -130,53 +159,16 @@
 				 */
 				this.positionTop = uni.getSystemInfoSync().windowHeight - 100;
 			},
-			// bindLogin() {
-			// 	/**
-			// 	 * 客户端对账号信息进行一些必要的校验。
-			// 	 * 实际开发中，根据业务需要进行处理，这里仅做示例。
-			// 	 */
-			// 	if (this.account.length < 5) {
-			// 		uni.showToast({
-			// 			icon: 'none',
-			// 			title: '账号最短为 5 个字符'
-			// 		});
-			// 		return;
-			// 	}
-			// 	if (this.password.length < 5) {
-			// 		uni.showToast({
-			// 			icon: 'none',
-			// 			title: '密码最短为 5 个字符'
-			// 		});
-			// 		return;
-			// 	}
-			// 	/**
-			// 	 * 下面简单模拟下服务端的处理
-			// 	 * 检测用户账号密码是否在已注册的用户列表中
-			// 	 * 实际开发中，使用 uni.request 将账号信息发送至服务端，客户端在回调函数中获取结果信息。
-			// 	 */
-			// 	jwtLogin({
-			// 		username: this.account,
-			// 		password: this.password
-			// 	})
-			// },
 			jwtLogin(param) {
-				const toMainTmp = this.toMain
-				loginAPI.login(param).then(data => { //res为一个数组，数组第一项为错误信息，第二项为返回数据
-					var [error, res] = data;
-					if (res.data.code == 200) {
-						this.$store.dispatch('LoginSuccess', res.data.data).then(() => {
-							loginAPI.getUser().then(userData => {
-								var [userDataError, userDataRes] = userData;
-								if (userDataRes.data.code == 200) {
-									this.$store.dispatch('GetUserSuccesss', userDataRes.data.data).then(() => {
-										toMainTmp();
-									})
-								}
+				loginAPI.login(param, (data) => { //res为一个数组，数组第一项为错误信息，第二项为返回数据
+					this.$store.dispatch('LoginSuccess', data.data).then(() => {
+						loginAPI.getUser((userData) => {
+							this.user = userData.data
+							this.$store.dispatch('GetUserSuccesss', userData.data).then(() => {
+								this.hasLogin = true
 							})
 						})
-					} else {
-						this.toast('用户账号或密码不正确')
-					}
+					})
 				})
 			},
 			oauthGetUserInfo(provider, openId, sessionKey) {
@@ -191,49 +183,26 @@
 							province: infoRes.userInfo.province,
 							city: infoRes.userInfo.city,
 							language: infoRes.userInfo.language
-						}).then(data => { //res为一个数组，数组第一项为错误信息，第二项为返回数据
-							var [error, res] = data;
-							if (res.data.code == 200) {
-								//绑定用户成功后，调用/auth接口登录后端获取自定义jwt token
-								this.jwtLogin({
-									username: openId,
-									password: '123456'
-								})
-							} else {
-								this.toast('绑定用户失败')
-							}
+						}, (data) => { //res为一个数组，数组第一项为错误信息，第二项为返回数据
+							//绑定用户成功后，调用/auth接口登录后端获取自定义jwt token
+							this.jwtLogin({
+								username: openId,
+								password: '123456'
+							})
 						})
-					},
-					fail() {
-						this.toast('服务器获取token失败，请尝试重新登录')
 					}
 				});
-			},
-			toast(msg) {
-				this.$store.dispatch('Logout').then(() => {
-					uni.showToast({
-						icon: 'none',
-						title: msg,
-					});
-				})
 			},
 			oauth(value) {
 				uni.login({
 					provider: value,
 					success: (res) => {
-						loginAPI.weChatMiniAppLogin('wxccbae6dc90e98a2f', res.code)
-							.then(data => { //res为一个数组，数组第一项为错误信息，第二项为返回数据
-								var [error, res] = data;
-								if (res.data.code == 200) {
-									//绑定用户成功后，调用/auth接口登录后端获取自定义jwt token
-									this.oauthGetUserInfo(value, res.data.data.openid, res.data.data.sessionKey)
-								} else {
-									this.toast('服务器获取token失败，请尝试重新登录')
-								}
-							})
+						loginAPI.weChatMiniAppLogin('wxccbae6dc90e98a2f', res.code, (data) => {
+							//绑定用户成功后，调用/auth接口登录后端获取自定义jwt token
+							this.oauthGetUserInfo(value, data.data.openid, data.data.sessionKey)
+						})
 					},
 					fail: (err) => {
-						this.toast('授权登录失败')
 						console.error('授权登录失败：' + JSON.stringify(err));
 					}
 				});
@@ -242,18 +211,16 @@
 				detail
 			}) {
 				if (detail.userInfo) {
-					this.toMain();
+					uni.showToast({
+						icon: 'none',
+						title: '登陆成功'
+					});
 				} else {
 					uni.showToast({
 						icon: 'none',
 						title: '登陆失败'
 					});
 				}
-			},
-			toMain() {
-				uni.reLaunch({
-					url: '/pages/message/message-list/message-list'
-				});
 			}
 		},
 		onReady() {
@@ -268,6 +235,7 @@
 
 <style>
 	@import '../../common/uni-nvue.css';
+
 	.action-row {
 		display: flex;
 		flex-direction: row;

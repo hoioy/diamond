@@ -33,7 +33,6 @@
 </template>
 
 <script>
-	import service from '../../service.js';
 	import * as loginAPI from '@/api/login.js';
 	import {
 		mapState,
@@ -106,11 +105,6 @@
 					});
 					return;
 				}
-				/**
-				 * 下面简单模拟下服务端的处理
-				 * 检测用户账号密码是否在已注册的用户列表中
-				 * 实际开发中，使用 uni.request 将账号信息发送至服务端，客户端在回调函数中获取结果信息。
-				 */
 				jwtLogin({
 					username: this.account,
 					password: this.password
@@ -118,7 +112,7 @@
 			},
 			jwtLogin(param) {
 				const toMainTmp = this.toMain
-				loginAPI.login(param).then(data => { //res为一个数组，数组第一项为错误信息，第二项为返回数据
+				loginAPI.login(param,(data) => { //res为一个数组，数组第一项为错误信息，第二项为返回数据
 					var [error, res] = data;
 					if (res.data.code == 200) {
 						this.$store.dispatch('LoginSuccess', res.data.data).then(() => {
@@ -151,7 +145,7 @@
 							province: infoRes.userInfo.province,
 							city: infoRes.userInfo.city,
 							language: infoRes.userInfo.language
-						}).then(data => { //res为一个数组，数组第一项为错误信息，第二项为返回数据
+						},(data) => { //res为一个数组，数组第一项为错误信息，第二项为返回数据
 							var [error, res] = data;
 							if (res.data.code == 200) {
 								//绑定用户成功后，调用/auth接口登录后端获取自定义jwt token
@@ -179,8 +173,7 @@
 				uni.login({
 					provider: value,
 					success: (res) => {
-						loginAPI.weChatMiniAppLogin('wxccbae6dc90e98a2f', res.code)
-							.then(data => { //res为一个数组，数组第一项为错误信息，第二项为返回数据
+						loginAPI.weChatMiniAppLogin('wxccbae6dc90e98a2f', res.code,(data) => { //res为一个数组，数组第一项为错误信息，第二项为返回数据
 								var [error, res] = data;
 								if (res.data.code == 200) {
 									//绑定用户成功后，调用/auth接口登录后端获取自定义jwt token

@@ -29,7 +29,6 @@
 		data() {
 			return {
 				hasLogin: this.$store.state.authentication.token,
-				user: this.$store.state.authentication.user,
 				listData: [],
 				last_page: 1,
 				reload: false, //是否刷新模式，false：瀑布流
@@ -42,13 +41,13 @@
 			};
 		},
 		onLoad() {
-			if (!this.$store.state.authentication.token) {
+			if (!this.hasLogin) {
 				uni.reLaunch({
-					url: '/pages/login/login'
+					url: '/pages/user/user'
 				});
+			}else{
+				this.getList();
 			}
-
-			this.getList();
 		},
 		onPullDownRefresh() {
 			this.reload = true;
@@ -73,23 +72,21 @@
 					"page": this.last_page,
 					"pageSize": 10,
 					"sorts": {}
-				}).then(data => {
-					var [error, res] = data;
-					if (res.data.code == 200) {
-						if (this.reload) {
-							this.listData = res.data.data.list;
+				},(data) => {
+					debugger
+					if (this.reload) {
+						this.listData = data.data.list;
+						this.status = 'more';
+					} else {
+						this.listData = this.listData.concat(data.data.list);
+						if (data.data.list.length > 0) {
 							this.status = 'more';
 						} else {
-							this.listData = this.listData.concat(res.data.data.list);
-							if (res.data.data.list.length > 0) {
-								this.status = 'more';
-							} else {
-								this.status = 'noMore';
-							}
+							this.status = 'noMore';
 						}
-						this.reload = false;
-						uni.stopPullDownRefresh();
 					}
+					this.reload = false;
+					uni.stopPullDownRefresh();
 				})
 			},
 			goDetail: function(e) {
