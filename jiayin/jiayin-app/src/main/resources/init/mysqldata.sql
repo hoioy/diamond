@@ -130,3 +130,11 @@ INSERT INTO `role_user` (`role_id`,`user_id`,`id`) VALUES ('5b66ecf45d634159a084
 -- Records of jiayin_msg_count
 -- ----------------------------
 INSERT INTO `jiayin_msg_count`(`id`,`openid`,`msg_count`,`flag`,`created_by`,`modified_by`,`created_date`,`version`,`modified_date`) VALUES ('123123', 'admin', 20, 1, NULL, NULL, NULL, 5, '2020-05-05');
+
+-- ----------------------------
+-- Records of jiayin_msg_type
+-- ----------------------------
+INSERT INTO `jiayin_msg_type` VALUES ('08f1750267aff6081955446e255aee5e', '用工', '0', NULL, 1, NULL, NULL, '2020-05-05', NULL, '2020-05-05', NULL);
+INSERT INTO `jiayin_msg_type` VALUES ('09f0bca832232683259de9652ba2dc8f', '房屋', '0', NULL, 1, NULL, NULL, '2020-05-05', NULL, '2020-05-05', NULL);
+INSERT INTO `jiayin_msg_type` VALUES ('2c53d081bbcd42592c5ca04869bb1271', '土地', '0', NULL, 1, NULL, NULL, '2020-05-05', NULL, '2020-05-05', NULL);
+INSERT INTO `jiayin_msg_type` VALUES ('d243c4ff3673400eb345b8c85ed72345', '木匠', '0', NULL, 1, NULL, NULL, '2020-05-05', NULL, '2020-05-05', '08f1750267aff6081955446e255aee5e');
