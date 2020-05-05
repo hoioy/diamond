@@ -6,6 +6,8 @@ import com.hoioy.diamond.common.base.IBaseMapper;
 import com.hoioy.jiayin.domain.MsgType;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 /**
  * <p>
  * 消息类型 Mapper 接口
@@ -20,4 +22,8 @@ public interface MsgTypeMapper extends IBaseMapper<MsgType> {
      * 分页
      */
     IPage<MsgType> selectPage(@Param("page") Page page, @Param("msgType") MsgType msgType);
+
+    List<MsgType> selectAllParent();
+
+    List<MsgType> selectChildrenByParentId(String parentId);
 }

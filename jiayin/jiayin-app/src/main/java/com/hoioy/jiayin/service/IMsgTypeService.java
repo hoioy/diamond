@@ -4,6 +4,8 @@ import com.hoioy.diamond.common.domain.DiamondDomain;
 import com.hoioy.diamond.common.service.IBaseService;
 import com.hoioy.jiayin.dto.MsgTypeDTO;
 
+import java.util.List;
+
 /**
  * <p>
  * 消息类型 服务类
@@ -15,5 +17,7 @@ import com.hoioy.jiayin.dto.MsgTypeDTO;
 public interface IMsgTypeService<D extends DiamondDomain>  extends IBaseService<MsgTypeDTO,D> {
 
 
+    List<MsgTypeDTO>  selectAllParent();
 
+    List<MsgTypeDTO> selectChildrenByParentId(String parentId);
 }

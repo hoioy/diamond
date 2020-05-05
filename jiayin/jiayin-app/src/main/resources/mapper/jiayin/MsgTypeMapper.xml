@@ -13,7 +13,7 @@
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id,
-        type_name, money, expiry_date,version
+        type_name, money, expiry_date,version,created_date,modified_date,created_by,created_by
     </sql>
 
     <select id="selectPage" resultType="com.hoioy.jiayin.domain.MsgType">
@@ -32,5 +32,25 @@
         <if test="msgType.expiryDate != null and msgType.expiryDate != ''">
             AND expiry_date = #{msgType.expiryDate}
         </if>
+    </select>
+    <select id="selectAllParent" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from
+        jiayin_msg_type
+        where
+        flag=1
+        and parent_id is null
+    </select>
+
+
+    <select id="selectChildrenByParentId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from
+        jiayin_msg_type
+        where
+        flag=1
+        and parent_id= #{parentId}
     </select>
 </mapper>
