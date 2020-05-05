@@ -446,7 +446,8 @@ CREATE TABLE `jiayin_msg_type`  (
   `modified_by` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '修改人',
   `created_date` date NULL DEFAULT NULL COMMENT '创建时间',
   `version` int(11) NULL DEFAULT NULL,
-  `modified_date` date NULL DEFAULT NULL COMMENT '修改时间'
+  `modified_date` date NULL DEFAULT NULL COMMENT '修改时间',
+  `parent_id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '父id'
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '消息类型表' ROW_FORMAT = Dynamic;
 
 SET FOREIGN_KEY_CHECKS = 1;
