@@ -36,10 +36,16 @@
 		{
 			"path": "pages/user/user",
 			"style": {
-				"navigationBarTitleText": "我的"
+				"navigationBarTitleText": "登录"
 			}
 		}
-	],
+	    ,{
+            "path" : "pages/user/usermy",
+            "style" : {
+				"navigationBarTitleText": "我的"
+			}
+        }
+    ],
 	"tabBar": {
 		"color": "#7a7e83",
 		"selectedColor": "#0faeff",
@@ -56,6 +62,11 @@
 			"selectedIconPath": "static/img/plusHL.png"
 		},{
 			"pagePath": "pages/user/user",
+			"text": "登录",
+			"iconPath": "static/img/user.png",
+			"selectedIconPath": "static/img/userHL.png"
+		},{
+			"pagePath": "pages/user/usermy",
 			"text": "我的",
 			"iconPath": "static/img/user.png",
 			"selectedIconPath": "static/img/userHL.png"
@@ -63,7 +74,7 @@
 	},
 	"globalStyle": {
 		"navigationBarTextStyle": "white",
-		"navigationBarBackgroundColor": "#0faeff",
-		"backgroundColor": "#fbf9fe"
+		"navigationBarBackgroundColor": "#FFD700",
+		"backgroundColor": "#EEEE00"
 	}
 }
