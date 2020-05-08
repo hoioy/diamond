@@ -58,18 +58,18 @@
 	}
 	
     .user{
-	width: 750rpx;
-	height: 200rpx;
-	background-color: #FFD700;
-	z-index: -1;
-	display: flex;
+		width: 750rpx;
+		height: 200rpx;
+		background-color: #FFD700;
+		z-index: -1;
+		display: flex;
 	}
     .my{
-	  width: 90%;
-	  height: 250rpx;
-	  display: flex;
-	  background-color: #FFFFFF;
-	  margin: 10rpx auto;
+	    width: 90%;
+	    height: 250rpx;
+	    display: flex;
+	    background-color: #FFFFFF;
+	    margin: 10rpx auto;
 	  
 	}   
 	.my_item{
