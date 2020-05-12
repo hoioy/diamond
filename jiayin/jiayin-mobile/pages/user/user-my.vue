@@ -15,23 +15,10 @@
 		
 		</view>
 		<view class="my">
-			<view class="my_item">
-				<view class="iconfont icon-shoucang"></view>
-				<view  class="my_font">收藏</view>
+			<view class="my_item" v-for="(item,index) in navs" :key="index" @click="pageJump(item.path)">
+				<view :class="item.icon"></view>
+				<view  class="my_font">{{item.title}}</view>
 			</view>
-			<view class="my_item">
-				<view class="iconfont icon-zuji"></view>
-				<view class="my_font">足迹</view>
-			</view>
-			<view class="my_item">
-				<view class="iconfont .icon-draft"></view>
-				<view class="my_font">草稿箱</view>
-			</view>
-			<view class="my_item">
-				<view class="iconfont .icon-lianxiwomen1-copy"></view>
-				<view class="my_font">联系我们</view>
-			</view>
-	
 		</view>
 	</view>
 
@@ -41,10 +28,39 @@
 	export default {
 		data() {
 			return {
+				navs:[
+					{
+						icon:'iconfont icon-shoucang',
+						title: '收藏',
+						path: '/pages/collect/collect-list' 
+					},
+					{
+						icon:'iconfont icon-zuji',
+						title: '足迹',
+						path: '/pages/history/history-list' 
+					},
+					{
+						icon:'iconfont .icon-draft',
+						title: '草稿箱',
+						path: '/pages/draft/draft-list' 
+					},
+					{
+						icon:'iconfont .icon-lianxiwomen1-copy',
+						title: '联系我们',
+						path: '/pages/contact/contact-our' 
+					},
+				]
 				
 			}
 		},
 		methods: {
+			//页面跳转
+			pageJump(url){
+				console.log(url)
+			 uni.navigateTo({
+			 	url
+			 })	
+			}
 			
 		}
 	}
