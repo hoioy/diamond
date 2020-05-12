@@ -48,6 +48,7 @@ public class SecurityConfig extends DiamondJwtWebSecurityConfigurerAdapter {
                 .antMatchers("/bindDiamondUaaUser").permitAll()
                 .antMatchers("/files/**").permitAll()
                 .antMatchers("/user-upload-avatar-rest").permitAll()
+                .antMatchers("/.well-known/pki-validation/**").permitAll()
                 // 使其支持跨域
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                 .anyRequest().fullyAuthenticated()

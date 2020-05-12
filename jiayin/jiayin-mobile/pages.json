@@ -1,6 +1,13 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页,
 		{
+			"path": "pages/tabbar/tabbar",
+			"style": {
+				"navigationBarTitleText": "拖动标签",
+				"enablePullDownRefresh": true
+			}
+		}, 
+		{
 			"path": "pages/message/message-list/message-list",
 			"style": {
 				"navigationBarTitleText": "消息列表",
@@ -51,6 +58,11 @@
 		"selectedColor": "#0faeff",
 		"backgroundColor": "#ffffff",
 		"list": [{
+			"pagePath": "pages/tabbar/tabbar",
+			"text": "拖动标签",
+			"iconPath": "static/img/home.png",
+			"selectedIconPath": "static/img/homeHL.png"
+		},{
 			"pagePath": "pages/message/message-list/message-list",
 			"text": "消息列表",
 			"iconPath": "static/img/home.png",

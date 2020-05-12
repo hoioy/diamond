@@ -58,7 +58,7 @@ public class MessageServiceImpl extends BaseServiceImpl<MessageMapper, Message, 
         dto.setOpenid(userName);
         //查询用户次数表 看用户是否可以发布消息，
         MsgCount msgCount = msgCountMapper.selectByOpenid(userName);
-        if (msgCount.getMsgCount() > 0) {
+        if (msgCount != null && msgCount.getMsgCount() > 0) {
             String save = super.save(dto);
             //发布成功减少次数
             msgCount.setMsgCount(msgCount.getMsgCount()-1);

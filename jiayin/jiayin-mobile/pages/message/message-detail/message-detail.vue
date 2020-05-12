@@ -88,7 +88,7 @@
 						});
 					})
 				} else {
-					messageAPI.addMessage(this.messagem,(data) => {
+					messageAPI.addMessage(this.message,(data) => {
 						uni.showToast({
 							title: '保存成功'
 						});

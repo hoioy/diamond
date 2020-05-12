@@ -28,7 +28,6 @@
 		},
 		data() {
 			return {
-				hasLogin: this.$store.state.authentication.token,
 				listData: [],
 				last_page: 1,
 				reload: false, //是否刷新模式，false：瀑布流
@@ -41,7 +40,11 @@
 			};
 		},
 		onLoad() {
-			if (!this.hasLogin) {
+			
+		},
+		onShow() {
+			var token = uni.getStorageSync('token').access_token;
+			if (!token) {
 				uni.reLaunch({
 					url: '/pages/user/user'
 				});
@@ -73,7 +76,6 @@
 					"pageSize": 10,
 					"sorts": {}
 				},(data) => {
-					debugger
 					if (this.reload) {
 						this.listData = data.data.list;
 						this.status = 'more';
