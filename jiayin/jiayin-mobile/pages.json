@@ -40,10 +40,26 @@
 			}
 		}
 	    ,{
-            "path" : "pages/user/usermy",
+            "path" : "pages/user/user-my",
             "style" : {
 				"navigationBarTitleText": "我的"
 			}
+        }
+        ,{
+            "path" : "pages/collect/collect-list",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/contact/contact-our",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/draft/draft-list",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/history/history-list",
+            "style" : {}
         }
     ],
 	"tabBar": {
@@ -66,7 +82,7 @@
 			"iconPath": "static/img/user.png",
 			"selectedIconPath": "static/img/userHL.png"
 		},{
-			"pagePath": "pages/user/usermy",
+			"pagePath": "pages/user/user-my",
 			"text": "我的",
 			"iconPath": "static/img/user.png",
 			"selectedIconPath": "static/img/userHL.png"
