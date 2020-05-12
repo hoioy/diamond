@@ -83,13 +83,17 @@
 			saveMessage() {
 				if (this.message.id) {
 					messageAPI.updateMessage(this.message,(data) => {
+						debugger
 						uni.showToast({
+							duration: 2000,
 							title: '保存成功'
 						});
 					})
 				} else {
 					messageAPI.addMessage(this.message,(data) => {
+						debugger
 						uni.showToast({
+							duration: 2000,
 							title: '保存成功'
 						});
 					})

@@ -5,7 +5,7 @@ const websiteUrl = 'https://www.hoioy.com/';
 const onDefaultFail = function(error, onError) {
 	store.dispatch('Logout').then((logoutResult) => {
 		uni.showToast({
-			icon: 'none',
+			duration: 2000,
 			title: error,
 		});
 		if (onError) {

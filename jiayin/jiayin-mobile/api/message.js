@@ -20,7 +20,8 @@ export function addMessage(data,onSuccess) {
 	return request({
 		url: 'jiayin/message/save',
 		method: 'POST',
-		data: data
+		data: data,
+		onSuccess: onSuccess
 	})
 }
 
@@ -28,6 +29,7 @@ export function updateMessage(data,onSuccess) {
 	return request({
 		url: 'jiayin/message/update',
 		method: 'PUT',
-		data: data
+		data: data,
+		onSuccess: onSuccess
 	})
 }

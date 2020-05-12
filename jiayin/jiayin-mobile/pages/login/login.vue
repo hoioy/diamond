@@ -100,7 +100,7 @@
 				}
 				if (this.password.length < 5) {
 					uni.showToast({
-						icon: 'none',
+						duration: 2000,
 						title: '密码最短为 5 个字符'
 					});
 					return;
@@ -127,8 +127,8 @@
 						})
 					} else {
 						uni.showToast({
-							icon: 'none',
-							title: '用户账号或密码不正确',
+						    title: '用户账号或密码不正确',
+						    duration: 2000
 						});
 					}
 				})
@@ -155,8 +155,8 @@
 								})
 							} else {
 								uni.showToast({
-									icon: 'none',
-									title: '用户账号或密码不正确',
+									duration: 2000,
+									title: '用户账号或密码不正确'
 								});
 							}
 						})
@@ -180,7 +180,7 @@
 									this.oauthGetUserInfo(value, res.data.data.openid, res.data.data.sessionKey)
 								} else {
 									uni.showToast({
-										icon: 'none',
+										duration: 2000,
 										title: '用户账号或密码不正确',
 									});
 								}
@@ -198,7 +198,7 @@
 					this.toMain();
 				} else {
 					uni.showToast({
-						icon: 'none',
+						duration: 2000,
 						title: '登陆失败'
 					});
 				}

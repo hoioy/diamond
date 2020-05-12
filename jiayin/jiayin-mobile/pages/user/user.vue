@@ -46,7 +46,7 @@
 				<view class="title">{{user.email}}</view>
 			</view>
 		</view>
-		<view v-if="hasLogin">
+		<!-- <view v-if="hasLogin">
 			<view class="uni-panel">
 				<view class="uni-panel-h">
 					<navigator url="../pwd/pwd"></navigator>
@@ -54,8 +54,11 @@
 					<text class="uni-panel-icon uni-icon">&#xe470;</text>
 				</view>
 			</view>
-		</view>
+		</view> -->
 		<view v-if="hasProvider">
+			<!-- #ifdef MP-WEIXIN -->
+			<button v-if="needBeforeLogin" open-type='getUserInfo'>获取授权</button>
+			<!-- #endif -->
 			<button v-if="hasLogin" type="default" @tap="bindLogout">退出</button>
 			<button v-if="!hasLogin" type="primary" class="primary" @tap="oauth('weixin')">微信登录</button>
 		</view>
@@ -83,7 +86,8 @@
 				password: 'admin',
 				positionTop: 0,
 				isDevtools: false,
-				hasLogin: this.$store.state.authentication.token,
+				hasLogin: uni.getStorageSync('token'),
+				needBeforeLogin: false, //当清除缓存时候需要用户重新授权
 				user: {}
 			}
 		},
@@ -94,7 +98,7 @@
 		methods: {
 			...mapMutations(['login']),
 			initData() {
-				if (this.hasLogin) {
+				if (uni.getStorageSync('token')) {
 					userAPI.getUser((res) => {
 						this.user = res.data.data;
 					})
@@ -102,7 +106,6 @@
 			},
 			bindLogout() {
 				this.$store.dispatch('Logout').then(() => {
-					this.hasLogin = false
 					this.user = {}
 				})
 			},
@@ -113,14 +116,14 @@
 				 */
 				if (this.account.length < 5) {
 					uni.showToast({
-						icon: 'none',
+						duration: 2000,
 						title: '账号最短为 5 个字符'
 					});
 					return;
 				}
 				if (this.password.length < 5) {
 					uni.showToast({
-						icon: 'none',
+						duration: 2000,
 						title: '密码最短为 5 个字符'
 					});
 					return;
@@ -165,13 +168,14 @@
 						loginAPI.getUser((userData) => {
 							this.user = userData.data
 							this.$store.dispatch('GetUserSuccesss', userData.data).then(() => {
-								this.hasLogin = true
+								
 							})
 						})
 					})
 				})
 			},
 			oauthGetUserInfo(provider, openId, sessionKey) {
+				console.log(provider, openId, sessionKey)
 				uni.getUserInfo({
 					provider: provider,
 					success: (infoRes) => {
@@ -190,6 +194,15 @@
 								password: '123456'
 							})
 						})
+					},
+					fail: (err)=>{
+						console.error(err)
+						this.needBeforeLogin = true;
+						uni.showToast({
+						    title: '获取微信用户失败:'+err,
+							icon: 'none',
+						    duration: 2000
+						});
 					}
 				});
 			},
@@ -212,13 +225,13 @@
 			}) {
 				if (detail.userInfo) {
 					uni.showToast({
-						icon: 'none',
-						title: '登陆成功'
+					    title: '登陆成功',
+					    duration: 2000
 					});
 				} else {
 					uni.showToast({
-						icon: 'none',
-						title: '登陆失败'
+					    title: '登陆成功',
+					    duration: 2000
 					});
 				}
 			}
