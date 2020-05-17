@@ -1,6 +1,6 @@
 import store from 'store'
 
-const websiteUrl = 'https://localhost:7779/';
+const websiteUrl = 'http://localhost:7779/';
 // const websiteUrl = 'https://www.hoioy.com/';
 const onDefaultFail = function(error, onError) {
 	store.dispatch('Logout').then((logoutResult) => {

@@ -57,10 +57,3 @@ wx:
 #        aesKey: #微信小程序消息服务器配置的EncodingAESKey
         msgDataFormat: JSON
 
-
-# HTTPS的密钥配置
-server:
-  ssl:
-    key-store: classpath:www.hoioy.com.jks
-    key-store-password: 123456
-    keyStoreType: JKS

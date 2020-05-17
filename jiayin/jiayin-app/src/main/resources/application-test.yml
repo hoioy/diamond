@@ -73,3 +73,11 @@ mybatis-plus:
     map-underscore-to-camel-case: true     #是否开启自动驼峰命名规则（camel case）映射,如果明明规范不需要使用@TableField
     cache-enabled: false
     call-setters-on-nulls: true
+
+
+# HTTPS的密钥配置
+server:
+  ssl:
+    key-store: classpath:www.hoioy.com.jks
+    key-store-password: 123456
+    keyStoreType: JKS

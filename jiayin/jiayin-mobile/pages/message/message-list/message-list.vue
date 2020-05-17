@@ -2,13 +2,18 @@
 	<view>
 		<view class="uni-list">
 			<view class="uni-list-cell" hover-class="uni-list-cell-hover" v-for="(value, key) in listData" :key="key" @click="goDetail(value)">
-				<view class="uni-media-list">
-					<!-- <image class="uni-media-list-logo" :src="value.cover"></image> -->
-					<view class="uni-media-list-body">
-						<view class="uni-media-list-text-top">{{ value.title }}</view>
-						<view class="uni-media-list-text-bottom">
-							<text>{{ value.content }}</text>
-							<text>{{ value.createdDate }}</text>
+				<view class="message-list-item">
+					<!-- <image class="message-list-item-logo" :src="value.cover"></image> -->
+					<view class="message-list-item-body">
+						<view class="message-list-item-title">{{ value.title }}</view>
+						<view class="message-list-item-status-expareTime">
+							<view class="message-list-item-status">{{ !value.status?'无状态': value.status}}</view>
+							<view class="message-list-item-expareTime">有效期:{{ value.expareTime }}</view>
+						</view>
+						<view class="message-list-item-content">{{ value.content }}</view>
+						<view class="message-list-item-contacts-views">
+							<view class="message-list-item-contacts">{{ value.contacts+":"+value.contactPhone }}</view>
+							<view class="message-list-item-views">浏览:{{ value.views }}次</view>
 						</view>
 					</view>
 				</view>
@@ -28,7 +33,26 @@
 		},
 		data() {
 			return {
-				listData: [],
+				listData: [{
+					"id": null,
+					"parentId": null,
+					"remark": null,
+					"flag": null,
+					"createdDate": null,
+					"modifiedDate": null,
+					"createdBy": null,
+					"modifiedBy": null,
+					"version": null,
+					"title": "234234234",
+					"openid": "admin",
+					"msgType": null,
+					"content": "123123123",
+					"views": null,
+					"status": null,
+					"expareTime": null,
+					"contacts": "123123123",
+					"contactPhone": "123123123"
+				}],
 				last_page: 1,
 				reload: false, //是否刷新模式，false：瀑布流
 				status: 'more',
@@ -40,7 +64,7 @@
 			};
 		},
 		onLoad() {
-			
+
 		},
 		onShow() {
 			var token = uni.getStorageSync('token').access_token;
@@ -48,7 +72,7 @@
 				uni.reLaunch({
 					url: '/pages/user/user'
 				});
-			}else{
+			} else {
 				this.getList();
 			}
 		},
@@ -75,7 +99,7 @@
 					"page": this.last_page,
 					"pageSize": 10,
 					"sorts": {}
-				},(data) => {
+				}, (data) => {
 					if (this.reload) {
 						this.listData = data.data.list;
 						this.status = 'more';
@@ -101,5 +125,69 @@
 </script>
 
 <style>
+	.message-list-item {
+		display: flex;
+		flex-direction: column;
+		border-bottom: 1px solid #B2B2B2;
+	}
 
+	.message-list-item-body {
+		margin-top: 10px;
+		margin-bottom: 10px;
+		display: flex;
+		flex-direction: column;
+		width: 750rpx;
+	}
+
+	.message-list-item-title {
+		font-size: 17pt;
+		color: #000000;
+		padding-left: 15px;
+	}
+
+	.message-list-item-status-expareTime {
+		display: flex;
+		justify-content: space-between;
+		margin-top: 8px;
+		font-size: 11pt;
+		color: #888888;
+		padding-left: 15px;
+		padding-right: 15px;
+	}
+
+	.message-list-item-status {
+		background-color: #09BB07;
+		color: #FFFFFF;
+		padding-left: 5px;
+		padding-right: 5px;
+		padding-top: 2px;
+		padding-bottom: 2px;
+		border-radius: 20rpx;
+	}
+
+	.message-list-item-status-color {}
+
+	.message-list-item-expareTime {}
+
+	.message-list-item-content {
+		margin-top: 8px;
+		font-size: 14pt;
+		color: #353535;
+		padding-left: 15px;
+		padding-right: 15px;
+	}
+
+	.message-list-item-contacts-views {
+		display: flex;
+		justify-content: space-between;
+		margin-top: 8px;
+		font-size: 11pt;
+		color: #888888;
+		padding-left: 15px;
+		padding-right: 15px;
+	}
+
+	.message-list-item-contacts {}
+
+	.message-list-item-views {}
 </style>
