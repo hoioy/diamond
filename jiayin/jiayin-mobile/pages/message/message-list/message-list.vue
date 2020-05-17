@@ -67,14 +67,7 @@
 
 		},
 		onShow() {
-			var token = uni.getStorageSync('token').access_token;
-			if (!token) {
-				uni.reLaunch({
-					url: '/pages/user/user'
-				});
-			} else {
-				this.getList();
-			}
+			this.getList();
 		},
 		onPullDownRefresh() {
 			this.reload = true;
@@ -87,11 +80,6 @@
 			this.getList();
 		},
 		methods: {
-			trigger(e) {
-				uni.navigateTo({
-					url: '/pages/message/message-detail/message-detail'
-				});
-			},
 			getList() {
 				this.status = 'loading';
 				messageAPI.getPage({
@@ -117,7 +105,7 @@
 			},
 			goDetail: function(e) {
 				uni.navigateTo({
-					url: '/pages/message/message-list/message-list.vue?id=' + e.id,
+					url: '../message-detail/message-detail?id=' + e.id,
 				});
 			}
 		}

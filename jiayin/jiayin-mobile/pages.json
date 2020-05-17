@@ -61,6 +61,12 @@
             "path" : "pages/history/history-list",
             "style" : {}
         }
+        ,{
+            "path" : "pages/message/message-save/message-save",
+            "style" : {
+				"navigationBarTitleText": "编辑消息"
+			}
+        }
     ],
 	"tabBar": {
 		"color": "#7a7e83",
@@ -72,8 +78,7 @@
 			"iconPath": "static/img/home.png",
 			"selectedIconPath": "static/img/homeHL.png"
 		},{
-			"pagePath": "pages/message/message-detail/message-detail",
-			"text": "新增",
+			"pagePath": "pages/message/message-save/message-save",
 			"iconPath": "static/img/plus.png",
 			"selectedIconPath": "static/img/plusHL.png"
 		},{
