@@ -30,7 +30,7 @@ const request = function(param) {
 				if (res.data.status == 500) {
 					onDefaultFail(res.errMsg, (logoutResult) => {
 						uni.reLaunch({
-							url: '../pages/user/user.vue'
+							url: '../pages/user/user-login.vue'
 						});
 					})
 				}
@@ -41,7 +41,7 @@ const request = function(param) {
 						if (res.data.message.indexOf('Full authentication') >= 0) {
 							onDefaultFail(res.data.message, (logoutResult) => {
 								uni.reLaunch({
-									url: '/pages/user/user.vue'
+									url: '/pages/user/user-login.vue'
 								});
 							})
 						} else {
