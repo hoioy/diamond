@@ -33,26 +33,7 @@
 		},
 		data() {
 			return {
-				listData: [{
-					"id": null,
-					"parentId": null,
-					"remark": null,
-					"flag": null,
-					"createdDate": null,
-					"modifiedDate": null,
-					"createdBy": null,
-					"modifiedBy": null,
-					"version": null,
-					"title": "234234234",
-					"openid": "admin",
-					"msgType": null,
-					"content": "123123123",
-					"views": null,
-					"status": null,
-					"expareTime": null,
-					"contacts": "123123123",
-					"contactPhone": "123123123"
-				}],
+				listData: [],
 				last_page: 1,
 				reload: false, //是否刷新模式，false：瀑布流
 				status: 'more',
@@ -64,9 +45,6 @@
 			};
 		},
 		onLoad() {
-
-		},
-		onShow() {
 			this.getList();
 		},
 		onPullDownRefresh() {
@@ -163,6 +141,9 @@
 		color: #353535;
 		padding-left: 15px;
 		padding-right: 15px;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
 	}
 
 	.message-list-item-contacts-views {
