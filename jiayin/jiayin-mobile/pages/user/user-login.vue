@@ -164,14 +164,13 @@
 			},
 			jwtLogin(param) {
 				loginAPI.login(param, (data) => { //res为一个数组，数组第一项为错误信息，第二项为返回数据
-					this.$store.dispatch('LoginSuccess', data.data).then(() => {
-						loginAPI.getUser((userData) => {
-							this.user = userData.data
-							this.$store.dispatch('GetUserSuccesss', userData.data).then(() => {
-								
-							})
-						})
-					})
+				  uni.setStorage({
+				    key: 'token',
+				    data: data.data,
+				    success: function () {
+				        console.log('tokensuccess');
+				    }
+				  })
 				})
 			},
 			oauthGetUserInfo(provider, openId, sessionKey) {
@@ -179,6 +178,17 @@
 				uni.getUserInfo({
 					provider: provider,
 					success: (infoRes) => {
+						//获取用户信息成功后进行缓存
+					let userinfo=	JSON.stringify(infoRes.userInfo)
+					debugger
+						uni.setStorage({
+						  key: 'userinfo',
+						  data: userinfo,
+						  success: function () {
+						      console.log('userinfo success');
+						  }
+						})
+						console.log(infoRes.userInfo.avatarUrl)
 						loginAPI.bindDiamondUaaUser({
 							name: infoRes.userInfo.nickName,
 							loginName: openId,

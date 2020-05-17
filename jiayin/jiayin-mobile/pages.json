@@ -41,7 +41,7 @@
 		// 	}
 		// },
 		{
-			"path": "pages/user/user",
+			"path": "pages/user/user-login",
 			"style": {
 				"navigationBarTitleText": "登录"
 			}
@@ -89,7 +89,7 @@
 			"iconPath": "static/img/plus.png",
 			"selectedIconPath": "static/img/plusHL.png"
 		},{
-			"pagePath": "pages/user/user",
+			"pagePath": "pages/user/user-login",
 			"text": "登录",
 			"iconPath": "static/img/user.png",
 			"selectedIconPath": "static/img/userHL.png"

@@ -1,7 +1,7 @@
 import store from 'store'
 
-// const websiteUrl = 'https://localhost:7779/';
-const websiteUrl = 'https://www.hoioy.com/';
+const websiteUrl = 'https://localhost:7779/';
+// const websiteUrl = 'https://www.hoioy.com/';
 const onDefaultFail = function(error, onError) {
 	store.dispatch('Logout').then((logoutResult) => {
 		uni.showToast({

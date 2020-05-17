@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<text>收藏列表</text>
+		
 	</view>
 </template>
 

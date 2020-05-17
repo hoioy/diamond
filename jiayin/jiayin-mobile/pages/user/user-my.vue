@@ -2,11 +2,11 @@
 	<view class="uni-container">
 		<view class="user">
 			<view>
-				 <image class="userhead"  src="../../static/img/pig.jpg" mode="aspectFit"></image>
+				 <image class="userhead"  :src="userinfo.avatarUrl" mode="aspectFit"></image>
 			</view>
 	    <view>
 		<view>
-				<text  >陈哲</text>
+				<text  >{{userinfo.nickName}}</text>
 		</view>
 	    <view>
 			   <text >账号管理</text>
@@ -28,6 +28,11 @@
 	export default {
 		data() {
 			return {
+				userinfo:{
+					nickName:"",
+					avatarUrl:""
+					
+				},
 				navs:[
 					{
 						icon:'iconfont icon-shoucang',
@@ -52,6 +57,12 @@
 				]
 				
 			}
+		},
+		onLoad() {
+			let userinfojson=uni.getStorageSync('userinfo')
+			debugger
+		 this.userinfo=JSON.parse(userinfojson);
+		 console.log(this.userinfo)
 		},
 		methods: {
 			//页面跳转
