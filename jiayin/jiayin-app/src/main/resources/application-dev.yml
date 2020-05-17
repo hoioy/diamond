@@ -18,9 +18,7 @@ spring:
     # type=com.zaxxer.hikari.HikariDataSource    # mysql 8以下配置
     data: "classpath:init/mysqldata.sql"      #初始化sql配置
     username: root
-    password: admin
-    data-username: root
-    data-password: admin
+    password: Jiayinxiaochengxu@123
     schema: classpath:init/schemamysql.sql
   jpa:
     database-platform: org.hibernate.dialect.MySQL8Dialect
@@ -63,7 +61,7 @@ spring:
 spring:
   redis:
     database: 2
-    host: 127.0.0.1
+    host: 117.78.11.219
     port: 6379
     timeout: 3000
 
