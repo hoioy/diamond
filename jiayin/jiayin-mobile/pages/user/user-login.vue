@@ -105,9 +105,8 @@
 				}
 			},
 			bindLogout() {
-				this.$store.dispatch('Logout').then(() => {
-					this.user = {}
-				})
+				uni.removeStorageSync('token');
+				this.user = {}
 			},
 			bindLogin() {
 				/**

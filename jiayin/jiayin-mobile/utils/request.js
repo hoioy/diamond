@@ -1,17 +1,11 @@
-import store from 'store'
-
 const websiteUrl = 'http://localhost:7779/';
 // const websiteUrl = 'https://www.hoioy.com/';
 const onDefaultFail = function(error, onError) {
-	store.dispatch('Logout').then((logoutResult) => {
-		uni.showToast({
-			duration: 2000,
-			title: error,
-		});
-		if (onError) {
-			onError(error)
-		}
-	})
+	uni.removeStorageSync('token');
+	uni.showToast({
+		duration: 2000,
+		title: error,
+	});
 }
 const request = function(param) {
 	var header = {}
