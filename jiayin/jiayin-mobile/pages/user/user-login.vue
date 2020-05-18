@@ -1,60 +1,5 @@
 <template>
 	<view class="content">
-		<!-- #ifndef MP -->
-		<view class="input-group">
-			<view class="input-row border">
-				<text class="title">账号：</text>
-				<m-input class="m-input" type="text" clearable focus v-model="account" placeholder="请输入账号"></m-input>
-			</view>
-			<view class="input-row">
-				<text class="title">密码：</text>
-				<m-input type="password" displayable v-model="password" placeholder="请输入密码"></m-input>
-			</view>
-		</view>
-		<view class="btn-row">
-			<button type="primary" class="primary" @tap="bindLogin">登录</button>
-		</view>
-		<!-- #endif -->
-		<!-- 
-		<view class="action-row">
-			<navigator url="../reg/reg">注册账号</navigator>
-			<text>|</text>
-			<navigator url="../pwd/pwd">忘记密码</navigator>
-		</view> -->
-		<!-- <view class="oauth-row" v-if="hasProvider" v-bind:style="{top: positionTop + 'px'}"> -->
-		<!-- <view class="oauth-image" v-for="provider in providerList" :key="provider.value"> -->
-		<!-- <image :src="provider.image" @tap="oauth(provider.value)"></image> -->
-		<!-- #ifdef MP-WEIXIN -->
-		<!-- <button v-if="!isDevtools" open-type="getUserInfo" @getuserinfo="getUserInfo"></button> -->
-		<!-- #endif -->
-		<!-- </view> -->
-		<!-- </view> -->
-		<view class="uni-header-logo">
-			<image class="uni-header-image" :src="user.avatarUrl"></image>
-		</view>
-		<view class="uni-common-mt">
-			<view class="uni-form-item uni-column">
-				<view class="title">{{user.userName}}</view>
-			</view>
-			<view class="uni-form-item uni-column">
-				<view class="title">{{user.loginName}}</view>
-			</view>
-			<view class="uni-form-item uni-column">
-				<view class="title">{{user.phone}}</view>
-			</view>
-			<view class="uni-form-item uni-column">
-				<view class="title">{{user.email}}</view>
-			</view>
-		</view>
-		<!-- <view v-if="hasLogin">
-			<view class="uni-panel">
-				<view class="uni-panel-h">
-					<navigator url="../pwd/pwd"></navigator>
-					<text class="uni-panel-text">问题反馈</text>
-					<text class="uni-panel-icon uni-icon">&#xe470;</text>
-				</view>
-			</view>
-		</view> -->
 		<view v-if="hasProvider">
 			<!-- #ifdef MP-WEIXIN -->
 			<button v-if="needBeforeLogin" open-type='getUserInfo'>获取授权</button>
@@ -107,30 +52,6 @@
 			bindLogout() {
 				uni.removeStorageSync('token');
 				this.user = {}
-			},
-			bindLogin() {
-				/**
-				 * 客户端对账号信息进行一些必要的校验。
-				 * 实际开发中，根据业务需要进行处理，这里仅做示例。
-				 */
-				if (this.account.length < 5) {
-					uni.showToast({
-						duration: 2000,
-						title: '账号最短为 5 个字符'
-					});
-					return;
-				}
-				if (this.password.length < 5) {
-					uni.showToast({
-						duration: 2000,
-						title: '密码最短为 5 个字符'
-					});
-					return;
-				}
-				this.jwtLogin({
-					username: this.account,
-					password: this.password
-				})
 			},
 			initProvider() {
 				const filters = ['weixin', 'qq', 'sinaweibo'];
