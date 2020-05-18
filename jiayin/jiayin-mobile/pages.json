@@ -12,27 +12,6 @@
 				"navigationBarTitleText": "消息详情"
 			}
 		},
-		// {
-		// 	"path": "pages/main/main",
-		// 	"style": {
-		// 		"navigationBarTitleText": "登录模板"
-		// 	}
-		// }, {
-		// 	"path": "pages/login/login",
-		// 	"style": {
-		// 		"navigationBarTitleText": "登录"
-		// 	}
-		// }, {
-		// 	"path": "pages/reg/reg",
-		// 	"style": {
-		// 		"navigationBarTitleText": "注册"
-		// 	}
-		// }, {
-		// 	"path": "pages/pwd/pwd",
-		// 	"style": {
-		// 		"navigationBarTitleText": "找回密码"
-		// 	}
-		// },
 		{
 			"path": "pages/user/user-login",
 			"style": {
@@ -44,10 +23,6 @@
             "style" : {
 				"navigationBarTitleText": "我的"
 			}
-        }
-        ,{
-            "path" : "pages/collect/collect-list",
-            "style" : {}
         }
         ,{
             "path" : "pages/contact/contact-our",
@@ -62,10 +37,8 @@
             "style" : {}
         }
         ,{
-            "path" : "pages/message/message-save/message-save",
-            "style" : {
-				"navigationBarTitleText": "编辑消息"
-			}
+            "path" : "pages/collect/collect-list/collect-list",
+            "style" : {}
         }
     ],
 	"tabBar": {
@@ -78,7 +51,8 @@
 			"iconPath": "static/img/home.png",
 			"selectedIconPath": "static/img/homeHL.png"
 		},{
-			"pagePath": "pages/message/message-save/message-save",
+			"pagePath": "pages/message/message-detail/message-detail",
+			"text": "新增",
 			"iconPath": "static/img/plus.png",
 			"selectedIconPath": "static/img/plusHL.png"
 		},{
@@ -94,7 +68,7 @@
 		}]
 	},
 	"globalStyle": {
-		"navigationBarTextStyle": "white",
+		"navigationBarTextStyle": "black",
 		"navigationBarBackgroundColor": "#FFD700",
 		"backgroundColor": "#F4A460"
 	}
