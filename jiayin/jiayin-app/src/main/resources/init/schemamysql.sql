@@ -462,6 +462,7 @@ CREATE TABLE `jiayin_publish_history`  (
   `create_date` date NULL DEFAULT NULL COMMENT '创建时间',
   `update_date` date NULL DEFAULT NULL COMMENT '修改时间',
   `flag` int(11) NULL DEFAULT NULL COMMENT '删除标记',
+   `version` int(11) NULL DEFAULT NULL,
   `publish_type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '发布类型',
   `publish_title` char(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '发布标题'
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
