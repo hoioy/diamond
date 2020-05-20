@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hoioy.jiayin.mapper.PublishHistoryMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.hoioy.jiayin.domain.PublishHistory">
+    <result column="id" property="id" />
+    <result column="created_by" property="createdBy" />
+    <result column="flag" property="flag" />
+        <result column="publish_id" property="publishId" />
+        <result column="openid" property="openid" />
+        <result column="updated_by" property="updatedBy" />
+        <result column="create_date" property="createDate" />
+        <result column="update_date" property="updateDate" />
+        <result column="publish_type" property="publishType" />
+        <result column="publish_title" property="publishTitle" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,
+        created_by,
+        flag,
+        publish_id, openid, updated_by, create_date, update_date, publish_type, publish_title
+    </sql>
+
+    <select id="selectPage" resultMap="BaseResultMap" >
+        select
+           <include refid="Base_Column_List" />
+        from
+           jiayin_publish_history
+        where
+           flag=1
+        <if test="publishHistory.publishId != null and publishHistory.publishId != ''">
+            AND publish_id = #{publishHistory.publishId}
+        </if>
+        <if test="publishHistory.openid != null and publishHistory.openid != ''">
+            AND openid = #{publishHistory.openid}
+        </if>
+        <if test="publishHistory.updatedBy != null and publishHistory.updatedBy != ''">
+            AND updated_by = #{publishHistory.updatedBy}
+        </if>
+        <if test="publishHistory.createDate != null and publishHistory.createDate != ''">
+            AND create_date = #{publishHistory.createDate}
+        </if>
+        <if test="publishHistory.updateDate != null and publishHistory.updateDate != ''">
+            AND update_date = #{publishHistory.updateDate}
+        </if>
+        <if test="publishHistory.publishType != null and publishHistory.publishType != ''">
+            AND publish_type = #{publishHistory.publishType}
+        </if>
+        <if test="publishHistory.publishTitle != null and publishHistory.publishTitle != ''">
+            AND publish_title = #{publishHistory.publishTitle}
+        </if>
+    </select>
+</mapper>
