@@ -36,9 +36,9 @@ public class Message extends BaseDomain {
     private String openid;
 
     /**
-     * 消息类型
+     * 消息类型外键
      */
-    private Integer msgType;
+    private String msgType;
 
     /**
      * 消息内容

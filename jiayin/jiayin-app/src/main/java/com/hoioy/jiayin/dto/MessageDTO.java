@@ -33,7 +33,7 @@ public class MessageDTO  extends BaseDTO implements Serializable {
 
 
     @ApiModelProperty(value = "消息类型")
-    private Integer msgType;
+    private String msgType;
 
 
     @ApiModelProperty(value = "消息内容")

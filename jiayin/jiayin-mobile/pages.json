@@ -11,6 +11,11 @@
 			"style": {
 				"navigationBarTitleText": "消息详情"
 			}
+		}, {
+			"path": "pages/message/message-save/message-save",
+			"style": {
+				"navigationBarTitleText": "消息编辑"
+			}
 		},
 		{
 			"path": "pages/user/user-login",
@@ -51,7 +56,7 @@
 			"iconPath": "static/img/home.png",
 			"selectedIconPath": "static/img/homeHL.png"
 		},{
-			"pagePath": "pages/message/message-detail/message-detail",
+			"pagePath": "pages/message/message-save/message-save",
 			"text": "新增",
 			"iconPath": "static/img/plus.png",
 			"selectedIconPath": "static/img/plusHL.png"
