@@ -1,5 +1,6 @@
 package com.hoioy.jiayin.api;
 
+import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.hoioy.diamond.common.api.BaseController;
 import com.hoioy.diamond.common.dto.PageDTO;
 import com.hoioy.diamond.common.dto.ResultDTO;
@@ -37,7 +38,6 @@ public class MessageController extends BaseController<IMessageService, MessageDT
         PageDTO page = messageService.getPage(pageDTO);
         return new ResultDTO(page);
     }
-
 
 }
 

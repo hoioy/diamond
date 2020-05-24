@@ -16,6 +16,12 @@
 			"style": {
 				"navigationBarTitleText": "消息编辑"
 			}
+		},{
+			"path": "pages/message/message-publish/message-publish",
+			"style": {
+				"navigationBarTitleText": "草稿箱",
+				"enablePullDownRefresh": true
+			}
 		},
 		{
 			"path": "pages/user/user-login",
@@ -34,15 +40,15 @@
             "style" : {}
         }
         ,{
-            "path" : "pages/draft/draft-list",
-            "style" : {}
-        }
-        ,{
             "path" : "pages/history/history-list",
             "style" : {}
         }
         ,{
             "path" : "pages/collect/collect-list/collect-list",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/message/message-published/message-published",
             "style" : {}
         }
     ],
@@ -56,8 +62,8 @@
 			"iconPath": "static/img/home.png",
 			"selectedIconPath": "static/img/homeHL.png"
 		},{
-			"pagePath": "pages/message/message-save/message-save",
-			"text": "新增",
+			"pagePath": "pages/message/message-publish/message-publish",
+			"text": "发布",
 			"iconPath": "static/img/plus.png",
 			"selectedIconPath": "static/img/plusHL.png"
 		},{

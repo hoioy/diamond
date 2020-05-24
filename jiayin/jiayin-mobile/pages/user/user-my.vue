@@ -46,8 +46,8 @@
 					},
 					{
 						icon:'iconfont .icon-draft',
-						title: '草稿箱',
-						path: '/pages/draft/draft-list' 
+						title: '我的发布',
+						path: '/pages/message/message-published/message-published' 
 					},
 					{
 						icon:'iconfont .icon-lianxiwomen1-copy',

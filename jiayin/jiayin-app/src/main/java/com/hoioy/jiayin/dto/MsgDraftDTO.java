@@ -9,6 +9,7 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 
 /**
  * <p>
@@ -36,7 +37,7 @@ public class MsgDraftDTO extends BaseDTO implements Serializable {
 
 
     @ApiModelProperty(value = "消息类型")
-    private Integer msgType;
+    private String msgType;
 
 
     @ApiModelProperty(value = "消息内容")
@@ -50,6 +51,10 @@ public class MsgDraftDTO extends BaseDTO implements Serializable {
     @ApiModelProperty(value = "(带交易 已完成)")
     private Integer status;
 
+    /**
+     * 有效期
+     */
+    private LocalDate expareTime;
 
     @ApiModelProperty(value = "联系人")
     private String contacts;

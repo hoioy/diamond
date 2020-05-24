@@ -8,6 +8,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 /**
  * <p>
  * 消息草稿
@@ -34,7 +36,7 @@ public class MsgDraft extends BaseDomain {
     /**
      * 消息类型
      */
-    private Integer msgType;
+    private String msgType;
 
     /**
      * 消息内容
@@ -50,6 +52,11 @@ public class MsgDraft extends BaseDomain {
      * (带交易 已完成)
      */
     private Integer status;
+
+    /**
+     * 有效期
+     */
+    private LocalDate expareTime;
 
     /**
      * 联系人

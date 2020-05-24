@@ -42,13 +42,17 @@
 			</view>
 		</view>
 		<view class="btn-row">
-			<button type="primary" class="primary" @tap="saveMessage">保存</button>
+			<button type="default" @tap="saveDraftMessage">保存为草稿</button>
+		</view>
+		<view class="btn-row">
+			<button type="primary" class="primary" @tap="saveMessage">发布</button>
 		</view>
 	</view>
 </template>
 
 <script>
 	import * as messageAPI from '@/api/message.js';
+	import * as draftAPI from '@/api/draft.js';
 	import * as msgTypeAPI from '@/api/msgType.js';
 	import mInput from '@/components/m-input.vue';
 
@@ -104,7 +108,6 @@
 		methods: {
 			bindMsgTypeChange: function(e) {
 				this.msgType.selectedIndex = e.detail.value
-				this.message.msgType = this.msgType.types[this.msgType.selectedIndex].id
 			},
 			bindDateChange: function(e) {
 				this.message.expareTime = e.detail.value
@@ -115,20 +118,32 @@
 					that.msgType.types = data.data
 				})
 			},
+			prepareMessage(){
+				this.message.msgType = this.msgType.types[this.msgType.selectedIndex].id
+			},
 			saveMessage() {
-				debugger
+				this.prepareMessage()
+				draftAPI.publishMessage(this.message, (data) => {
+					uni.showToast({
+						duration: 2000,
+						title: '发布消息成功'
+					});
+				})
+			},
+			saveDraftMessage() {
+				this.prepareMessage()
 				if (this.message.id) {
-					messageAPI.updateMessage(this.message, (data) => {
+					draftAPI.updateMessage(this.message, (data) => {
 						uni.showToast({
 							duration: 2000,
-							title: '保存成功'
+							title: '修改草稿成功'
 						});
 					})
 				} else {
-					messageAPI.addMessage(this.message, (data) => {
+					draftAPI.addMessage(this.message, (data) => {
 						uni.showToast({
 							duration: 2000,
-							title: '保存成功'
+							title: '保存为草稿成功'
 						});
 					})
 				}

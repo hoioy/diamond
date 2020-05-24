@@ -56,7 +56,7 @@ public class Message extends BaseDomain {
     private Integer status;
 
     /**
-     * 过期时间
+     * 有效期
      */
     private LocalDate expareTime;
 
