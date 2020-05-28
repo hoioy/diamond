@@ -19,7 +19,7 @@
 		},{
 			"path": "pages/message/message-publish/message-publish",
 			"style": {
-				"navigationBarTitleText": "草稿箱",
+				"navigationBarTitleText": "消息发布",
 				"enablePullDownRefresh": true
 			}
 		},

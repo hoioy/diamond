@@ -1,15 +1,18 @@
 <template>
 	<view>
-		<view>新增一条消息</view>
-		<view>
-			<view>
-				<view>
-					<image style="width: 50px; height: 50px; background-color: #eeeeee;" :src="src" @error="imageError"></image>
+		<view class="message-publish-type-title">新增一条消息</view>
+		<view class="message-publish-type">
+			<view class="message-publish-type-cell" v-for="(value, key) in msgTypelistData" :key="key" @click="goMessageSave(value)">
+				<view class="message-publish-type-item">
+					<view class="message-publish-type-item-img">
+						<image class="message-publish-type-item-img-image" :src="'../../../static/img/msgType/'+value.typeName+'.png'"
+						 @error="imageError"></image>
+					</view>
+					<view class="message-publish-type-item-name">新增{{ value.typeName }}消息</view>
 				</view>
-				<view>类型1</view>
 			</view>
 		</view>
-		<view>草稿箱</view>
+		<view class="uni-list-title">草稿箱</view>
 		<view class="uni-list">
 			<view class="uni-list-cell" hover-class="uni-list-cell-hover" v-for="(value, key) in listData" :key="key" @click="goDetail(value)">
 				<view class="message-list-item">
@@ -36,6 +39,7 @@
 <script>
 	import uniLoadMore from '@/components/uni-load-more/uni-load-more.vue';
 	import * as messageAPI from '@/api/message.js';
+	import * as msgTypeAPI from '@/api/msgType.js';
 
 	export default {
 		components: {
@@ -43,8 +47,8 @@
 		},
 		data() {
 			return {
-				src: 'https://img-cdn-qiniu.dcloud.net.cn/uniapp/images/shuijiao.jpg',
 				listData: [],
+				msgTypelistData: [],
 				last_page: 1,
 				reload: false, //是否刷新模式，false：瀑布流
 				status: 'more',
@@ -57,6 +61,7 @@
 		},
 		onLoad() {
 			this.getList();
+			this.initMsgType();
 		},
 		onPullDownRefresh() {
 			this.reload = true;
@@ -71,6 +76,13 @@
 		methods: {
 			imageError(e) {
 				console.error('image发生error事件，携带值为' + e.detail.errMsg)
+			},
+			initMsgType() {
+				var that = this;
+				msgTypeAPI.selectParent((data) => {
+					that.msgTypelistData = data.data
+
+				})
 			},
 			getList() {
 				this.status = 'loading';
@@ -99,12 +111,52 @@
 				uni.navigateTo({
 					url: '../message-detail/message-detail?id=' + e.id,
 				});
+			},
+			goMessageSave: function(e) {
+				uni.navigateTo({
+					url: '../message-save/message-save?msgTypeId=' + e.id,
+				});
 			}
 		}
 	}
 </script>
 
 <style>
+	.message-publish-type-title {
+		margin: 15px;
+		border-bottom: 1px dashed #B2B2B2;
+		padding: 5px;
+	}
+
+	.uni-list-title {
+		margin: 15px;
+		border-bottom: 1px dashed #B2B2B2;
+		padding: 5px;
+	}
+
+	.message-publish-type {
+		display: flex;
+		justify-content: space-around;
+		border-bottom: 2px solid #ffd115;
+		padding-bottom: 20px;
+	}
+
+	.message-publish-type-item {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+
+	.message-publish-type-item-img {}
+
+	.message-publish-type-item-img-image {
+		width: 50px;
+		height: 50px;
+		background-color: #eeeeee;
+	}
+
+	.message-publish-type-item-name {}
+
 	.message-list-item {
 		display: flex;
 		flex-direction: column;

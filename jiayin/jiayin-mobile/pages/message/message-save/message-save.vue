@@ -102,6 +102,9 @@
 				messageAPI.findById(option.id, (data) => {
 					this.message = data.data;
 				})
+			}	
+			if (option.msgTypeId) {
+				debugger
 			}
 			this.initMsgType()
 		},
@@ -147,7 +150,7 @@
 						});
 					})
 				}
-			},
+			}
 		}
 	}
 </script>
