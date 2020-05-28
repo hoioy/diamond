@@ -60,7 +60,6 @@
 		},
 		onLoad() {
 			let userinfojson=uni.getStorageSync('userinfo')
-			debugger
 		 this.userinfo=JSON.parse(userinfojson);
 		 console.log(this.userinfo)
 		},

@@ -100,7 +100,6 @@
 					success: (infoRes) => {
 						//获取用户信息成功后进行缓存
 					let userinfo=	JSON.stringify(infoRes.userInfo)
-					debugger
 						uni.setStorage({
 						  key: 'userinfo',
 						  data: userinfo,
