@@ -11,17 +11,14 @@
 				<view>{{ message.expareTime }}</view>
 			</view>
 			<view class="message-detail-content">{{ message.content }}</view>
-			<view class="message-detail-item">
-				<view>联系人:</view>
-				<view>{{ message.contacts}}</view>
+			<view class="message-detail-item-contacts">
+				<view>联系人:{{ message.contacts}}</view>
 			</view>
-			<view class="message-detail-item">
-				<view>联系电话:</view>
-				<view>{{ message.contactPhone }}</view>
+			<view class="message-detail-item-contactPhone">
+				<view>联系电话:>{{ message.contactPhone }}</view>
 			</view>
-			<view class="message-detail-item">
-				<view>阅读次数:</view>
-				<view>{{ message.views }}</view>
+			<view class="message-detail-item-views">
+				<view>阅读次数:{{ message.views }}</view>
 			</view>
 		</view>
 	</view>
@@ -82,19 +79,26 @@
 		display: flex;
 		flex-direction: column;
 	}
+
 	.message-detail-title {
-		margin: 20px auto;
+		margin: auto;
+		display: inline-block;
+		font-size: 30rpx;
+		line-height: 88rpx;
+		box-sizing: border-box;
+		border-bottom: 2rpx solid #ffd115;
 	}
+
 	.message-detail-content {
 		margin: 5px;
 		line-height: 30px;
 	}
-	
-	.message-detail-item{
+
+	.message-detail-item {
 		display: flex;
 	}
-	
-	.message-detail-item-status{
+
+	.message-detail-item-status {
 		background-color: #09BB07;
 		color: #FFFFFF;
 		padding-left: 5px;
@@ -102,5 +106,9 @@
 		padding-top: 2px;
 		padding-bottom: 2px;
 		border-radius: 20rpx;
+	}
+
+	.message-detail-item-views {
+		align-self: flex-end
 	}
 </style>
