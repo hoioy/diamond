@@ -17,7 +17,7 @@
 			<view hover-class="uni-list-cell-hover" v-for="(value, key) in listData" :key="key">
 				<view class="message-list-item">
 					<view class="message-list-item-cell">
-						<view class="message-list-item-cell-body" @click="goMessageSave(value)">
+						<view class="message-list-item-cell-body" @click="goMessageSaveFromDraft(value)">
 							<view class="message-list-item-cell-body-title">{{ value.title }}</view>
 							<view class="message-list-item-cell-body-content">{{ value.content }}</view>
 							<view class="message-list-item-cell-body-date">{{ value.createdDate }}</view>
@@ -68,22 +68,19 @@
 					contentrefresh: '加载中',
 					contentnomore: '没有更多'
 				},
-				showTipData:{
-					title:null,
-					content:null,
-					forWhich: 1 ,// publish：1，delete：2
+				showTipData: {
+					title: null,
+					content: null,
+					forWhich: 1, // publish：1，delete：2
 					currentDraftMsg: null
 				}
 			};
 		},
-		onLoad() {
-			this.getList();
-			this.initMsgType();
+		onShow() {
+			this.initList();
 		},
 		onPullDownRefresh() {
-			this.reload = true;
-			this.last_page = 1;
-			this.getList();
+			this.initList();
 		},
 		onReachBottom() {
 			this.status = 'more';
@@ -102,6 +99,12 @@
 				msgTypeAPI.selectParent((data) => {
 					that.msgTypelistData = data.data
 				})
+			},
+			initList() {
+				this.reload = true;
+				this.last_page = 1;
+				this.initMsgType();
+				this.getList();
 			},
 			getList() {
 				this.status = 'loading';
@@ -128,14 +131,33 @@
 			},
 			goMessageSave(e) {
 				uni.navigateTo({
-					url: '../message-save/message-save?msgTypeId=' + e.id,
+					url: '../message-save/message-save?msgTypeId=' + e.id + '&msgTypeName=' + e.typeName
+				});
+			},
+			goMessageSaveFromDraft(e) {
+				uni.navigateTo({
+					url: '../message-save/message-save?draftId=' + e.id
 				});
 			},
 			publishMessage(draftMsg) {
-				console.log('publishMessage:')
+				draftAPI.publishMessage(draftMsg, (data) => {
+					this.listData = [];
+					this.getList();
+					uni.showToast({
+						duration: 2000,
+						title: '发布消息成功'
+					});
+				})
 			},
 			deleteMessage(draftMsg) {
-				console.log('deleteMessage:')
+				draftAPI.deleteById(draftMsg.id, (data) => {
+					this.listData = [];
+					this.getList();
+					uni.showToast({
+						duration: 2000,
+						title: '删除草稿成功'
+					});
+				})
 			},
 			popupChange(e) {
 				console.log('是否打开:' + e.show)
@@ -194,6 +216,7 @@
 		justify-content: space-around;
 		border-bottom: 2px solid #ffd115;
 		padding-bottom: 20px;
+		width: 750rpx;
 	}
 
 	.message-publish-type-item {

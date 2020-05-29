@@ -25,6 +25,14 @@ export function addMessage(data,onSuccess) {
 	})
 }
 
+export function deleteById(id,onSuccess) {
+	request({
+		url: 'jiayin/msgDraft/deleteById?id='+id,
+		method: 'delete',
+		onSuccess: onSuccess
+	})
+}
+
 export function updateMessage(data,onSuccess) {
 	return request({
 		url: 'jiayin/msgDraft/update',

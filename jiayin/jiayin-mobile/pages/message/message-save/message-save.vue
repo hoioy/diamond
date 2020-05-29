@@ -1,19 +1,20 @@
 <template>
 	<view class="content">
 		<view class="input-group">
+			<picker disabled @change="bindMsgTypeChange" :value="msgType.selectedIndex" :range="msgType.types" range-key="typeName">
+				<view class="input-row border">
+					<text class="title">消息类型：</text>
+					<view>{{msgType.types[msgType.selectedIndex].typeName}}</view>
+				</view>
+			</picker>
+		</view>
+		<view class="input-group">
 			<view class="input-row border">
 				<text class="title">标题：</text>
 				<m-input type="text" clearable v-model="message.title" placeholder="请输入标题"></m-input>
 			</view>
 		</view>
-		<view class="input-group">
-			<picker @change="bindMsgTypeChange" :value="msgType.selectedIndex" :range="msgType.types" range-key="typeName">
-				<view class="input-row border">
-					<text class="title">选择类型：</text>
-					<view>{{msgType.types[msgType.selectedIndex].typeName}}</view>
-				</view>
-			</picker>
-		</view>
+
 
 		<view class="input-group">
 			<picker mode="date" :value="message.expareTime" @change="bindDateChange">
@@ -98,15 +99,22 @@
 			};
 		},
 		onLoad: function(option) { //option为object类型，会序列化上个页面传递的参数
-			if (option.id) {
-				messageAPI.findById(option.id, (data) => {
+			const that = this;
+			if (option.draftId) {
+				draftAPI.findById(option.draftId, (data) => {
 					this.message = data.data;
+					msgTypeAPI.findById(data.data.msgType, (msgTypeData) => {
+						that.msgType.types = [msgTypeData.data]
+					})
 				})
-			}	
-			if (option.msgTypeId) {
-				debugger
 			}
-			this.initMsgType()
+
+			if (option.msgTypeId) {
+				this.msgType.types = [{
+					id: option.msgTypeId,
+					typeName: option.msgTypeName
+				}]
+			}
 		},
 		methods: {
 			bindMsgTypeChange: function(e) {
@@ -115,13 +123,13 @@
 			bindDateChange: function(e) {
 				this.message.expareTime = e.detail.value
 			},
-			initMsgType() {
-				var that = this;
-				msgTypeAPI.selectParent((data) => {
-					that.msgType.types = data.data
-				})
-			},
-			prepareMessage(){
+			// initMsgType() {
+			// 	var that = this;
+			// 	msgTypeAPI.selectParent((data) => {
+			// 		that.msgType.types = data.data
+			// 	})
+			// },
+			prepareMessage() {
 				this.message.msgType = this.msgType.types[this.msgType.selectedIndex].id
 			},
 			saveMessage() {
@@ -137,6 +145,7 @@
 				this.prepareMessage()
 				if (this.message.id) {
 					draftAPI.updateMessage(this.message, (data) => {
+						uni.navigateBack()
 						uni.showToast({
 							duration: 2000,
 							title: '修改草稿成功'
@@ -144,6 +153,7 @@
 					})
 				} else {
 					draftAPI.addMessage(this.message, (data) => {
+						uni.navigateBack()
 						uni.showToast({
 							duration: 2000,
 							title: '保存为草稿成功'

@@ -44,13 +44,11 @@
 				}
 			};
 		},
-		onLoad() {
-			this.getList();
+		onShow(){
+			this.initList();
 		},
 		onPullDownRefresh() {
-			this.reload = true;
-			this.last_page = 1;
-			this.getList();
+			this.initList();
 		},
 		onReachBottom() {
 			this.status = 'more';
@@ -58,6 +56,11 @@
 			this.getList();
 		},
 		methods: {
+			initList(){
+				this.reload = true;
+				this.last_page = 1;
+				this.getList();
+			},
 			getList() {
 				this.status = 'loading';
 				messageAPI.getPage({
