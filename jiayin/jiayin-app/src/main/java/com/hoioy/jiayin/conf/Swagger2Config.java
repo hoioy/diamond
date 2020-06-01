@@ -50,7 +50,6 @@ public class Swagger2Config implements WebMvcConfigurer {
                         RequestHandlerSelectors.basePackage("com.hoioy.diamond.sys.api"),
                         RequestHandlerSelectors.basePackage("com.hoioy.diamond.jiayin.api"),
                         RequestHandlerSelectors.basePackage("com.sample.diamond.api"),
-                        RequestHandlerSelectors.basePackage("com.hoioy.jiayin.api"),
                         RequestHandlerSelectors.basePackage("com.hoioy.diamond.security.jwt.web")))
                 .paths(PathSelectors.any())
                 .build()
@@ -58,6 +57,7 @@ public class Swagger2Config implements WebMvcConfigurer {
                 .securityContexts(Lists.newArrayList(securityContextNormal()))
                 .securitySchemes(Lists.<SecurityScheme>newArrayList(normalApiKey()));
     }
+
 
     private ApiInfo apiInfo() {
         return new ApiInfo(
