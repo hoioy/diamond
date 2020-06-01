@@ -75,7 +75,7 @@
         <module>diamond-sys-jpa</module>
         <module>diamond-sys-mybatis</module>
         <module>diamond-sys-web</module>
-<!--        <module>jiayin</module>-->
+        <module>jiayin</module>
     </modules>
 
     <dependencyManagement>
