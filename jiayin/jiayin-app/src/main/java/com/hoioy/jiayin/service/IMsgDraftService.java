@@ -1,6 +1,6 @@
 package com.hoioy.jiayin.service;
 
-import com.hoioy.diamond.common.domain.DiamondDomain;
+import com.hoioy.diamond.common.domain.CommonDomain;
 import com.hoioy.diamond.common.service.IBaseService;
 import com.hoioy.jiayin.dto.MsgDraftDTO;
 
@@ -12,7 +12,7 @@ import com.hoioy.jiayin.dto.MsgDraftDTO;
  * @author 陈哲
  * @since 2020-04-19
  */
-public interface IMsgDraftService<D extends DiamondDomain>  extends IBaseService<MsgDraftDTO,D> {
+public interface IMsgDraftService<D extends CommonDomain>  extends IBaseService<MsgDraftDTO,D> {
 
 
 

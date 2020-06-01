@@ -1,6 +1,6 @@
 package com.hoioy.jiayin.service;
 
-import com.hoioy.diamond.common.domain.DiamondDomain;
+import com.hoioy.diamond.common.domain.CommonDomain;
 import com.hoioy.diamond.common.service.IBaseService;
 import com.hoioy.jiayin.dto.PublishHistoryDTO;
 
@@ -12,7 +12,7 @@ import com.hoioy.jiayin.dto.PublishHistoryDTO;
  * @author 陈哲
  * @since 2020-05-21
  */
-public interface IPublishHistoryService<D extends DiamondDomain>  extends IBaseService<PublishHistoryDTO,D> {
+public interface IPublishHistoryService<D extends CommonDomain>  extends IBaseService<PublishHistoryDTO,D> {
 
 
 
