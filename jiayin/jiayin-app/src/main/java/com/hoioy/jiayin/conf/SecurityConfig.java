@@ -1,8 +1,7 @@
 package com.hoioy.jiayin.conf;
 
-import com.hoioy.diamond.common.dto.DiamondUserDTO;
-import com.hoioy.diamond.security.jwt.annotation.DiamondJwtWebSecurityConfigurerAdapter;
-import com.hoioy.diamond.sys.dto.UserInfoDTO;
+import com.hoioy.diamond.common.dto.CommonUserDTO;
+import com.hoioy.diamond.security.jwt.annotation.JwtWebSecurityConfigurerAdapter;
 import com.hoioy.diamond.sys.service.IMenuService;
 import com.hoioy.diamond.sys.service.IRoleMenuService;
 import com.hoioy.diamond.sys.service.IRoleUserService;
@@ -22,12 +21,11 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.cors.CorsUtils;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Configuration
 @EnableWebSecurity(debug = true)
-public class SecurityConfig extends DiamondJwtWebSecurityConfigurerAdapter {
+public class SecurityConfig extends JwtWebSecurityConfigurerAdapter {
     @Autowired
     private IUserInfoService iUserService;
     @Autowired
@@ -42,21 +40,20 @@ public class SecurityConfig extends DiamondJwtWebSecurityConfigurerAdapter {
         // @formatter:off
         // 过滤器的安全拦截器的每一次的要求
         http.authorizeRequests().filterSecurityInterceptorOncePerRequest(true)
-                .antMatchers("/auth/**", "/auth", "/captcha", "/error","/wx/user/**").permitAll()
-                .antMatchers("/system/user/save").permitAll()//注册用户
+                .antMatchers("/auth/**", "/auth", "/captcha", "/error").permitAll()
+                .antMatchers("/sys/user/save").permitAll()//注册用户
                 //通过Oauth2登录时绑定用户接口，暂时开启，否则与JwtAuthorizationTokenFilter逻辑冲突（本系统还没有用户所以查不出来）
-                .antMatchers("/bindDiamondUaaUser").permitAll()
+                .antMatchers("/bindOAuth2User").permitAll()
                 .antMatchers("/files/**").permitAll()
                 .antMatchers("/user-upload-avatar-rest").permitAll()
-                .antMatchers("/.well-known/pki-validation/**").permitAll()
                 // 使其支持跨域
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                 .anyRequest().fullyAuthenticated()
-                .and().exceptionHandling().accessDeniedHandler(diamondJwtAccessDeniedHandler())
-                .authenticationEntryPoint(diamondJwtAuthenticationEntryPoint());
+                .and().exceptionHandling().accessDeniedHandler(baseJwtAccessDeniedHandler())
+                .authenticationEntryPoint(baseJwtAuthenticationEntryPoint());
 
-        http.addFilterAfter(diamondfiltersecurityinterceptor(), FilterSecurityInterceptor.class)
-                .addFilterBefore(diamondJwtAuthorizationTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterAfter(basefiltersecurityinterceptor(), FilterSecurityInterceptor.class)
+                .addFilterBefore(baseJwtAuthorizationTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 
         //JWT没有csrf问题，需要禁用
         http.csrf().disable()
@@ -91,7 +88,7 @@ public class SecurityConfig extends DiamondJwtWebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(diamondUserDetailService()).passwordEncoder(diamondPasswordEncoder());
+        auth.userDetailsService(baseUserDetailService()).passwordEncoder(basePasswordEncoder());
     }
 
     //解决spring security 5.x无法注入AuthenticationManager的问题
@@ -103,14 +100,13 @@ public class SecurityConfig extends DiamondJwtWebSecurityConfigurerAdapter {
 
     @Override
     public List<String> getRoleIdsByRequestUrl(String requestUrl) {
-        // TODO 每次请求都要调用此方法，因此一定要加缓存，Diamond使用的是Spring Cache
+        // TODO 每次请求都要调用此方法，因此一定要加缓存，使用的是Spring Cache
         // TODO 现在是绝对匹配，不支持模糊匹配，用户可以在此自定义扩展其他资源与角色的匹配逻辑，如支持/**这种模糊匹配
-        // TODO menuUrl与requestUrl没有任何关系,所以DiamondAccessDecisionManager的逻辑一直没有生效
-        List<String> menuIds = iMenuService.findIdsByMenuUrl(requestUrl);
+        // TODO menuUrl与requestUrl没有任何关系,所以TaijiAccessDecisionManager的逻辑一直没有生效
         if (requestUrl.startsWith("/")) {
             requestUrl = requestUrl.substring(1);
         }
-        menuIds.addAll(iMenuService.findIdsByMenuUrl(requestUrl));
+        List<String> menuIds = iMenuService.findIdsByMenuUrl(requestUrl) ;
         if(CollectionUtils.isEmpty(menuIds)){
             return new ArrayList<>();
         }else{
@@ -119,13 +115,15 @@ public class SecurityConfig extends DiamondJwtWebSecurityConfigurerAdapter {
     }
 
     @Override
-    public DiamondUserDTO getDiamondUserDTOByLoginName(String loginName) {
-        return iUserService.findByLoginName(loginName);
+    public CommonUserDTO getCommonUserDTOByLoginName(String loginName) {
+       String userId = iUserService.findIdByLoginName(loginName);
+        return (CommonUserDTO) iUserService.findById(userId).get();
     }
 
     @Override
     public List<String> getRoleIdsByLoginName(String loginName) {
-        UserInfoDTO userInfoDTO = iUserService.findByLoginName(loginName);
-        return iRoleUserService.findRoleIdsByUserIds(Arrays.asList(userInfoDTO.getId()));
+        String userId = iUserService.findIdByLoginName(loginName);
+        List<String> roleIds = iRoleUserService.findFirstIdsBySecondId(userId);
+        return roleIds;
     }
 }

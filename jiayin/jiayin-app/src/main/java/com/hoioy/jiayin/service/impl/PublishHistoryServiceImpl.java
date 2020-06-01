@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hoioy.diamond.common.base.BaseServiceImpl;
 import com.hoioy.diamond.common.dto.PageDTO;
 import com.hoioy.diamond.common.exception.BaseException;
-import com.hoioy.diamond.common.util.DiamondMybatisPageUtil;
+import com.hoioy.diamond.common.util.CommonMybatisPageUtil;
 import com.hoioy.jiayin.domain.PublishHistory;
 import com.hoioy.jiayin.dto.PublishHistoryDTO;
 import com.hoioy.jiayin.mapper.PublishHistoryMapper;
@@ -30,20 +30,11 @@ public class PublishHistoryServiceImpl extends BaseServiceImpl<PublishHistoryMap
 
         @Override
         public PageDTO getPage(PageDTO pageDTO) throws BaseException {
-            Page page = DiamondMybatisPageUtil.getPage(pageDTO);
-            PublishHistory publishHistory = DiamondMybatisPageUtil.getBean(pageDTO, PublishHistory.class);
+            Page page = CommonMybatisPageUtil.getPage(pageDTO);
+            PublishHistory publishHistory = getDomainFilterFromPageDTO(pageDTO);
             IPage<PublishHistory> publishHistoryIPage = publishHistoryMapper.selectPage(page, publishHistory);
-            PageDTO resultPage = DiamondMybatisPageUtil.getPageDTO(publishHistoryIPage);
+            PageDTO resultPage = CommonMybatisPageUtil.getPageDTO(publishHistoryIPage);
             return resultPage;
         }
 
-        @Override
-        public PublishHistory createDomain() {
-        return new  PublishHistory();
-        }
-
-        @Override
-        public PublishHistoryDTO createDTO() {
-        return new PublishHistoryDTO();
-        }
 }
