@@ -1,8 +1,8 @@
 package com.hoioy.diamond.common.base;
 
-import com.hoioy.diamond.common.domain.DiamondDomain;
-import com.hoioy.diamond.common.util.DiamondJpaQueryWord;
-import com.hoioy.diamond.common.util.DiamondSecurityUtils;
+import com.hoioy.diamond.common.domain.CommonDomain;
+import com.hoioy.diamond.common.util.CommonJpaQueryWord;
+import com.hoioy.diamond.common.util.CommonSecurityUtils;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedBy;
@@ -18,18 +18,15 @@ import java.util.UUID;
 @MappedSuperclass
 @Data
 @NoArgsConstructor
-public class BaseDomain extends DiamondDomain {
+public class BaseDomain extends CommonDomain {
 
     @Id
     @Column(name = "id")
     private String id;
 
-    @Column(name = "parent_id")
-    private String parentId;
-
     @CreatedBy
     @Column(name = "created_by")
-    @DiamondJpaQueryWord(func = DiamondJpaQueryWord.MatchType.like)
+    @CommonJpaQueryWord(func = CommonJpaQueryWord.MatchType.like)
     protected String createdBy;
 
     @CreatedDate
@@ -38,7 +35,7 @@ public class BaseDomain extends DiamondDomain {
 
     @LastModifiedBy
     @Column(name = "modified_by")
-    @DiamondJpaQueryWord(func = DiamondJpaQueryWord.MatchType.like)
+    @CommonJpaQueryWord(func = CommonJpaQueryWord.MatchType.like)
     protected String modifiedBy;
 
     @LastModifiedDate
@@ -51,16 +48,16 @@ public class BaseDomain extends DiamondDomain {
 
     //删除标志
     @Column(name = "flag")
-    @DiamondJpaQueryWord(func = DiamondJpaQueryWord.MatchType.equal)
+    @CommonJpaQueryWord(func = CommonJpaQueryWord.MatchType.equal)
     public Integer flag;
 
-    //乐观锁
-    @Version
-    private Integer version=0;
+//    //乐观锁
+//    @Version
+//    private Integer version=0;
 
     @PrePersist
     public void createAuditInfo() {
-        String loginName = DiamondSecurityUtils.getCurrentLogin();
+        String loginName = CommonSecurityUtils.getCurrentLogin();
         setCreatedBy(loginName);
         setCreatedDate(LocalDateTime.now());
         String id = UUID.randomUUID().toString().replaceAll("-", "");

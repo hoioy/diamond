@@ -1,19 +1,13 @@
 package com.hoioy.diamond.sys.domain;
 
+import com.hoioy.diamond.common.annotation.BaseJoinId;
 import com.hoioy.diamond.common.base.BaseJoinDomain;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-/**
- * <p>
- * 
- * </p>
- *
- * @author 陈哲
- * @since 2020-03-24
- */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,10 +15,10 @@ import lombok.NoArgsConstructor;
 public class UserGroupUser extends BaseJoinDomain {
 
     private static final long serialVersionUID=1L;
-
+    @BaseJoinId(index=BaseJoinId.Index.first)
     private String groupId;
 
+    @BaseJoinId(index=BaseJoinId.Index.second)
     private String userId;
-
 
 }

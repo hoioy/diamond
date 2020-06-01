@@ -1,17 +1,18 @@
 package com.hoioy.diamond.sys.dto;
 
-import com.hoioy.diamond.common.dto.BaseDTO;
+import com.hoioy.diamond.common.dto.BaseTreeDTO;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 /**
  * 类名称：数据字典dto
  */
 @Data
 @NoArgsConstructor
-public class DataItemDTO extends BaseDTO {
+public class DataItemDTO extends BaseTreeDTO {
 
     private static final long serialVersionUID = 7275727535778417507L;
     @NotBlank(message = "code不能为空")
@@ -23,9 +24,5 @@ public class DataItemDTO extends BaseDTO {
 
     //是否启用:0不启用
     private String state;
-
-    //TODO zhaozhao type和category 在优化diamond-sys-web时候删除
-    private String type;
-    private Integer category;
 
 }

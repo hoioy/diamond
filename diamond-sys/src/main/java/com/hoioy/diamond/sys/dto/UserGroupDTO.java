@@ -4,8 +4,6 @@ import com.hoioy.diamond.common.dto.BaseDTO;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 /**
  * 用户组dto
  */
@@ -20,6 +18,4 @@ public class UserGroupDTO extends BaseDTO {
     private Integer groupIndex;
 
     private String state;
-
-    private List<UserInfoDTO> users;
 }

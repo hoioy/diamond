@@ -15,6 +15,11 @@ public class UserGroupUserServiceImpl extends BaseJoinServiceImpl<UserGroupUserM
 
     @Override
     public List<String> findGroupIdsByUserIds(List<String> userIds) {
-        return iBaseMapper.findGroupIdsByUserIds(userIds);
+        return super.findFirstIdsBySecondIds(userIds);
+    }
+
+    @Override
+    public List<String> findUserIdsByGroupIds(List<String> groupIds) {
+        return super.findSecondIdsByFirstIds(groupIds);
     }
 }

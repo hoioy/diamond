@@ -12,26 +12,4 @@
     <sql id="Base_Column_List">
         dept_id, user_id
     </sql>
-    <select id="findDeptIdsByUserIds" resultType="string">
-        select
-        dept_id
-        FROM
-        dept_user
-        WHERE
-        user_id in
-        <foreach collection="userIds" item="userId" index="index" open="(" close=")" separator=",">
-            #{userId}
-        </foreach>
-    </select>
-    <select id="findUserIdsByDeptIds" resultType="string">
-        select
-        user_id
-        FROM
-        dept_user
-        WHERE
-        dept_id in
-        <foreach collection="deptIds" item="deptId" index="index" open="(" close=")" separator=",">
-            #{deptId}
-        </foreach>
-    </select>
 </mapper>

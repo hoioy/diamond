@@ -8,14 +8,6 @@ import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
-/**
- * <p>
- *  Mapper 接口
- * </p>
- *
- * @author 陈哲
- * @since 2020-03-24
- */
 public interface UserInfoMapper extends IBaseMapper<UserInfo> {
 
     /**
@@ -23,7 +15,7 @@ public interface UserInfoMapper extends IBaseMapper<UserInfo> {
      */
     IPage<UserInfo> selectPage(@Param("page") Page page, @Param("userInfo") UserInfo userInfo);
 
-    UserInfo findByLoginName(String loginName);
+    String findIdByLoginName(String loginName);
 
     List<UserInfo> findUsersByDeptId(String deptId);
 

@@ -16,7 +16,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class RoleMenuServiceImpl extends BaseJoinServiceImpl<RoleMenuRepository, RoleMenu, RoleMenuJoinDTO> implements IRoleMenuService<RoleMenu> {
+public class RoleMenuServiceImpl extends BaseJoinServiceImpl<RoleMenuRepository, RoleMenu, RoleMenuJoinDTO>
+        implements IRoleMenuService<RoleMenu> {
 
     /**
      * 保存角色菜单的分配
@@ -65,11 +66,11 @@ public class RoleMenuServiceImpl extends BaseJoinServiceImpl<RoleMenuRepository,
 
     @Override
     public List<String> findRoleIdsByMenuIds(List<String> menuIds) {
-        return iBaseRepository.findRoleIdsByMenuIds(menuIds);
+        return super.findFirstIdsBySecondIds(menuIds);
     }
 
     @Override
     public List<String> findMenuIdsByRoleIds(List<String> roleIds) {
-        return iBaseRepository.findMenuIdsByRoleIds(roleIds);
+        return super.findSecondIdsByFirstIds(roleIds);
     }
 }

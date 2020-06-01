@@ -66,11 +66,11 @@ public class RoleMenuServiceImpl extends BaseJoinServiceImpl<RoleMenuMapper, Rol
 
     @Override
     public List<String> findRoleIdsByMenuIds(List<String> menuIds) {
-        return iBaseMapper.findRoleIdsByMenuIds(menuIds);
+        return super.findFirstIdsBySecondIds(menuIds);
     }
 
     @Override
     public List<String> findMenuIdsByRoleIds(List<String> roleIds) {
-        return iBaseMapper.findMenuIdsByRoleIds(roleIds);
+        return super.findSecondIdsByFirstIds(roleIds);
     }
 }

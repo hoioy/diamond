@@ -1,8 +1,8 @@
 package com.hoioy.diamond.log.service;
 
-import com.hoioy.diamond.common.domain.DiamondDomain;
+import com.hoioy.diamond.common.domain.CommonDomain;
 import com.hoioy.diamond.common.service.IBaseService;
-import com.hoioy.diamond.common.util.DiamondSecurityUtils;
+import com.hoioy.diamond.common.util.CommonSecurityUtils;
 import com.hoioy.diamond.common.util.WebSiteUtil;
 import com.hoioy.diamond.log.annotation.OperationLogAnno;
 import com.hoioy.diamond.log.dto.WebLogsDTO;
@@ -14,9 +14,9 @@ import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
 import java.time.LocalDateTime;
 
-public interface IWebLogsService<D extends DiamondDomain> extends IBaseService<WebLogsDTO, D> {
+public interface IWebLogsService<D extends CommonDomain> extends IBaseService<WebLogsDTO, D> {
 
-    default String saveLog(JoinPoint joinPoint, LocalDateTime startTime) throws Exception {
+    default WebLogsDTO saveLog(JoinPoint joinPoint, LocalDateTime startTime) throws Exception {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
         // 远程客户ip地址
@@ -31,7 +31,7 @@ public interface IWebLogsService<D extends DiamondDomain> extends IBaseService<W
         WebLogsDTO webLogsDTO = new WebLogsDTO();
         webLogsDTO.setStartTime(startTime);
         webLogsDTO.setEndTime(LocalDateTime.now());
-        webLogsDTO.setLogUserName(DiamondSecurityUtils.getCurrentLogin());
+        webLogsDTO.setLogUserName(CommonSecurityUtils.getCurrentLogin());
         webLogsDTO.setLogMethodName(methodName);
         webLogsDTO.setLogClientIp(remoteClientIp);
         webLogsDTO.setLogServerIp(WebSiteUtil.getLocalIP());

@@ -24,10 +24,10 @@ public abstract class BaseJoinController<S extends IBaseJoinService, DTO extends
     @Valid
     @ApiOperation(value = "001.新增")
     @ApiOperationSupport(order = 1)
-    @PostMapping("/save")
-    public ResultDTO<Boolean> save(@RequestBody DTO dto) throws BaseException {
-        Boolean id = iBaseService.save(dto);
-        return new ResultDTO<Boolean>(id);
+    @PostMapping
+    public ResultDTO<DTO> save(@RequestBody DTO dto) throws BaseException {
+        DTO resultDTO = (DTO) iBaseService.save(dto);
+        return new ResultDTO(resultDTO);
     }
 
     @Valid
@@ -41,16 +41,16 @@ public abstract class BaseJoinController<S extends IBaseJoinService, DTO extends
 
     @ApiOperation(value = "003.根据DTO删除")
     @ApiOperationSupport(order = 3)
-    @DeleteMapping("/deleteByDTO")
-    public ResultDTO<Boolean> deleteById(@RequestBody DTO dto) throws BaseException {
+    @DeleteMapping("/delete")
+    public ResultDTO<Boolean> delete(@RequestBody DTO dto) throws BaseException {
         Boolean isSuccess = iBaseService.remove(dto);
         return new ResultDTO<Boolean>(isSuccess);
     }
 
     @ApiOperation(value = "004.根据多个DTO批量删除")
     @ApiOperationSupport(order = 4)
-    @DeleteMapping("/deleteByDTOs")
-    public ResultDTO<Boolean> deleteByIds(@RequestBody List<DTO> dtos) throws BaseException {
+    @DeleteMapping("/batch-delete")
+    public ResultDTO<Boolean> batchDelete(@RequestBody List<DTO> dtos) throws BaseException {
         Boolean isSuccess = iBaseService.batchRemove(dtos);
         return new ResultDTO<Boolean>(isSuccess);
     }

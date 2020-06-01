@@ -8,14 +8,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-/**
- * <p>
- * 
- * </p>
- *
- * @author 陈哲
- * @since 2020-04-10
- */
 @Data
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor

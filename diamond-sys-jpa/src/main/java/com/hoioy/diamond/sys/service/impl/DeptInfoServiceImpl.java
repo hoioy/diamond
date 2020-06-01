@@ -1,12 +1,13 @@
 package com.hoioy.diamond.sys.service.impl;
 
-import com.hoioy.diamond.common.base.BaseServiceImpl;
+import cn.hutool.core.util.StrUtil;
+import com.hoioy.diamond.common.base.BaseTreeServiceImpl;
 import com.hoioy.diamond.common.exception.BaseException;
-import com.hoioy.diamond.sys.domain.*;
+import com.hoioy.diamond.sys.domain.DeptInfo;
+import com.hoioy.diamond.sys.domain.DeptInfoRepository;
 import com.hoioy.diamond.sys.dto.DeptInfoDTO;
 import com.hoioy.diamond.sys.exception.SysException;
 import com.hoioy.diamond.sys.service.IDeptInfoService;
-import cn.hutool.core.util.StrUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -17,7 +18,7 @@ import java.util.List;
  * 机构Service
  */
 @Service
-public class DeptInfoServiceImpl extends BaseServiceImpl<DeptInfoRepository, DeptInfo, DeptInfoDTO> implements IDeptInfoService<DeptInfo> {
+public class DeptInfoServiceImpl extends BaseTreeServiceImpl<DeptInfoRepository, DeptInfo, DeptInfoDTO> implements IDeptInfoService<DeptInfo> {
     /**
      * 删除部门
      */

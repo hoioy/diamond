@@ -14,11 +14,11 @@ public class DeptUserServiceImpl extends BaseJoinServiceImpl<DeptUserRepository,
 
     @Override
     public List<String> findDeptIdsByUserIds(List<String> userIds) {
-        return iBaseRepository.findDeptIdsByUserIds(userIds);
+        return super.findFirstIdsBySecondIds(userIds);
     }
 
     @Override
     public List<String> findUserIdsByDeptIds(List<String> deptIds) {
-        return iBaseRepository.findUserIdsByDeptIds(deptIds);
+        return super.findSecondIdsByFirstIds(deptIds);
     }
 }

@@ -7,12 +7,11 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Map;
 
 @ApiModel(value = "分页查询对象", description = "分页查询对象")
 @Data
 @NoArgsConstructor
-public class PageDTO implements Serializable {
+public class PageDTO<DTO extends CommonDTO> implements Serializable {
 
     //    @Min(value=1, message="页数大于等于1")
     @ApiModelProperty(example = "1")
@@ -22,11 +21,12 @@ public class PageDTO implements Serializable {
     @ApiModelProperty(example = "10")
     private int pageSize;
 
-    private Map<String,Object> sorts;
+    private List<SortDTO> sorts;
 
-    private Map<String,Object> filters;
+    private DTO filters;
 
     private Long total;
 
+    @ApiModelProperty(example = "[]")
     private List list;
 }

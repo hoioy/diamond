@@ -1,6 +1,7 @@
 package com.hoioy.diamond.log.domain;
 
 import com.hoioy.diamond.common.base.BaseDomain;
+import com.hoioy.diamond.common.util.CommonJpaQueryWord;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -18,6 +19,7 @@ public class WebLogs extends BaseDomain{
     private static final long serialVersionUID = 1L;
 
     @Column(name = "log_user_name")
+    @CommonJpaQueryWord(func = CommonJpaQueryWord.MatchType.like)
     private String logUserName;
     @Column(name = "start_time")
     private LocalDateTime startTime;
@@ -26,6 +28,7 @@ public class WebLogs extends BaseDomain{
     @Column(name = "log_info")
     private String logInfo;
     @Column(name = "log_operation_type")
+    @CommonJpaQueryWord(func = CommonJpaQueryWord.MatchType.like)
     private String logOperationType;
     @Column(name = "log_table_name")
     private String logTableName;
@@ -34,6 +37,7 @@ public class WebLogs extends BaseDomain{
     @Column(name = "log_class_name")
     private String logClassName;
     @Column(name = "module")
+    @CommonJpaQueryWord(func = CommonJpaQueryWord.MatchType.like)
     private String module;
     @Column(name = "remark")
     private String remark;

@@ -3,13 +3,13 @@ package com.hoioy.diamond.sys.service.impl;
 import com.hoioy.diamond.common.base.BaseServiceImpl;
 import com.hoioy.diamond.common.dto.PageDTO;
 import com.hoioy.diamond.common.exception.BaseException;
-import com.hoioy.diamond.common.util.DiamondMybatisPageUtil;
-import com.hoioy.diamond.common.util.DiamondStatic;
+import com.hoioy.diamond.common.util.CommonMybatisPageUtil;
+import com.hoioy.diamond.common.util.CommonRedisUtil;
+import com.hoioy.diamond.common.util.CommonStatic;
 import com.hoioy.diamond.sys.domain.UserInfo;
 import com.hoioy.diamond.sys.dto.RoleUserJoinDTO;
 import com.hoioy.diamond.sys.dto.UserInfoDTO;
 import com.hoioy.diamond.sys.exception.SysException;
-import com.hoioy.diamond.sys.mapper.RoleUserMapper;
 import com.hoioy.diamond.sys.mapper.UserInfoMapper;
 import com.hoioy.diamond.sys.service.IDeptUserService;
 import com.hoioy.diamond.sys.service.IRoleUserService;
@@ -28,14 +28,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * <p>
- * 服务实现类
- * </p>
- *
- * @author 陈哲
- * @since 2020-03-24
- */
 @Service
 public class UserInfoServiceImpl extends BaseServiceImpl<UserInfoMapper, UserInfo, UserInfoDTO> implements IUserInfoService<UserInfo> {
 
@@ -49,13 +41,13 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfoMapper, UserInf
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    private RoleUserMapper roleUserMapper;
+    private CommonRedisUtil commonRedisUtil;
 
     @Override
-    public PageDTO getPage(PageDTO pageDTO) {
-        UserInfo userInfo = DiamondMybatisPageUtil.getBean(pageDTO, UserInfo.class);
-        IPage<UserInfo> data = baseMapper.selectPage(DiamondMybatisPageUtil.getPage(pageDTO), userInfo);
-        return DiamondMybatisPageUtil.getPageDTO(data);
+    public PageDTO<UserInfoDTO> getPage(PageDTO<UserInfoDTO> pageDTO) {
+        UserInfo userInfo = getDomainFilterFromPageDTO(pageDTO);
+        IPage<UserInfo> data = iBaseRepository.selectPage(CommonMybatisPageUtil.getPage(pageDTO), userInfo);
+        return CommonMybatisPageUtil.getPageDTO(data);
     }
 
     @Override
@@ -66,9 +58,9 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfoMapper, UserInf
         }
         String userId = null;
         if (dto.getId() == null) {
-            userId = save(dto);
+            userId = save(dto).getId();
         } else {
-            userId = update(dto);
+            userId = update(dto).getId();
         }
 
         if (!CollectionUtils.isEmpty(roleIds)) {
@@ -85,47 +77,35 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfoMapper, UserInf
     }
 
     @Override
-    public void savePwd(String userId, String password) {
-        findById(userId).ifPresent(userDTO -> {
-            userDTO.setPassword(passwordEncoder.encode(password));
-            update(userDTO);
-        });
+    public String findIdByLoginName(String loginName) throws BaseException {
+        return iBaseRepository.findIdByLoginName(loginName);
     }
 
     @Override
-    public UserInfoDTO findByLoginName(String loginName) throws BaseException {
-        UserInfo userInfo = baseMapper.findByLoginName(loginName);
-        if (userInfo == null) {
-            return null;
-        }
-        UserInfoDTO userInfoDTO = domainToDTO(userInfo);
-        return userInfoDTO;
-    }
-
-    @Override
-    public String update(UserInfoDTO dto) throws BaseException {
-        if (StringUtils.isEmpty(dto.getId())) {
-            throw new SysException("缺少ID，无法更新");
+    public UserInfoDTO update(UserInfoDTO dto) throws BaseException {
+        deleteCacheOfFindIdByLoginName();
+        if(StringUtils.isNotEmpty(dto.getPassword())){
+            dto.setPassword(passwordEncoder.encode(dto.getPassword()));
         }
         return super.update(dto);
     }
 
     @Override
-    public String save(UserInfoDTO dto) throws BaseException {
+    public UserInfoDTO save(UserInfoDTO dto) throws BaseException {
         // 设置默认密码
-        dto.setPassword(passwordEncoder.encode(DiamondStatic.DEFAULT_PASSWORD));
+        dto.setPassword(passwordEncoder.encode(CommonStatic.DEFAULT_PASSWORD));
         return super.save(dto);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    @PreAuthorize("hasAuthority('" + DiamondStatic.ROLE_ID_KEY + "')")
+    @PreAuthorize("hasAuthority('" + CommonStatic.ROLE_ID_KEY + "')")
     public boolean removeByIds(List<String> ids) throws BaseException {
         if (CollectionUtils.isEmpty(ids)) {
             return true;
         }
 
-        List<String> roleIds = roleUserMapper.findRoleIdsByUserIds(ids);
+        List<String> roleIds = iRoleUserService.findRoleIdsByUserIds(ids);
         List<String> deptIds = iDeptUserService.findDeptIdsByUserIds(ids);
         if (!CollectionUtils.isEmpty(roleIds)) {
             throw new SysException("有用户与角色关联，不能删除！");
@@ -134,14 +114,27 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfoMapper, UserInf
             throw new SysException("有用户与机构单位关联，不能删除！");
         }
 
+        deleteCacheOfFindIdByLoginName();
         return super.removeByIds(ids);
     }
 
     @Override
+    public boolean removeById(String id) throws BaseException {
+        deleteCacheOfFindIdByLoginName();
+        return super.removeById(id);
+    }
+
+    @Override
     public void saveUserAvatar(String loginName, String newName, MultipartFile file) throws IOException {
-        UserInfoDTO userInfoDTO = findByLoginName(loginName);
+        String id = findIdByLoginName(loginName);
+        UserInfoDTO userInfoDTO = findById(id).get();
         userInfoDTO.setAvatar(newName);
         userInfoDTO.setAvatarContent(file.getBytes());
         update(userInfoDTO);
+    }
+
+    private void deleteCacheOfFindIdByLoginName() {
+        //有删除操作，则直接删除所有findIdByLoginName缓存
+        commonRedisUtil.removeByPattern(CacheKey_findIdByLoginName + "*");
     }
 }

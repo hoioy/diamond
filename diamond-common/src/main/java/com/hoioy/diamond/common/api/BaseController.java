@@ -24,10 +24,10 @@ public abstract class BaseController<S extends IBaseService, DTO extends BaseDTO
     @Valid
     @ApiOperation(value = "001.新增")
     @ApiOperationSupport(order = 1)
-    @PostMapping("/save")
-    public ResultDTO<String> save(@RequestBody DTO dto) throws BaseException {
-        String id = iBaseService.save(dto);
-        return new ResultDTO<String>(id);
+    @PostMapping
+    public ResultDTO<DTO> save(@RequestBody DTO dto) throws BaseException {
+        DTO resultDTO = (DTO) iBaseService.save(dto);
+        return new ResultDTO(resultDTO);
     }
 
     @ApiOperation(value = "002.批量新增")
@@ -41,16 +41,16 @@ public abstract class BaseController<S extends IBaseService, DTO extends BaseDTO
     @Valid
     @ApiOperation(value = "003.修改")
     @ApiOperationSupport(order = 3)
-    @PutMapping("/update")
+    @PutMapping
     public ResultDTO<String> update(@RequestBody DTO dto) throws BaseException {
-        String id = iBaseService.update(dto);
-        return new ResultDTO<String>(id);
+        DTO resultDTO = (DTO) iBaseService.update(dto);
+        return new ResultDTO(resultDTO);
     }
 
     @ApiOperation(value = "004.根据id删除")
     @ApiOperationSupport(order = 4)
-    @DeleteMapping("/deleteById")
-    public ResultDTO<Boolean> deleteById(@RequestParam("id") String id) throws BaseException {
+    @DeleteMapping("/{id}")
+    public ResultDTO<Boolean> deleteById(@PathVariable("id") String id) throws BaseException {
         Boolean isSuccess = iBaseService.removeById(id);
         return new ResultDTO<Boolean>(isSuccess);
     }
@@ -65,16 +65,16 @@ public abstract class BaseController<S extends IBaseService, DTO extends BaseDTO
 
     @ApiOperation(value = "006.根据id查询")
     @ApiOperationSupport(order = 6)
-    @GetMapping("/selectById")
-    public ResultDTO<DTO> selectById(@RequestParam String id) throws BaseException {
+    @GetMapping("/{id}")
+    public ResultDTO<DTO> selectById(@PathVariable("id") String id) throws BaseException {
         Optional<DTO> byId = iBaseService.findById(id);
         return new ResultDTO<DTO>(byId.get());
     }
 
     @Valid
     @ApiOperation(value = "普通单表分页查询")
-    @PostMapping(value = "/selectByPage")
-    public ResultDTO selectByPage(@RequestBody PageDTO pageDTO) {
+    @PostMapping(value = "/search")
+    public ResultDTO<PageDTO<DTO>> selectByPage(@RequestBody PageDTO<DTO> pageDTO) {
         pageDTO = iBaseService.getPage(pageDTO);
         return new ResultDTO(pageDTO);
     }

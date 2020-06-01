@@ -5,7 +5,7 @@
  Source Server Type    : MySQL
  Source Server Version : 80019
  Source Host           : localhost:3306
- Source Schema         : tdf
+ Source Schema         : diamond
 
  Target Server Type    : MySQL
  Target Server Version : 80019

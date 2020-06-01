@@ -16,50 +16,23 @@ spring:
     url: "jdbc:mysql://localhost:3306/diamond?serverTimezone=GMT%2B8&amp&characterEncoding=utf-8&useSSL=false"  #  mysql 8时候配置
     # url=jdbc:mysql://127.0.0.1:3306/diamond?useUnicode=true&characterEncoding=utf-8     # mysql 8以下配置
     # type=com.zaxxer.hikari.HikariDataSource    # mysql 8以下配置
-    data: "classpath:/mysqldata.sql"      #初始化sql配置
+    data: "classpath:/init/mysqldata.sql"      #初始化sql配置
+#    schema: "classpath:/init/mysqlschema.sql"  #初始化sql配置,使用mybatis时候可以打开,
     username: root
     password: admin
     data-username: root
     data-password: admin
   jpa:
     database-platform: org.hibernate.dialect.MySQL8Dialect
-
-##oracle配置
-#---
-#spring:
-#  datasource:
-#    data: classpath:/oracledata.sql
-#    data-password: 123456
-#    data-username: DiamondNEW
-#    driver-class-name: oracle.jdbc.driver.OracleDriver
-#    password: 123456
-#    url: jdbc:oracle:thin:@192.168.19.1:1522:ORCL1
-#    username: DiamondNEW
-#  jpa:
-#    database-platform: org.hibernate.dialect.Oracle12cDialect
-#mybatis-plus:
-#  jdbc-type-for-null: 'null'     #oracle数据库，要加上下面这个配置
-#
-##Kingbase8相关配置
-#---
-#spring:
-#  datasource:
-#    data-password: admin
-#    data-username: root
-#    driver-class-name: com.kingbase8.Driver
-#    password: admin
-#    url: jdbc:kingbase8://192.168.70.43:9092/SAMPLES
-#    username: root
-#    jpa:
-#      database-platform: org.hibernate.dialect.Kingbase8Dialect  #Kingbase8方言
-#---
-## TODO 进仓数据库，mybatis这个属性还没有测试 陈哲
-#mybatis-plus:
-#  jdbc-type-for-null: 'null'
-
 ---
 # redis配置
 spring:
+  lettuce:
+    pool:
+      max-active: 500
+      max-idle: 500
+      max-wait: -1
+      min-idle: 10
   redis:
     database: 2
     host: 127.0.0.1
@@ -70,7 +43,8 @@ spring:
 logging:
   level:
     org.springframework.web: debug
-    com.hoioy.diamond: debug
+    com.hoioy: debug
+
 
 # swagger2是否开启
 swagger2:

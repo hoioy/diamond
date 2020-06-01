@@ -15,11 +15,11 @@ public class DeptUserServiceImpl extends BaseJoinServiceImpl<DeptUserMapper, Dep
 
     @Override
     public List<String> findDeptIdsByUserIds(List<String> userIds) {
-        return iBaseMapper.findDeptIdsByUserIds(userIds);
+        return super.findFirstIdsBySecondIds(userIds);
     }
 
     @Override
     public List<String> findUserIdsByDeptIds(List<String> deptIds) {
-        return iBaseMapper.findDeptIdsByUserIds(deptIds);
+        return super.findSecondIdsByFirstIds(deptIds);
     }
 }

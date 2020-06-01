@@ -2,98 +2,83 @@ package com.hoioy.diamond.common.base;
 
 import com.hoioy.diamond.common.dto.BaseDTO;
 import com.hoioy.diamond.common.exception.BaseException;
+import com.hoioy.diamond.common.exception.CommonException;
+import com.hoioy.diamond.common.service.AbstractBaseServiceImpl;
 import com.hoioy.diamond.common.service.IBaseService;
-import com.hoioy.diamond.common.util.DiamondBeanUtil;
-import com.hoioy.diamond.common.util.DiamondReflectionUtil;
+import com.hoioy.diamond.common.util.CommonBeanUtil;
+import com.hoioy.diamond.common.util.CommonRedisUtil;
 import com.hoioy.diamond.common.validator.exception.ValidateException;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
-public abstract class BaseServiceImpl<M extends IBaseMapper<T>, T extends BaseDomain, DTO extends BaseDTO> extends ServiceImpl<M, T> implements IBaseService<DTO, T> {
-    protected Class<T> domainClass = (Class<T>) DiamondReflectionUtil.getSuperClassGenericType(getClass(), 1);
-    protected Class<DTO> dtoClass = (Class<DTO>) DiamondReflectionUtil.getSuperClassGenericType(getClass(), 2);
-
-    @Override
-    public final Class<T> getDomainClass() {
-        return domainClass;
-    }
-
-    @Override
-    public final Class<DTO> getDTOClass() {
-        return dtoClass;
-    }
-
-    public final DTO domainToDTO(T domain) {
-        return domainToDTO(domain, true);
-    }
-
-    public final T dtoToDomain(DTO dto) {
-        return dtoToDomain(dto, true);
-    }
-
-    public final List<DTO> domainListToDTOList(List<T> dList) {
-        return domainListToDTOList(dList, true);
-    }
-
-    public final List<T> dtoListToDomainList(List<DTO> dtoList) {
-        return dtoListToDomainList(dtoList, true);
-    }
+public abstract class BaseServiceImpl<M extends IBaseMapper<T>, T extends BaseDomain, DTO extends BaseDTO>
+        extends AbstractBaseServiceImpl<M, T, DTO> implements IBaseService<DTO, T> {
+    @Autowired
+    private CommonRedisUtil commonRedisUtil;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public String save(DTO dto) throws BaseException {
+    public DTO save(DTO dto) throws BaseException {
         T t = createDomain();
-        DiamondBeanUtil.saveCopy(dto, t);
-        super.saveOrUpdate(t);
-        return t.getId();
+        CommonBeanUtil.saveCopy(dto, t);
+        iBaseRepository.insert(t);
+        return domainToDTO(t);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public String update(DTO dto) throws BaseException {
+    public DTO update(DTO dto) throws BaseException {
         if (StrUtil.isBlank(dto.getId())) {
             throw new ValidateException("ID不能为空");
         }
         T t = createDomain();
-        DiamondBeanUtil.updateCopy(dto, t);
-        super.saveOrUpdate(t);
-        return t.getId();
+        CommonBeanUtil.updateCopy(dto, t);
+        if (iBaseRepository.updateById(t) > 0) {
+            return domainToDTO(t);
+        }
+        throw new CommonException("更新失败");
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean removeById(String id) throws BaseException {
-        return super.removeById(id);
+        iBaseRepository.deleteById(id);
+        return true;
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean removeByIds(List<String> ids) throws BaseException {
-        return super.removeByIds(ids);
+        Set<String> cacheKeys = new HashSet<>();
+        ids.forEach(id -> {
+            cacheKeys.add(CacheKey_dto + "::" + CommonRedisUtil.getCacheKey(getDTOClass().getSimpleName(), id));
+        });
+        //删除对应的缓存
+        commonRedisUtil.mremove(cacheKeys);
+        iBaseRepository.deleteBatchIds(ids);
+        return true;
     }
 
     @Override
     public Optional<DTO> findById(String id) throws BaseException {
-        T byId = super.getById(id);
-        DTO dto = createDTO();
-        DiamondBeanUtil.saveCopy(byId, dto);
-        Optional<DTO> optionalDTO = Optional.ofNullable(dto);
-        return optionalDTO;
+        T domain = iBaseRepository.selectById(id);
+        if(domain==null) {
+            return Optional.ofNullable(null);
+        }
+        DTO dto = domainToDTO(domain, true);
+        return Optional.ofNullable(dto);
     }
 
     @Override
     public List<DTO> findByIds(List<String> ids) {
         if (CollUtil.isNotEmpty(ids)) {
-            List<T> domains = super.listByIds(ids);
+            List<T> domains = iBaseRepository.selectBatchIds(ids);
             return domainListToDTOList(domains);
         } else {
             return new ArrayList<DTO>();
@@ -102,13 +87,12 @@ public abstract class BaseServiceImpl<M extends IBaseMapper<T>, T extends BaseDo
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public boolean batchSave(Collection<DTO> entityList) throws BaseException {
-        List<T> list = new ArrayList<>();
-        entityList.stream().forEach(x -> {
+    public boolean batchSave(List<DTO> dtoList) throws BaseException {
+        dtoList.stream().forEach(dto -> {
             T domain = createDomain();
-            DiamondBeanUtil.saveCopy(x, domain);
-            list.add(domain);
+            CommonBeanUtil.saveCopy(dto, domain);
+            iBaseRepository.insert(domain);
         });
-        return super.saveBatch(list);
+        return true;
     }
 }

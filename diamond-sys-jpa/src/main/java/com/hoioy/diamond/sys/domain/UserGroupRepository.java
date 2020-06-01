@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
  * 用户组Repository
  */
 @Repository
-public interface UserGroupRepository extends IBaseRepository<UserGroup, String> {
+public interface UserGroupRepository extends IBaseRepository<UserGroup> {
 
 }

@@ -1,6 +1,6 @@
 package com.hoioy.diamond.sys.dto;
 
-import com.hoioy.diamond.common.dto.BaseDTO;
+import com.hoioy.diamond.common.dto.BaseTreeDTO;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,7 +11,7 @@ import java.util.List;
  */
 @Data
 @NoArgsConstructor
-public class MenuRouterDTO extends BaseDTO implements Comparable<MenuRouterDTO> {
+public class MenuRouterDTO extends BaseTreeDTO implements Comparable<MenuRouterDTO> {
     private static final long serialVersionUID = 8531051872528629002L;
 
     private String path;

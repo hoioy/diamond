@@ -4,6 +4,6 @@ import com.hoioy.diamond.common.base.IBaseRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface FileStorageRepository extends IBaseRepository<FileStorage, String> {
+public interface FileStorageRepository extends IBaseRepository<FileStorage> {
 
 }

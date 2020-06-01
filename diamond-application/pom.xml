@@ -7,7 +7,8 @@
     <parent>
         <groupId>com.hoioy</groupId>
         <artifactId>diamond-bom</artifactId>
-        <version>2.1.13-SNAPSHOT</version>
+        <version>2.1.14-SNAPSHOT</version>
+        <relativePath>..</relativePath>
     </parent>
     <properties>
         <skipTests>true</skipTests>
@@ -15,7 +16,11 @@
     <dependencies>
         <dependency>
             <groupId>com.hoioy</groupId>
-            <artifactId>diamond-security</artifactId>
+            <artifactId>diamond-log</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.hoioy</groupId>
+            <artifactId>diamond-security-jwt</artifactId>
         </dependency>
         <dependency>
             <groupId>com.hoioy</groupId>
@@ -25,14 +30,14 @@
             <groupId>com.hoioy</groupId>
             <artifactId>diamond-log-jpa</artifactId>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>com.hoioy</groupId>-->
-<!--            <artifactId>diamond-sys-mybatis</artifactId>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>com.hoioy</groupId>-->
-<!--            <artifactId>diamond-log-mybatis</artifactId>-->
-<!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>com.hoioy</groupId>-->
+        <!--            <artifactId>diamond-sys-mybatis</artifactId>-->
+        <!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>com.hoioy</groupId>-->
+        <!--            <artifactId>diamond-log-mybatis</artifactId>-->
+        <!--        </dependency>-->
         <dependency>
             <groupId>com.hoioy</groupId>
             <artifactId>diamond-sys-web</artifactId>
@@ -46,6 +51,15 @@
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-pool2</artifactId>
+        </dependency>
+        <!--pgsql-->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
         </dependency>
         <!--mysql-->
         <dependency>

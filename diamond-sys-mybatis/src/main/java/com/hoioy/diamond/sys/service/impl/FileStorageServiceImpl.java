@@ -22,21 +22,13 @@ import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * <p>
- *  服务实现类
- * </p>
- *
- * @author 陈哲
- * @since 2020-04-10
- */
 @Service
 public class FileStorageServiceImpl extends BaseServiceImpl<FileStorageMapper, FileStorage, FileStorageDTO> implements IFileStorageService<FileStorage> {
 
     @Value("${diamond.sys.file-storage.root-path}")
     public String fileStorageRootPath;
     @Override
-    public String saveFile(MultipartFile file, String relativePath, String replacedFileName) throws BaseException, IOException {
+    public FileStorageDTO saveFile(MultipartFile file, String relativePath, String replacedFileName) throws BaseException, IOException {
         if (file == null || file.isEmpty()) {
             throw new SysException("文件不可以为null");
         }

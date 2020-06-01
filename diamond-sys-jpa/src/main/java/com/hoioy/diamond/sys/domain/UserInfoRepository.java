@@ -7,12 +7,13 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UserInfoRepository extends IBaseRepository<UserInfo, String> {
+public interface UserInfoRepository extends IBaseRepository<UserInfo> {
 
     /**
      * 根据登录名称查询用户
      */
-    UserInfo findByLoginName(String loginName);
+    @Query("select u.id from UserInfo u where u.loginName=:loginName")
+    String findIdByLoginName(String loginName);
 
     /**
      * 修改头像

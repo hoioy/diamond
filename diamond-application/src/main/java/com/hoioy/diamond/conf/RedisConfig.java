@@ -1,6 +1,12 @@
 package com.hoioy.diamond.conf;
 
-import com.hoioy.diamond.sys.api.DataItemController;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.hoioy.diamond.common.cache.BaseCacheKeyGenerator;
+import com.hoioy.diamond.common.util.CommonRedisUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +35,7 @@ import java.util.concurrent.CountDownLatch;
 @Configuration
 @EnableCaching
 public class RedisConfig extends CachingConfigurerSupport {
-    private static final Logger logger = LoggerFactory.getLogger(DataItemController.class);
+    private static final Logger logger = LoggerFactory.getLogger(RedisConfig.class);
 
     @Autowired
     private RedisConnectionFactory redisConnectionFactory;
@@ -53,11 +59,23 @@ public class RedisConfig extends CachingConfigurerSupport {
     }
 
     @Bean
+    public BaseCacheKeyGenerator baseCacheKeyGenerator(){
+       return new BaseCacheKeyGenerator();
+    }
+
+    @Bean
     public RedisCacheManager redisCacheManager(RedisConnectionFactory connectionFactory) {
+        ObjectMapper om = new ObjectMapper();
+        om.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+        om.registerModule(new JavaTimeModule());
+        om.registerModule((new SimpleModule()));
+        om.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL, JsonTypeInfo.As.PROPERTY);
+        GenericJackson2JsonRedisSerializer  serializer = new GenericJackson2JsonRedisSerializer(om);
+
         RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig()
                 .entryTtl(timeToLive)
                 .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer()))
-                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer()))
+                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(serializer))
                 .disableCachingNullValues();
 
         RedisCacheManager redisCacheManager = RedisCacheManager.builder(connectionFactory)
@@ -79,6 +97,11 @@ public class RedisConfig extends CachingConfigurerSupport {
     @Bean
     MessageListenerAdapter listenerAdapter() {
         return new MessageListenerAdapter(new Receiver(new CountDownLatch(1)), "receiveMessage");
+    }
+
+    @Bean
+    public CommonRedisUtil tdfRedisUtil() {
+        return new CommonRedisUtil();
     }
 
     public class Receiver {

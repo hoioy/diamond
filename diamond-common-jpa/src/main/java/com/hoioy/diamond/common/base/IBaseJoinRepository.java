@@ -1,12 +1,12 @@
 package com.hoioy.diamond.common.base;
 
-import com.hoioy.diamond.common.domain.IDiamondRepository;
-import com.hoioy.diamond.common.domain.DiamondDomain;
+import com.hoioy.diamond.common.domain.ICommonRepository;
+import com.hoioy.diamond.common.domain.CommonDomain;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.NoRepositoryBean;
 
 @NoRepositoryBean
-public interface IBaseJoinRepository<D extends DiamondDomain, ID> extends IDiamondRepository<D>, JpaRepository<D, ID>, JpaSpecificationExecutor<D> {
+public interface IBaseJoinRepository<D extends CommonDomain> extends ICommonRepository<D>, JpaRepository<D, String>, JpaSpecificationExecutor<D> {
 
 }

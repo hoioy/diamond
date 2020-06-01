@@ -1,11 +1,14 @@
 package com.hoioy.diamond.log.domain;
 
 import com.hoioy.diamond.common.base.BaseDomain;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import com.baomidou.mybatisplus.annotation.TableField;
-import lombok.*;
 
 /**
  * <p>

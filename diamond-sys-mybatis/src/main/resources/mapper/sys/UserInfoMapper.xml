@@ -111,9 +111,9 @@
             AND user_name = #{userInfo.userName}
         </if>
     </select>
-    <select id="findByLoginName" resultMap="BaseResultMap">
+    <select id="findIdByLoginName" resultType="string">
         select
-        <include refid="Base_Column_List"/>
+        id
         from
         user_info
         where

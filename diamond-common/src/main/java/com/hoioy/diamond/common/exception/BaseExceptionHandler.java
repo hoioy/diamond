@@ -3,12 +3,8 @@ package com.hoioy.diamond.common.exception;
 import com.hoioy.diamond.common.dto.ResultDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.Ordered;
-import org.springframework.core.annotation.Order;
-import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -26,32 +22,29 @@ import javax.servlet.http.HttpServletRequest;
  * javax.servlet.error.servlet_name            类型为String         异常出现的servlet名
  * <p>
  */
-@ControllerAdvice(basePackages = {"com.hoioy.diamond"})
-//优先级最低，方便被实际项目覆盖
-@Order(Ordered.LOWEST_PRECEDENCE)
-public class BaseExceptionHandler {
+public abstract class BaseExceptionHandler {
     private static final Logger logger = LoggerFactory.getLogger(BaseExceptionHandler.class);
     //diamond base的基础异常，如果实际项目没有覆盖，则会被此handler捕捉处理
     @ExceptionHandler(BaseException.class)
     @ResponseBody
-    public ResponseEntity<?> baseExceptionHandler(HttpServletRequest request, BaseException ex) {
+    public ResponseEntity<ResultDTO> baseExceptionHandler(HttpServletRequest request, BaseException ex) {
         HttpStatus status = getStatus(request);
         //TODO 自定义扩展HTTP status，或不扩展, 与熔断机制融合
         // 为500时，返回自定义错误码
         ex.printStackTrace();
-        return new ResponseEntity<>(new ResultDTO<>(ex.getCode(), ex.getMessage(), ex.getMessage()), HttpStatus.OK);
-    }
+        return new ResponseEntity<>(new ResultDTO<>(ex.getCode(), ex.getMessage(), ex.getMessage()), status);
+   }
 
     //最基础异常封装，起"保底"作用
     @ExceptionHandler(Exception.class)
     @ResponseBody
-    public ResponseEntity<?> runtimeExceptionHandler(HttpServletRequest request, Exception ex) {
+    public ResponseEntity<ResultDTO> runtimeExceptionHandler(HttpServletRequest request, Exception ex) {
         HttpStatus status = getStatus(request);
         ex.printStackTrace();
         return new ResponseEntity<>(new ResultDTO<>(status.value(), ex.getMessage(), ex.getMessage()), status);
     }
 
-    private HttpStatus getStatus(HttpServletRequest request) {
+    public HttpStatus getStatus(HttpServletRequest request) {
         Integer statusCode = (Integer) request.getAttribute("javax.servlet.error.status_code");
         if (statusCode == null) {
             return HttpStatus.INTERNAL_SERVER_ERROR;

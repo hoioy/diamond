@@ -31,7 +31,7 @@ public class WebMonitorLog {
      */
 //    @After("bean(*Controller)")
     @After("within(com.hoioy.diamond.common.api.BaseController+)")
-//    @Before("within(com.hoioy.diamond.*.web..*) || within(com.hoioy.diamond.*.api..*)")
+//    @Before("within(com.hoioy.*.web..*) || within(com.hoioy.*.api..*)")
     public void beforeAdvice(JoinPoint joinPoint) {
         startTime = LocalDateTime.now();
     }
@@ -41,7 +41,7 @@ public class WebMonitorLog {
      */
 //    @After("bean(*Controller)")
     @After("within(com.hoioy.diamond.common.api.BaseController+)")
-//    @After("within(com.hoioy.diamond.*.web..*) || within(com.hoioy.diamond.*.api..*)")
+//    @After("within(com.hoioy.*.web..*) || within(com.hoioy.*.api..*)")
     public void afterAdvice(JoinPoint joinPoint) throws Exception {
         if (loglock.equals("on")) {
             iWebLogsService.saveLog(joinPoint, startTime);

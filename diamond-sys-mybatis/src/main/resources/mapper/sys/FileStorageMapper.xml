@@ -10,7 +10,6 @@
         <result column="flag" property="flag"/>
         <result column="modified_by" property="modifiedBy"/>
         <result column="modified_date" property="modifiedDate"/>
-        <result column="parent_id" property="parentId"/>
         <result column="remark" property="remark"/>
         <result column="version" property="version"/>
         <result column="extension" property="extension"/>

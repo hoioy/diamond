@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hoioy.diamond.sys.mapper.DataItemTypeMapper">
+
+    <resultMap id="MapperResultMap" type="com.hoioy.diamond.sys.domain.DataItemType">
+        <result column="id" property="id"/>
+        <result column="flag" property="flag"/>
+        <result column="created_by" property="createdBy"/>
+        <result column="created_date" property="createdDate"/>
+        <result column="modified_by" property="modifiedBy"/>
+        <result column="modified_date" property="modifiedDate"/>
+        <result column="remark" property="remark"/>
+        <result column="type_name" property="typeName"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,
+        flag,
+        created_by, created_date, modified_by, modified_date, type_name
+    </sql>
+
+    <select id="selectPage" resultMap="MapperResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        data_item_type
+        where
+        flag=1
+        <if test="dataItemType.typeName != null and dataItemType.typeName != ''">
+            AND type_name = #{dataItemType.typeName}
+        </if>
+    </select>
+
+</mapper>

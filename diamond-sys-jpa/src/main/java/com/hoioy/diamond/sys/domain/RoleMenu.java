@@ -1,6 +1,8 @@
 package com.hoioy.diamond.sys.domain;
 
+import com.hoioy.diamond.common.annotation.BaseJoinId;
 import com.hoioy.diamond.common.base.BaseJoinDomain;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -22,8 +24,10 @@ public class RoleMenu extends BaseJoinDomain {
     private static final long serialVersionUID = -3204190138251678123L;
 
     @Column(name = "role_id")
+    @BaseJoinId(index = BaseJoinId.Index.first)
     private String roleId;
 
     @Column(name = "menu_id")
+    @BaseJoinId(index = BaseJoinId.Index.second)
     private String menuId;
 }

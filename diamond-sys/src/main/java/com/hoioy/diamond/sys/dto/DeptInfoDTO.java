@@ -1,6 +1,6 @@
 package com.hoioy.diamond.sys.dto;
 
-import com.hoioy.diamond.common.dto.BaseDTO;
+import com.hoioy.diamond.common.dto.BaseTreeDTO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -17,9 +17,9 @@ import javax.validation.constraints.NotBlank;
 @ApiModel(value = "机构单位Dept视图对象:DeptInfoDTO", description = "机构单位Dept视图对象:DeptInfoDTO")
 @Data
 @NoArgsConstructor
-public class DeptInfoDTO extends BaseDTO {
+public class DeptInfoDTO extends BaseTreeDTO{
 
-    private static final long serialVersionUID = 8632051872528629002L;
+    private static final long serialVersionUID = 8632058629002L;
 
     private String deptDesc;
 

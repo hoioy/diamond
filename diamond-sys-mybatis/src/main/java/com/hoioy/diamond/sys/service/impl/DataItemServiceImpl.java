@@ -1,9 +1,9 @@
 package com.hoioy.diamond.sys.service.impl;
 
-import com.hoioy.diamond.common.base.BaseServiceImpl;
+import com.hoioy.diamond.common.base.BaseTreeServiceImpl;
 import com.hoioy.diamond.common.dto.PageDTO;
 import com.hoioy.diamond.common.exception.BaseException;
-import com.hoioy.diamond.common.util.DiamondMybatisPageUtil;
+import com.hoioy.diamond.common.util.CommonMybatisPageUtil;
 import com.hoioy.diamond.sys.domain.DataItem;
 import com.hoioy.diamond.sys.dto.DataItemDTO;
 import com.hoioy.diamond.sys.exception.SysException;
@@ -17,23 +17,15 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-/**
- * <p>
- * 服务实现类
- * </p>
- *
- * @author 陈哲
- * @since 2020-03-24
- */
 @Service
-public class DataItemServiceImpl extends BaseServiceImpl<DataItemMapper, DataItem, DataItemDTO> implements IDataItemService<DataItem> {
+public class DataItemServiceImpl extends BaseTreeServiceImpl<DataItemMapper, DataItem, DataItemDTO> implements IDataItemService<DataItem> {
 
     @Override
-    public PageDTO getPage(PageDTO pageDTO) throws BaseException {
-        Page page = DiamondMybatisPageUtil.getPage(pageDTO);
-        DataItem dataItem = DiamondMybatisPageUtil.getBean(pageDTO, DataItem.class);
-        IPage<DataItem> dataItemIPage = baseMapper.selectPage(page, dataItem);
-        PageDTO resultPage = DiamondMybatisPageUtil.getPageDTO(dataItemIPage);
+    public PageDTO<DataItemDTO> getPage(PageDTO<DataItemDTO> pageDTO) throws BaseException {
+        Page page = CommonMybatisPageUtil.getPage(pageDTO);
+        DataItem dataItem = getDomainFilterFromPageDTO(pageDTO);
+        IPage<DataItem> dataItemIPage = iBaseRepository.selectPage(page, dataItem);
+        PageDTO resultPage = CommonMybatisPageUtil.getPageDTO(dataItemIPage);
         return resultPage;
     }
 
@@ -42,8 +34,8 @@ public class DataItemServiceImpl extends BaseServiceImpl<DataItemMapper, DataIte
         if (StrUtil.isBlank(id)) {
             throw new SysException("id不能为空");
         }
-        List<DataItem> dataItems = this.baseMapper.selectByParentId(id);
-        if (CollUtil.isNotEmpty(dataItems)) {
+        List<DataItemDTO> byParentId = this.findByParentId(id);
+        if (CollUtil.isNotEmpty(byParentId)) {
             throw new SysException("该条记录下面含有子元素集合，不能删除！");
         }
         return super.removeById(id);
@@ -51,8 +43,8 @@ public class DataItemServiceImpl extends BaseServiceImpl<DataItemMapper, DataIte
     }
 
     @Override
-    public String save(DataItemDTO dto) throws BaseException {
-        DataItem byCode = baseMapper.findByCode(dto.getCode());
+    public DataItemDTO save(DataItemDTO dto) throws BaseException {
+        DataItem byCode = iBaseRepository.findByCode(dto.getCode());
         if (byCode != null) {
             throw new SysException("该code已存在");
         }
@@ -60,8 +52,8 @@ public class DataItemServiceImpl extends BaseServiceImpl<DataItemMapper, DataIte
     }
 
     @Override
-    public String update(DataItemDTO dto) throws BaseException {
-        DataItem byCode = baseMapper.findByCode(dto.getCode());
+    public DataItemDTO update(DataItemDTO dto) throws BaseException {
+        DataItem byCode = iBaseRepository.findByCode(dto.getCode());
         if (byCode != null) {
             throw new SysException("该code已存在");
         }

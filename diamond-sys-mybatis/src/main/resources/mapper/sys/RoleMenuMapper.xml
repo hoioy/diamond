@@ -12,25 +12,5 @@
     <sql id="Base_Column_List">
         menu_id, role_id
     </sql>
-    <select id="findRoleIdsByMenuIds" resultType="java.lang.String">
-        select
-        role_id
-        from
-        role_menu
-        where menu_id in
-        <foreach collection="menuIds" item="menuId" index="index" open="(" close=")" separator=",">
-            #{menuId}
-        </foreach>
-    </select>
-    <select id="findMenuIdsByRoleIds" resultType="java.lang.String">
-        select
-        menu_id
-        from
-        role_menu
-        where role_id in
-        <foreach collection="roleIds" item="roleId" index="index" open="(" close=")" separator=",">
-            #{roleId}
-        </foreach>
-    </select>
 
 </mapper>

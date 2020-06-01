@@ -1,6 +1,6 @@
 package com.hoioy.diamond.sys.dto;
 
-import com.hoioy.diamond.common.dto.DiamondUserDTO;
+import com.hoioy.diamond.common.dto.CommonUserDTO;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @ApiModel(value = "userDto对象", description = "用户对象userDto")
 @Data
 @NoArgsConstructor
-public class UserInfoDTO extends DiamondUserDTO {
+public class UserInfoDTO extends CommonUserDTO {
     private static final long serialVersionUID = 1170018455276020707L;
 
     //	@ExcelResources(title = "用户序号", order = 1)

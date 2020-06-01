@@ -1,6 +1,6 @@
 package com.hoioy.diamond.sys.dto;
 
-import com.hoioy.diamond.common.dto.BaseDTO;
+import com.hoioy.diamond.common.dto.BaseTreeDTO;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -9,9 +9,9 @@ import lombok.NoArgsConstructor;
  */
 @Data
 @NoArgsConstructor
-public class MenuDTO extends BaseDTO {
+public class MenuDTO extends BaseTreeDTO {
 
-    private static final long serialVersionUID = -2858011414460214454L;
+    private static final long serialVersionUID = -28594460214454L;
 
     private String controllerClass;
 

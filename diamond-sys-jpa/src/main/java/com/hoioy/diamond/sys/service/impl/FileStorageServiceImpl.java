@@ -26,7 +26,7 @@ public class FileStorageServiceImpl extends BaseServiceImpl<FileStorageRepositor
     @Value("${diamond.sys.file-storage.root-path}")
     public String fileStorageRootPath;
 
-    public String saveFile(MultipartFile file, String relativePath, String replacedFileName) throws BaseException, IOException {
+    public FileStorageDTO saveFile(MultipartFile file, String relativePath, String replacedFileName) throws BaseException, IOException {
         if (file == null || file.isEmpty()) {
             throw new SysException("文件不可以为null");
         }
@@ -41,7 +41,7 @@ public class FileStorageServiceImpl extends BaseServiceImpl<FileStorageRepositor
         String extensionName = filename.substring(filename.lastIndexOf(".") + 1);
         Path path = Paths.get(fileStorageRootPath+ relativePath);
         Files.createDirectories(path);
-        Files.copy(file.getInputStream(), path.resolve(replacedFileName + "." + extensionName), StandardCopyOption.REPLACE_EXISTING);
+        Files.copy(file.getInputStream(), path.resolve(replacedFileName), StandardCopyOption.REPLACE_EXISTING);
         //2. 文件元数据存储到数据库
         FileStorageDTO dto = new FileStorageDTO();
         dto.setFileName(replacedFileName);
@@ -51,7 +51,7 @@ public class FileStorageServiceImpl extends BaseServiceImpl<FileStorageRepositor
     }
 
     @Override
-    public String update(FileStorageDTO dto) throws BaseException {
+    public FileStorageDTO update(FileStorageDTO dto) throws BaseException {
         return super.update(dto);
     }
 

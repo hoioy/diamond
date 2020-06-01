@@ -65,11 +65,11 @@ public class RoleUserServiceImpl extends BaseJoinServiceImpl<RoleUserRepository,
 
     @Override
     public List<String> findUserIdsByRoleIds(List<String> roleIds) {
-        return iBaseRepository.findUserIdsByRoleIds(roleIds);
+        return super.findSecondIdsByFirstIds(roleIds);
     }
 
     @Override
     public List<String> findRoleIdsByUserIds(List<String> userIds) {
-        return iBaseRepository.findRoleIdsByUserIds(userIds);
+        return super.findFirstIdsBySecondIds(userIds);
     }
 }

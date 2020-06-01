@@ -59,17 +59,6 @@
         dept_name = #{deptName}
     </select>
 
-
-    <select id="findByParentId" resultMap="TreeResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from
-        dept_info
-        where
-        flag=1
-        and
-        parent_id = #{parentId}
-    </select>
     <select id="findAllSort" resultMap="TreeResultMap">
         select
         <include refid="Base_Column_List"/>

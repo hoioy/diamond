@@ -1,42 +1,41 @@
 package com.hoioy.diamond.sys.service.impl;
 
-import com.hoioy.diamond.common.base.BaseServiceImpl;
+import com.hoioy.diamond.common.base.BaseTreeServiceImpl;
 import com.hoioy.diamond.common.exception.BaseException;
-import com.hoioy.diamond.common.util.DiamondBeanUtil;
+import com.hoioy.diamond.common.util.CommonRedisUtil;
 import com.hoioy.diamond.sys.domain.Menu;
 import com.hoioy.diamond.sys.domain.MenuRepository;
-import com.hoioy.diamond.sys.domain.RoleMenuRepository;
 import com.hoioy.diamond.sys.dto.MenuDTO;
 import com.hoioy.diamond.sys.dto.MenuRouterDTO;
-import com.hoioy.diamond.sys.dto.UserInfoDTO;
 import com.hoioy.diamond.sys.exception.SysException;
 import com.hoioy.diamond.sys.service.IMenuService;
+import com.hoioy.diamond.sys.service.IRoleMenuService;
 import com.hoioy.diamond.sys.service.IRoleUserService;
 import com.hoioy.diamond.sys.service.IUserInfoService;
 import cn.hutool.core.collection.CollUtil;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
 @Service
-public class MenuServiceImpl extends BaseServiceImpl<MenuRepository, Menu, MenuDTO> implements IMenuService<Menu> {
+public class MenuServiceImpl extends BaseTreeServiceImpl<MenuRepository, Menu, MenuDTO> implements IMenuService<Menu> {
+
     @Autowired
     private MenuRepository menuRepository;
-    @Autowired
-    private RoleMenuRepository roleMenuRepository;
     @Autowired
     private IUserInfoService userService;
     @Autowired
     private IRoleUserService iRoleUserService;
+    @Autowired
+    private IRoleMenuService iRoleMenuService;
+    @Autowired
+    private CommonRedisUtil commonRedisUtil;
 
     @Override
-    public String save(MenuDTO dto) throws BaseException {
+    public MenuDTO save(MenuDTO dto) throws BaseException {
         if (dto != null) {
             if (StringUtils.isNotBlank(dto.getId())) {
                 throw new SysException("新增操作不能传递id");
@@ -60,53 +59,30 @@ public class MenuServiceImpl extends BaseServiceImpl<MenuRepository, Menu, MenuD
         return super.save(dto);
     }
 
-    /**
-     * 根据节点ID获得树
-     *
-     * @param rootId
-     * @return
-     */
-    @Override
-    @Transactional(propagation = Propagation.SUPPORTS)
-    public List<MenuDTO> findMenusByParentId(String rootId) {
-        List<Menu> allMenus = this.menuRepository.findByParentId(rootId);
-        List<MenuDTO> list = new ArrayList();
-        if (CollUtil.isNotEmpty(allMenus)) {
-            for (Menu u : allMenus) {
-                MenuDTO dto = new MenuDTO();
-                BeanUtils.copyProperties(u, dto);
-                list.add(dto);
-            }
-        }
-        return list;
-    }
-
     @Override
     public List<String> findIdsByMenuUrl(String menuUrl) {
-        return iBaseRepository.findIdsByMenuUrl(menuUrl);
+        if (StringUtils.isNotEmpty(menuUrl)) {
+            return iBaseRepository.findIdsByMenuUrl(menuUrl);
+        }
+        return null;
     }
 
     @Override
-    public List<MenuDTO> findAll() {
-        return domainListToDTOList(menuRepository.findAll());
-    }
-
-    @Override
-    public Map findMenuAllForRouter(String userName) {
+    public Map findMenuAllForRouter(String loginName) {
         List<MenuRouterDTO> tree = new ArrayList<>();
         Map resultMaprouter = new HashMap();
 
-        UserInfoDTO user = userService.findByLoginName(userName);
-        List<String> roleIds = iRoleUserService.findRoleIdsByUserIds(Arrays.asList(user.getId()));
+        String userId = userService.findIdByLoginName(loginName);
+        List<String> roleIds = iRoleUserService.findRoleIdsByUserIds(Arrays.asList(userId));
         if (CollectionUtils.isEmpty(roleIds)) {
             resultMaprouter.put("router", tree);
             return resultMaprouter;
         }
-        List<String> menuIds = roleMenuRepository.findMenuIdsByRoleIds(roleIds);
+        List<String> menuIds = iRoleMenuService.findMenuIdsByRoleIds(roleIds);
         List<MenuDTO> menuDTOs = findByIds(menuIds);
 
         List<MenuRouterDTO> menuRouterDTOList = menuListToMenuRouterList(menuDTOs);
-        List<MenuRouterDTO> menuTree = DiamondBeanUtil.getInstance().listToTree(menuRouterDTOList, null);
+        List<MenuRouterDTO> menuTree = listToTree(menuRouterDTOList, null);
 
         resultMaprouter.put("router", menuTree);
         return resultMaprouter;
@@ -120,6 +96,24 @@ public class MenuServiceImpl extends BaseServiceImpl<MenuRepository, Menu, MenuD
             throw new SysException("该菜单下面有子菜单，不能删除!");
         }
 
+        deleteCacheOfFindIdsByMenuUrl();
         return super.removeById(id);
+    }
+
+    @Override
+    public MenuDTO update(MenuDTO dto) throws BaseException {
+        deleteCacheOfFindIdsByMenuUrl();
+        return super.update(dto);
+    }
+
+    @Override
+    public boolean removeByIds(List<String> ids) throws BaseException {
+        deleteCacheOfFindIdsByMenuUrl();
+        return super.removeByIds(ids);
+    }
+
+    private void deleteCacheOfFindIdsByMenuUrl() {
+        //有删除操作，则直接删除所有findIdByLoginName缓存
+        commonRedisUtil.removeByPattern(CacheKey_findIdsByMenuUrl + "*");
     }
 }

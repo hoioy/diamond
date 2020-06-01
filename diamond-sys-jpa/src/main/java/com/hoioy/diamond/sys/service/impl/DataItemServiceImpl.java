@@ -1,6 +1,6 @@
 package com.hoioy.diamond.sys.service.impl;
 
-import com.hoioy.diamond.common.base.BaseServiceImpl;
+import com.hoioy.diamond.common.base.BaseTreeServiceImpl;
 import com.hoioy.diamond.common.exception.BaseException;
 import com.hoioy.diamond.sys.domain.DataItem;
 import com.hoioy.diamond.sys.domain.DataItemRepository;
@@ -18,7 +18,7 @@ import java.util.List;
  * @Description: 数据字典Service
  */
 @Service
-public class DataItemServiceImpl extends BaseServiceImpl<DataItemRepository, DataItem, DataItemDTO> implements IDataItemService<DataItem> {
+public class DataItemServiceImpl extends BaseTreeServiceImpl<DataItemRepository, DataItem, DataItemDTO> implements IDataItemService<DataItem> {
 
     @Override
     @Transactional(rollbackFor = Exception.class)

@@ -2,7 +2,8 @@ package com.hoioy.diamond.sys.service.impl;
 
 import com.hoioy.diamond.common.base.BaseServiceImpl;
 import com.hoioy.diamond.common.exception.BaseException;
-import com.hoioy.diamond.common.util.DiamondStatic;
+import com.hoioy.diamond.common.util.CommonRedisUtil;
+import com.hoioy.diamond.common.util.CommonStatic;
 import com.hoioy.diamond.sys.domain.UserInfo;
 import com.hoioy.diamond.sys.domain.UserInfoRepository;
 import com.hoioy.diamond.sys.dto.RoleUserJoinDTO;
@@ -11,6 +12,7 @@ import com.hoioy.diamond.sys.exception.SysException;
 import com.hoioy.diamond.sys.service.IDeptUserService;
 import com.hoioy.diamond.sys.service.IRoleUserService;
 import com.hoioy.diamond.sys.service.IUserInfoService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -31,11 +33,15 @@ import java.util.List;
 public class UserInfoServiceImpl extends BaseServiceImpl<UserInfoRepository, UserInfo, UserInfoDTO> implements IUserInfoService<UserInfo> {
     @Autowired
     private IDeptUserService iDeptUserService;
+
     @Autowired
     private IRoleUserService iRoleUserService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private CommonRedisUtil commonRedisUtil;
 
     /**
      * @throws @author dourl
@@ -51,9 +57,9 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfoRepository, Use
         }
         String userId = null;
         if (dto.getId() == null) {
-            userId = save(dto);
+            userId = save(dto).getId();
         } else {
-            userId = update(dto);
+            userId = update(dto).getId();
         }
 
         if (!CollectionUtils.isEmpty(roleIds)) {
@@ -68,31 +74,21 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfoRepository, Use
         return userId;
     }
 
-    /**
-     * 修改密码
-     *
-     * @param userId
-     * @param password
-     */
     @Override
-    @Transactional(propagation = Propagation.REQUIRED)
-    public void savePwd(String userId, String password) {
-        iBaseRepository.findById(userId).ifPresent(user -> {
-            user.setPassword(passwordEncoder.encode(password));
-            update(domainToDTO(user));
-        });
-    }
-
-    @Override
-    public String save(UserInfoDTO dto) throws BaseException {
+    public UserInfoDTO save(UserInfoDTO dto) throws BaseException {
+        String userId = findIdByLoginName(dto.getLoginName());
+        if (StringUtils.isNotEmpty(userId)) {
+            throw new SysException("用户名已经存在");
+        }
         // 设置默认密码
-        dto.setPassword(passwordEncoder.encode(DiamondStatic.DEFAULT_PASSWORD));
+        String password = StringUtils.isEmpty(dto.getPassword()) ? CommonStatic.DEFAULT_PASSWORD : dto.getPassword();
+        dto.setPassword(passwordEncoder.encode(password));
         return super.save(dto);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    @PreAuthorize("hasAuthority('" + DiamondStatic.ROLE_ID_KEY + "')")
+    @PreAuthorize("hasAuthority('" + CommonStatic.ROLE_ID_KEY + "')")
     public boolean removeByIds(List<String> ids) throws BaseException {
         if (CollectionUtils.isEmpty(ids)) {
             return true;
@@ -107,7 +103,23 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfoRepository, Use
             throw new SysException("有用户与机构单位关联，不能删除！");
         }
 
+        deleteCacheOfFindIdByLoginName();
         return super.removeByIds(ids);
+    }
+
+    @Override
+    public UserInfoDTO update(UserInfoDTO dto) throws BaseException {
+        deleteCacheOfFindIdByLoginName();
+        if(StringUtils.isNotEmpty(dto.getPassword())){
+            dto.setPassword(passwordEncoder.encode(dto.getPassword()));
+        }
+        return super.update(dto);
+    }
+
+    @Override
+    public boolean removeById(String id) throws BaseException {
+        deleteCacheOfFindIdByLoginName();
+        return super.removeById(id);
     }
 
     /**
@@ -119,9 +131,8 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfoRepository, Use
      */
     @Override
     @Transactional(propagation = Propagation.SUPPORTS)
-    public UserInfoDTO findByLoginName(String loginName) {
-        UserInfo userInfo = this.iBaseRepository.findByLoginName(loginName);
-        return (userInfo != null) ? domainToDTO(userInfo) : null;
+    public String findIdByLoginName(String loginName) {
+        return this.iBaseRepository.findIdByLoginName(loginName);
     }
 
     /**
@@ -137,5 +148,10 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfoRepository, Use
         byte[] avatarContent = null;
         avatarContent = file.getBytes();
         this.iBaseRepository.updateAvatar(loginName, newName, avatarContent);
+    }
+
+    private void deleteCacheOfFindIdByLoginName() {
+        //有删除操作，则直接删除所有findIdByLoginName缓存
+        commonRedisUtil.removeByPattern(CacheKey_findIdByLoginName + "*");
     }
 }
