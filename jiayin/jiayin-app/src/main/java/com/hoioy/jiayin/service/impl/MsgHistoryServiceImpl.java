@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hoioy.diamond.common.base.BaseServiceImpl;
 import com.hoioy.diamond.common.dto.PageDTO;
 import com.hoioy.diamond.common.exception.BaseException;
-import com.hoioy.diamond.common.util.DiamondMybatisPageUtil;
+import com.hoioy.diamond.common.util.CommonMybatisPageUtil;
 import com.hoioy.jiayin.domain.MsgHistory;
 import com.hoioy.jiayin.dto.MsgHistoryDTO;
 import com.hoioy.jiayin.mapper.MsgHistoryMapper;
@@ -30,20 +30,11 @@ public class MsgHistoryServiceImpl extends BaseServiceImpl<MsgHistoryMapper, Msg
 
     @Override
     public PageDTO getPage(PageDTO pageDTO) throws BaseException {
-        Page page = DiamondMybatisPageUtil.getPage(pageDTO);
-        MsgHistory msgHistory = DiamondMybatisPageUtil.getBean(pageDTO, MsgHistory.class);
+        Page page = CommonMybatisPageUtil.getPage(pageDTO);
+        MsgHistory msgHistory = getDomainFilterFromPageDTO(pageDTO);
         IPage<MsgHistory> messageIPage = msgHistoryMapper.selectPage(page, msgHistory);
-        PageDTO returnPageDTO = DiamondMybatisPageUtil.getPageDTO(messageIPage);
+        PageDTO returnPageDTO = CommonMybatisPageUtil.getPageDTO(messageIPage);
         return returnPageDTO;
     }
 
-    @Override
-    public MsgHistory createDomain() {
-        return new MsgHistory();
-    }
-
-    @Override
-    public MsgHistoryDTO createDTO() {
-        return new MsgHistoryDTO();
-    }
 }

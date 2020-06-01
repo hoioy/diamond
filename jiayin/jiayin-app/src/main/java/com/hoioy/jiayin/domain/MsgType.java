@@ -2,6 +2,7 @@ package com.hoioy.jiayin.domain;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.hoioy.diamond.common.base.BaseDomain;
+import com.hoioy.diamond.common.base.BaseTreeDomain;
 import io.swagger.annotations.ApiModel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,7 +23,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @TableName("jiayin_msg_type")
 @ApiModel(value="MsgType对象", description="消息类型")
-public class MsgType extends BaseDomain {
+public class MsgType extends BaseTreeDomain {
 
     private static final long serialVersionUID=1L;
 

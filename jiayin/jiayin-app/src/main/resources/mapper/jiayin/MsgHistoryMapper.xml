@@ -12,7 +12,7 @@
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id,
-        msg_id, openid,version
+        msg_id, openid
     </sql>
 
     <select id="selectPage" resultType="com.hoioy.jiayin.domain.MsgHistory">

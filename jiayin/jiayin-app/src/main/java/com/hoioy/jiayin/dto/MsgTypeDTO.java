@@ -1,7 +1,7 @@
 package com.hoioy.jiayin.dto;
 
 
-import com.hoioy.diamond.common.dto.BaseDTO;
+import com.hoioy.diamond.common.dto.BaseTreeDTO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -22,7 +22,7 @@ import java.io.Serializable;
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 @ApiModel(value="MsgType对象", description="消息类型")
-public class MsgTypeDTO  extends BaseDTO implements Serializable {
+public class MsgTypeDTO  extends BaseTreeDTO implements Serializable {
 
     private static final long serialVersionUID=1L;
 

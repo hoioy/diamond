@@ -1,6 +1,7 @@
 package com.hoioy.jiayin.api;
 
 import com.hoioy.diamond.common.api.BaseController;
+import com.hoioy.diamond.common.dto.CommonDTO;
 import com.hoioy.diamond.common.dto.PageDTO;
 import com.hoioy.diamond.common.dto.ResultDTO;
 import com.hoioy.diamond.common.exception.BaseException;
@@ -49,15 +50,14 @@ public class MsgDraftController extends BaseController<IMsgDraftService, MsgDraf
     @Valid
     @ApiOperation(value = "发布消息")
     @PostMapping("/publish")
-    public ResultDTO<String> publish(@RequestBody MsgDraftDTO dto) throws BaseException {
+    public ResultDTO publish(@RequestBody MsgDraftDTO dto) throws BaseException {
         MessageDTO messageDTO = new MessageDTO();
         BeanUtils.copyProperties(dto, messageDTO);
-        messageDTO.setId(null);
-        String messageId = messageService.save(messageDTO);
-        if(StringUtils.isNotEmpty(messageId)){
+        MessageDTO save = (MessageDTO) messageService.save(messageDTO);
+        if(save!=null){
             iBaseService.removeById(dto.getId());
         }
-        return new ResultDTO<String>(messageId);
+        return new ResultDTO(save);
     }
 
 }

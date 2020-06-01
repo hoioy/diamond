@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hoioy.diamond.common.base.BaseServiceImpl;
 import com.hoioy.diamond.common.dto.PageDTO;
 import com.hoioy.diamond.common.exception.BaseException;
-import com.hoioy.diamond.common.util.DiamondMybatisPageUtil;
+import com.hoioy.diamond.common.util.CommonMybatisPageUtil;
 import com.hoioy.jiayin.domain.MsgDraft;
 import com.hoioy.jiayin.dto.MsgDraftDTO;
 import com.hoioy.jiayin.mapper.MsgDraftMapper;
@@ -30,20 +30,11 @@ public class MsgDraftServiceImpl extends BaseServiceImpl<MsgDraftMapper, MsgDraf
 
     @Override
     public PageDTO getPage(PageDTO pageDTO) throws BaseException {
-        Page page = DiamondMybatisPageUtil.getPage(pageDTO);
-        MsgDraft msg = DiamondMybatisPageUtil.getBean(pageDTO, MsgDraft.class);
-        IPage<MsgDraft> messageIPage = msgDraftMapper.selectPage(page, msg);
-        PageDTO returnPageDTO = DiamondMybatisPageUtil.getPageDTO(messageIPage);
+        Page page = CommonMybatisPageUtil.getPage(pageDTO);
+        MsgDraft msgDraft = getDomainFilterFromPageDTO(pageDTO);
+        IPage<MsgDraft> messageIPage = msgDraftMapper.selectPage(page, msgDraft);
+        PageDTO returnPageDTO = CommonMybatisPageUtil.getPageDTO(messageIPage);
         return returnPageDTO;
     }
 
-    @Override
-    public MsgDraft createDomain() {
-        return new MsgDraft();
-    }
-
-    @Override
-    public MsgDraftDTO createDTO() {
-        return new MsgDraftDTO();
-    }
 }

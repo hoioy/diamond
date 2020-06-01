@@ -1,6 +1,5 @@
 package com.hoioy.jiayin.api;
 
-import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.hoioy.diamond.common.api.BaseController;
 import com.hoioy.diamond.common.dto.PageDTO;
 import com.hoioy.diamond.common.dto.ResultDTO;
@@ -14,8 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.validation.Valid;
 
 /**
  * <p>

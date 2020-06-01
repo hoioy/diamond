@@ -2,10 +2,10 @@ package com.hoioy.jiayin.service.impl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.hoioy.diamond.common.base.BaseServiceImpl;
+import com.hoioy.diamond.common.base.BaseTreeServiceImpl;
 import com.hoioy.diamond.common.dto.PageDTO;
 import com.hoioy.diamond.common.exception.BaseException;
-import com.hoioy.diamond.common.util.DiamondMybatisPageUtil;
+import com.hoioy.diamond.common.util.CommonMybatisPageUtil;
 import com.hoioy.jiayin.domain.MsgType;
 import com.hoioy.jiayin.dto.MsgTypeDTO;
 import com.hoioy.jiayin.mapper.MsgTypeMapper;
@@ -24,7 +24,7 @@ import java.util.List;
  * @since 2020-04-19
  */
 @Service
-public class MsgTypeServiceImpl extends BaseServiceImpl<MsgTypeMapper, MsgType, MsgTypeDTO> implements IMsgTypeService<MsgType> {
+public class MsgTypeServiceImpl extends BaseTreeServiceImpl<MsgTypeMapper, MsgType, MsgTypeDTO> implements IMsgTypeService<MsgType> {
 
     @Autowired
     private MsgTypeMapper msgTypeMapper;
@@ -32,22 +32,13 @@ public class MsgTypeServiceImpl extends BaseServiceImpl<MsgTypeMapper, MsgType, 
 
     @Override
     public PageDTO getPage(PageDTO pageDTO) throws BaseException {
-        Page page = DiamondMybatisPageUtil.getPage(pageDTO);
-        MsgType msgType = DiamondMybatisPageUtil.getBean(pageDTO, MsgType.class);
+        Page page = CommonMybatisPageUtil.getPage(pageDTO);
+        MsgType msgType = getDomainFilterFromPageDTO(pageDTO);
         IPage<MsgType> messageIPage = msgTypeMapper.selectPage(page, msgType);
-        PageDTO returnPageDTO = DiamondMybatisPageUtil.getPageDTO(messageIPage);
+        PageDTO returnPageDTO = CommonMybatisPageUtil.getPageDTO(messageIPage);
         return returnPageDTO;
     }
 
-    @Override
-    public MsgType createDomain() {
-        return new MsgType();
-    }
-
-    @Override
-    public MsgTypeDTO createDTO() {
-        return new MsgTypeDTO();
-    }
 
     @Override
     public List<MsgTypeDTO>  selectAllParent() {

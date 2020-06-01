@@ -20,7 +20,7 @@
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, openid,
-        title, msg_type, content, views, status, expare_time, contacts, contact_phone,version,created_date
+        title, msg_type, content, views, status, expare_time, contacts, contact_phone,created_date
     </sql>
 
     <select id="selectPage" resultType="com.hoioy.jiayin.domain.Message">

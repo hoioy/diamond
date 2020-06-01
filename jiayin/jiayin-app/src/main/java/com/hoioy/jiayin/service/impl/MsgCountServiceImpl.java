@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hoioy.diamond.common.base.BaseServiceImpl;
 import com.hoioy.diamond.common.dto.PageDTO;
 import com.hoioy.diamond.common.exception.BaseException;
-import com.hoioy.diamond.common.util.DiamondMybatisPageUtil;
+import com.hoioy.diamond.common.util.CommonMybatisPageUtil;
 import com.hoioy.jiayin.domain.MsgCount;
 import com.hoioy.jiayin.dto.MsgCountDTO;
 import com.hoioy.jiayin.mapper.MsgCountMapper;
@@ -30,20 +30,11 @@ public class MsgCountServiceImpl extends BaseServiceImpl<MsgCountMapper, MsgCoun
 
     @Override
     public PageDTO getPage(PageDTO pageDTO) throws BaseException {
-        Page page = DiamondMybatisPageUtil.getPage(pageDTO);
-        MsgCount msg = DiamondMybatisPageUtil.getBean(pageDTO, MsgCount.class);
-        IPage<MsgCount> messageIPage = msgCountMapper.selectPage(page, msg);
-        PageDTO returnPageDTO = DiamondMybatisPageUtil.getPageDTO(messageIPage);
+        Page page = CommonMybatisPageUtil.getPage(pageDTO);
+        MsgCount msgCount = getDomainFilterFromPageDTO(pageDTO);
+        IPage<MsgCount> messageIPage = msgCountMapper.selectPage(page, msgCount);
+        PageDTO returnPageDTO = CommonMybatisPageUtil.getPageDTO(messageIPage);
         return returnPageDTO;
     }
 
-    @Override
-    public MsgCount createDomain() {
-        return new MsgCount();
-    }
-
-    @Override
-    public MsgCountDTO createDTO() {
-        return new MsgCountDTO();
-    }
 }
