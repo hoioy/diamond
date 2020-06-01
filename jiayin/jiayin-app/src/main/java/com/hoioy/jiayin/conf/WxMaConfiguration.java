@@ -1,4 +1,4 @@
-package com.hoioy.diamond.jiayin.conf;
+package com.hoioy.jiayin.conf;
 
 import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.api.impl.WxMaServiceImpl;
