@@ -126,16 +126,14 @@ INSERT INTO `role_user` (`role_id`,`user_id`,`id`) VALUES ('5b66ecf45d634159a084
 -- ----------------------------
 -- Records of jiayin_msg_count
 -- ----------------------------
-INSERT INTO `jiayin_msg_count`(`id`,`openid`,`msg_count`,`flag`,`created_by`,`modified_by`,`created_date`,`version`,`modified_date`) VALUES ('123123', 'admin', 20, 1, NULL, NULL, NULL, 5, '2020-05-05');
+INSERT INTO `jiayin_msg_count`(`id`,`openid`,`msg_count`,`flag`,`created_by`,`modified_by`,`created_date`,`modified_date`) VALUES ('123123', 'admin', 20, 1, NULL, NULL, NULL, '2020-05-05');
 
 -- ----------------------------
 -- Records of jiayin_msg_type
 -- ----------------------------
-INSERT INTO `jiayin_msg_type` VALUES ('08f1750267aff6081955446e255aee5e', '用工', '0', NULL, 1, NULL, NULL, '2020-05-05', NULL, '2020-05-05', NULL);
-INSERT INTO `jiayin_msg_type` VALUES ('09f0bca832232683259de9652ba2dc8f', '房屋', '0', NULL, 1, NULL, NULL, '2020-05-05', NULL, '2020-05-05', NULL);
-INSERT INTO `jiayin_msg_type` VALUES ('2c53d081bbcd42592c5ca04869bb1271', '土地', '0', NULL, 1, NULL, NULL, '2020-05-05', NULL, '2020-05-05', NULL);
-INSERT INTO `jiayin_msg_type` VALUES ('d243c4ff3673400eb345b8c85ed72345', '木匠', '0', NULL, 1, NULL, NULL, '2020-05-05', NULL, '2020-05-05', '08f1750267aff6081955446e255aee5e');
+INSERT INTO `jiayin_msg_type`(`id`, `parent_id`, `type_name`, `money`, `expiry_date`, `flag`, `created_by`, `modified_by`, `created_date`, `modified_date`, `remark`) VALUES ('08f1750267aff6081955446e255aee5e', NULL, '用工', '0', NULL, 1, NULL, NULL, '2020-05-05', '2020-05-05', NULL);
+INSERT INTO `jiayin_msg_type`(`id`, `parent_id`, `type_name`, `money`, `expiry_date`, `flag`, `created_by`, `modified_by`, `created_date`, `modified_date`, `remark`) VALUES ('09f0bca832232683259de9652ba2dc8f', NULL, '房屋', '0', NULL, 1, NULL, NULL, '2020-05-05', '2020-05-05', NULL);
+INSERT INTO `jiayin_msg_type`(`id`, `parent_id`, `type_name`, `money`, `expiry_date`, `flag`, `created_by`, `modified_by`, `created_date`, `modified_date`, `remark`) VALUES ('2c53d081bbcd42592c5ca04869bb1271', NULL, '土地', '0', NULL, 1, NULL, NULL, '2020-05-05', '2020-05-05', NULL);
+INSERT INTO `jiayin_msg_type`(`id`, `parent_id`, `type_name`, `money`, `expiry_date`, `flag`, `created_by`, `modified_by`, `created_date`, `modified_date`, `remark`) VALUES ('d243c4ff3673400eb345b8c85ed72345', '08f1750267aff6081955446e255aee5e', '木匠', '0', NULL, 1, NULL, NULL, '2020-05-05', '2020-05-05', NULL);
 
-
-INSERT INTO `jiayin_message`(`id`, `created_by`, `created_date`, `modified_by`, `modified_date`, `flag`, `remark`, `openid`, `title`, `msg_type`, `content`, `views`, `status`, `expare_time`, `contacts`, `contact_phone`) VALUES ('735cb60a9c6f7ecd9435ed1c4194176e', NULL, '2020-05-24 14:34:31.211000', NULL, '2020-05-24 14:34:31.211000', NULL, NULL, 'admin', '消息1消息1消息1消息1消息1消息1消息1消息1消息1消息1消息1消息1消息1消息1消息1消息1消息1消息1消息1', 0, '消息1', 0, 0, NULL, '', '');
-INSERT INTO `jiayin_message`(`id`, `created_by`, `created_date`, `modified_by`, `modified_date`, `flag`, `remark`, `openid`, `title`, `msg_type`, `content`, `views`, `status`, `expare_time`, `contacts`, `contact_phone`) VALUES ('ba96fe57ed59af5795d931442930ad87', NULL, '2020-05-24 14:34:44.123000', NULL, '2020-05-24 14:34:44.123000', NULL, NULL, 'admin', '消息消息1消息1消息12', 0, '消息2', 0, 0, NULL, '', '');
+INSERT INTO `jiayin_message`(`id`, `created_by`, `created_date`, `modified_by`, `modified_date`, `flag`, `remark`, `openid`, `title`, `msg_type`, `content`, `views`, `status`, `expare_time`, `contacts`, `contact_phone`) VALUES ('ba96fe57ed59af5795d931442930ad87', NULL, '2020-05-24 14:34:44.123000', NULL, '2020-05-24 14:34:44.123000', NULL, NULL, 'admin', '消息消息1消息1消息12', '0', '消息2', 0, 0, NULL, '', '');

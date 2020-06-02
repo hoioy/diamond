@@ -17,9 +17,9 @@ spring:
     data: "classpath:/init/mysqldata.sql"      #初始化sql配置
     schema: "classpath:/init/schemamysql.sql"  #初始化sql配置,使用mybatis时候可以打开,
     username: root
-    password: root
+    password: admin
     data-username: root
-    data-password: root
+    data-password: admin
   jpa:
     database-platform: org.hibernate.dialect.MySQL8Dialect
 ---
