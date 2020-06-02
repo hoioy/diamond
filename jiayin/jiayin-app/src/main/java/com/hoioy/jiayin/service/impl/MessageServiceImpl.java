@@ -9,10 +9,12 @@ import com.hoioy.diamond.common.util.CommonMybatisPageUtil;
 import com.hoioy.diamond.common.util.CommonSecurityUtils;
 import com.hoioy.jiayin.domain.Message;
 import com.hoioy.jiayin.domain.MsgCount;
+import com.hoioy.jiayin.domain.PublishHistory;
 import com.hoioy.jiayin.dto.MessageDTO;
 import com.hoioy.jiayin.exception.JiayinException;
 import com.hoioy.jiayin.mapper.MessageMapper;
 import com.hoioy.jiayin.mapper.MsgCountMapper;
+import com.hoioy.jiayin.mapper.PublishHistoryMapper;
 import com.hoioy.jiayin.service.IMessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,6 +34,9 @@ public class MessageServiceImpl extends BaseServiceImpl<MessageMapper, Message, 
     private MessageMapper messageMapper;
     @Autowired
     private MsgCountMapper msgCountMapper;
+
+    @Autowired
+    private PublishHistoryMapper publishHistoryMapper;
 
 
     @Override
@@ -59,6 +64,12 @@ public class MessageServiceImpl extends BaseServiceImpl<MessageMapper, Message, 
             //发布成功减少次数
             msgCount.setMsgCount(msgCount.getMsgCount()-1);
             int i = msgCountMapper.updateById(msgCount);
+            PublishHistory publishHistory = new PublishHistory();
+            publishHistory.setOpenid(userName);
+            publishHistory.setPublishTitle(dto.getTitle());
+            publishHistory.setPublishId(save.getId());
+            publishHistory.setPublishType("msg");
+            publishHistoryMapper.insert(publishHistory);
             return save;
         }else{
             throw new JiayinException("发布消息次数不足，可以通过分享增加发布次数");
