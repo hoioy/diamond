@@ -1,25 +1,24 @@
 <template>
-	<view class="content">
+	<view class="message">
 		<view class="message-detail">
+			<view class="message-detail-creator">
+				<image class="message-detail-creator-logo" src="../../../static/img/home.png"></image>
+				<view class="message-detail-creator-info">
+					<view class="message-detail-creator-info-name">{{ message.createdBy }}</view>
+					<view class="message-detail-creator-info-type">{{ message.msgType}}</view>
+				</view>
+			</view>
 			<view class="message-detail-title">{{ message.title }}</view>
-			<view class="message-detail-item">
-				<view>状态:</view>
-				<view class="message-detail-item-status">{{ !message.status?'无状态': message.status}}</view>
+			<view class="message-detail-item-status">{{ !message.status?'无状态': message.status}}</view>
+			<view class="message-detail-content">
+				<view>{{ message.content }}</view>
 			</view>
-			<view class="message-detail-item">
-				<view>有效期:</view>
-				<view>{{ message.expareTime }}</view>
-			</view>
-			<view class="message-detail-content">{{ message.content }}</view>
 			<view class="message-detail-item-contacts">
 				<view>联系人:{{ message.contacts}}</view>
+				<view>联系电话:{{ message.contactPhone }}</view>
+				<view>有效期:{{ message.expareTime }}</view>
 			</view>
-			<view class="message-detail-item-contactPhone">
-				<view>联系电话:>{{ message.contactPhone }}</view>
-			</view>
-			<view class="message-detail-item-views">
-				<view>阅读次数:{{ message.views }}</view>
-			</view>
+			<view class="message-detail-item-views">阅读次数:{{ message.views }}</view>
 		</view>
 	</view>
 </template>
@@ -37,7 +36,7 @@
 				message: {
 					id: null,
 					parentId: null,
-					createdBy: null,
+					createdBy: '',
 					createdDate: null,
 					modifiedBy: null,
 					modifiedDate: null,
@@ -75,10 +74,36 @@
 
 
 <style>
+	.message{
+		width: 750rpx;
+	}
 	.message-detail {
 		display: flex;
 		flex-direction: column;
+		color: #333333;
+		padding: 10px;
 	}
+
+	.message-detail-creator {
+		display: flex;
+		border-bottom: 2rpx solid #acac97;
+	}
+
+	.message-detail-creator-logo {
+		width: 60px;
+		height: 60px;
+	}
+
+	.message-detail-creator-info {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.message-detail-creator-info-name {
+		font-size: 20pt;
+	}
+
+	.message-detail-creator-info-type {}
 
 	.message-detail-title {
 		margin: auto;
@@ -90,12 +115,17 @@
 	}
 
 	.message-detail-content {
-		margin: 5px;
 		line-height: 30px;
+		font-size: 17pt;
+		word-wrap: break-word;
 	}
 
-	.message-detail-item {
+	.message-detail-item-contacts {
 		display: flex;
+		flex-direction: column;
+		background-color: white;
+		padding-top: 20px;
+		padding-bottom: 20px;
 	}
 
 	.message-detail-item-status {
@@ -106,6 +136,7 @@
 		padding-top: 2px;
 		padding-bottom: 2px;
 		border-radius: 20rpx;
+		align-self: flex-end
 	}
 
 	.message-detail-item-views {
