@@ -10,9 +10,9 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableCaching
 @SpringBootApplication(scanBasePackages = {"com.hoioy.diamond","com.hoioy.jiayin"})
 @MapperScan(basePackages = {"com.hoioy.diamond.*.mapper","com.hoioy.jiayin.*.mapper"})
-public class DiamondApplication {
+public class JiayinApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(DiamondApplication.class, args);
+        SpringApplication.run(JiayinApplication.class, args);
     }
 }
