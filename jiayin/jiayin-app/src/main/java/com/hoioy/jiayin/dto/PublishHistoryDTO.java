@@ -35,18 +35,6 @@ public class PublishHistoryDTO extends BaseDTO implements Serializable {
     private String openid;
 
 
-    @ApiModelProperty(value = "修改人")
-    private String updatedBy;
-
-
-    @ApiModelProperty(value = "创建时间")
-    private LocalDate createDate;
-
-
-    @ApiModelProperty(value = "修改时间")
-    private LocalDate updateDate;
-
-
     @ApiModelProperty(value = "发布类型")
     private String publishType;
 
