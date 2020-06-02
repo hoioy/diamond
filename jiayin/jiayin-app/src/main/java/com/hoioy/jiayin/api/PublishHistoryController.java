@@ -32,7 +32,7 @@ import org.springframework.web.bind.annotation.RestController;
 
         @ApiOperation(value = "分页", notes = "分页")
         @PostMapping("/page")
-        public ResultDTO page(@RequestBody PageDTO pageDTO)throws BaseException {
+        public ResultDTO page(@RequestBody PageDTO<PublishHistoryDTO> pageDTO)throws BaseException {
              PageDTO page=publishHistoryService.getPage(pageDTO);
              return new ResultDTO(page);
         }

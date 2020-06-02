@@ -32,7 +32,7 @@ public class MsgCountController extends BaseController<IMsgCountService, MsgCoun
 
     @ApiOperation(value = "分页", notes = "分页")
     @PostMapping("/page")
-    public ResultDTO page(@RequestBody PageDTO pageDTO) throws BaseException {
+    public ResultDTO page(@RequestBody PageDTO<MsgCountDTO> pageDTO) throws BaseException {
         PageDTO page = msgCountService.getPage(pageDTO);
         return new ResultDTO(page);
     }

@@ -42,7 +42,7 @@ public class MsgDraftController extends BaseController<IMsgDraftService, MsgDraf
 
     @ApiOperation(value = "分页", notes = "分页")
     @PostMapping("/page")
-    public ResultDTO page(@RequestBody PageDTO pageDTO) throws BaseException {
+    public ResultDTO page(@RequestBody PageDTO<MsgDraftDTO> pageDTO) throws BaseException {
         PageDTO page = msgDraftService.getPage(pageDTO);
         return new ResultDTO(page);
     }

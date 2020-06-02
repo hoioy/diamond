@@ -32,7 +32,7 @@ public class MsgHistoryController extends BaseController<IMsgHistoryService, Msg
 
     @ApiOperation(value = "分页", notes = "分页")
     @PostMapping("/page")
-    public ResultDTO page(@RequestBody PageDTO pageDTO) throws BaseException {
+    public ResultDTO page(@RequestBody PageDTO<MsgHistoryDTO> pageDTO) throws BaseException {
         PageDTO page = msgHistoryService.getPage(pageDTO);
         return new ResultDTO(page);
     }

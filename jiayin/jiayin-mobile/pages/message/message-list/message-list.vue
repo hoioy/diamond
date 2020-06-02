@@ -67,7 +67,7 @@
 					"filters": {},
 					"page": this.last_page,
 					"pageSize": 10,
-					"sorts": {}
+					"sorts": []
 				}, (data) => {
 					if (this.reload) {
 						this.listData = data.data.list;

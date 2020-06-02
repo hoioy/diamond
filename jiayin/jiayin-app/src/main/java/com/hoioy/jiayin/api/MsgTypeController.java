@@ -31,7 +31,7 @@ public class MsgTypeController extends BaseController<IMsgTypeService, MsgTypeDT
 
     @ApiOperation(value = "分页", notes = "分页")
     @PostMapping("/page")
-    public ResultDTO page(@RequestBody PageDTO pageDTO) throws BaseException {
+    public ResultDTO page(@RequestBody PageDTO<MsgTypeDTO> pageDTO) throws BaseException {
         PageDTO page = msgTypeService.getPage(pageDTO);
         return new ResultDTO(page);
     }
