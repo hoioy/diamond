@@ -16,6 +16,11 @@
 			"style": {
 				"navigationBarTitleText": "消息编辑"
 			}
+		}, {
+			"path": "pages/message/message-update/message-update",
+			"style": {
+				"navigationBarTitleText": "消息修改"
+			}
 		},{
 			"path": "pages/message/message-publish/message-publish",
 			"style": {

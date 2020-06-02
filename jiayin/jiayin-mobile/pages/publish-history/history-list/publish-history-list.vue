@@ -78,7 +78,7 @@
 			},
 			goDetail: function(e) {
 				uni.navigateTo({
-					url: '../message-detail/message-detail?id=' + e.id,
+					url: '../../message/message-update/message-update?id=' + e.id,
 				});
 			}
 		}

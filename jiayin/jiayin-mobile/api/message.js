@@ -25,11 +25,11 @@ export function findById(id,onSuccess) {
 // 	})
 // }
 
-// export function updateMessage(data,onSuccess) {
-// 	return request({
-// 		url: 'jiayin/message',
-// 		method: 'PUT',
-// 		data: data,
-// 		onSuccess: onSuccess
-// 	})
-// }
+export function updateMessage(data,onSuccess) {
+	return request({
+		url: 'jiayin/message',
+		method: 'PUT',
+		data: data,
+		onSuccess: onSuccess
+	})
+}
