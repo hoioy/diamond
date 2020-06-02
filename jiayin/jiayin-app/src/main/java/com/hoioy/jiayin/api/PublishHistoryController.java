@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author 陈哲
  * @since 2020-05-21
  */
-@Api( tags = "接口" )
+@Api( tags = "我的发布" )
 @RestController
 @RequestMapping("/jiayin/publishHistory")
     public class PublishHistoryController extends BaseController<IPublishHistoryService, PublishHistoryDTO> {
