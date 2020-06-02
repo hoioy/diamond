@@ -13,14 +13,14 @@ spring:  #多环境切换
     time-zone: GMT+8
   cache:
     redis:
-      time-to-live: 2H                          # 缓存时间，2小时
+      time-to-live: 2H                          # 缓存时间，2小时，生产环境时间要设置得长一些
     type: redis
 
 # 日志配置
 logging:
   level:
     org.springframework.web: info
-    com.hoioy.diamond: info
+    com.hoioy: info
 ---
 spring:
   servlet:
@@ -32,13 +32,13 @@ spring:
 diamond:
   sys:
     file-storage:
-      root-path: "D:\\diamondStorage"  # Diamond提供简单的文件上传功能，文件上传的根路径
+      root-path: "D:\\diamondStorage\\"  # 提供简单的文件上传功能，文件上传的根路径
   log:
     lock: 'on'  # 业务日志开关，off关闭业务日志，on开启
   security:
     jwt:
       secret: mySecret      #签名秘钥，一定要保密，一定要保密，一定要保密，生产环境需要保护起来不被其他人员看到
-      jwkSetUri: http://192.168.99.77:9998/.well-known/jwks.json  # 使用OAuth2hoioy统一认证登录时候需要指定
+      jwkSetUri: http://192.168.99.77:9998/.well-known/jwks.json  # 使用OAuth2太极统一认证登录时候需要指定
       expiration: 120  #token的过期时间，单位：秒
       refresh: 72000  #token的可自动刷新时间，单位：秒
     login:
@@ -47,13 +47,11 @@ diamond:
     captcha-enable: 'off'            #验证码开关  off关闭  on打开
     captcha-max-wait-second: 600  #验证码有效期，单位秒，10分钟
     captcha-same-ip-limit-per-minutes: 60 #同一个ip每分钟请求验证码的最大次数
-
 wx:
   miniapp:
     configs:
       - appid: wxccbae6dc90e98a2f
         secret: 6e74498b801c4d4bcc7d6de18541cf1f
-#        token: #微信小程序消息服务器配置的token
-#        aesKey: #微信小程序消息服务器配置的EncodingAESKey
+        #        token: #微信小程序消息服务器配置的token
+        #        aesKey: #微信小程序消息服务器配置的EncodingAESKey
         msgDataFormat: JSON
-

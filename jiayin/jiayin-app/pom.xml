@@ -22,6 +22,10 @@
             <version>${weixin-java-miniapp.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-pool2</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.hoioy</groupId>
             <artifactId>diamond-security-jwt</artifactId>
         </dependency>
