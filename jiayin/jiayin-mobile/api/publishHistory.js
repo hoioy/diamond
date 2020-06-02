@@ -11,7 +11,7 @@ export function getPage(data,onSuccess) {
 
 export function findById(id,onSuccess) {
 	request({
-		url: 'jiayin/publishHistory/selectById?id='+id,
+		url: 'jiayin/publishHistory/'+id,
 		onSuccess: onSuccess
 	})
 }

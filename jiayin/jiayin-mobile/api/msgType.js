@@ -9,14 +9,14 @@ export function selectParent(onSuccess) {
 
 export function findById(id,onSuccess) {
 	request({
-		url: 'jiayin/msgType/selectById?id='+id,
+		url: 'jiayin/msgType/'+id,
 		onSuccess: onSuccess
 	})
 }
 
 export function deleteById(id,onSuccess) {
 	request({
-		url: 'jiayin/msgType/deleteById?id='+id,
+		url: 'jiayin/msgType/'+id,
 		method: 'delete',
 		onSuccess: onSuccess
 	})

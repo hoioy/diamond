@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export function addUser(data,onSuccess) {
 	 request({
-		url: 'system/user/save',
+		url: 'system/user',
 		method: 'POST',
 		data: data,
 		onSuccess: onSuccess
