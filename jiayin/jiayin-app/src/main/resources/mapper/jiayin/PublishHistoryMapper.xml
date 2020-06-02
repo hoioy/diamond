@@ -9,9 +9,7 @@
     <result column="flag" property="flag" />
         <result column="publish_id" property="publishId" />
         <result column="openid" property="openid" />
-        <result column="updated_by" property="updatedBy" />
-        <result column="create_date" property="createDate" />
-        <result column="update_date" property="updateDate" />
+        <result column="created_date" property="createdDate" />
         <result column="publish_type" property="publishType" />
         <result column="publish_title" property="publishTitle" />
     </resultMap>
@@ -19,9 +17,8 @@
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id,
-        created_by,
         flag,
-        publish_id, openid, updated_by, create_date, update_date, publish_type, publish_title
+        publish_id, openid, publish_type, publish_title,created_date
     </sql>
 
     <select id="selectPage" resultMap="BaseResultMap" >
@@ -37,14 +34,14 @@
         <if test="publishHistory.openid != null and publishHistory.openid != ''">
             AND openid = #{publishHistory.openid}
         </if>
-        <if test="publishHistory.updatedBy != null and publishHistory.updatedBy != ''">
-            AND updated_by = #{publishHistory.updatedBy}
+        <if test="publishHistory.modifiedBy != null and publishHistory.modifiedBy != ''">
+            AND updated_by = #{publishHistory.modifiedBy}
         </if>
-        <if test="publishHistory.createDate != null and publishHistory.createDate != ''">
-            AND create_date = #{publishHistory.createDate}
+        <if test="publishHistory.createdDate != null and publishHistory.createdDate != ''">
+            AND create_date = #{publishHistory.createdDate}
         </if>
-        <if test="publishHistory.updateDate != null and publishHistory.updateDate != ''">
-            AND update_date = #{publishHistory.updateDate}
+        <if test="publishHistory.modifiedDate != null and publishHistory.modifiedDate != ''">
+            AND update_date = #{publishHistory.modifiedDate}
         </if>
         <if test="publishHistory.publishType != null and publishHistory.publishType != ''">
             AND publish_type = #{publishHistory.publishType}

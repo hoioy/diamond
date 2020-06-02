@@ -51,6 +51,10 @@
             "path" : "pages/message/message-published/message-published",
             "style" : {}
         }
+        ,{
+            "path" : "pages/publish-history/history-list/publish-history-list",
+            "style" : {}
+        }
     ],
 	"tabBar": {
 		"color": "#7a7e83",

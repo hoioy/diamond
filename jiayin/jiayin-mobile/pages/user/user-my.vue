@@ -47,7 +47,7 @@
 					{
 						icon:'iconfont .icon-draft',
 						title: '我的发布',
-						path: '/pages/message/message-published/message-published' 
+						path: '/pages/publish-history/history-list/publish-history-list' 
 					},
 					{
 						icon:'iconfont .icon-lianxiwomen1-copy',

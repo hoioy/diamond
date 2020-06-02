@@ -38,20 +38,6 @@ public class PublishHistory extends BaseDomain {
      */
     private String openid;
 
-    /**
-     * 修改人
-     */
-    private String updatedBy;
-
-    /**
-     * 创建时间
-     */
-    private LocalDate createDate;
-
-    /**
-     * 修改时间
-     */
-    private LocalDate updateDate;
 
     /**
      * 发布类型
