@@ -53,7 +53,9 @@
         }
         ,{
             "path" : "pages/publish-history/history-list/publish-history-list",
-            "style" : {}
+            "style" : {
+				"navigationBarTitleText": "我的发布"
+			}
         }
     ],
 	"tabBar": {

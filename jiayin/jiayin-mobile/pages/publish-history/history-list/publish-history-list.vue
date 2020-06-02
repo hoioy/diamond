@@ -6,10 +6,9 @@
 						<!-- <image class="message-list-item-logo" :src="value.cover"></image> -->
 						<view class="message-list-item-body">
 							<view class="message-list-item-title">{{ value.publishTitle }}</view>
-							<view class="message-list-item-content">{{ value.content }}</view>
 							<view class="message-list-item-contacts-views">
-								<view class="message-list-item-contacts">{{ value.contacts+":"+value.contactPhone }}</view>
-								<view class="message-list-item-views">浏览:{{ value.views }}次</view>
+								<view class="message-list-item-contacts">{{ value.publishType}}</view>
+								<view class="message-list-item-views">{{ value.createdDate }}</view>
 							</view>
 						</view>
 					</view>
