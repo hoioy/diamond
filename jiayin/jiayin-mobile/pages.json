@@ -50,7 +50,9 @@
         }
         ,{
             "path" : "pages/collect/collect-list/collect-list",
-            "style" : {}
+            "style" : {
+				"navigationBarTitleText": "我的收藏"
+			}
         }
         ,{
             "path" : "pages/message/message-published/message-published",

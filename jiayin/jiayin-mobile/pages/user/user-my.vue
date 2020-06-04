@@ -37,12 +37,7 @@
 					{
 						icon:'iconfont icon-shoucang',
 						title: '收藏',
-						path: '/pages/collect/collect-list' 
-					},
-					{
-						icon:'iconfont icon-zuji',
-						title: '足迹',
-						path: '/pages/history/history-list' 
+						path: '/pages/collect/collect-list/collect-list' 
 					},
 					{
 						icon:'iconfont .icon-draft',
