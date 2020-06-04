@@ -68,6 +68,7 @@ public class MessageServiceImpl extends BaseServiceImpl<MessageMapper, Message, 
             publishHistory.setOpenid(userName);
             publishHistory.setPublishTitle(dto.getTitle());
             publishHistory.setPublishId(save.getId());
+            publishHistory.setMsgTypeId(dto.getMsgType());
             publishHistory.setPublishType("msg");
             publishHistoryMapper.insert(publishHistory);
             return save;
@@ -75,5 +76,18 @@ public class MessageServiceImpl extends BaseServiceImpl<MessageMapper, Message, 
             throw new JiayinException("发布消息次数不足，可以通过分享增加发布次数");
         }
 
+    }
+
+    @Override
+    public MessageDTO update(MessageDTO dto) throws BaseException {
+        MessageDTO update = super.update(dto);
+        String userName = CommonSecurityUtils.getCurrentLogin();
+        PublishHistory publishHistory = new PublishHistory();
+        publishHistory.setPublishTitle(dto.getTitle());
+        publishHistory.setPublishId(dto.getId());
+        publishHistory.setMsgTypeId(dto.getMsgType());
+        publishHistory.setPublishType("msg");
+        publishHistoryMapper.updateByPubilshId(publishHistory);
+        return update;
     }
 }
