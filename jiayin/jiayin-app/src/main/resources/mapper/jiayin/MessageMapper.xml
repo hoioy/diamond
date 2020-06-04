@@ -19,40 +19,41 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, openid,
-        title, msg_type, content, views, status, expare_time, contacts, contact_phone,created_date
+        msg.id, msg.openid,
+        title, content, views, status, expare_time, contacts, contact_phone,msg.created_date,type_name as msg_type
     </sql>
 
     <select id="selectPage" resultType="com.hoioy.jiayin.domain.Message">
         select
            <include refid="Base_Column_List" />
         from
-           jiayin_message
+           jiayin_message msg
+        left join jiayin_msg_type msgType on msg.msg_type=msgType.id
         where
-           flag=1
+        msg.flag=1
         <if test="message.title != null and message.title != ''">
-            AND title = #{message.title}
+            AND msg.title = #{message.title}
         </if>
         <if test="message.msgType != null and message.msgType != ''">
-            AND msg_type = #{message.msgType}
+            AND msg.msg_type = #{message.msgType}
         </if>
         <if test="message.content != null and message.content != ''">
-            AND content = #{message.content}
+            AND msg.content = #{message.content}
         </if>
         <if test="message.views != null and message.views != ''">
-            AND views = #{message.views}
+            AND msg.views = #{message.views}
         </if>
         <if test="message.status != null and message.status != ''">
-            AND status = #{message.status}
+            AND msg.status = #{message.status}
         </if>
         <if test="message.expareTime != null and message.expareTime != ''">
-            AND expare_time = #{message.expareTime}
+            AND msg.expare_time = #{message.expareTime}
         </if>
         <if test="message.contacts != null and message.contacts != ''">
-            AND contacts = #{message.contacts}
+            AND msg.contacts = #{message.contacts}
         </if>
         <if test="message.contactPhone != null and message.contactPhone != ''">
-            AND contact_phone = #{message.contactPhone}
+            AND msg.contact_phone = #{message.contactPhone}
         </if>
     </select>
 </mapper>
