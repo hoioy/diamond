@@ -6,13 +6,9 @@
 					<!-- <image class="message-list-item-logo" :src="value.cover"></image> -->
 					<view class="message-list-item-body">
 						<view class="message-list-item-title">{{ value.title }}</view>
-						<view class="message-list-item-status-expareTime">
-							<view class="message-list-item-status">{{ !value.status?'无状态': value.status}}</view>
-							<view class="message-list-item-expareTime">有效期:{{ value.expareTime }}</view>
-						</view>
 						<view class="message-list-item-content">{{ value.content }}</view>
 						<view class="message-list-item-contacts-views">
-							<view class="message-list-item-contacts">{{ value.contacts+":"+value.contactPhone }}</view>
+							<view class="message-list-item-type">{{ !value.status?'招工': value.status}}</view>
 							<view class="message-list-item-views">浏览:{{ value.views }}次</view>
 						</view>
 					</view>
@@ -121,14 +117,15 @@
 		padding-right: 15px;
 	}
 
-	.message-list-item-status {
+	.message-list-item-type {
 		background-color: #09BB07;
 		color: #FFFFFF;
 		padding-left: 5px;
 		padding-right: 5px;
 		padding-top: 2px;
 		padding-bottom: 2px;
-		border-radius: 20rpx;
+		border-radius: 5rpx;
+	
 	}
 
 	.message-list-item-status-color {}
