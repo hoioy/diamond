@@ -12,22 +12,25 @@
         <result column="created_date" property="createdDate" />
         <result column="publish_type" property="publishType" />
         <result column="publish_title" property="publishTitle" />
+        <result column="msg_type_id" property="msgTypeId" />
+        <result column="type_name" property="msgTypeName" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id,
-        flag,
-        publish_id, openid, publish_type, publish_title,created_date
+        his.id,
+        his.flag,
+        publish_id, his.openid, publish_type, publish_title,his.created_date,type_name,msg_type_id
     </sql>
 
     <select id="selectPage" resultMap="BaseResultMap" >
         select
            <include refid="Base_Column_List" />
         from
-           jiayin_publish_history
+           jiayin_publish_history his
+        left join jiayin_msg_type msgType on his.msg_type_id=msgType.id
         where
-           flag=1
+        his.flag=1
         <if test="publishHistory.publishId != null and publishHistory.publishId != ''">
             AND publish_id = #{publishHistory.publishId}
         </if>
@@ -50,4 +53,12 @@
             AND publish_title = #{publishHistory.publishTitle}
         </if>
     </select>
+    <update id="updateByPubilshId" parameterType="com.hoioy.jiayin.domain.PublishHistory">
+        update jiayin_publish_history
+        <set>
+            <if test="publishType != null and publishType != ''">publish_type = #{publishType},</if>
+            <if test="publishTitle != null and publishTitle != ''">publish_title = #{publishTitle},</if>
+        </set>
+        where publish_id = #{publishId}
+    </update>
 </mapper>

@@ -43,5 +43,12 @@ public class PublishHistoryDTO extends BaseDTO implements Serializable {
     private String publishTitle;
 
 
+    @ApiModelProperty(value = "消息类型主键")
+    private String msgTypeId;
+
+    @ApiModelProperty(value = "消息类型名字")
+    private String msgTypeName;
+
+
 
 }

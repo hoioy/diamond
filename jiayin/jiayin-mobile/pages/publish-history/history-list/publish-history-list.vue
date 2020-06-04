@@ -2,13 +2,13 @@
 		<view>
 			<view class="uni-list">
 				<view class="uni-list-cell" hover-class="uni-list-cell-hover" v-for="(value, key) in listData" :key="key" @click="goDetail(value)">
-					<view class="message-list-item">
-						<!-- <image class="message-list-item-logo" :src="value.cover"></image> -->
-						<view class="message-list-item-body">
-							<view class="message-list-item-title">{{ value.publishTitle }}</view>
-							<view class="message-list-item-contacts-views">
-								<view class="message-list-item-contacts">{{ value.publishType}}</view>
-								<view class="message-list-item-views">{{ value.createdDate }}</view>
+					<view class="publish-list-item">
+						<!-- <image class="publish-list-item-logo" :src="value.cover"></image> -->
+						<view class="publish-list-item-body">
+							<view class="publish-list-item-title">{{ value.publishTitle }}</view>
+							<view class="publish-list-item-contacts-views">
+								<view class="publish-list-item-type">{{ value.msgTypeName}}</view>
+								<view class="publish-list-item-views">{{ value.createdDate |formatDate}}</view>
 							</view>
 						</view>
 					</view>
@@ -20,6 +20,7 @@
 <script>
 	import uniLoadMore from '@/components/uni-load-more/uni-load-more.vue';
 	import * as publishHistoryAPI from '@/api/publishHistory.js';
+	import dateFormat from '@/utils/date.js'
 	export default {
 		data() {
 			return {
@@ -32,6 +33,12 @@
 					contentrefresh: '加载中',
 					contentnomore: '没有更多'
 				}
+			}
+		},
+		filters:{
+			formatDate(date){
+			    let nDate = new Date(date);
+			    return dateFormat.formatDate(nDate, "MM.dd hh.mm");
 			}
 		},
 		onShow(){
@@ -77,8 +84,9 @@
 				})
 			},
 			goDetail: function(e) {
+				console.log(e.publishId)
 				uni.navigateTo({
-					url: '../../message/message-update/message-update?id=' + e.id,
+					url: '/pages/message/message-update/message-update?id=' + e.publishId,
 				});
 			}
 		}
@@ -86,13 +94,13 @@
 </script>
 
 <style>
-	.message-list-item {
+	.publish-list-item {
 		display: flex;
 		flex-direction: column;
 		border-bottom: 1px solid #B2B2B2;
 	}
 
-	.message-list-item-body {
+	.publish-list-item-body {
 		margin-top: 10px;
 		margin-bottom: 10px;
 		display: flex;
@@ -100,13 +108,12 @@
 		width: 750rpx;
 	}
 
-	.message-list-item-title {
+	.publish-list-item-title {
 		font-size: 17pt;
 		color: #000000;
 		padding-left: 15px;
 	}
-
-	.message-list-item-status-expareTime {
+	.publish-list-item-contacts-views {
 		display: flex;
 		justify-content: space-between;
 		margin-top: 8px;
@@ -115,44 +122,18 @@
 		padding-left: 15px;
 		padding-right: 15px;
 	}
-
-	.message-list-item-status {
+	.publish-list-item-type {
 		background-color: #09BB07;
 		color: #FFFFFF;
 		padding-left: 5px;
 		padding-right: 5px;
 		padding-top: 2px;
 		padding-bottom: 2px;
-		border-radius: 20rpx;
+		border-radius: 5rpx;
 	}
 
-	.message-list-item-status-color {}
+	.publish-list-item-contacts {}
 
-	.message-list-item-expareTime {}
-
-	.message-list-item-content {
-		margin-top: 8px;
-		font-size: 14pt;
-		color: #353535;
-		padding-left: 15px;
-		padding-right: 15px;
-		white-space: nowrap;
-		overflow: hidden;
-		text-overflow: ellipsis;
-	}
-
-	.message-list-item-contacts-views {
-		display: flex;
-		justify-content: space-between;
-		margin-top: 8px;
-		font-size: 11pt;
-		color: #888888;
-		padding-left: 15px;
-		padding-right: 15px;
-	}
-
-	.message-list-item-contacts {}
-
-	.message-list-item-views {}
+	.publish-list-item-views {}
 
 </style>

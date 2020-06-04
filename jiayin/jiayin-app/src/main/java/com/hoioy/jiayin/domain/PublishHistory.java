@@ -49,5 +49,11 @@ public class PublishHistory extends BaseDomain {
      */
     private String publishTitle;
 
+    /**
+     * 消息类型主键
+     */
+    private String msgTypeId;
+    private String msgTypeName;
+
 
 }

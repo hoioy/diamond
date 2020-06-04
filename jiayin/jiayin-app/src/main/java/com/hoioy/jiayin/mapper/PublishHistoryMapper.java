@@ -20,4 +20,6 @@ public interface PublishHistoryMapper extends IBaseMapper<PublishHistory> {
      *  分页
      */
     IPage<PublishHistory> selectPage(@Param("page") Page page, @Param("publishHistory") PublishHistory publishHistory);
+
+    int updateByPubilshId(PublishHistory publishHistory);
 }
