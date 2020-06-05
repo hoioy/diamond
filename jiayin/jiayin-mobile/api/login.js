@@ -19,7 +19,7 @@ export function getUser(onSuccess) {
 //微信登录等OAuth2登录成功后做用户绑定
 export function bindDiamondUaaUser(userInfo, onSuccess) {
 	request({
-		url: 'bindDiamondUaaUser',
+		url: 'bindOAuth2User',
 		method: 'POST',
 		data: userInfo,
 		onSuccess: onSuccess

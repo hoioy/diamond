@@ -26,7 +26,7 @@
 		data() {
 			return {
 				providerList: [],
-				hasProvider: false,
+				hasProvider: true,
 				account: 'admin',
 				password: 'admin',
 				positionTop: 0,
@@ -54,6 +54,7 @@
 				this.user = {}
 			},
 			initProvider() {
+				
 				const filters = ['weixin', 'qq', 'sinaweibo'];
 				uni.getProvider({
 					service: 'oauth',

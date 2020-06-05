@@ -44,6 +44,8 @@ public class SecurityConfig extends JwtWebSecurityConfigurerAdapter {
                 .antMatchers("/sys/user/save").permitAll()//注册用户
                 //通过Oauth2登录时绑定用户接口，暂时开启，否则与JwtAuthorizationTokenFilter逻辑冲突（本系统还没有用户所以查不出来）
                 .antMatchers("/bindOAuth2User").permitAll()
+                .antMatchers("/wx/user/**").permitAll()
+                .antMatchers("/bindDiamondUaaUser").permitAll()
                 .antMatchers("/files/**").permitAll()
                 .antMatchers("/user-upload-avatar-rest").permitAll()
                 // 使其支持跨域

@@ -19,6 +19,9 @@
 				<view>有效期:{{ message.expareTime }}</view>
 			</view>
 			<view class="message-detail-item-views">阅读次数:{{ message.views }}</view>
+			<view>
+				<uni-goods-nav :fill="true"  :options="options" :buttonGroup="buttonGroup"  @click="onClick" @buttonClick="buttonClick" />
+			</view>
 		</view>
 	</view>
 </template>
@@ -26,13 +29,31 @@
 <script>
 	import * as messageAPI from '@/api/message.js';
 	import mInput from '@/components/m-input.vue';
+	import uniGoodsNav from '@/components/uni-goods-nav/uni-goods-nav.vue'
 
 	export default {
 		components: {
-			mInput
+			mInput,uniGoodsNav
 		},
 		data() {
 			return {
+				  options: [{
+				            icon: 'headphones',
+				            text: '分享'
+				        }, {
+				            icon: 'shop',
+				            text: '收藏',
+				            infoBackgroundColor:'#007aff',
+				            infoColor:"red"
+				        }
+	                   ],
+				        buttonGroup: [
+				        {
+				          text: '打电话',
+				          backgroundColor: '#ffa200',
+				          color: '#fff'
+				        }
+				        ],
 				message: {
 					id: null,
 					parentId: null,
@@ -62,6 +83,19 @@
 			}
 		},
 		methods: {
+			onClick (e) {
+			        uni.showToast({
+			          title: `点击${e.content.text}`,
+			          icon: 'none'
+			        })
+			      },
+			      buttonClick (e) {
+					  uni.makePhoneCall({
+					      phoneNumber: '17710666027' //仅为示例
+					  });
+			        console.log(e)
+			        this.options[2].info++
+			      },
 			initData(id) {
 				var that = this;
 				messageAPI.findById(id, function(data) {
