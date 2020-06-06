@@ -22,19 +22,20 @@
 	
 		</view>
 		<view class="message-nav">
-			<uni-goods-nav :fill="true"  :options="options" :buttonGroup="buttonGroup"  @click="onClick" @buttonClick="buttonClick" />
+			<message-detail-nav :fill="true"  :options="options" :buttonGroup="buttonGroup"  @click="onClick" @buttonClick="buttonClick" />
 		</view>
 	</view>
 </template>
 
 <script>
 	import * as messageAPI from '@/api/message.js';
+	import * as collectAPI from '@/api/collect.js';
 	import mInput from '@/components/m-input.vue';
-	import uniGoodsNav from '@/components/uni-goods-nav/uni-goods-nav.vue'
+	import messageDetailNav from '@/components/message-detail-nav/message-detail-nav.vue'
 
 	export default {
 		components: {
-			mInput,uniGoodsNav
+			mInput,messageDetailNav
 		},
 		data() {
 			return {
@@ -77,6 +78,10 @@
 					contacts: "", //联系人
 					contactPhone: "", //联系电话
 					views: "0" //浏览次数
+				},
+				"collect":{
+					flag:0,
+					id:""
 				}
 			};
 		},
@@ -86,16 +91,48 @@
 			}
 		},
 		methods: {
-			onClick (e) {
-			        uni.showToast({
-			          title: `点击${e.content.text}`,
-			          icon: 'none'
-			        })
-			      },
-			      buttonClick (e) {
-					  uni.makePhoneCall({
-					      phoneNumber: '17710666027' //仅为示例
-					  });
+				onClick (e) {
+					//分享
+					if(e.index===0){
+						
+					}
+					//收藏
+					if(e.index===1){
+						if(this.collect.flag===0){
+							collectAPI.addCollect({
+								"msgId": this.message.id,
+							}, (data) => {
+								this.collect.id=data.data.id
+							     uni.showToast({
+							     	title: `收藏成功`,
+							     	icon: 'none'
+							     })
+							})
+							this.collect.flag=1
+							this.options[1].iconColor='#FFD700'
+						}else{
+					collectAPI.delCollect(this.collect.id, function(data) {
+						uni.showToast({
+							title: `取消收藏`,
+							icon: 'none'
+						})
+					})
+							this.options[1].iconColor='#646566'
+							this.collect.flag=0
+						}
+				
+					}
+			
+					uni.showToast({
+						title: `点击${e.content.text}`,
+						icon: 'none'
+					})
+				},
+			     buttonClick (e) {
+					console.log(e)
+					uni.makePhoneCall({
+					     phoneNumber: '17710666027' //仅为示例
+					});
 			        console.log(e)
 			        this.options[2].info++
 			      },

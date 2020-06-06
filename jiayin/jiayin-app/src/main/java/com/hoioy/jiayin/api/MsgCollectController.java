@@ -1,5 +1,6 @@
 package com.hoioy.jiayin.api;
 
+import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.hoioy.diamond.common.api.BaseController;
 import com.hoioy.diamond.common.dto.PageDTO;
 import com.hoioy.diamond.common.dto.ResultDTO;
@@ -9,10 +10,9 @@ import com.hoioy.jiayin.service.IMsgCollectService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 /**
  * <p>
@@ -36,6 +36,14 @@ public class MsgCollectController extends BaseController<IMsgCollectService, Msg
         PageDTO page = msgCollectService.getPage(pageDTO);
         return new ResultDTO(page);
     }
+
+//    @ApiOperation(value = "根据msgId查询是否收藏")
+//    @ApiOperationSupport(order = 6)
+//    @GetMapping("/{id}")
+//    public ResultDTO selectIsCollect(@RequestBody MsgCollectDTO msgCollectDTO) throws BaseException {
+//        Optional<DTO> byId = iBaseService.findById(id);
+//        return new ResultDTO<DTO>(byId.get());
+//    }
 
 
 }

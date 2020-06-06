@@ -16,7 +16,7 @@ export function findById(id,onSuccess) {
 	})
 }
 
-export function addMessage(data,onSuccess) {
+export function addCollect(data,onSuccess) {
 	return request({
 		url: 'jiayin/msgCollect',
 		method: 'POST',
@@ -24,12 +24,10 @@ export function addMessage(data,onSuccess) {
 		onSuccess: onSuccess
 	})
 }
-
-export function updateMessage(data,onSuccess) {
+export function delCollect(data,onSuccess) {
 	return request({
-		url: 'jiayin/msgCollect',
-		method: 'PUT',
-		data: data,
+		url: 'jiayin/msgCollect/'+data,
+		method: 'DELETE',
 		onSuccess: onSuccess
 	})
 }
