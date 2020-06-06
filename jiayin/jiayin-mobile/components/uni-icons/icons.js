@@ -128,5 +128,11 @@ export default {
 	"cloud-upload": "\ue8e6",
 	"cloud-download-filled": "\ue8e9",
 	"headphones":"\ue8bf",
-	"shop":"\ue609"
+	"shop":"\ue609",
+	"icon-weixin":"\ue696",
+	"icon-weixin1":"\ue669",
+	"icon-shoucang-copy":"\ue504",
+	"icon-fenxiang-copy1":"\ue531",
+	"icon-shoucang":"\ue604",
+	"icon-fenxiang":"\ue603"
 }

@@ -19,9 +19,10 @@
 				<view>有效期:{{ message.expareTime }}</view>
 			</view>
 			<view class="message-detail-item-views">阅读次数:{{ message.views }}</view>
-			<view>
-				<uni-goods-nav :fill="true"  :options="options" :buttonGroup="buttonGroup"  @click="onClick" @buttonClick="buttonClick" />
-			</view>
+	
+		</view>
+		<view class="message-nav">
+			<uni-goods-nav :fill="true"  :options="options" :buttonGroup="buttonGroup"  @click="onClick" @buttonClick="buttonClick" />
 		</view>
 	</view>
 </template>
@@ -38,13 +39,15 @@
 		data() {
 			return {
 				  options: [{
-				            icon: 'headphones',
-				            text: '分享'
+				            icon: 'weixin',
+				            text: '分享',
+							iconColor:"#00BB00"
 				        }, {
-				            icon: 'shop',
+				            icon: 'icon-shoucang-copy',
 				            text: '收藏',
 				            infoBackgroundColor:'#007aff',
-				            infoColor:"red"
+				            infoColor:"red",
+							iconColor:"#FFD700"
 				        }
 	                   ],
 				        buttonGroup: [
@@ -109,6 +112,7 @@
 
 <style>
 	.message{
+		padding-bottom: 50px;
 		width: 750rpx;
 	}
 	.message-detail {
@@ -136,7 +140,11 @@
 	.message-detail-creator-info-name {
 		font-size: 20pt;
 	}
-
+.message-nav{
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+}
 	.message-detail-creator-info-type {}
 
 	.message-detail-title {
