@@ -3,8 +3,8 @@
 		<!-- 搜索板块 -->
 		<view class="index-header">
 			<!-- filters：过滤选项设置， sortChanged：排序更改的事件监听方法，showShape：是否显示右侧模板选择按钮，shapeValue：初始化的模板值，2：双列，1：单列，具体可自行控制，shapeChanged:右侧的模板选择按钮事件监听方法-->
-			<jiayinFilter :filters="messageFilters" @sortChanged="messageFilterChanged" @shapeChanged="messageTemplateChanged"
-			 :showShape="true" :shapeValue="2" :fixed="true" top="60"></jiayinFilter>
+			<jiayinFilter :filters="messageFilters" @sortChanged="messageFilterChanged" :showShape="true" :shapeValue="2" :fixed="true"
+			 top="60"></jiayinFilter>
 		</view>
 		<view class="uni-list">
 			<view class="uni-list-cell" hover-class="uni-list-cell-hover" v-for="(value, key) in listData" :key="key" @click="goDetail(value)">
@@ -40,6 +40,11 @@
 			return {
 				listData: [],
 				last_page: 1,
+				sorts: [{
+					"direction": "asc",
+					"fieldName": "createdDate"
+				}],
+				filters:{},
 				reload: false, //是否刷新模式，false：瀑布流
 				status: 'more',
 				contentText: {
@@ -47,25 +52,14 @@
 					contentrefresh: '加载中',
 					contentnomore: '没有更多'
 				},
-
-				// 默认双列显示
-				messageListTemplate: 2,
-				// 过滤参数
-				curCateFid: '',
-				cateList: [{
-					name: '卤菜',
-					value: '100001'
-				}, {
-					name: '凉菜',
-					value: '100002'
-				}, {
-					name: '酒水',
-					value: '100003'
-				}]
+				jiayinFilterData: {
+					msgTypelistData: []
+				}
 			};
 		},
 		onShow() {
 			this.initList();
+			this.initMsgType();
 		},
 		onPullDownRefresh() {
 			this.initList();
@@ -76,6 +70,20 @@
 			this.getList();
 		},
 		methods: {
+			initMsgType() {
+				var that = this;
+				that.jiayinFilterData.msgTypelistData = [];
+				msgTypeAPI.selectParent((data) => {
+					if (data.data) {
+						data.data.forEach(item => {
+							that.jiayinFilterData.msgTypelistData.push({
+								name: item.typeName,
+								value: item.id
+							})
+						})
+					}
+				})
+			},
 			initList() {
 				this.reload = true;
 				this.last_page = 1;
@@ -84,10 +92,10 @@
 			getList() {
 				this.status = 'loading';
 				messageAPI.getPage({
-					"filters": {},
+					"filters": this.filters,
 					"page": this.last_page,
 					"pageSize": 10,
-					"sorts": []
+					"sorts": this.sorts
 				}, (data) => {
 					if (this.reload) {
 						this.listData = data.data.list;
@@ -112,6 +120,8 @@
 			// 排序，筛选更改
 			messageFilterChanged(filter) {
 				console.log("filter:", filter)
+				this.filters = {}
+				this.sorts = []
 				// 此处可根据fitler数据，从服务器端加载数据
 				// pageIndex = 0;
 				// this.isEnd = false;
@@ -121,40 +131,26 @@
 				// const resetData=true;
 				// this.loadMoremessage(filter,resetData);
 			}
-			// 点击了右侧的模板选择按钮：即单列还是双列展示商品
-			,
-			messageTemplateChanged(templateValue) {
-
-				this.messageListTemplate = templateValue;
-			}
 		},
 		computed: {
-			messageListTemplateType: function() {
-				return this.messageListTemplate;
-			},
-			// 商品过滤器参数 <!-- //1：按距离，2：按销量，3：按人气，4：按最新，5：按价格 -->
 			messageFilters: function() {
 				// 参考的下拉选项如下，可从服务器端加载：
 				//options:[{name:'不限',value:""},{name:'酒水',value:"js",children:[{name:'啤酒',value:"pj"}]}]},
-				// const cateOptions=this.cateList.map(function (item){
+				// const cateOptions=this.msgTypelistData.map(function (item){
 				// 	return {name:item.Name,value:item.Fid}
 				// });
-				const cateOptions = [{
-					name: '推荐',
-					value: '0'
-				}, ...this.cateList];
 				// filterType为0，普通方式，无排序，1：排序模式，2：下拉筛选模式，当前支持一级，多级可自行扩展
 				return [{
 						title: '消息类别',
 						value: 0,
 						filterType: 2,
-						options: cateOptions
+						options: this.jiayinFilterData.msgTypelistData
 					},
 					// {title:'推荐',value:0,filterType:0,disableAscDesc:true},
 					{
-						title: '距离',
+						title: '标题',
 						value: 2,
-						filterType: 0
+						filterType: 1
 					},
 					// {title:'人气', value:3, filterType:1},
 					{
@@ -163,7 +159,7 @@
 						filterType: 1
 					},
 					{
-						title: '价格',
+						title: '最热门',
 						value: 5,
 						filterType: 1,
 						initAscState: true
@@ -175,9 +171,10 @@
 </script>
 
 <style>
-	.uni-list{
+	.uni-list {
 		margin-top: 90rpx;
 	}
+
 	.message-list-item {
 		display: flex;
 		flex-direction: column;
