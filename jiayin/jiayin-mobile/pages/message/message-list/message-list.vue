@@ -44,7 +44,7 @@
 					"direction": "asc",
 					"fieldName": "createdDate"
 				}],
-				filters:{},
+				filters: {},
 				reload: false, //是否刷新模式，false：瀑布流
 				status: 'more',
 				contentText: {
@@ -72,13 +72,16 @@
 		methods: {
 			initMsgType() {
 				var that = this;
-				that.jiayinFilterData.msgTypelistData = [];
+				that.jiayinFilterData.msgTypelistData = [{
+					name: '全部',
+					value: 0
+				}];
 				msgTypeAPI.selectParent((data) => {
 					if (data.data) {
 						data.data.forEach(item => {
 							that.jiayinFilterData.msgTypelistData.push({
 								name: item.typeName,
-								value: item.id
+								value: item.typeName
 							})
 						})
 					}
@@ -120,16 +123,19 @@
 			// 排序，筛选更改
 			messageFilterChanged(filter) {
 				console.log("filter:", filter)
-				this.filters = {}
-				this.sorts = []
-				// 此处可根据fitler数据，从服务器端加载数据
-				// pageIndex = 0;
-				// this.isEnd = false;
-				// this.loadingType = 0;
-				// this.curCateFid=filter.option || ""
-				// // 加载数据
-				// const resetData=true;
-				// this.loadMoremessage(filter,resetData);
+				this.filters = {};
+				if (filter.option != 0) {
+					this.filters = {
+						"msgType": filter.option
+					}
+				}
+				if (filter.sort != 0) {
+					this.sorts = [{
+						"direction": filter.order > 0 ? "asc" : "desc",
+						"fieldName": filter.sort
+					}]
+				}
+				this.initList()
 			}
 		},
 		computed: {
@@ -149,18 +155,18 @@
 					// {title:'推荐',value:0,filterType:0,disableAscDesc:true},
 					{
 						title: '标题',
-						value: 2,
+						value: 'title',
 						filterType: 1
 					},
 					// {title:'人气', value:3, filterType:1},
 					{
 						title: '最新',
-						value: 4,
+						value: 'createdDate',
 						filterType: 1
 					},
 					{
 						title: '最热门',
-						value: 5,
+						value: 'views',
 						filterType: 1,
 						initAscState: true
 					}
