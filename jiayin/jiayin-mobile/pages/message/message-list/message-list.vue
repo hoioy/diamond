@@ -3,7 +3,7 @@
 		<!-- 搜索板块 -->
 		<view class="index-header">
 			<!-- filters：过滤选项设置， sortChanged：排序更改的事件监听方法，showShape：是否显示右侧模板选择按钮，shapeValue：初始化的模板值，2：双列，1：单列，具体可自行控制，shapeChanged:右侧的模板选择按钮事件监听方法-->
-			<jiayinFilter :filters="goodsFilters" @sortChanged="goodsFilterChanged" @shapeChanged="goodsTemplateChanged"
+			<jiayinFilter :filters="messageFilters" @sortChanged="messageFilterChanged" @shapeChanged="messageTemplateChanged"
 			 :showShape="true" :shapeValue="2" :fixed="true" top="60"></jiayinFilter>
 		</view>
 		<view class="uni-list">
@@ -49,7 +49,7 @@
 				},
 
 				// 默认双列显示
-				goodsListTemplate: 2,
+				messageListTemplate: 2,
 				// 过滤参数
 				curCateFid: '',
 				cateList: [{
@@ -110,7 +110,7 @@
 				});
 			},
 			// 排序，筛选更改
-			goodsFilterChanged(filter) {
+			messageFilterChanged(filter) {
 				console.log("filter:", filter)
 				// 此处可根据fitler数据，从服务器端加载数据
 				// pageIndex = 0;
@@ -119,21 +119,21 @@
 				// this.curCateFid=filter.option || ""
 				// // 加载数据
 				// const resetData=true;
-				// this.loadMoreGoods(filter,resetData);
+				// this.loadMoremessage(filter,resetData);
 			}
 			// 点击了右侧的模板选择按钮：即单列还是双列展示商品
 			,
-			goodsTemplateChanged(templateValue) {
+			messageTemplateChanged(templateValue) {
 
-				this.goodsListTemplate = templateValue;
+				this.messageListTemplate = templateValue;
 			}
 		},
 		computed: {
-			goodsListTemplateType: function() {
-				return this.goodsListTemplate;
+			messageListTemplateType: function() {
+				return this.messageListTemplate;
 			},
 			// 商品过滤器参数 <!-- //1：按距离，2：按销量，3：按人气，4：按最新，5：按价格 -->
-			goodsFilters: function() {
+			messageFilters: function() {
 				// 参考的下拉选项如下，可从服务器端加载：
 				//options:[{name:'不限',value:""},{name:'酒水',value:"js",children:[{name:'啤酒',value:"pj"}]}]},
 				// const cateOptions=this.cateList.map(function (item){
