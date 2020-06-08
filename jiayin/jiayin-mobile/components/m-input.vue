@@ -84,9 +84,11 @@
 				this.showPassword = !this.showPassword
 			},
 			onFocus() {
+				this.$emit('focus', '')
 				this.isFocus = true
 			},
 			onBlur() {
+				this.$emit('blur', '')
 				this.$nextTick(() => {
 					this.isFocus = false
 				})
