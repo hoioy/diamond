@@ -30,7 +30,7 @@
            jiayin_message msg
         left join jiayin_msg_type msgType on msg.msg_type=msgType.id
         where
-        msg.flag=1
+        msg.flag=1 and msg.status=1
         <if test="message.title != null and message.title != ''">
             AND msg.title = #{message.title}
         </if>
