@@ -19,10 +19,11 @@
 				<view>有效期:{{ message.expareTime }}</view>
 			</view>
 			<view class="message-detail-item-views">阅读次数:{{ message.views }}</view>
-	
+
 		</view>
 		<view class="message-nav">
-			<message-detail-nav :fill="true"  :options="options" :buttonGroup="buttonGroup"  @click="onClick" @buttonClick="buttonClick" />
+			<button type="primary" open-type="share">分享</button>
+			<message-detail-nav :fill="true" :options="options" :buttonGroup="buttonGroup" @click="onClick" @buttonClick="buttonClick" />
 		</view>
 	</view>
 </template>
@@ -35,29 +36,27 @@
 
 	export default {
 		components: {
-			mInput,messageDetailNav
+			mInput,
+			messageDetailNav
 		},
 		data() {
 			return {
-				  options: [{
-				            icon: 'weixin',
-				            text: '分享',
-							iconColor:"#00BB00"
-				        }, {
-				            icon: 'icon-shoucang-copy',
-				            text: '收藏',
-				            infoBackgroundColor:'#007aff',
-				            infoColor:"red",
-							iconColor:"#FFD700"
-				        }
-	                   ],
-				        buttonGroup: [
-				        {
-				          text: '打电话',
-				          backgroundColor: '#ffa200',
-				          color: '#fff'
-				        }
-				        ],
+				options: [{
+					icon: 'weixin',
+					text: '分享',
+					iconColor: "#00BB00"
+				}, {
+					icon: 'icon-shoucang-copy',
+					text: '收藏',
+					infoBackgroundColor: '#007aff',
+					infoColor: "red",
+					iconColor: "#FFD700"
+				}],
+				buttonGroup: [{
+					text: '打电话',
+					backgroundColor: '#ffa200',
+					color: '#fff'
+				}],
 				message: {
 					id: null,
 					parentId: null,
@@ -79,11 +78,17 @@
 					contactPhone: "", //联系电话
 					views: "0" //浏览次数
 				},
-				"collect":{
-					flag:0,
-					id:""
+				"collect": {
+					flag: 0,
+					id: ""
 				}
 			};
+		},
+		onShareAppMessage(res) {
+			return {
+				title: this.message.title,
+				path: '/pages/message/message-detail/message-detail?id='+this.message.id
+			}
 		},
 		onLoad: function(option) { //option为object类型，会序列化上个页面传递的参数
 			if (option.id) {
@@ -91,51 +96,51 @@
 			}
 		},
 		methods: {
-				onClick (e) {
-					//分享
-					if(e.index===0){
-						
-					}
-					//收藏
-					if(e.index===1){
-						if(this.collect.flag===0){
-							collectAPI.addCollect({
-								"msgId": this.message.id,
-							}, (data) => {
-								this.collect.id=data.data.id
-							     uni.showToast({
-							     	title: `收藏成功`,
-							     	icon: 'none'
-							     })
+			onClick(e) {
+				//分享
+				if (e.index === 0) {
+
+				}
+				//收藏
+				if (e.index === 1) {
+					if (this.collect.flag === 0) {
+						collectAPI.addCollect({
+							"msgId": this.message.id,
+						}, (data) => {
+							this.collect.id = data.data.id
+							uni.showToast({
+								title: `收藏成功`,
+								icon: 'none'
 							})
-							this.collect.flag=1
-							this.options[1].iconColor='#FFD700'
-						}else{
-					collectAPI.delCollect(this.collect.id, function(data) {
-						uni.showToast({
-							title: `取消收藏`,
-							icon: 'none'
 						})
-					})
-							this.options[1].iconColor='#646566'
-							this.collect.flag=0
-						}
-				
+						this.collect.flag = 1
+						this.options[1].iconColor = '#FFD700'
+					} else {
+						collectAPI.delCollect(this.collect.id, function(data) {
+							uni.showToast({
+								title: `取消收藏`,
+								icon: 'none'
+							})
+						})
+						this.options[1].iconColor = '#646566'
+						this.collect.flag = 0
 					}
-			
-					uni.showToast({
-						title: `点击${e.content.text}`,
-						icon: 'none'
-					})
-				},
-			     buttonClick (e) {
-					console.log(e)
-					uni.makePhoneCall({
-					     phoneNumber: '17710666027' //仅为示例
-					});
-			        console.log(e)
-			        this.options[2].info++
-			      },
+
+				}
+
+				uni.showToast({
+					title: `点击${e.content.text}`,
+					icon: 'none'
+				})
+			},
+			buttonClick(e) {
+				console.log(e)
+				uni.makePhoneCall({
+					phoneNumber: '17710666027' //仅为示例
+				});
+				console.log(e)
+				this.options[2].info++
+			},
 			initData(id) {
 				var that = this;
 				messageAPI.findById(id, function(data) {
@@ -148,10 +153,11 @@
 
 
 <style>
-	.message{
+	.message {
 		padding-bottom: 50px;
 		width: 750rpx;
 	}
+
 	.message-detail {
 		display: flex;
 		flex-direction: column;
@@ -177,11 +183,13 @@
 	.message-detail-creator-info-name {
 		font-size: 20pt;
 	}
-.message-nav{
-	position: fixed;
-	bottom: 0;
-	width: 100%;
-}
+
+	.message-nav {
+		position: fixed;
+		bottom: 0;
+		width: 100%;
+	}
+
 	.message-detail-creator-info-type {}
 
 	.message-detail-title {
