@@ -51,7 +51,7 @@ public class Message extends BaseDomain {
     private Integer views;
 
     /**
-     * (带交易 已完成)
+     * 1 已发布  2 已撤销
      */
     private Integer status;
 
