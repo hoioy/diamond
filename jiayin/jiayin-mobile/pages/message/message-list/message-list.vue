@@ -1,5 +1,11 @@
 <template>
 	<view>
+		<!-- 搜索板块 -->
+		<view class="index-header">
+			<!-- filters：过滤选项设置， sortChanged：排序更改的事件监听方法，showShape：是否显示右侧模板选择按钮，shapeValue：初始化的模板值，2：双列，1：单列，具体可自行控制，shapeChanged:右侧的模板选择按钮事件监听方法-->
+			<jiayinFilter :filters="messageFilters" @sortChanged="messageFilterChanged" :showShape="true" :shapeValue="2" :fixed="true"
+			 top="60"></jiayinFilter>
+		</view>
 		<view class="uni-list">
 			<view class="uni-list-cell" hover-class="uni-list-cell-hover" v-for="(value, key) in listData" :key="key" @click="goDetail(value)">
 				<view class="message-list-item">
@@ -20,29 +26,40 @@
 </template>
 
 <script>
+	import jiayinFilter from '@/components/jiayin-filter/index.vue';
 	import uniLoadMore from '@/components/uni-load-more/uni-load-more.vue';
 	import * as messageAPI from '@/api/message.js';
 	import * as msgTypeAPI from '@/api/msgType.js';
 
 	export default {
 		components: {
-			uniLoadMore
+			uniLoadMore,
+			jiayinFilter
 		},
 		data() {
 			return {
 				listData: [],
 				last_page: 1,
+				sorts: [{
+					"direction": "asc",
+					"fieldName": "createdDate"
+				}],
+				filters: {},
 				reload: false, //是否刷新模式，false：瀑布流
 				status: 'more',
 				contentText: {
 					contentdown: '上拉加载更多',
 					contentrefresh: '加载中',
 					contentnomore: '没有更多'
+				},
+				jiayinFilterData: {
+					msgTypelistData: []
 				}
 			};
 		},
-		onShow(){
+		onShow() {
 			this.initList();
+			this.initMsgType();
 		},
 		onPullDownRefresh() {
 			this.initList();
@@ -53,7 +70,24 @@
 			this.getList();
 		},
 		methods: {
-			initList(){
+			initMsgType() {
+				var that = this;
+				that.jiayinFilterData.msgTypelistData = [{
+					name: '全部',
+					value: 0
+				}];
+				msgTypeAPI.selectParent((data) => {
+					if (data.data) {
+						data.data.forEach(item => {
+							that.jiayinFilterData.msgTypelistData.push({
+								name: item.typeName,
+								value: item.typeName
+							})
+						})
+					}
+				})
+			},
+			initList() {
 				this.reload = true;
 				this.last_page = 1;
 				this.getList();
@@ -61,10 +95,10 @@
 			getList() {
 				this.status = 'loading';
 				messageAPI.getPage({
-					"filters": {},
+					"filters": this.filters,
 					"page": this.last_page,
 					"pageSize": 10,
-					"sorts": []
+					"sorts": this.sorts
 				}, (data) => {
 					if (this.reload) {
 						this.listData = data.data.list;
@@ -85,12 +119,68 @@
 				uni.navigateTo({
 					url: '../message-detail/message-detail?id=' + e.id,
 				});
+			},
+			// 排序，筛选更改
+			messageFilterChanged(filter) {
+				console.log("filter:", filter)
+				this.filters = {};
+				if (filter.option != 0) {
+					this.filters = {
+						"msgType": filter.option
+					}
+				}
+				if (filter.sort != 0) {
+					this.sorts = [{
+						"direction": filter.order > 0 ? "asc" : "desc",
+						"fieldName": filter.sort
+					}]
+				}
+				this.initList()
+			}
+		},
+		computed: {
+			messageFilters: function() {
+				// 参考的下拉选项如下，可从服务器端加载：
+				//options:[{name:'不限',value:""},{name:'酒水',value:"js",children:[{name:'啤酒',value:"pj"}]}]},
+				// const cateOptions=this.msgTypelistData.map(function (item){
+				// 	return {name:item.Name,value:item.Fid}
+				// });
+				// filterType为0，普通方式，无排序，1：排序模式，2：下拉筛选模式，当前支持一级，多级可自行扩展
+				return [{
+						title: '消息类别',
+						value: 0,
+						filterType: 2,
+						options: this.jiayinFilterData.msgTypelistData
+					},
+					// {title:'推荐',value:0,filterType:0,disableAscDesc:true},
+					{
+						title: '标题',
+						value: 'title',
+						filterType: 1
+					},
+					// {title:'人气', value:3, filterType:1},
+					{
+						title: '最新',
+						value: 'createdDate',
+						filterType: 1
+					},
+					{
+						title: '最热门',
+						value: 'views',
+						filterType: 1,
+						initAscState: true
+					}
+				]
 			}
 		}
 	}
 </script>
 
 <style>
+	.uni-list {
+		margin-top: 90rpx;
+	}
+
 	.message-list-item {
 		display: flex;
 		flex-direction: column;
