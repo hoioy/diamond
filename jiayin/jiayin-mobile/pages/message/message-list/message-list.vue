@@ -122,6 +122,7 @@
 			},
 			// 排序，筛选更改
 			messageFilterChanged(filter) {
+				debugger
 				console.log("filter:", filter)
 				this.filters = {};
 				if (filter.option != 0) {
