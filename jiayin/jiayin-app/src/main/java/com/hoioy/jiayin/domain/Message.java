@@ -1,5 +1,6 @@
 package com.hoioy.jiayin.domain;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.hoioy.diamond.common.base.BaseDomain;
 import io.swagger.annotations.ApiModel;
@@ -38,7 +39,12 @@ public class Message extends BaseDomain {
     /**
      * 消息类型外键
      */
-    private String msgType;
+    private String msgTypeId;
+    /**
+     * 消息类型名称
+     */
+    @TableField(exist = false)
+    private String msgTypeName;
 
     /**
      * 消息内容
