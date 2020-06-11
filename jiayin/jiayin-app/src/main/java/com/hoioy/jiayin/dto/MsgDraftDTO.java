@@ -37,7 +37,7 @@ public class MsgDraftDTO extends BaseDTO implements Serializable {
 
 
     @ApiModelProperty(value = "消息类型")
-    private String msgType;
+    private String msgTypeId;
 
 
     @ApiModelProperty(value = "消息内容")

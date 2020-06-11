@@ -50,7 +50,7 @@
 	import * as messageAPI from '@/api/message.js';
 	import * as draftAPI from '@/api/draft.js';
 	import * as msgTypeAPI from '@/api/msgType.js';
-
+	import checkLogin from '@/utils/checkLogin.js'
 	export default {
 		components: {
 			uniLoadMore,
@@ -77,6 +77,7 @@
 			};
 		},
 		onShow() {
+			checkLogin.alreadyLogin()
 			this.initList();
 		},
 		onPullDownRefresh() {

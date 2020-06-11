@@ -1,25 +1,21 @@
 <template>
 	<view class="message">
 		<view class="message-detail">
-			<view class="message-detail-creator">
-				<image class="message-detail-creator-logo" src="../../../static/img/home.png"></image>
-				<view class="message-detail-creator-info">
-					<view class="message-detail-creator-info-name">{{ message.createdBy }}</view>
-					<view class="message-detail-creator-info-type">{{ message.msgType}}</view>
+			<view class="message-detail-head">
+				<view class="message-detail-title">{{message.title}}</view>
+				<view class="msg-detail-head-body">
+						<view>更新时间:{{message.modifiedDate|formatDate}}</view>
+						<view>浏览:{{message.views}}次</view>
 				</view>
 			</view>
-			<view class="message-detail-title">{{ message.title }}</view>
-			<view class="message-detail-item-status">{{ !message.status?'无状态': message.status}}</view>
 			<view class="message-detail-content">
-				<view>{{ message.content }}</view>
+				<view class="message-detail-content-head">详细内容</view>
+				<view class="message-detail-content-body">{{ message.content }}</view>
 			</view>
 			<view class="message-detail-item-contacts">
 				<view>联系人:{{ message.contacts}}</view>
 				<view>联系电话:{{ message.contactPhone }}</view>
-				<view>有效期:{{ message.expareTime }}</view>
 			</view>
-			<view class="message-detail-item-views">阅读次数:{{ message.views }}</view>
-
 		</view>
 		<view class="message-nav">
 			<button type="primary" open-type="share">分享</button>
@@ -33,7 +29,7 @@
 	import * as collectAPI from '@/api/collect.js';
 	import mInput from '@/components/m-input.vue';
 	import messageDetailNav from '@/components/message-detail-nav/message-detail-nav.vue'
-
+	import dateFormat from '@/utils/date.js'
 	export default {
 		components: {
 			mInput,
@@ -88,6 +84,12 @@
 			return {
 				title: this.message.title,
 				path: '/pages/message/message-detail/message-detail?id='+this.message.id
+			}
+		},
+		filters:{
+			formatDate(date){
+			    let nDate = new Date(date);
+			    return dateFormat.formatDate(nDate, "yyyy-MM-dd");
 			}
 		},
 		onLoad: function(option) { //option为object类型，会序列化上个页面传递的参数
@@ -158,75 +160,37 @@
 		width: 750rpx;
 	}
 
-	.message-detail {
-		display: flex;
-		flex-direction: column;
-		color: #333333;
-		padding: 10px;
-	}
-
-	.message-detail-creator {
-		display: flex;
-		border-bottom: 2rpx solid #acac97;
-	}
-
-	.message-detail-creator-logo {
-		width: 60px;
-		height: 60px;
-	}
-
-	.message-detail-creator-info {
-		display: flex;
-		flex-direction: column;
-	}
-
-	.message-detail-creator-info-name {
-		font-size: 20pt;
-	}
-
 	.message-nav {
 		position: fixed;
 		bottom: 0;
 		width: 100%;
 	}
 
-	.message-detail-creator-info-type {}
 
-	.message-detail-title {
-		margin: auto;
-		display: inline-block;
-		font-size: 30rpx;
-		line-height: 88rpx;
-		box-sizing: border-box;
-		border-bottom: 2rpx solid #ffd115;
+	.message-detail-title{
+		margin: 2rpx 2rpx 5rpx 2rpx;
 	}
 
-	.message-detail-content {
-		line-height: 30px;
-		font-size: 17pt;
-		word-wrap: break-word;
+	.message-detail-item-contacts{
+			margin: 2rpx 2rpx 2rpx 2rpx;
 	}
-
-	.message-detail-item-contacts {
+	.message-detail-head{
+		border-bottom: 2rpx solid #DDDDDD;
+	}
+	.message-detail-content-head{
+			margin: 2rpx 2rpx 2rpx 2rpx;
+	}
+	.message-detail-content-body{
+			margin: 2rpx 2rpx 2rpx 2rpx;
+	}
+	.message-detail-content{
+		border-bottom: 2rpx solid #DDDDDD;
+	}
+	.msg-detail-head-body{
 		display: flex;
-		flex-direction: column;
-		background-color: white;
-		padding-top: 20px;
-		padding-bottom: 20px;
-	}
-
-	.message-detail-item-status {
-		background-color: #09BB07;
-		color: #FFFFFF;
-		padding-left: 5px;
-		padding-right: 5px;
-		padding-top: 2px;
-		padding-bottom: 2px;
-		border-radius: 20rpx;
-		align-self: flex-end
-	}
-
-	.message-detail-item-views {
-		align-self: flex-end
+		justify-content: space-between;
+		margin-top: 8px;
+		font-size: 11pt;
+		margin: 2rpx 2rpx 5rpx 2rpx  /* 上 右 下 左 顺序调节边距*/
 	}
 </style>

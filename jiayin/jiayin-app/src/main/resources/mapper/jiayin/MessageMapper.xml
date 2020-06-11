@@ -7,7 +7,8 @@
     <result column="id" property="id" />
         <result column="title" property="title" />
         <result column="openid" property="openid" />
-        <result column="msg_type" property="msgType" />
+        <result column="msg_type_id" property="msgTypeId" />
+        <result column="msg_type_name" property="msgTypeName" />
         <result column="content" property="content" />
         <result column="views" property="views" />
         <result column="status" property="status" />
@@ -20,7 +21,7 @@
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         msg.id, msg.openid,
-        title, content, views, status, expare_time, contacts, contact_phone,msg.created_date,type_name as msg_type
+        title, content, views, status, expare_time, contacts, contact_phone,msg.created_date,type_name as msg_type_name,msgType.id as msg_type_id
     </sql>
 
     <select id="selectPage" resultType="com.hoioy.jiayin.domain.Message">
@@ -28,14 +29,14 @@
            <include refid="Base_Column_List" />
         from
            jiayin_message msg
-        left join jiayin_msg_type msgType on msg.msg_type=msgType.id
+        left join jiayin_msg_type msgType on msg.msg_type_id=msgType.id
         where
         msg.flag=1 and msg.status=1
         <if test="message.title != null and message.title != ''">
             AND msg.title = #{message.title}
         </if>
-        <if test="message.msgType != null and message.msgType != ''">
-            AND msg.msg_type = #{message.msgType}
+        <if test="message.msgTypeId != null and message.msgTypeId != ''">
+            AND msg.msg_type_id = #{message.msgTypeId}
         </if>
         <if test="message.content != null and message.content != ''">
             AND msg.content = #{message.content}

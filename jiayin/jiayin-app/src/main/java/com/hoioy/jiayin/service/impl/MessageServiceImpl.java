@@ -60,6 +60,7 @@ public class MessageServiceImpl extends BaseServiceImpl<MessageMapper, Message, 
         //查询用户次数表 看用户是否可以发布消息，
         MsgCount msgCount = msgCountMapper.selectByOpenid(userName);
         if (msgCount != null && msgCount.getMsgCount() > 0) {
+            dto.setStatus(1);
             MessageDTO save = super.save(dto);
             //发布成功减少次数
             msgCount.setMsgCount(msgCount.getMsgCount()-1);
@@ -68,7 +69,7 @@ public class MessageServiceImpl extends BaseServiceImpl<MessageMapper, Message, 
             publishHistory.setOpenid(userName);
             publishHistory.setPublishTitle(dto.getTitle());
             publishHistory.setPublishId(save.getId());
-            publishHistory.setMsgTypeId(dto.getMsgType());
+            publishHistory.setMsgTypeId(dto.getMsgTypeId());
             publishHistory.setPublishType("msg");
             publishHistoryMapper.insert(publishHistory);
             return save;
@@ -85,7 +86,7 @@ public class MessageServiceImpl extends BaseServiceImpl<MessageMapper, Message, 
         PublishHistory publishHistory = new PublishHistory();
         publishHistory.setPublishTitle(dto.getTitle());
         publishHistory.setPublishId(dto.getId());
-        publishHistory.setMsgTypeId(dto.getMsgType());
+        publishHistory.setMsgTypeId(dto.getMsgTypeId());
         publishHistory.setPublishType("msg");
         publishHistoryMapper.updateByPubilshId(publishHistory);
         return update;

@@ -101,7 +101,7 @@
 					children: [],
 					title: "", //标题
 					// msgType: 0,//消息类型
-					msgType: null, //消息类型
+					msgTypeId: null, //消息类型
 					content: "", //消息内容
 					// status: 0,//带交易 已完成
 					status: "0", //带交易 已完成
@@ -168,7 +168,7 @@
 			// 	})
 			// },
 			prepareMessage() {
-				this.message.msgType = this.msgType.types[this.msgType.selectedIndex].id
+				this.message.msgTypeId = this.msgType.types[this.msgType.selectedIndex].id
 				if (!this.validate("title") &&
 					!this.validate("content") &&
 					!this.validate("expareTime") &&
