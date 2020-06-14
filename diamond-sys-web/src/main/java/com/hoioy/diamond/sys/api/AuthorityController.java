@@ -81,6 +81,8 @@ public class AuthorityController {
         UserInfoDTO dto = new UserInfoDTO();
         String name = (String) userInfo.get("name");
         String loginName = (String) userInfo.get("loginName");
+        String email = (String) userInfo.get("email");
+        String avatar = (String) userInfo.get("avatar");
         //有一些用户不在太极的用户表中-比如测试用户admin，可能这部分逻辑还要改。
         if (null == loginName) {
             loginName = name;
@@ -92,9 +94,13 @@ public class AuthorityController {
             //如果本系统没有此用户，则新增
             //用户信息填充
             dto.setUserName(name);
-            dto.setEmail("未知");
+            if(StringUtils.isNotEmpty(email)){
+                dto.setEmail(email);
+            }else{
+                dto.setEmail("未知");
+            }
+            dto.setAvatar(avatar);
             dto.setState("1");
-            dto.setAvatar("/common/images/default-head.jpg");
             //用户所属角色填充
             //TODO 默认角色写死了
             RoleDTO role = roleService.findByRoleName("ROLE_USER");

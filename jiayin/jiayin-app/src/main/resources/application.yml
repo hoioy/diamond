@@ -3,7 +3,7 @@ server:
 
 spring:  #多环境切换
   profiles:
-    active: test
+    active: dev
   messages:       #配置引用国际化文件
     basename: messages
     cache-duration: -1

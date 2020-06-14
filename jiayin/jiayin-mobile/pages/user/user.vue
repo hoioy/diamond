@@ -2,15 +2,14 @@
 	<view class="uni-container">
 		<view class="user">
 			<view>
-				<image class="userhead" :src="userinfo.avatarUrl" mode="aspectFit"></image>
+				<image class="userhead" :src="userinfo.avatar" mode="aspectFit"></image>
 			</view>
 			<view>
 				<view>
-					<text>{{userinfo.nickName}}</text>
+					<text>{{userinfo.userName}}</text>
 				</view>
 				<view>
-					<button v-if="alreadyLogin" @click="loginOut"> 退出登录</button>
-					<button v-if="!alreadyLogin" @click="loginIn"> 登录</button>
+					<button v-if="!alreadyLogin" @click="loginIn">登录</button>
 				</view>
 			</view>
 
@@ -26,12 +25,13 @@
 </template>
 
 <script>
+	import * as userAPI from '@/api/user.js';
 	export default {
 		data() {
 			return {
 				userinfo: {
-					nickName: "",
-					avatarUrl: ""
+					userName: '',
+					avatar: ''
 				},
 				alreadyLogin: false,
 				navs: [{
@@ -53,15 +53,14 @@
 
 			}
 		},
-		onLoad() {
-
-		},
 		onShow() {
-			let userinfojson = uni.getStorageSync('userinfo')
-			if(userinfojson){
-					this.alreadyLogin = true
-			}
-			this.userinfo = JSON.parse(userinfojson);
+			const that = this
+			userAPI.getUser((res) => {
+				if (res.data) {
+					that.userinfo = res.data;
+					that.alreadyLogin = true
+				}
+			})
 		},
 		methods: {
 			//页面跳转
@@ -75,25 +74,7 @@
 				uni.navigateTo({
 					url: '/pages/login/login'
 				});
-			},
-			loginOut() {
-
-				uni.removeStorage({
-					key: 'token',
-					success: function(res) {
-						console.log('移除token成功');
-					}
-				})
-				uni.removeStorage({
-					key: 'userinfo',
-					success: function(res) {
-						console.log('移除userinfo成功');
-					}
-				})
-				this.userinfo = {}
-				console.log("退出成功")
 			}
-
 		}
 	}
 </script>

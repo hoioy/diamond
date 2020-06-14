@@ -81,7 +81,7 @@
 						data.data.forEach(item => {
 							that.jiayinFilterData.msgTypelistData.push({
 								name: item.typeName,
-								value: item.typeName
+								value: item.id
 							})
 						})
 					}
@@ -122,12 +122,11 @@
 			},
 			// 排序，筛选更改
 			messageFilterChanged(filter) {
-				debugger
 				console.log("filter:", filter)
 				this.filters = {};
-				if (filter.option != 0) {
+				if (filter.option) {
 					this.filters = {
-						"msgType": filter.option
+						"msgTypeId": filter.option
 					}
 				}
 				if (filter.sort != 0) {
