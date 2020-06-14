@@ -1,6 +1,13 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页,
 		{
+			"path" : "pages/home/home",
+			"style" : {
+					"navigationBarTitleText": "首页"
+			}
+		}
+		,
+		{
 			"path": "pages/message/message-list/message-list",
 			"style": {
 				"navigationBarTitleText": "消息列表",
@@ -64,14 +71,20 @@
 				"navigationBarTitleText": "我的发布"
 			}
         }
+        ,{
+            "path" : "pages/message/land-sale/land-sale",
+            "style" : {
+					"navigationBarTitleText": "土地交易"
+			}
+        }
     ],
 	"tabBar": {
 		"color": "#7a7e83",
 		"selectedColor": "#0faeff",
 		"backgroundColor": "#ffffff",
 		"list": [{
-			"pagePath": "pages/message/message-list/message-list",
-			"text": "消息列表",
+			"pagePath": "pages/home/home",
+			"text": "首页",
 			"iconPath": "static/img/home.png",
 			"selectedIconPath": "static/img/homeHL.png"
 		},{
