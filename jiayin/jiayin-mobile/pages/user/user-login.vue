@@ -4,7 +4,6 @@
 			<!-- #ifdef MP-WEIXIN -->
 			<button v-if="needBeforeLogin" open-type='getUserInfo'>获取授权</button>
 			<!-- #endif -->
-			<button v-if="hasLogin" type="default" @tap="bindLogout">退出</button>
 			<button v-if="!hasLogin" type="primary" class="primary" @tap="oauth('weixin')">微信登录</button>
 		</view>
 	</view>
@@ -31,14 +30,26 @@
 				password: 'admin',
 				positionTop: 0,
 				isDevtools: false,
-				hasLogin: uni.getStorageSync('token'),
+				hasLogin: uni.getStorageSync('token') ,
 				needBeforeLogin: false, //当清除缓存时候需要用户重新授权
 				user: {}
 			}
 		},
 		computed: mapState(['forcedLogin']),
 		onLoad() {
+				console.log('onLoad')
 			this.initData();
+		},
+		onShow(){
+			console.log('onshow')
+			var token =uni.getStorageSync('token')
+			console.log(token)
+			if(token===''){
+				console.log('init hasLogin')
+				this.hasLogin=false
+			}else{
+					this.hasLogin=true
+			}
 		},
 		methods: {
 			...mapMutations(['login']),
@@ -49,12 +60,7 @@
 					})
 				}
 			},
-			bindLogout() {
-				uni.removeStorageSync('token');
-				this.user = {}
-			},
 			initProvider() {
-				
 				const filters = ['weixin', 'qq', 'sinaweibo'];
 				uni.getProvider({
 					service: 'oauth',

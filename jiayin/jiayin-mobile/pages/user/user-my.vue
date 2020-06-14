@@ -20,6 +20,9 @@
 				<view  class="my_font">{{item.title}}</view>
 			</view>
 		</view>
+		<view>
+			<button v-if="alreadyLogin" @click="loginOut"> 退出登录</button>
+		</view>
 	</view>
 
 </template>
@@ -33,6 +36,7 @@
 					avatarUrl:""
 					
 				},
+				alreadyLogin: uni.getStorageSync('token'),
 				navs:[
 					{
 						icon:'iconfont icon-shoucang',
@@ -55,8 +59,8 @@
 		},
 		onLoad() {
 			let userinfojson=uni.getStorageSync('userinfo')
-		 this.userinfo=JSON.parse(userinfojson);
-		 console.log(this.userinfo)
+		     this.userinfo=JSON.parse(userinfojson);
+		     console.log('userinfo    '+this.userinfo)
 		},
 		methods: {
 			//页面跳转
@@ -65,6 +69,23 @@
 			 uni.navigateTo({
 			 	url
 			 })	
+			},
+			loginOut(){
+				
+				uni.removeStorage({
+					key: 'token',
+					    success: function (res) {
+					        console.log('移除token成功');
+					    }
+				})
+				uni.removeStorage({
+					key: 'userinfo',
+					    success: function (res) {
+					        console.log('移除userinfo成功');
+					    }
+				})
+				this.userinfo={}
+				console.log("退出成功")
 			}
 			
 		}
