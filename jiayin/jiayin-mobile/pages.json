@@ -29,13 +29,13 @@
 			}
 		},
 		{
-			"path": "pages/user/user-login",
+			"path": "pages/login/login",
 			"style": {
 				"navigationBarTitleText": "登录"
 			}
 		}
 	    ,{
-            "path" : "pages/user/user-my",
+            "path" : "pages/user/user",
             "style" : {
 				"navigationBarTitleText": "我的"
 			}
@@ -45,18 +45,10 @@
             "style" : {}
         }
         ,{
-            "path" : "pages/history/history-list",
-            "style" : {}
-        }
-        ,{
             "path" : "pages/collect/collect-list/collect-list",
             "style" : {
 				"navigationBarTitleText": "我的收藏"
 			}
-        }
-        ,{
-            "path" : "pages/message/message-published/message-published",
-            "style" : {}
         }
         ,{
             "path" : "pages/publish-history/history-list/publish-history-list",
@@ -80,12 +72,7 @@
 			"iconPath": "static/img/plus.png",
 			"selectedIconPath": "static/img/plusHL.png"
 		},{
-			"pagePath": "pages/user/user-login",
-			"text": "登录",
-			"iconPath": "static/img/user.png",
-			"selectedIconPath": "static/img/userHL.png"
-		},{
-			"pagePath": "pages/user/user-my",
+			"pagePath": "pages/user/user",
 			"text": "我的",
 			"iconPath": "static/img/user.png",
 			"selectedIconPath": "static/img/userHL.png"

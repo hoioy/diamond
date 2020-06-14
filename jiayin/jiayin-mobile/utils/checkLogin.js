@@ -6,7 +6,7 @@ var checkLogin = {
 		if(userinfojson==""){
 			console.log('跳转')
 			uni.navigateTo({
-				url: '/pages/user/user-login'
+				url: '/pages/login/login.vue'
 			});
 		}
 

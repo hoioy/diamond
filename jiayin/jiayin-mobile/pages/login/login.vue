@@ -4,7 +4,7 @@
 			<!-- #ifdef MP-WEIXIN -->
 			<button v-if="needBeforeLogin" open-type='getUserInfo'>获取授权</button>
 			<!-- #endif -->
-			<button v-if="!hasLogin" type="primary" class="primary" @tap="oauth('weixin')">微信登录</button>
+			<button v-if="!hasLogin" type="primary" class="primary" @tap="oauth('weixin')">一键登录</button>
 		</view>
 	</view>
 </template>
