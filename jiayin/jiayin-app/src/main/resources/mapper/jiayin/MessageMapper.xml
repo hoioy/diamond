@@ -21,17 +21,19 @@
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         msg.id, msg.openid,
-        title, content, views, status, expare_time, contacts, contact_phone,msg.created_date,type_name as msg_type_name,msgType.id as msg_type_id
+        title, content, views, status, expare_time, contacts, contact_phone,msg.created_date,type_name as msg_type_name,mst.id as msg_type_id
     </sql>
 
     <select id="selectPage" resultType="com.hoioy.jiayin.domain.Message">
         select
            <include refid="Base_Column_List" />
         from
-           jiayin_message msg
-        left join jiayin_msg_type msgType on msg.msg_type_id=msgType.id
-        where
-        msg.flag=1 and msg.status=1
+        jiayin_message msg
+        left join jiayin_msg_type mst  on msg.msg_type_id=mst.id
+        where msg.flag=1 and msg.status=1
+        <if test="message.msgTypeParentId != null and message.msgTypeParentId != ''">
+            AND mst.parent_id=#{message.msgTypeParentId}
+        </if>
         <if test="message.title != null and message.title != ''">
             AND msg.title = #{message.title}
         </if>
