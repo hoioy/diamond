@@ -44,8 +44,8 @@ public class MsgTypeController extends BaseController<IMsgTypeService, MsgTypeDT
     }
 
     @ApiOperation(value = "根据parenid查询二级级分类", notes = "根据parenid查询二级级分类")
-    @GetMapping("/selectChildByParentId")
-    public ResultDTO selectChildren(String parentId) throws BaseException {
+    @GetMapping("/selectChildByParentId/{parentId}")
+    public ResultDTO selectChildren(@PathVariable String parentId) throws BaseException {
         List<MsgTypeDTO> msgTypeDTOs = msgTypeService.selectChildrenByParentId(parentId);
         return new ResultDTO(msgTypeDTOs);
     }

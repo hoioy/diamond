@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hoioy.diamond.common.base.IBaseMapper;
 import com.hoioy.jiayin.domain.Message;
+import com.hoioy.jiayin.dto.MessagePageDTO;
 import org.apache.ibatis.annotations.Param;
 
 /**
@@ -19,5 +20,5 @@ public interface MessageMapper extends IBaseMapper<Message> {
     /**
      *  分页
      */
-    IPage<Message> selectPage(@Param("page") Page page, @Param("message") Message message);
+    IPage<Message> selectPage(@Param("page") Page page, @Param("message") MessagePageDTO message);
 }

@@ -5,6 +5,7 @@ import com.hoioy.diamond.common.dto.PageDTO;
 import com.hoioy.diamond.common.dto.ResultDTO;
 import com.hoioy.diamond.common.exception.BaseException;
 import com.hoioy.jiayin.dto.MessageDTO;
+import com.hoioy.jiayin.dto.MessagePageDTO;
 import com.hoioy.jiayin.service.IMessageService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -31,7 +32,7 @@ public class MessageController extends BaseController<IMessageService, MessageDT
 
     @ApiOperation(value = "分页", notes = "分页")
     @PostMapping("/page")
-    public ResultDTO page(@RequestBody PageDTO<MessageDTO> pageDTO) throws BaseException {
+    public ResultDTO page(@RequestBody PageDTO<MessagePageDTO> pageDTO) throws BaseException {
         PageDTO page = messageService.getPage(pageDTO);
         return new ResultDTO(page);
     }

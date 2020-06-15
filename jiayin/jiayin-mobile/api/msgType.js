@@ -1,8 +1,8 @@
 import request from '@/utils/request'
 
-export function selectParent(onSuccess) {
+export function selectChildren(msgTypeParentId,onSuccess) {
 	request({
-		url: 'jiayin/msgType/selectParent',
+		url: 'jiayin/msgType/selectChildByParentId/'+msgTypeParentId,
 		onSuccess: onSuccess
 	})
 }
