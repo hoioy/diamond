@@ -44,7 +44,12 @@
 					"direction": "asc",
 					"fieldName": "createdDate"
 				}],
-				filters: {},
+				filters: {
+					"msgTypeId":"",
+					"msgTypeParentId":""
+					
+				},
+				title:"",
 				reload: false, //是否刷新模式，false：瀑布流
 				status: 'more',
 				contentText: {
@@ -57,9 +62,16 @@
 				}
 			};
 		},
-		onShow() {
-			this.initList();
-			this.initMsgType();
+		onLoad: function(option){
+			this.title=option.title //设置当前页面的title,通过onReady设置title
+			this.filters.msgTypeParentId=option.msgTypeParentId
+			this.initList(option.msgTypeParentId);
+			this.initMsgType(option.msgTypeParentId);
+		},
+		onReady() {
+			uni.setNavigationBarTitle({
+			    title: this.title+'列表'
+			});
 		},
 		onPullDownRefresh() {
 			this.initList();
@@ -70,35 +82,39 @@
 			this.getList();
 		},
 		methods: {
-			initMsgType() {
+			initMsgType(option) {
 				var that = this;
 				that.jiayinFilterData.msgTypelistData = [{
 					name: '全部',
 					value: 0
 				}];
-				msgTypeAPI.selectParent((data) => {
+				console.log(option)
+				
+				
+				msgTypeAPI.selectChildren(option, function(data) {
 					if (data.data) {
 						data.data.forEach(item => {
 							that.jiayinFilterData.msgTypelistData.push({
 								name: item.typeName,
-								value: item.typeName
+								value: item.id
 							})
 						})
 					}
 				})
 			},
-			initList() {
+			initList(data) {
 				this.reload = true;
 				this.last_page = 1;
-				this.getList();
+				this.getList(data);
+			
 			},
-			getList() {
+			getList(data) {
 				this.status = 'loading';
 				messageAPI.getPage({
 					"filters": this.filters,
 					"page": this.last_page,
 					"pageSize": 10,
-					"sorts": this.sorts
+					"sorts": this.sorts,
 				}, (data) => {
 					if (this.reload) {
 						this.listData = data.data.list;
@@ -122,13 +138,11 @@
 			},
 			// 排序，筛选更改
 			messageFilterChanged(filter) {
-				debugger
 				console.log("filter:", filter)
-				this.filters = {};
-				if (filter.option != 0) {
-					this.filters = {
-						"msgType": filter.option
-					}
+				if (filter.option != null) {
+					this.filters.msgTypeId=filter.option
+				}else{
+					this.filters.msgTypeId=""
 				}
 				if (filter.sort != 0) {
 					this.sorts = [{
