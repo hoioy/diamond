@@ -3,7 +3,7 @@
 		
 
 		<view class="nav">
-			<view class="nav_item" v-for="(item,index) in navs" :key="index" @click="pageJump(item.path,item.msgTypeParentId)">
+			<view class="nav_item" v-for="(item,index) in navs" :key="index" @click="pageJump(item.path,item.msgTypeParentId,item.title)">
 				<view :class="item.icon"></view>
 				<view  class="my_font">{{item.title}}</view>
 			</view>
@@ -26,7 +26,7 @@
 					{
 						icon:'iconfont icon-tudi',
 						title: '土地交易',
-						path: '/pages/message/land-sale/land-sale' ,
+						path: '/pages/message/message-list/message-list' ,
 						msgTypeParentId:'2c53d081bbcd42592c5ca04869bb1271'
 					},
 					{
@@ -69,9 +69,9 @@
 			}
 		},
 		methods: {
-	pageJump(url,msgTypeParentId){
+	pageJump(url,msgTypeParentId,title){
 			 uni.navigateTo({
-			 url:	url+'?msgTypeParentId='+msgTypeParentId
+			 url:	url+'?msgTypeParentId='+msgTypeParentId+ '&title='+title
 			 })	
 			}
 			

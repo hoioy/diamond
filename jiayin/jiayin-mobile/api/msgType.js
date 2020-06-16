@@ -6,7 +6,12 @@ export function selectChildren(msgTypeParentId,onSuccess) {
 		onSuccess: onSuccess
 	})
 }
-
+export function selectParent(onSuccess) {
+	request({
+		url: 'jiayin/msgType/selectParent',
+		onSuccess: onSuccess
+	})
+}
 export function findById(id,onSuccess) {
 	request({
 		url: 'jiayin/msgType/'+id,
