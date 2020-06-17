@@ -14,8 +14,8 @@
 		</view>
 
 		<view class="nav-container">
-			<view class="nav-container-cell" v-for="(item, key) in navs" :key="index" @click="pageJump(item.path)">
-				<view class="nav-container-item">
+			<view class="nav-container-cell" v-for="(item, key) in navs" :key="key">
+				<view class="nav-container-item" @tap="pageJump(item.path)">
 					<view>
 						<image class="nav-container-item-img-image" :src="item.icon"></image>
 					</view>
@@ -68,9 +68,8 @@
 			})
 		},
 		methods: {
-			//页面跳转
-			pageJump(url) {
-				console.log(url)
+			//页面跳转 
+			pageJump: function(url) {
 				uni.navigateTo({
 					url
 				})
