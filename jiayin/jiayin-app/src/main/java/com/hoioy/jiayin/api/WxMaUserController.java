@@ -44,6 +44,8 @@ public class WxMaUserController {
 
         try {
             WxMaJscode2SessionResult session = wxService.getUserService().getSessionInfo(code);
+            // SessionKey不能暴露到前端，参考：https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/login.html
+            session.setSessionKey(null);
             this.logger.info(session.getSessionKey());
             this.logger.info(session.getOpenid());
             //TODO 可以增加自己的逻辑，关联业务相关数据

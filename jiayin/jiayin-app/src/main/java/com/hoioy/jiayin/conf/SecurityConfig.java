@@ -9,6 +9,7 @@ import com.hoioy.diamond.sys.service.IUserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -48,6 +49,7 @@ public class SecurityConfig extends JwtWebSecurityConfigurerAdapter {
                 .antMatchers("/bindDiamondUaaUser").permitAll()
                 .antMatchers("/files/**").permitAll()
                 .antMatchers("/user-upload-avatar-rest").permitAll()
+                .antMatchers(HttpMethod.GET,"/jiayin/message/**").permitAll()//未登录用户允许查看信息
                 // 使其支持跨域
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                 .anyRequest().fullyAuthenticated()

@@ -47,7 +47,7 @@
 				filters: {
 					"msgTypeId":"",
 					"msgTypeParentId":""
-					
+
 				},
 				title:"",
 				reload: false, //是否刷新模式，false：瀑布流
@@ -89,8 +89,8 @@
 					value: 0
 				}];
 				console.log(option)
-				
-				
+
+
 				msgTypeAPI.selectChildren(option, function(data) {
 					if (data.data) {
 						data.data.forEach(item => {
@@ -106,7 +106,7 @@
 				this.reload = true;
 				this.last_page = 1;
 				this.getList(data);
-			
+
 			},
 			getList(data) {
 				this.status = 'loading';

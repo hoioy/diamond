@@ -63,6 +63,9 @@ mybatis-plus:
     cache-enabled: false
     call-setters-on-nulls: true
 
+diamond:
+  security:
+    captcha-enable: 'off'   #生产环境关闭验证码校验,小程序登录时候没有传递验证码
 
 # HTTPS的密钥配置
 server:
