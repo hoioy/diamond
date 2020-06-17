@@ -71,24 +71,24 @@
         }
     ],
 	"tabBar": {
-		"color": "#7a7e83",
-		"selectedColor": "#0faeff",
+		"color": "#333333",
+		"selectedColor": "#333333",
 		"backgroundColor": "#ffffff",
 		"list": [{
 			"pagePath": "pages/home/home",
 			"text": "首页",
-			"iconPath": "static/img/home.png",
-			"selectedIconPath": "static/img/homeHL.png"
+			"iconPath": "static/img/tab/home.png",
+			"selectedIconPath": "static/img/tab/homeHL.png"
 		},{
 			"pagePath": "pages/message/message-publish/message-publish",
 			"text": "发布",
-			"iconPath": "static/img/plus.png",
-			"selectedIconPath": "static/img/plusHL.png"
+			"iconPath": "static/img/tab/publish.png",
+			"selectedIconPath": "static/img/tab/publishHL.png"
 		},{
 			"pagePath": "pages/user/user",
 			"text": "我的",
-			"iconPath": "static/img/user.png",
-			"selectedIconPath": "static/img/userHL.png"
+			"iconPath": "static/img/tab/mine.png",
+			"selectedIconPath": "static/img/tab/mineHL.png"
 		}]
 	},
 	"globalStyle": {
