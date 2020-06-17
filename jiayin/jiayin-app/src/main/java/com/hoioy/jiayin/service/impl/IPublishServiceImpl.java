@@ -17,8 +17,9 @@ import com.hoioy.jiayin.service.IMsgDraftService;
 import com.hoioy.jiayin.service.IPublishHistoryService;
 import com.hoioy.jiayin.service.IPublishService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+@Service
 public class IPublishServiceImpl implements IPublishService {
     @Autowired
     private IMessageService iMessageService;
@@ -46,8 +47,9 @@ public class IPublishServiceImpl implements IPublishService {
              return save;
          }else {
              MessageDTO update = (MessageDTO) iMessageService.update(dto);
+             iMsgDraftService.saveOrUpdateDraft(userName,update,"message");
              //查询这条消息在草稿里有没有,如果有修改如果没有新增
-             return null;
+             return update;
          }
 
     }
@@ -65,13 +67,15 @@ public class IPublishServiceImpl implements IPublishService {
             publishHistory.setPublishTitle(dto.getTitle());
             publishHistory.setPublishId(save.getId());
             publishHistory.setMsgTypeId(dto.getMsgTypeId());
-            publishHistory.setPublishType("msg");
+            publishHistory.setPublishType("message");
             iPublishHistoryService.save(publishHistory);
             return save;
         }else {
             MessageDTO update = (MessageDTO) iMessageService.update(dto);
             //删除草稿中的这条记录
+            iMsgDraftService.saveOrUpdateDraft(userName,update,"message");
             //在我的发布中新增这条记录
+            iPublishHistoryService.saveOrUpdateDraft(userName,update,"message");
             return null;
         }
     }
