@@ -19,7 +19,7 @@
         msg_title, msg_type_id, created_date, msg_id, message_type
     </sql>
     <delete id="removeByUserNameAndMsgId"   >
-        DELETE FROM jiayin_msg_draft WHERE open_id=#{openid} and msg_id=#{msgId} and message_type =#{messageType} ;
+        DELETE FROM jiayin_msg_draft WHERE openid=#{openid} and msg_id=#{msgId} and message_type =#{messageType} ;
     </delete>
 
     <select id="selectPage" resultType="com.hoioy.jiayin.domain.MsgDraft">

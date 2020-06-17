@@ -10,16 +10,20 @@ import com.hoioy.diamond.common.util.CommonMybatisPageUtil;
 import com.hoioy.diamond.common.util.CommonSecurityUtils;
 import com.hoioy.jiayin.domain.Message;
 import com.hoioy.jiayin.domain.MsgCount;
+import com.hoioy.jiayin.domain.MsgType;
 import com.hoioy.jiayin.domain.PublishHistory;
 import com.hoioy.jiayin.dto.MessageDTO;
 import com.hoioy.jiayin.dto.MessagePageDTO;
 import com.hoioy.jiayin.exception.JiayinException;
 import com.hoioy.jiayin.mapper.MessageMapper;
 import com.hoioy.jiayin.mapper.MsgCountMapper;
+import com.hoioy.jiayin.mapper.MsgTypeMapper;
 import com.hoioy.jiayin.mapper.PublishHistoryMapper;
 import com.hoioy.jiayin.service.IMessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 /**
  * <p>
@@ -36,7 +40,8 @@ public class MessageServiceImpl extends BaseServiceImpl<MessageMapper, Message, 
     private MessageMapper messageMapper;
     @Autowired
     private MsgCountMapper msgCountMapper;
-
+    @Autowired
+    private MsgTypeMapper msgTypeMapper;
     @Autowired
     private PublishHistoryMapper publishHistoryMapper;
 
@@ -61,5 +66,17 @@ public class MessageServiceImpl extends BaseServiceImpl<MessageMapper, Message, 
         publishHistory.setPublishType("msg");
         publishHistoryMapper.updateByPubilshId(publishHistory);
         return update;
+    }
+
+    @Override
+    public Optional<MessageDTO> findById(String id) throws BaseException {
+        Optional<MessageDTO> byId = super.findById(id);
+        if (byId.isPresent()) {
+            MessageDTO messageDTO = byId.get();
+            MsgType msgType = msgTypeMapper.selectById(messageDTO.getMsgTypeId());
+            messageDTO.setMsgTypeName(msgType.getTypeName());
+            return Optional.ofNullable(messageDTO);
+        }
+        return byId;
     }
 }
