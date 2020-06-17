@@ -157,10 +157,6 @@
 	.jiayin-filter {
 		width: 100%;
 		background: $uni-bg-color-grey;
-		position: fixed;
-		z-index: 9;
-		left: 0;
-		top: 90;
 		border-bottom: 1px solid $uni-border-color;
 		display: flex;
 		flex-wrap: nowrap;
@@ -171,26 +167,24 @@
 		flex-wrap: nowrap;
 		width: 25%;
 		justify-content: center;
-		height: 90upx;
-		line-height: 90upx;
+		height: $jiayin-nav-bar-height;
+		align-items: center;
 	}
 
 	.jiayin-filter .items image {
-		width: 40upx;
-		margin: 22upx 10upx;
+		width: 20px;
 	}
 
 	.jiayin-filter .items text {
-		margin-left: 10upx;
-		font-size: $uni-font-size-base;
+		font-size: $uni-font-size-sm;
 	}
 
 	.jiayin-filter-options {
 		width: 100%;
 		position: absolute;
 		z-index: 10;
-		padding: 20upx 0;
-		// top: 92upx;
+		padding: 20rpx 0;
+		top: $jiayin-nav-bar-height;
 		background: $uni-bg-color-grey;
 	}
 
@@ -202,9 +196,7 @@
 	}
 
 	.jiayin-filter-options .option text {
-		margin-right: 30upx;
 		font-size: $uni-font-size-base;
-		color: #F00;
 	}
 
 	.jiayin-filter-options .current {

@@ -1,23 +1,26 @@
 <template>
-	<view class="uni-container">
-		<view class="user">
-			<view>
-				<image class="userhead" :src="userinfo.avatar" mode="aspectFit"></image>
+	<view>
+		<view class="user-container">
+			<view class="user-container-info-avatar">
+				<image v-if="userinfo.avatar" :src="userinfo.avatar"></image>
+				<image v-else src="/static/img/user-default.png"></image>
 			</view>
-			<view>
-				<view>
-					<text>{{userinfo.userName}}</text>
-				</view>
-				<view>
-					<button v-if="!alreadyLogin" @click="loginIn">登录</button>
-				</view>
+			<view class="user-container-login" v-if="!alreadyLogin">
+				<button type="default" plain="true" @click="loginIn">点此登录</button>
 			</view>
-
+			<view class="user-container-info-name" v-if="alreadyLogin">
+				<text>{{userinfo.userName}}</text>
+			</view>
 		</view>
-		<view class="my">
-			<view class="my_item" v-for="(item,index) in navs" :key="index" @click="pageJump(item.path)">
-				<view :class="item.icon"></view>
-				<view class="my_font">{{item.title}}</view>
+
+		<view class="nav-container">
+			<view class="nav-container-cell" v-for="(item, key) in navs" :key="index" @click="pageJump(item.path)">
+				<view class="nav-container-item">
+					<view>
+						<image class="nav-container-item-img-image" :src="item.icon"></image>
+					</view>
+					<view class="nav-container-item-name">{{item.title}}</view>
+				</view>
 			</view>
 		</view>
 	</view>
@@ -35,17 +38,17 @@
 				},
 				alreadyLogin: false,
 				navs: [{
-						icon: 'iconfont icon-shoucang',
+						icon: '/static/img/user/collect.png',
 						title: '收藏',
 						path: '/pages/collect/collect-list/collect-list'
 					},
 					{
-						icon: 'iconfont .icon-draft',
+						icon: '/static/img/user/publish.png',
 						title: '我的发布',
 						path: '/pages/publish-history/history-list/publish-history-list'
 					},
 					{
-						icon: 'iconfont .icon-lianxiwomen1-copy',
+						icon: '/static/img/user/contact.png',
 						title: '联系我们',
 						path: '/pages/contact/contact-our'
 					},
@@ -54,11 +57,13 @@
 			}
 		},
 		onShow() {
-			const that = this
 			userAPI.getUser((res) => {
 				if (res.data) {
-					that.userinfo = res.data;
-					that.alreadyLogin = true
+					this.userinfo = res.data;
+					if (this.userinfo.id == '6613831cac9e4597abbd0138116a8f3c') {
+						this.userinfo.avatar = '/static/img/user-default.png'
+					}
+					this.alreadyLogin = true
 				}
 			})
 		},
@@ -79,47 +84,56 @@
 	}
 </script>
 
-<style>
-	.userhead {
-		left: auto;
-		height: 100rpx;
-		width: 100rpx;
-	}
-
-	.user {
+<style lang="scss">
+	.user-container {
 		width: 750rpx;
-		height: 200rpx;
-		background-color: #FFD700;
-		z-index: -1;
+		background-color: $jiayin-bg-color;
 		display: flex;
+		align-items: center;
+
+		.user-container-login {
+			margin-left: $uni-spacing-row-lg;
+			margin-top: $uni-spacing-col-lg;
+			margin-bottom: $uni-spacing-col-lg;
+		}
+
+		.user-container-info-avatar {
+			margin-left: $uni-spacing-row-lg;
+			margin-top: $uni-spacing-col-lg;
+			margin-bottom: $uni-spacing-col-lg;
+
+			image {
+				width: $uni-img-size-lg;
+				height: $uni-img-size-lg;
+				border-radius: $uni-border-radius-lg;
+			}
+		}
+
+		.user-container-info-name {
+			margin-left: $uni-spacing-row-lg;
+			margin-top: $uni-spacing-col-lg;
+			margin-bottom: $uni-spacing-col-lg;
+			font-size: $uni-font-size-base;
+			color: $uni-color-title;
+			align-self: flex-start;
+		}
 	}
 
-	.my {
-		width: 90%;
-		height: 250rpx;
+	.nav-container {
 		display: flex;
-		background-color: #FFFFFF;
-		margin: 10rpx auto;
+		justify-content: space-around;
+		margin-top: $uni-spacing-col-lg;
+		.nav-container-item {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
 
-	}
+			.nav-container-item-img-image {
+				width: $uni-img-size-lg;
+				height: $uni-img-size-lg;
+			}
 
-	.my_item {
-		width: 25%;
-		text-align: center;
-
-	}
-
-	.iconfont {
-		width: 100rpx;
-		height: 100rpx;
-		background: #FFFFFF;
-		margin: 10rpx auto;
-		line-height: 120rpx;
-		color: #FFD700;
-		font-size: 50rpx;
-	}
-
-	.my_font {
-		font-size: 30rpx;
+			.nav-container-item-name {}
+		}
 	}
 </style>
