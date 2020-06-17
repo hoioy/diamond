@@ -61,4 +61,11 @@
         </set>
         where publish_id = #{publishId}
     </update>
+    <update id="updatePublishHistory">
+        update jiayin_publish_history
+        <set>
+            <if test="publishTitle != null and publishTitle != ''">publish_title = #{publishTitle},</if>
+        </set>
+        where publish_id = #{dto.id} and publish_type=#{publishType} and openid=#{openid}
+    </update>
 </mapper>

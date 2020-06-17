@@ -7,6 +7,7 @@ import com.hoioy.diamond.common.dto.PageDTO;
 import com.hoioy.diamond.common.exception.BaseException;
 import com.hoioy.diamond.common.util.CommonMybatisPageUtil;
 import com.hoioy.jiayin.domain.MsgDraft;
+import com.hoioy.jiayin.dto.MessageDTO;
 import com.hoioy.jiayin.dto.MsgDraftDTO;
 import com.hoioy.jiayin.mapper.MsgDraftMapper;
 import com.hoioy.jiayin.service.IMsgDraftService;
@@ -37,4 +38,18 @@ public class MsgDraftServiceImpl extends BaseServiceImpl<MsgDraftMapper, MsgDraf
         return returnPageDTO;
     }
 
+
+    @Override
+    public void saveOrUpdateDraft(String userName, MessageDTO update,String messageType) {
+       int count =  msgDraftMapper.removeByUserNameAndMsgId(userName,update.getId(),messageType);
+        if (count == 0) {
+            MsgDraftDTO msgDraftDTO = new MsgDraftDTO();
+            msgDraftDTO.setMessageType("message");
+            msgDraftDTO.setMsgId(update.getId());
+            msgDraftDTO.setMsgTitle(update.getTitle());
+            msgDraftDTO.setMsgTypeId(update.getMsgTypeId());
+            msgDraftDTO.setOpenid(update.getOpenid());
+            save(msgDraftDTO);
+        }
+    }
 }

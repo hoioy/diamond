@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/publish")
+@RequestMapping("/jiayin/publish")
 public class PublishController {
     @Autowired
     private IPublishService iPublishService;

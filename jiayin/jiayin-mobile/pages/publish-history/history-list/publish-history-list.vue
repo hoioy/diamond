@@ -72,7 +72,6 @@
 						this.status = 'more';
 					} else {
 						this.listData = this.listData.concat(data.data.list);
-						debugger
 						if (data.data.list.length > 0) {
 							this.status = 'more';
 						} else {
@@ -86,7 +85,7 @@
 			goDetail: function(e) {
 				console.log(e.publishId)
 				uni.navigateTo({
-					url: '/pages/message/message-update/message-update?id=' + e.publishId,
+					url: '/pages/message/message-save/message-save?messageId=' + e.publishId,
 				});
 			}
 		}

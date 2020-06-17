@@ -27,46 +27,33 @@ import java.time.LocalDate;
 public class MsgDraft extends BaseDomain {
 
     private static final long serialVersionUID=1L;
+    /**
+     * 发布主键键
+     */
+    private String msgId;
+
+    /**
+     * openid
+     */
     private String openid;
-    /**
-     * 标题
-     */
-    private String title;
+
 
     /**
-     * 消息类型
+     * 消息类别用来区分不同业务
      */
-    private String msgType;
+    private String messageType;
 
     /**
-     * 消息内容
+     * 消息标题
      */
-    private String content;
+    private String msgTitle;
 
     /**
-     * 浏览次数
+     * 消息类型主键
      */
-    private Integer views;
+    private String msgTypeId;
+    private String msgTypeName;
 
-    /**
-     * (带交易 已完成)
-     */
-    private Integer status;
-
-    /**
-     * 有效期
-     */
-    private LocalDate expareTime;
-
-    /**
-     * 联系人
-     */
-    private String contacts;
-
-    /**
-     * 联系电话
-     */
-    private String contactPhone;
 
 
 }

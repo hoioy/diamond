@@ -27,41 +27,25 @@ public class MsgDraftDTO extends BaseDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @ApiModelProperty(value = "不同消息表的主键")
+    private String msgId;
 
     @ApiModelProperty(value = "小程序openid")
     private String openid;
 
 
-    @ApiModelProperty(value = "标题")
-    private String title;
+    @ApiModelProperty(value = "消息类别用来区分不同表")
+    private String messageType;
 
+    @ApiModelProperty(value = "消息标题")
+    private String msgTitle;
 
-    @ApiModelProperty(value = "消息类型")
+    @ApiModelProperty(value = "消息类型表主键")
     private String msgTypeId;
 
+    @ApiModelProperty(value = "消息类型名称")
+    private String msgTypeName;
 
-    @ApiModelProperty(value = "消息内容")
-    private String content;
-
-
-    @ApiModelProperty(value = "浏览次数")
-    private Integer views;
-
-
-    @ApiModelProperty(value = "(带交易 已完成)")
-    private Integer status;
-
-    /**
-     * 有效期
-     */
-    private LocalDate expareTime;
-
-    @ApiModelProperty(value = "联系人")
-    private String contacts;
-
-
-    @ApiModelProperty(value = "联系电话")
-    private String contactPhone;
 
 
 }

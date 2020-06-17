@@ -50,37 +50,6 @@ public class MessageServiceImpl extends BaseServiceImpl<MessageMapper, Message, 
         return returnPageDTO;
     }
 
-    /**
-     * 消息发布
-     * @param dto
-     * @return
-     */
-    @Override
-    public MessageDTO save(MessageDTO dto) {
-        String userName = CommonSecurityUtils.getCurrentLogin();
-        dto.setOpenid(userName);
-        //查询用户次数表 看用户是否可以发布消息，
-        MsgCount msgCount = msgCountMapper.selectByOpenid(userName);
-        if (msgCount != null && msgCount.getMsgCount() > 0) {
-            dto.setStatus(1);
-            MessageDTO save = super.save(dto);
-            //发布成功减少次数
-            msgCount.setMsgCount(msgCount.getMsgCount()-1);
-            int i = msgCountMapper.updateById(msgCount);
-            PublishHistory publishHistory = new PublishHistory();
-            publishHistory.setOpenid(userName);
-            publishHistory.setPublishTitle(dto.getTitle());
-            publishHistory.setPublishId(save.getId());
-            publishHistory.setMsgTypeId(dto.getMsgTypeId());
-            publishHistory.setPublishType("msg");
-            publishHistoryMapper.insert(publishHistory);
-            return save;
-        }else{
-            throw new JiayinException("发布消息次数不足，可以通过分享增加发布次数");
-        }
-
-    }
-
     @Override
     public MessageDTO update(MessageDTO dto) throws BaseException {
         MessageDTO update = super.update(dto);

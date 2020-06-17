@@ -60,6 +60,7 @@
 </template>
 
 <script>
+	import * as publishAPI from '@/api/publish.js';
 	import * as messageAPI from '@/api/message.js';
 	import * as draftAPI from '@/api/draft.js';
 	import * as msgTypeAPI from '@/api/msgType.js';
@@ -102,6 +103,7 @@
 					title: "", //标题
 					// msgType: 0,//消息类型
 					msgTypeId: null, //消息类型
+					msgTypeName: null, //消息类型
 					content: "", //消息内容
 					// status: 0,//带交易 已完成
 					status: "0", //带交易 已完成
@@ -114,11 +116,12 @@
 			};
 		},
 		onLoad: function(option) { //option为object类型，会序列化上个页面传递的参数
+		console.log(option)
 			const that = this;
-			if (option.draftId) {
-				draftAPI.findById(option.draftId, (data) => {
+			if (option.messageId) {
+				messageAPI.findById(option.messageId, (data) => {
 					this.message = data.data;
-					msgTypeAPI.findById(data.data.msgType, (msgTypeData) => {
+					msgTypeAPI.findById(data.data.msgTypeId, (msgTypeData) => {
 						that.msgType.types = [msgTypeData.data]
 					})
 				})
@@ -161,12 +164,6 @@
 				this.validateStatus.expareTime = false
 				this.message.expareTime = e.detail.value
 			},
-			// initMsgType() {
-			// 	var that = this;
-			// 	msgTypeAPI.selectParent((data) => {
-			// 		that.msgType.types = data.data
-			// 	})
-			// },
 			prepareMessage() {
 				this.message.msgTypeId = this.msgType.types[this.msgType.selectedIndex].id
 				if (!this.validate("title") &&
@@ -180,8 +177,10 @@
 				return false;
 			},
 			saveMessage() {
+				debugger
 				if (this.prepareMessage()) {
-					draftAPI.publishMessage(this.message, (data) => {
+					this.message.status=1
+					publishAPI.publish(this.message, (data) => {
 						uni.showToast({
 							duration: 2000,
 							title: '发布消息成功'
@@ -192,23 +191,14 @@
 			},
 			saveDraftMessage() {
 				if (this.prepareMessage()) {
-					if (this.message.id) {
-						draftAPI.updateMessage(this.message, (data) => {
+					    this.message.status=3
+						publishAPI.saveDraft(this.message, (data) => {
 							uni.navigateBack()
 							uni.showToast({
 								duration: 2000,
-								title: '修改草稿成功'
+								title: '保存草稿成功'
 							});
 						})
-					} else {
-						draftAPI.addMessage(this.message, (data) => {
-							uni.navigateBack()
-							uni.showToast({
-								duration: 2000,
-								title: '保存为草稿成功'
-							});
-						})
-					}
 				}
 			}
 		}
