@@ -153,15 +153,15 @@
 		}
 	};
 </script>
-<style>
+<style lang="scss">
 	.jiayin-filter {
 		width: 100%;
-		background: #FFFFFF;
+		background: $uni-bg-color-grey;
 		position: fixed;
 		z-index: 9;
 		left: 0;
 		top: 90;
-		border-bottom: 1px solid #F2F3F4;
+		border-bottom: 1px solid $uni-border-color;
 		display: flex;
 		flex-wrap: nowrap;
 	}
@@ -182,7 +182,7 @@
 
 	.jiayin-filter .items text {
 		margin-left: 10upx;
-		font-size: 24upx;
+		font-size: $uni-font-size-base;
 	}
 
 	.jiayin-filter-options {
@@ -190,71 +190,24 @@
 		position: absolute;
 		z-index: 10;
 		padding: 20upx 0;
-		right: 0;
-		top: 92upx;
-		background: #FFFFFF;
+		// top: 92upx;
+		background: $uni-bg-color-grey;
 	}
 
 	.jiayin-filter-options .option {
 		display: flex;
 		justify-content: space-between;
-		text-indent: 2em;
-		height: 70upx;
-		line-height: 70upx;
+		padding-left: $uni-spacing-row-base;
+		padding-top: $uni-spacing-col-base;
 	}
 
 	.jiayin-filter-options .option text {
 		margin-right: 30upx;
-		font-size: 30upx;
+		font-size: $uni-font-size-base;
 		color: #F00;
-		font-weight: 700;
 	}
 
 	.jiayin-filter-options .current {
 		color: #F00;
-		font-weight: 700;
 	}
-
-	.jiayin-filter-buttons {
-		display: flex;
-		width: 100%;
-		flex-wrap: nowrap;
-		position: absolute;
-		z-index: 11;
-		left: 0;
-		bottom: 0;
-		height: 90upx;
-		background: #FFF;
-	}
-
-	.jiayin-filter-buttons view {
-		width: 50%;
-		height: 100upx;
-		line-height: 100upx;
-		text-align: center;
-		position: relative;
-	}
-
-	.jiayin-filter-buttons view:last-child {
-		background: #FF0000;
-		color: #FFF;
-	}
-
-	.jiayin-filter-buttons view button {
-		opacity: 0;
-		width: 100%;
-		position: absolute;
-		z-index: 9;
-		left: 0;
-		top: 0;
-		height: 90upx;
-	}
-
-	/* .position-relative {
-		position: relative;
-	} */
-
-	/* 	.position-fixed {
-		position: fixed;
-	} */
 </style>
