@@ -53,7 +53,7 @@
 				display: flex;
 				flex-direction: column;
 				align-items: center;
-
+				margin-top: $uni-spacing-col-lg;
 				.nav-container-item-img-image {
 					width: $uni-img-size-lg;
 					height: $uni-img-size-lg;
