@@ -1,14 +1,13 @@
 <template>
 	<view>
-		<view class="message-publish-type-title">新增一条消息</view>
-		<view class="message-publish-type">
-			<view class="message-publish-type-cell" v-for="(value, key) in msgTypelistData" :key="key" @click="goMessageSave(value)">
-				<view class="message-publish-type-item">
-					<view class="message-publish-type-item-img">
-						<image class="message-publish-type-item-img-image" :src="'../../../static/img/msgType/'+value.typeName+'.png'"
-						 @error="imageError"></image>
+		<view class="nav-container-title">新增一条消息</view>
+		<view class="nav-container">
+			<view class="nav-container-cell" v-for="(value, key) in msgTypelistData" :key="key" @click="goMessageSave(value)">
+				<view class="nav-container-item">
+					<view class="nav-container-item-img">
+						 <image class="nav-container-item-img-image" :src="value.icon"></image>
 					</view>
-					<view class="message-publish-type-item-name">新增{{ value.typeName }}消息</view>
+					<view class="nav-container-item-name">新增{{ value.typeName }}消息</view>
 				</view>
 			</view>
 		</view>
@@ -197,42 +196,41 @@
 	}
 </script>
 
-<style>
-	.message-publish-type-title {
-		margin: 15px;
-		border-bottom: 1px dashed #B2B2B2;
-		padding: 5px;
-	}
-
+<style lang="scss">
 	.uni-list-title {
 		margin: 15px;
 		border-bottom: 1px dashed #B2B2B2;
 		padding: 5px;
 	}
 
-	.message-publish-type {
+	.nav-container-title {
+		margin: 15px;
+		border-bottom: 1px dashed #B2B2B2;
+		padding: 5px;
+	}
+
+	.nav-container {
 		display: flex;
-		justify-content: space-around;
-		border-bottom: 2px solid #ffd115;
-		padding-bottom: 20px;
+		margin-top: $uni-spacing-col-lg;
+		flex-wrap: wrap;
 		width: 750rpx;
+		.nav-container-cell {
+			width: 33%;
+			.nav-container-item {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				margin-top: $uni-spacing-col-lg;
+				.nav-container-item-img-image {
+					width: $uni-img-size-lg;
+					height: $uni-img-size-lg;
+				}
+	
+				.nav-container-item-name {}
+			}
+		}
 	}
 
-	.message-publish-type-item {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-	}
-
-	.message-publish-type-item-img {}
-
-	.message-publish-type-item-img-image {
-		width: 50px;
-		height: 50px;
-		background-color: #eeeeee;
-	}
-
-	.message-publish-type-item-name {}
 
 	.message-list-item {
 		display: flex;
