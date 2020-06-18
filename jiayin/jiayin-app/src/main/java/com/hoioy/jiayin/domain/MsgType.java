@@ -42,5 +42,13 @@ public class MsgType extends BaseTreeDomain {
      */
     private Integer expiryDate;
 
+    /**
+     * 图标
+     */
+    private String icon;
 
+    /**
+     * 页面路径
+     */
+    private String path;
 }

@@ -1,13 +1,11 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页,
 		{
-			"path" : "pages/home/home",
-			"style" : {
-					"navigationBarTitleText": "首页"
+			"path": "pages/home/home",
+			"style": {
+				"navigationBarTitleText": "首页"
 			}
-		}
-		,
-		{
+		}, {
 			"path": "pages/message/message-list/message-list",
 			"style": {
 				"navigationBarTitleText": "消息列表",
@@ -28,7 +26,7 @@
 			"style": {
 				"navigationBarTitleText": "消息修改"
 			}
-		},{
+		}, {
 			"path": "pages/message/message-publish/message-publish",
 			"style": {
 				"navigationBarTitleText": "消息发布",
@@ -40,36 +38,31 @@
 			"style": {
 				"navigationBarTitleText": "登录"
 			}
-		}
-	    ,{
-            "path" : "pages/user/user",
-            "style" : {
+		}, {
+			"path": "pages/user/user",
+			"style": {
 				"navigationBarTitleText": "我的"
 			}
-        }
-        ,{
-            "path" : "pages/contact/contact-our",
-            "style" : {}
-        }
-        ,{
-            "path" : "pages/collect/collect-list/collect-list",
-            "style" : {
+		}, {
+			"path": "pages/contact/contact-our",
+			"style": {}
+		}, {
+			"path": "pages/collect/collect-list/collect-list",
+			"style": {
 				"navigationBarTitleText": "我的收藏"
 			}
-        }
-        ,{
-            "path" : "pages/publish-history/history-list/publish-history-list",
-            "style" : {
+		}, {
+			"path": "pages/publish-history/history-list/publish-history-list",
+			"style": {
 				"navigationBarTitleText": "我的发布"
 			}
-        }
-        ,{
-            "path" : "pages/message/land-sale/land-sale",
-            "style" : {
-					"navigationBarTitleText": "土地交易"
+		}, {
+			"path": "pages/message/land-sale/land-sale",
+			"style": {
+				"navigationBarTitleText": "土地交易"
 			}
-        }
-    ],
+		}
+	],
 	"tabBar": {
 		"color": "#333333",
 		"selectedColor": "#333333",
@@ -79,12 +72,12 @@
 			"text": "首页",
 			"iconPath": "static/img/tab/home.png",
 			"selectedIconPath": "static/img/tab/homeHL.png"
-		},{
+		}, {
 			"pagePath": "pages/message/message-publish/message-publish",
 			"text": "发布",
 			"iconPath": "static/img/tab/publish.png",
 			"selectedIconPath": "static/img/tab/publishHL.png"
-		},{
+		}, {
 			"pagePath": "pages/user/user",
 			"text": "我的",
 			"iconPath": "static/img/tab/mine.png",

@@ -37,6 +37,10 @@ public class MsgTypeDTO  extends BaseTreeDTO implements Serializable {
     @ApiModelProperty(value = "有效期")
     private Integer expiryDate;
 
+    @ApiModelProperty(value = "图标")
+    private String icon;
 
+    @ApiModelProperty(value = "页面路径")
+    private String path;
 
 }
