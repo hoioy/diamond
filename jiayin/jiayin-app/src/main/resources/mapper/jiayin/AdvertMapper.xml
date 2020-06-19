@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hoioy.jiayin.mapper.AdvertMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.hoioy.jiayin.domain.Advert">
+        <result column="id" property="id"/>
+        <result column="flag" property="flag"/>
+        <result column="created_by" property="createdBy"/>
+        <result column="created_date" property="createdDate"/>
+        <result column="modified_by" property="modifiedBy"/>
+        <result column="modified_date" property="modifiedDate"/>
+        <result column="remark" property="remark"/>
+        <result column="flag" property="flag"/>
+        <result column="content" property="content"/>
+        <result column="icon" property="icon"/>
+        <result column="path" property="path"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+       id,flag,created_by, created_date, modified_by, modified_date,remark,
+       content,icon,path
+    </sql>
+
+    <select id="selectPage" resultType="com.hoioy.jiayin.domain.Advert">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        advert u
+        where u.flag=1
+        <if test="advertDTO.createdBy != null and advertDTO.createdBy != ''">
+            AND u.created_by = #{advertDTO.createdBy}
+        </if>
+        <if test="advertDTO.createdDate != null and advertDTO.createdDate != ''">
+            AND u.created_date = #{advertDTO.createdDate}
+        </if>
+        <if test="advertDTO.modifiedBy != null and advertDTO.modifiedBy != ''">
+            AND u.modified_by = #{advertDTO.modifiedBy}
+        </if>
+        <if test="advertDTO.modifiedDate != null and advertDTO.modifiedDate != ''">
+            AND u.modified_date = #{advertDTO.modifiedDate}
+        </if>
+        <if test="advertDTO.content != null and advertDTO.content != ''">
+            AND u.content = #{advertDTO.content}
+        </if>
+        <if test="advertDTO.icon != null and advertDTO.icon != ''">
+            AND u.icon = #{advertDTO.icon}
+        </if>
+        <if test="advertDTO.path != null and advertDTO.path != ''">
+            AND u.path = #{advertDTO.path}
+        </if>
+    </select>
+</mapper>

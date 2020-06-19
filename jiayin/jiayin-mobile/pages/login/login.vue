@@ -83,9 +83,7 @@
 		image {
 			width: 30%;
 			margin-top: -10%;
-			border: 1px solid $uni-border-color;
 			border-radius: $uni-border-radius-circle;
-			box-shadow: 5px 5px 20px $uni-border-color;
 		}
 
 		text {

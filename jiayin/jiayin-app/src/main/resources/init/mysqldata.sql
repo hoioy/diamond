@@ -139,4 +139,15 @@ INSERT INTO `jiayin_msg_type`(`id`, `parent_id`, `type_name`, `money`, `expiry_d
 INSERT INTO `jiayin_msg_type`(`id`, `parent_id`, `type_name`, `money`, `expiry_date`, `flag`, `created_by`, `modified_by`, `created_date`, `modified_date`, `remark`,`icon`,`path`) VALUES ('3', NULL, '住宿', '0', NULL, 1, NULL, NULL, '2020-05-05', '2020-05-05', NULL,'/static/img/msgType/hotel.png','/pages/message/message-list/message-list');
 INSERT INTO `jiayin_msg_type`(`id`, `parent_id`, `type_name`, `money`, `expiry_date`, `flag`, `created_by`, `modified_by`, `created_date`, `modified_date`, `remark`,`icon`,`path`) VALUES ('d243c4ff3673400eb345b8c85ed72345', '08f1750267aff6081955446e255aee5e', '木匠', '0', NULL, 1, NULL, NULL, '2020-05-05', '2020-05-05', NULL,'','');
 
+
+-- ----------------------------
+-- Records of jiayin_message
+-- ----------------------------
 INSERT INTO `jiayin_message`(`id`, `created_by`, `created_date`, `modified_by`, `modified_date`, `flag`, `remark`, `openid`, `title`, `msg_type_id`, `content`, `views`, `status`, `expare_time`, `contacts`, `contact_phone`) VALUES ('b0a138088bf98e2d5a91cf93b963eaf0', 'admin', '2020-06-14 23:53:11.553000', 'admin', '2020-06-14 23:53:11.553000', 1, NULL, 'admin', 'asdfa', '08f1750267aff6081955446e255aee5e', 'wer afdsfd', 0, 1, '2020-06-14', '234w', 'errwe');
+
+
+-- ----------------------------
+-- Records of notice
+-- ----------------------------
+INSERT INTO `notice`(`id`, `flag`, `created_by`, `modified_by`, `created_date`, `modified_date`, `remark`, `content`) VALUES ('d1695380e4e6c53f7fdea5e951570003', 1, 'admin', 'admin', '2020-06-19', '2020-06-19', NULL, '欢迎使用嘉荫小程序');
+
