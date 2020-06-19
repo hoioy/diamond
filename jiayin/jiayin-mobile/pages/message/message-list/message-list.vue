@@ -2,9 +2,8 @@
 	<view>
 		<!-- 搜索板块 -->
 		<view class="index-header">
-			<!-- filters：过滤选项设置， sortChanged：排序更改的事件监听方法，showShape：是否显示右侧模板选择按钮，shapeValue：初始化的模板值，2：双列，1：单列，具体可自行控制，shapeChanged:右侧的模板选择按钮事件监听方法-->
-			<jiayinFilter :filters="messageFilters" @sortChanged="messageFilterChanged" :showShape="true" :shapeValue="2" :fixed="true"
-			 top="60"></jiayinFilter>
+			<!-- filters：过滤选项设置， sortChanged：排序更改的事件监听方法-->
+			<jiayinFilter :filters="messageFilters" @sortChanged="messageFilterChanged" :fixed="true" top="60"></jiayinFilter>
 		</view>
 		<view class="uni-list">
 			<view class="uni-list-cell" hover-class="uni-list-cell-hover" v-for="(value, key) in listData" :key="key" @click="goDetail(value)">
@@ -85,17 +84,16 @@
 			initMsgType(option) {
 				var that = this;
 				that.jiayinFilterData.msgTypelistData = [{
-					name: '全部',
+					title: this.title+'信息',
 					value: 0
 				}];
 				console.log(option)
-
 
 				msgTypeAPI.selectChildren(option, function(data) {
 					if (data.data) {
 						data.data.forEach(item => {
 							that.jiayinFilterData.msgTypelistData.push({
-								name: item.typeName,
+								title: item.typeName,
 								value: item.id
 							})
 						})
@@ -138,13 +136,11 @@
 			},
 			// 排序，筛选更改
 			messageFilterChanged(filter) {
-				console.log("filter:", filter)
-				if (filter.option != null) {
-					this.filters.msgTypeId=filter.option
-				}else{
-					this.filters.msgTypeId=""
+				if (filter.optionIndex) {
+					this.filters.msgTypeId=this.jiayinFilterData.msgTypelistData[filter.optionIndex].value
 				}
-				if (filter.sort != 0) {
+				
+				if (filter.sort && filter.sort != 0) {
 					this.sorts = [{
 						"direction": filter.order > 0 ? "asc" : "desc",
 						"fieldName": filter.sort
@@ -162,7 +158,7 @@
 				// });
 				// filterType为0，普通方式，无排序，1：排序模式，2：下拉筛选模式，当前支持一级，多级可自行扩展
 				return [{
-						title: '消息类别',
+						title: '选择类型',
 						value: 0,
 						filterType: 2,
 						options: this.jiayinFilterData.msgTypelistData

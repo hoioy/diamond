@@ -2,49 +2,7 @@
 	font-family: uniicons;
 	font-weight: normal;
 	font-style: normal;
-	/* src: url('https://img-cdn-qiniu.dcloud.net.cn/fonts/uni.ttf?t=1536565627510') format('truetype'); */
-	src: url('~@/static/navfont/iconfont.eot?t=1591455425467');
-	/* IE9 */
-	src: url('~@/static/navfont/iconfont.eot?t=1591455425467#iefix') format('embedded-opentype'),
-		/* IE6-IE8 */
-		url('~@/static/navfont/iconfont.woff?t=1591455425467') format('woff'),
-		url('~@/static/navfont/iconfont.ttf?t=1591455425467') format('truetype'),
-		/* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
-		url('~@/static/navfont/iconfont.svg?t=1591455425467#iconfont') format('svg');
-	/* iOS 4.1- */
 	src: url('~@/components/m-icon/uni.ttf') format('truetype');
-}
-
-.iconfont {
-	font-family: "iconfont" !important;
-	font-size: 16px;
-	font-style: normal;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-}
-
-.icon-weixin:before {
-	content: "\e696";
-}
-
-.icon-weixin1:before {
-	content: "\e669";
-}
-
-.icon-shoucang-copy:before {
-	content: "\e504";
-}
-
-.icon-fenxiang-copy1:before {
-	content: "\e531";
-}
-
-.icon-shoucang:before {
-	content: "\e604";
-}
-
-.icon-fenxiang:before {
-	content: "\e603";
 }
 
 .m-icon {
