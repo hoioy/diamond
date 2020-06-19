@@ -1,5 +1,7 @@
 <template>
-	<view class="content">
+	<view class="container">
+		<image src="/static/img/logo/logo.png" mode="widthFix"></image>
+		<text>登陆后体验更好！</text>
 		<button type="primary" class="primary" open-type="getUserInfo" @getuserinfo="weixinLogin()" @tap="weixinLogin()">一键登录</button>
 	</view>
 </template>
@@ -33,7 +35,7 @@
 										province: infoRes.userInfo.province,
 										city: infoRes.userInfo.city,
 										language: infoRes.userInfo.language
-									}, (bindDiamondUaaUserData) => { 
+									}, (bindDiamondUaaUserData) => {
 										//绑定用户成功后，调用/auth接口登录后端获取自定义jwt token
 										loginAPI.login({
 											username: data.data.openid,
@@ -70,6 +72,32 @@
 	}
 </script>
 
-<style>
+<style lang="scss">
+	.container {
+		min-height: 100%;
+		display: flex;
+		flex-flow: column;
+		width: 100%;
+		align-items: center;
+		justify-content: center;
+		image {
+			width: 30%;
+			margin-top: -10%;
+			border: 1px solid $uni-border-color;
+			border-radius: $uni-border-radius-circle;
+			box-shadow: 5px 5px 20px $uni-border-color;
+		}
 
+		text {
+			margin-top: $uni-spacing-row-base;
+			color: $uni-text-color-grey;
+		}
+
+		button {
+			margin-top: 10%;
+			background-color: $jiayin-bg-color;
+			color: $uni-color-title;
+			width: 50%;
+		}
+	}
 </style>
