@@ -25,9 +25,9 @@
 		</view>
 
 		<uni-list class="list-container">
-			<uni-list-item title="联系我们" thumb="/static/img/user/contact.png" @click="pageJump('/pages/contact/contact-our')"/>
-			<uni-list-item title="问题反馈" thumb="/static/img/user/feedback.png"  @click="pageJump('/pages/feedback/feedback')"/>
-			<uni-list-item title="关于嘉荫" thumb="/static/img/user/about.png"  @click="pageJump('/pages/about/about')"/>
+			<uni-list-item title="联系我们" thumb="/static/img/user/contact.png" @click="pageJump('/pages/contact/contact-our')" />
+			<uni-list-item title="问题反馈" thumb="/static/img/user/feedback.png" @click="pageJump('/pages/feedback/feedback')" />
+			<uni-list-item title="关于嘉荫" thumb="/static/img/user/about.png" @click="pageJump('/pages/about/about')" />
 		</uni-list>
 	</view>
 
@@ -51,7 +51,7 @@
 				alreadyLogin: false,
 				navs: [{
 						icon: '/static/img/user/collect.png',
-						title: '收藏',
+						title: '我的收藏',
 						path: '/pages/collect/collect-list/collect-list'
 					},
 					{
@@ -128,8 +128,9 @@
 	.nav-container {
 		display: flex;
 		justify-content: space-around;
-		margin-top: $uni-spacing-col-lg;
-
+		box-shadow: 1px 1px 5px $uni-border-color;
+		border-radius: $uni-border-radius-lg;
+		padding: $uni-spacing-col-base;
 		.nav-container-item {
 			display: flex;
 			flex-direction: column;
@@ -145,8 +146,10 @@
 	}
 
 	.list-container {
-		margin-top: $uni-spacing-row-lg;
 		color: $uni-color-paragraph;
+		margin-top: $uni-spacing-col-lg;
 		font-size: $uni-font-size-lg;
+		box-shadow: 1px 1px 5px $uni-border-color;
+		border-radius: $uni-border-radius-lg;
 	}
 </style>

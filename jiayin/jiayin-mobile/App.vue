@@ -14,5 +14,9 @@
 
 <style>
 	@import "components/m-icon/m-icon.css";
-	@import "App.css";
+	page {
+		min-height: 100%;
+		display: flex;
+		font-size: 16px;
+	}
 </style>
