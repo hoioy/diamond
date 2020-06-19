@@ -23,13 +23,25 @@
 				</view>
 			</view>
 		</view>
+
+		<uni-list class="list-container">
+			<uni-list-item title="联系我们" thumb="/static/img/user/contact.png" @click="pageJump('/pages/contact/contact-our')"/>
+			<uni-list-item title="问题反馈" thumb="/static/img/user/feedback.png"  @click="pageJump('/pages/feedback/feedback')"/>
+			<uni-list-item title="关于嘉荫" thumb="/static/img/user/about.png"  @click="pageJump('/pages/about/about')"/>
+		</uni-list>
 	</view>
 
 </template>
 
 <script>
+	import uniList from '@/components/uni-list/uni-list.vue'
+	import uniListItem from '@/components/uni-list-item/uni-list-item.vue'
 	import * as userAPI from '@/api/user.js';
 	export default {
+		components: {
+			uniList,
+			uniListItem
+		},
 		data() {
 			return {
 				userinfo: {
@@ -46,12 +58,7 @@
 						icon: '/static/img/user/publish.png',
 						title: '我的发布',
 						path: '/pages/publish-history/history-list/publish-history-list'
-					},
-					{
-						icon: '/static/img/user/contact.png',
-						title: '联系我们',
-						path: '/pages/contact/contact-our'
-					},
+					}
 				]
 
 			}
@@ -122,6 +129,7 @@
 		display: flex;
 		justify-content: space-around;
 		margin-top: $uni-spacing-col-lg;
+
 		.nav-container-item {
 			display: flex;
 			flex-direction: column;
@@ -134,5 +142,11 @@
 
 			.nav-container-item-name {}
 		}
+	}
+
+	.list-container {
+		margin-top: $uni-spacing-row-lg;
+		color: $uni-color-paragraph;
+		font-size: $uni-font-size-lg;
 	}
 </style>

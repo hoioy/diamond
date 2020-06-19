@@ -45,7 +45,9 @@
 			}
 		}, {
 			"path": "pages/contact/contact-our",
-			"style": {}
+			"style": {
+				"navigationBarTitleText": "联系我们"
+			}
 		}, {
 			"path": "pages/collect/collect-list/collect-list",
 			"style": {
@@ -60,6 +62,16 @@
 			"path": "pages/message/land-sale/land-sale",
 			"style": {
 				"navigationBarTitleText": "土地交易"
+			}
+		}, {
+			"path": "pages/feedback/feedback",
+			"style": {
+				"navigationBarTitleText": "问题反馈"
+			}
+		}, {
+			"path": "pages/about/about",
+			"style": {
+				"navigationBarTitleText": "关于嘉荫"
 			}
 		}
 	],
