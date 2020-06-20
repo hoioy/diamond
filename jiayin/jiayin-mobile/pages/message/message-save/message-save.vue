@@ -9,6 +9,14 @@
 			</picker>
 		</view>
 		<view class="input-group">
+                    <picker @change="bindPickerChange" :value="msgTypeChildren.selectedIndex" :range="msgTypeChildren.types" range-key="typeName" mode="selector">
+						<view class="input-row border">
+							<text class="title">具体分类：</text>
+							<view class="uni-input">{{msgTypeChildren.types[msgTypeChildren.selectedIndex].typeName}}</view>
+						</view>
+                    </picker>
+        </view>
+		<view class="input-group">
 			<view class="input-row border">
 				<text class="title">标题：</text>
 				<m-input type="text" clearable v-model="message.title" @focus="onFocus('title')" @blur="validate('title')"
@@ -79,8 +87,19 @@
 						money: '',
 						expiryDate: null
 					}],
-					selectedIndex: 0
+					selectedIndex: 0,
 				},
+				msgTypeChildren: {
+					types: [{
+						id: '',
+						typeName: '',
+						money: '',
+						expiryDate: null
+					}],
+					selectedIndex: 0,
+				},
+				array: ['中国', '美国', '巴西', '日本'],
+				index: 0,
 				validateStatus: {
 					title: false, //标题
 					content: false, //消息内容
@@ -121,9 +140,9 @@
 			if (option.messageId) {
 				messageAPI.findById(option.messageId, (data) => {
 					this.message = data.data;
-			msgTypeAPI.findById(this.message.msgTypeId, (msgTypeData) => {
-				that.msgType.types = [msgTypeData.data]
-			})
+				msgTypeAPI.findById(this.message.msgTypeId, (msgTypeData) => {
+					that.msgType.types = [msgTypeData.data]
+				})
 				})
 			
 			}
@@ -133,9 +152,14 @@
 					id: option.msgTypeId,
 					typeName: option.msgTypeName
 				}]
+				this.initMsgTypeChildren(option.msgTypeId)
 			}
 		},
 		methods: {
+			     bindPickerChange: function(e) {
+			            console.log('picker发送选择改变，携带值为', e.target.value)
+			            this.msgTypeChildren.selectedIndex = e.target.value
+			        },
 			onFocus(type) {
 				this.validateStatus[type] = false
 			},
@@ -166,7 +190,7 @@
 				this.message.expareTime = e.detail.value
 			},
 			prepareMessage() {
-				this.message.msgTypeId = this.msgType.types[this.msgType.selectedIndex].id
+				this.message.msgTypeId = this.msgTypeChildren.types[this.msgTypeChildren.selectedIndex].id
 				if (!this.validate("title") &&
 					!this.validate("content") &&
 					!this.validate("expareTime") &&
@@ -176,6 +200,11 @@
 				}
 
 				return false;
+			},
+			initMsgTypeChildren(msgTypeId){
+				msgTypeAPI.selectChildren(msgTypeId, (msgTypeChildrenData) => {
+					this.msgTypeChildren.types = msgTypeChildrenData.data
+				})
 			},
 			saveMessage() {
 				debugger
