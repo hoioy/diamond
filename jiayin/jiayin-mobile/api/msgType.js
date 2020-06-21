@@ -18,7 +18,12 @@ export function findById(id,onSuccess) {
 		onSuccess: onSuccess
 	})
 }
-
+export function findMsgTypePartent(id,onSuccess) {
+	 request({
+		url: 'jiayin/msgType/findMsgTypePartent/'+id,
+		onSuccess: onSuccess
+	})
+}
 export function deleteById(id,onSuccess) {
 	request({
 		url: 'jiayin/msgType/'+id,

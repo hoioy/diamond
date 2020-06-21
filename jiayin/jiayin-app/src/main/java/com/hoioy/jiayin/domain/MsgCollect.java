@@ -25,16 +25,32 @@ import lombok.NoArgsConstructor;
 public class MsgCollect extends BaseDomain {
 
     private static final long serialVersionUID=1L;
-
     /**
-     * 消息表主键
+     * 发布主键
      */
     private String msgId;
 
     /**
-     * 用户id
+     * openid
      */
     private String openid;
+
+
+    /**
+     * 消息类别用来区分不同业务
+     */
+    private String messageType;
+
+    /**
+     * 消息标题
+     */
+    private String msgTitle;
+
+    /**
+     * 消息类型主键
+     */
+    private String msgTypeId;
+    private String msgTypeName;
 
 
 }

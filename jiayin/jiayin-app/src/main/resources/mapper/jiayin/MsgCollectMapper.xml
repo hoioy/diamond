@@ -4,29 +4,38 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.hoioy.jiayin.domain.MsgCollect">
-    <result column="id" property="id" />
-        <result column="msg_id" property="msgId" />
+        <result column="id" property="id" />
+        <result column="msg_title" property="msgTitle" />
         <result column="openid" property="openid" />
+        <result column="msg_type_id" property="msgTypeId" />
+        <result column="created_date" property="createdDate" />
+        <result column="msg_id" property="msgId" />
+        <result column="message_type" property="messageType" />
+        <result column="msg_type_Name" property="msgTypeName" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id,
-        msg_id, openid,version
+        id,openid,
+        msg_title, msg_type_id, created_date, msg_id, message_type,type_name
+    </sql>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Page_Column_List">
+        collect.id,collect.openid,
+        collect.msg_title, collect.msg_type_id, collect.created_date, collect.msg_id, collect.message_type,msgType.type_name as msg_type_Name
     </sql>
 
     <select id="selectPage" resultType="com.hoioy.jiayin.domain.MsgCollect">
         select
-           <include refid="Base_Column_List" />
+           <include refid="Page_Column_List" />
         from
-           jiayin_msg_collect
+           jiayin_msg_collect collect
+        left join jiayin_msg_type msgType on collect.msg_type_id=msgType.id
         where
-           flag=1
+        collect.flag=1
         <if test="msgCollect.msgId != null and msgCollect.msgId != ''">
             AND msg_id = #{msgCollect.msgId}
-        </if>
-        <if test="msgCollect.userId != null and msgCollect.userId != ''">
-            AND user_id = #{msgCollect.userId}
         </if>
     </select>
 </mapper>

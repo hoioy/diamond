@@ -44,6 +44,7 @@ public class MsgCollectServiceImpl extends BaseServiceImpl<MsgCollectMapper, Msg
     public MsgCollectDTO save(MsgCollectDTO dto) throws BaseException {
         String userName = CommonSecurityUtils.getCurrentLogin();
         dto.setOpenid(userName);
+        dto.setMessageType("message");
         return super.save(dto);
     }
 }

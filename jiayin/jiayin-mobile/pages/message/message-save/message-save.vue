@@ -1,15 +1,13 @@
 <template>
 	<view class="content">
 		<view class="input-group">
-			<picker disabled @change="bindMsgTypeChange" :value="msgType.selectedIndex" :range="msgType.types" range-key="typeName">
 				<view class="input-row border">
 					<text class="title">消息类型：</text>
-					<view>{{msgType.types[msgType.selectedIndex].typeName}}</view>
+					<view>{{msgType.typeName}}</view>
 				</view>
-			</picker>
 		</view>
 		<view class="input-group">
-                    <picker @change="bindPickerChange" :value="msgTypeChildren.selectedIndex" :range="msgTypeChildren.types" range-key="typeName" mode="selector">
+                    <picker :disabled="msgTypeChildrenDisabled" @change="bindPickerChange" :value="msgTypeChildren.selectedIndex" :range="msgTypeChildren.types" range-key="typeName" mode="selector">
 						<view class="input-row border">
 							<text class="title">具体分类：</text>
 							<view class="uni-input">{{msgTypeChildren.types[msgTypeChildren.selectedIndex].typeName}}</view>
@@ -81,14 +79,12 @@
 		data() {
 			return {
 				msgType: {
-					types: [{
 						id: '',
 						typeName: '',
 						money: '',
 						expiryDate: null
-					}],
-					selectedIndex: 0,
 				},
+				msgTypeChildrenDisabled: false,
 				msgTypeChildren: {
 					types: [{
 						id: '',
@@ -138,20 +134,16 @@
 		console.log(option)
 			const that = this;
 			if (option.messageId) {
-				messageAPI.findById(option.messageId, (data) => {
-					this.message = data.data;
-				msgTypeAPI.findById(this.message.msgTypeId, (msgTypeData) => {
-					that.msgType.types = [msgTypeData.data]
-				})
-				})
-			
+				this.msgTypeChildrenDisabled=true
+			    this.initMessage(option.messageId)
+				console.log(option.msgTypeChildrenId+'   111111111111111111111111')
+				this.findMsgTypePartent(option.msgTypeChildrenId)
+				// this.initMsgTypeChildren(option.msgTypeId)
+				this.findMsgTypeChildrenByMsgTypeId(option.msgTypeChildrenId)
 			}
 
 			if (option.msgTypeId) {
-				this.msgType.types = [{
-					id: option.msgTypeId,
-					typeName: option.msgTypeName
-				}]
+	            this.initMsgType(option.msgTypeId)
 				this.initMsgTypeChildren(option.msgTypeId)
 			}
 		},
@@ -182,9 +174,6 @@
 						return this.validateStatus.contactPhone;
 				}
 			},
-			bindMsgTypeChange: function(e) {
-				this.msgType.selectedIndex = e.detail.value
-			},
 			bindDateChange: function(e) {
 				this.validateStatus.expareTime = false
 				this.message.expareTime = e.detail.value
@@ -200,6 +189,27 @@
 				}
 
 				return false;
+			},
+			
+			findMsgTypePartent(childrenId){
+				msgTypeAPI.findMsgTypePartent(childrenId, (msgTypePartentData) => {
+					this.msgType = msgTypePartentData.data
+				})
+			},
+			initMessage(messageId){
+				messageAPI.findById(messageId, (data) => {
+					this.message = data.data;
+				})
+			},
+			findMsgTypeChildrenByMsgTypeId(msgTypeChildrenId){
+				msgTypeAPI.findById(msgTypeChildrenId, (msgTypeChildrenData) => {
+					this.msgTypeChildren.types = [msgTypeChildrenData.data]
+				})
+			},
+			initMsgType(msgTypeId){
+				msgTypeAPI.findById(msgTypeId, (msgTypeData) => {
+					this.msgType = msgTypeData.data
+				})
 			},
 			initMsgTypeChildren(msgTypeId){
 				msgTypeAPI.selectChildren(msgTypeId, (msgTypeChildrenData) => {

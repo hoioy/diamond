@@ -19,7 +19,12 @@
 			</view>
 			<view :class="{'uni-tab__right':fill}" class="flex uni-tab__cart-sub-right ">
 				<view v-for="(item,index) in buttonGroup" :key="index" :style="{backgroundColor:item.backgroundColor,color:item.color}"
-				 class="flex uni-tab__cart-button-right" @click="buttonClick(index,item)"><text :style="{color:item.color}" class="uni-tab__cart-button-right-text">{{ item.text }}</text></view>
+				 class="flex uni-tab__cart-button-right" @click="buttonClick(index,item)">
+                  	<button type="primary" :open-type="item.share"  plain="true" style="color: #007aff; border: none;"> 
+				  <text :style="{color:item.color}" class="uni-tab__cart-button-right-text">{{ item.text }}</text>
+                         </button>
+						
+				 </view>
 			</view>
 		</view>
 	</view>

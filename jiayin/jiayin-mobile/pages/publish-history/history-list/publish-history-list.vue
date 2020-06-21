@@ -85,7 +85,7 @@
 			goDetail: function(e) {
 				console.log(e.publishId)
 				uni.navigateTo({
-					url: '/pages/message/message-save/message-save?messageId=' + e.publishId,
+					url: '/pages/message/message-save/message-save?messageId=' + e.publishId+'&msgTypeChildrenId='+e.msgTypeId+'&parentId='+e.parentId,
 				});
 			}
 		}

@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * <p>
@@ -52,5 +53,13 @@ public class MsgTypeServiceImpl extends BaseTreeServiceImpl<MsgTypeMapper, MsgTy
         List<MsgType>  msgTypes =msgTypeMapper.selectChildrenByParentId(parentId);
         List<MsgTypeDTO> msgTypeDTOS = this.domainListToDTOList(msgTypes);
         return msgTypeDTOS;
+    }
+
+    @Override
+    public MsgTypeDTO findMsgTypePartent(String childrenId) {
+        Optional<MsgTypeDTO> byId = this.findById(childrenId);
+        MsgTypeDTO msgTypeDTO = byId.get();
+        Optional<MsgTypeDTO> byId1 = this.findById(msgTypeDTO.getParentId());
+        return byId1.get();
     }
 }

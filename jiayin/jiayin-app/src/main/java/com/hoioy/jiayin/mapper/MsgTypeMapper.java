@@ -26,4 +26,5 @@ public interface MsgTypeMapper extends IBaseTreeMapper<MsgType> {
     List<MsgType> selectAllParent();
 
     List<MsgType> selectChildrenByParentId(String parentId);
+
 }

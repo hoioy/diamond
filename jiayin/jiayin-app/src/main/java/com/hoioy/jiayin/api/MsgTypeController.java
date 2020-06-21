@@ -50,6 +50,11 @@ public class MsgTypeController extends BaseController<IMsgTypeService, MsgTypeDT
         return new ResultDTO(msgTypeDTOs);
     }
 
-
+    @ApiOperation(value = "根据childrent找partent", notes = "根据childrent找partent")
+    @GetMapping("/findMsgTypePartent/{childrenId}")
+    public ResultDTO findMsgTypePartent(@PathVariable String childrenId) throws BaseException {
+        MsgTypeDTO msgTypeDTO = msgTypeService.findMsgTypePartent(childrenId);
+        return new ResultDTO(msgTypeDTO);
+    }
 }
 

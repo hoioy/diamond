@@ -20,4 +20,6 @@ public interface IMsgTypeService<D extends CommonDomain>  extends IBaseService<M
     List<MsgTypeDTO>  selectAllParent();
 
     List<MsgTypeDTO> selectChildrenByParentId(String parentId);
+
+    MsgTypeDTO findMsgTypePartent(String childrenId);
 }

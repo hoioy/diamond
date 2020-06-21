@@ -35,4 +35,16 @@ public class MsgCollectDTO  extends BaseDTO implements Serializable {
 
 
 
+
+    @ApiModelProperty(value = "消息类别用来区分不同业务")
+    private String messageType;
+
+    @ApiModelProperty(value = "消息标题")
+    private String msgTitle;
+
+    @ApiModelProperty(value = "消息类型主键")
+    private String msgTypeId;
+    @ApiModelProperty(value = "消息类型名称")
+    private String msgTypeName;
+
 }

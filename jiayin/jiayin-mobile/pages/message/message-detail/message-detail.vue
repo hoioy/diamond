@@ -18,7 +18,6 @@
 			</view>
 		</view>
 		<view class="message-nav">
-			<button type="primary" open-type="share">分享</button>
 			<message-detail-nav :fill="true" :options="options" :buttonGroup="buttonGroup" @click="onClick" @buttonClick="buttonClick" />
 		</view>
 	</view>
@@ -38,17 +37,20 @@
 		data() {
 			return {
 				options: [{
-					icon: 'weixin',
-					text: '分享',
-					iconColor: "#00BB00"
-				}, {
 					icon: 'icon-shoucang-copy',
 					text: '收藏',
 					infoBackgroundColor: '#007aff',
 					infoColor: "red",
 					iconColor: "#FFD700"
 				}],
-				buttonGroup: [{
+				buttonGroup: [
+					{
+						text: '分享',
+						backgroundColor: '#00BFFF',
+						color: '#fff',
+						share: 'share'
+					},
+					{
 					text: '打电话',
 					backgroundColor: '#ffa200',
 					color: '#fff'
@@ -66,7 +68,8 @@
 					token: null,
 					children: [],
 					title: "", //标题
-					msgType: "0", //消息类型
+					msgTypeId: "", //消息类型
+					msgTypeName: "", //消息类型
 					content: "", //消息内容
 					status: "0", //待交易 已完成
 					expareTime: "", //过期时间
@@ -100,14 +103,13 @@
 		methods: {
 			onClick(e) {
 				//分享
-				if (e.index === 0) {
-
-				}
 				//收藏
-				if (e.index === 1) {
+				if (e.index === 0) {
 					if (this.collect.flag === 0) {
 						collectAPI.addCollect({
 							"msgId": this.message.id,
+							"msgTitle": this.message.title,
+							"msgTypeId": this.message.msgTypeId,
 						}, (data) => {
 							this.collect.id = data.data.id
 							uni.showToast({
@@ -137,11 +139,11 @@
 			},
 			buttonClick(e) {
 				console.log(e)
-				uni.makePhoneCall({
-					phoneNumber: '17710666027' //仅为示例
-				});
-				console.log(e)
-				this.options[2].info++
+				if(e.index == 1){
+					uni.makePhoneCall({
+						phoneNumber: '17710666027' //仅为示例
+					});
+				}
 			},
 			initData(id) {
 				var that = this;
