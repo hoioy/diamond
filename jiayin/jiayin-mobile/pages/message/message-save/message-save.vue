@@ -140,9 +140,9 @@
 			if (option.messageId) {
 				messageAPI.findById(option.messageId, (data) => {
 					this.message = data.data;
-				msgTypeAPI.findById(this.message.msgTypeId, (msgTypeData) => {
-					that.msgType.types = [msgTypeData.data]
-				})
+					msgTypeAPI.findById(this.message.msgTypeId, (msgTypeData) => {
+						that.msgType.types = [msgTypeData.data]
+					})
 				})
 			
 			}
