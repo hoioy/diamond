@@ -18,9 +18,9 @@ export function findById(id,onSuccess) {
 		onSuccess: onSuccess
 	})
 }
-export function findMsgTypePartent(id,onSuccess) {
+export function findParentByChildId(id,onSuccess) {
 	 request({
-		url: 'jiayin/msgType/findMsgTypePartent/'+id,
+		url: 'jiayin/msgType/findParentByChildId/'+id,
 		onSuccess: onSuccess
 	})
 }

@@ -31,14 +31,14 @@
         jiayin_message msg
         left join jiayin_msg_type mst  on msg.msg_type_id=mst.id
         where msg.flag=1 and msg.status=1
-        <if test="message.msgTypeParentId != null and message.msgTypeParentId != ''">
-            AND mst.parent_id=#{message.msgTypeParentId}
-        </if>
+<!--        <if test="message.msgTypeParentId != null and message.msgTypeParentId != ''">-->
+<!--            AND mst.parent_id=#{message.msgTypeParentId}-->
+<!--        </if>-->
         <if test="message.title != null and message.title != ''">
             AND msg.title = #{message.title}
         </if>
         <if test="message.msgTypeId != null and message.msgTypeId != ''">
-            AND msg.msg_type_id = #{message.msgTypeId}
+            AND (msg.msg_type_id = #{message.msgTypeId} or mst.parent_id= #{message.msgTypeId})
         </if>
         <if test="message.content != null and message.content != ''">
             AND msg.content = #{message.content}

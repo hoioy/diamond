@@ -10,10 +10,8 @@ import com.hoioy.jiayin.domain.MsgType;
 import com.hoioy.jiayin.dto.MsgTypeDTO;
 import com.hoioy.jiayin.mapper.MsgTypeMapper;
 import com.hoioy.jiayin.service.IMsgTypeService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 /**
@@ -27,37 +25,18 @@ import java.util.Optional;
 @Service
 public class MsgTypeServiceImpl extends BaseTreeServiceImpl<MsgTypeMapper, MsgType, MsgTypeDTO> implements IMsgTypeService<MsgType> {
 
-    @Autowired
-    private MsgTypeMapper msgTypeMapper;
-
-
     @Override
     public PageDTO getPage(PageDTO pageDTO) throws BaseException {
         Page page = CommonMybatisPageUtil.getPage(pageDTO);
         MsgType msgType = getDomainFilterFromPageDTO(pageDTO);
-        IPage<MsgType> messageIPage = msgTypeMapper.selectPage(page, msgType);
+        IPage<MsgType> messageIPage = iBaseRepository.selectPage(page, msgType);
         PageDTO returnPageDTO = CommonMybatisPageUtil.getPageDTO(messageIPage);
         return returnPageDTO;
     }
 
-
     @Override
-    public List<MsgTypeDTO>  selectAllParent() {
-        List<MsgType> msgTypes = msgTypeMapper.selectAllParent();
-        List<MsgTypeDTO> msgTypeDTOS = this.domainListToDTOList(msgTypes);
-        return msgTypeDTOS;
-    }
-
-    @Override
-    public List<MsgTypeDTO> selectChildrenByParentId(String parentId) {
-        List<MsgType>  msgTypes =msgTypeMapper.selectChildrenByParentId(parentId);
-        List<MsgTypeDTO> msgTypeDTOS = this.domainListToDTOList(msgTypes);
-        return msgTypeDTOS;
-    }
-
-    @Override
-    public MsgTypeDTO findMsgTypePartent(String childrenId) {
-        Optional<MsgTypeDTO> byId = this.findById(childrenId);
+    public MsgTypeDTO findParentByChildId(String childId) {
+        Optional<MsgTypeDTO> byId = this.findById(childId);
         MsgTypeDTO msgTypeDTO = byId.get();
         Optional<MsgTypeDTO> byId1 = this.findById(msgTypeDTO.getParentId());
         return byId1.get();

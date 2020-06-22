@@ -137,7 +137,7 @@
 				this.msgTypeChildrenDisabled=true
 			    this.initMessage(option.messageId)
 				console.log(option.msgTypeChildrenId+'   111111111111111111111111')
-				this.findMsgTypePartent(option.msgTypeChildrenId)
+				this.findParentByChildId(option.msgTypeChildrenId)
 				// this.initMsgTypeChildren(option.msgTypeId)
 				this.findMsgTypeChildrenByMsgTypeId(option.msgTypeChildrenId)
 			}
@@ -191,9 +191,9 @@
 				return false;
 			},
 			
-			findMsgTypePartent(childrenId){
-				msgTypeAPI.findMsgTypePartent(childrenId, (msgTypePartentData) => {
-					this.msgType = msgTypePartentData.data
+			findParentByChildId(childId){
+				msgTypeAPI.findParentByChildId(childId, (msgTypeparentData) => {
+					this.msgType = msgTypeparentData.data
 				})
 			},
 			initMessage(messageId){

@@ -19,7 +19,8 @@
 		</view>
 		<uni-notice-bar v-if="notice!=''" class="notice-bar" :scrollable="true" :single="true" :text="notice" />
 		<view class="list-container">
-			<jiayinMessageList ref="jiayinMessageList" :msgTypeParentId="msgTypeParentId" :msgTypeParentName="msgTypeParentName"></jiayinMessageList>
+			<jiayinMessageList ref="jiayinMessageList" :msgTypetId="selectedMsgType.id" 
+			:msgTypeName="selectedMsgType.typeName"></jiayinMessageList>
 		</view>
 	</view>
 </template>
@@ -41,8 +42,10 @@
 				msgTypeList: [],
 				advertList: [],
 				notice: "",
-				msgTypeParentId: '',
-				msgTypeParentName: '全部类型'
+				selectedMsgType:{
+					id:'',
+					typeName:''
+				}
 			}
 		},
 		onLoad() {
@@ -92,9 +95,9 @@
 					that.msgTypeList = data.data
 				})
 			},
-			pageJump(url, msgTypeParentId, title) {
+			pageJump(url, msgTypeId, msgTypeName) {
 				uni.navigateTo({
-					url: url + '?msgTypeParentId=' + msgTypeParentId + '&title=' + title
+					url: url + '?msgTypeId=' + msgTypeId + '&msgTypeName=' + msgTypeName
 				})
 			}
 		}
@@ -106,6 +109,7 @@
 		padding-left: 0;
 		padding-right: 0;
 		margin-bottom: 0px;
+		width: 750rpx;
 	}
 
 	.swiper {
@@ -127,7 +131,6 @@
 		margin-top: $uni-spacing-col-lg;
 		padding: $uni-spacing-col-lg;
 		flex-wrap: wrap;
-		width: 750rpx;
 		box-shadow: 1px 1px 5px $uni-border-color;
 		border-radius: $uni-border-radius-lg;
 

@@ -14,7 +14,7 @@ import java.util.List;
 public interface IBaseTreeService<DTO extends BaseTreeDTO, D extends CommonDomain> extends IBaseService<DTO, D> {
 
     /**
-     * 根据parentId查找所有childrent 如果传空就查所有一级
+     * 根据parentId查找所有childId 如果传空就查所有一级
      */
     List<DTO> findByParentId(String parentId);
 

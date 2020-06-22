@@ -3,9 +3,9 @@
 		<!-- 搜索板块 -->
 		<view class="index-header">
 			<!-- filters：过滤选项设置， sortChanged：排序更改的事件监听方法-->
-			<jiayinFilter :filters="messageFilters" @sortChanged="messageFilterChanged"></jiayinFilter>
+			<jiayinFilter :filters="messageFilters" @sortChanged="messageFilterChanged" :fixed="fixed" :top="top"></jiayinFilter>
 		</view>
-		<view class="uni-list">
+		<view class="uni-list" :style="{ marginTop: listMarginTop }">
 			<view class="uni-list-cell" hover-class="uni-list-cell-hover" v-for="(value, key) in pageDTO.list" :key="key" @click="goDetail(value)">
 				<view class="message-list-item">
 					<!-- <image class="message-list-item-logo" :src="value.cover"></image> -->
@@ -20,7 +20,7 @@
 				</view>
 			</view>
 		</view>
-		<uni-load-more :status="loadMoreData.status" :icon-size="16" :content-text="loadMoreData.contentText" />
+		<uni-load-more class="load-more" :status="loadMoreData.status" :icon-size="16" :content-text="loadMoreData.contentText" />
 	</view>
 </template>
 
@@ -35,13 +35,34 @@
 			jiayinFilter
 		},
 		props: {
-			msgTypeParentId: {
+			// 是否固定至顶部
+			fixed: {
+				type: Boolean,
+				default: function() {
+					return false
+				}
+			},
+			// 固定至顶部时离顶部的距离
+			top: {
+				type: String,
+				default: function() {
+					return "0rpx"
+				}
+			},
+			// 列表相对固定至顶部时离顶部的距离
+			listMarginTop: {
+				type: String,
+				default: function() {
+					return "0rpx"
+				}
+			},
+			msgTypeId: {
 				type: String,
 				default: function() {
 					return ""
 				}
 			},
-			msgTypeParentName: {
+			msgTypeName: {
 				type: String,
 				default: function() {
 					return ""
@@ -113,6 +134,7 @@
 			}
 		},
 		created: function(event) {
+			this.pageDTO.filters.msgTypeId = this.msgTypeId
 			this.initList();
 			this.initMsgType();
 		},
@@ -128,11 +150,11 @@
 			initMsgType() {
 				var that = this;
 				that.jiayinFilterData.msgTypelistData = [{
-					title: that.msgTypeParentName + '信息',
-					value: ''
+					title: '全部' + that.msgTypeName + '信息',
+					value: that.msgTypeId
 				}];
 
-				msgTypeAPI.selectChildren(this.msgTypeParentId, function(data) {
+				msgTypeAPI.selectChildren(this.msgTypeId, function(data) {
 					if (data.data) {
 						data.data.forEach(item => {
 							that.jiayinFilterData.msgTypelistData.push({
@@ -150,7 +172,6 @@
 			},
 			getList() {
 				this.loadMoreData.status = 'loading';
-				this.pageDTO.filters.msgTypeParentId = this.msgTypeParentId;
 
 				messageAPI.getPage(this.pageDTO, (data) => {
 					if (this.reload) {
@@ -265,4 +286,8 @@
 	.message-list-item-contacts {}
 
 	.message-list-item-views {}
+
+	.load-more {
+		width: 750rpx;
+	}
 </style>
