@@ -14,6 +14,7 @@
 					</view>
 				</view>
 			</view>
+			<uni-load-more class="load-more" :status="status" :icon-size="16" :content-text="contentText" />
 		</view>
 </template>
 
@@ -22,6 +23,9 @@
 	import * as publishHistoryAPI from '@/api/publishHistory.js';
 	import dateFormat from '@/utils/date.js'
 	export default {
+		components: {
+			uniLoadMore
+		},
 		data() {
 			return {
 				listData: [],
