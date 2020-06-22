@@ -159,6 +159,7 @@ INSERT INTO `jiayin_message`(`id`, `created_by`, `created_date`, `modified_by`, 
 -- Records of notice
 -- ----------------------------
 INSERT INTO `notice`(`id`, `flag`, `created_by`, `modified_by`, `created_date`, `modified_date`, `remark`, `content`) VALUES ('d1695380e4e6c53f7fdea5e951570003', 1, 'admin', 'admin', '2020-06-19', '2020-06-19', NULL, '欢迎使用嘉荫小程序');
+INSERT INTO `notice`(`id`, `flag`, `created_by`, `modified_by`, `created_date`, `modified_date`, `remark`, `content`) VALUES ('2', 1, 'admin', 'admin', '2020-06-19', '2020-06-19', NULL, '您的支持是我们最大的动力');
 
 -- ----------------------------
 -- Records of advert

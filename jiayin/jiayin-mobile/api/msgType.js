@@ -2,13 +2,13 @@ import request from '@/utils/request'
 
 export function selectChildren(msgTypeParentId,onSuccess) {
 	request({
-		url: 'jiayin/msgType/selectChildByParentId/'+msgTypeParentId,
+		url: 'jiayin/msgType/findByParentId?parentId='+msgTypeParentId,
 		onSuccess: onSuccess
 	})
 }
 export function selectParent(onSuccess) {
 	request({
-		url: 'jiayin/msgType/selectParent',
+		url: 'jiayin/msgType/findByParentId?parentId=',
 		onSuccess: onSuccess
 	})
 }
