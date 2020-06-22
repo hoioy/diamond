@@ -13,8 +13,6 @@ import com.hoioy.jiayin.service.IMsgTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 /**
  * <p>
  * 消息类型 服务实现类
@@ -29,7 +27,6 @@ public class MsgTypeServiceImpl extends BaseTreeServiceImpl<MsgTypeMapper, MsgTy
     @Autowired
     private MsgTypeMapper msgTypeMapper;
 
-
     @Override
     public PageDTO getPage(PageDTO pageDTO) throws BaseException {
         Page page = CommonMybatisPageUtil.getPage(pageDTO);
@@ -37,20 +34,5 @@ public class MsgTypeServiceImpl extends BaseTreeServiceImpl<MsgTypeMapper, MsgTy
         IPage<MsgType> messageIPage = msgTypeMapper.selectPage(page, msgType);
         PageDTO returnPageDTO = CommonMybatisPageUtil.getPageDTO(messageIPage);
         return returnPageDTO;
-    }
-
-
-    @Override
-    public List<MsgTypeDTO>  selectAllParent() {
-        List<MsgType> msgTypes = msgTypeMapper.selectAllParent();
-        List<MsgTypeDTO> msgTypeDTOS = this.domainListToDTOList(msgTypes);
-        return msgTypeDTOS;
-    }
-
-    @Override
-    public List<MsgTypeDTO> selectChildrenByParentId(String parentId) {
-        List<MsgType>  msgTypes =msgTypeMapper.selectChildrenByParentId(parentId);
-        List<MsgTypeDTO> msgTypeDTOS = this.domainListToDTOList(msgTypes);
-        return msgTypeDTOS;
     }
 }

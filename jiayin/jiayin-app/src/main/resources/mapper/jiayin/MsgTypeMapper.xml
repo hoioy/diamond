@@ -35,24 +35,4 @@
             AND expiry_date = #{msgType.expiryDate}
         </if>
     </select>
-    <select id="selectAllParent" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List" />
-        from
-        jiayin_msg_type
-        where
-        flag=1
-        and parent_id is null
-    </select>
-
-
-    <select id="selectChildrenByParentId" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List" />
-        from
-        jiayin_msg_type
-        where
-        flag=1
-        and parent_id= #{parentId}
-    </select>
 </mapper>

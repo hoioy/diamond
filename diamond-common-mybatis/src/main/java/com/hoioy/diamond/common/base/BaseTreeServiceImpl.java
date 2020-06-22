@@ -16,7 +16,7 @@ public abstract class BaseTreeServiceImpl<M extends IBaseTreeMapper<D>, D extend
     public List<DTO> findByParentId(String parentId) {
         QueryWrapper<D> ew = new QueryWrapper<>();
         List<D> parents;
-        if (parentId==null) {
+        if (StringUtils.isEmpty(parentId)) {
             ew.isNull("parent_id");
             parents = iBaseRepository.selectList(ew);
         } else {

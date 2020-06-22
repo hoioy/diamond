@@ -1,7 +1,6 @@
 <template>
 	<view>
-		<uni-notice-bar v-if="notice!=''" class="notice-bar" :scrollable="true" :single="true" :text="notice" />
-		<swiper class="swiper" circular :indicator-dots="true" :autoplay="true" :interval="2000" :duration="500">
+		<swiper class="swiper" circular :indicator-dots="true" :autoplay="true" :interval="5000" :duration="500">
 			<swiper-item v-for="(item, key) in advertList" :key="key">
 				<view class="swiper-item">
 					<image :src="item.icon"></image>
@@ -18,31 +17,44 @@
 				</view>
 			</view>
 		</view>
+		<uni-notice-bar v-if="notice!=''" class="notice-bar" :scrollable="true" :single="true" :text="notice" />
+		<view class="list-container">
+			<jiayinMessageList ref="jiayinMessageList" :msgTypeParentId="msgTypeParentId" :msgTypeParentName="msgTypeParentName"></jiayinMessageList>
+		</view>
 	</view>
 </template>
 
 <script>
 	import uniNoticeBar from '@/components/uni-notice-bar/uni-notice-bar.vue'
-	import * as messageAPI from '@/api/message.js';
+	import jiayinMessageList from '@/components/jiayin-message-list/jiayin-message-list.vue';
 	import * as msgTypeAPI from '@/api/msgType.js';
 	import * as advertAPI from '@/api/advert.js';
 	import * as noticeAPI from '@/api/notice.js';
 
 	export default {
 		components: {
-			uniNoticeBar
+			uniNoticeBar,
+			jiayinMessageList
 		},
 		data() {
 			return {
 				msgTypeList: [],
 				advertList: [],
-				notice: ""
+				notice: "",
+				msgTypeParentId: '',
+				msgTypeParentName: '全部类型'
 			}
 		},
 		onLoad() {
 			this.initMsgType()
 			this.initAdvertAPI()
 			this.initNoticeAPI()
+		},
+		onPullDownRefresh() {
+			this.$refs.jiayinMessageList.pullDownRefresh();
+		},
+		onReachBottom() {
+			this.$refs.jiayinMessageList.reachBottom();
 		},
 		methods: {
 			initNoticeAPI() {
@@ -55,7 +67,7 @@
 				}, (data) => {
 					if (data.data.list) {
 						data.data.list.forEach(n => {
-							that.notice += " "+n.content
+							that.notice += " " + n.content
 						})
 					} else {
 						that.notice = ''
@@ -93,6 +105,7 @@
 	.notice-bar {
 		padding-left: 0;
 		padding-right: 0;
+		margin-bottom: 0px;
 	}
 
 	.swiper {
@@ -112,8 +125,11 @@
 	.nav-container {
 		display: flex;
 		margin-top: $uni-spacing-col-lg;
+		padding: $uni-spacing-col-lg;
 		flex-wrap: wrap;
 		width: 750rpx;
+		box-shadow: 1px 1px 5px $uni-border-color;
+		border-radius: $uni-border-radius-lg;
 
 		.nav-container-cell {
 			width: 25%;

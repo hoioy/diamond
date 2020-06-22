@@ -22,8 +22,4 @@ public interface MsgTypeMapper extends IBaseTreeMapper<MsgType> {
      * 分页
      */
     IPage<MsgType> selectPage(@Param("page") Page page, @Param("msgType") MsgType msgType);
-
-    List<MsgType> selectAllParent();
-
-    List<MsgType> selectChildrenByParentId(String parentId);
 }

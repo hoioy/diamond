@@ -36,20 +36,11 @@ public class MsgTypeController extends BaseController<IMsgTypeService, MsgTypeDT
         return new ResultDTO(page);
     }
 
-    @ApiOperation(value = "查询所有一级分类", notes = "查询所有一级分类")
-    @GetMapping("/selectParent")
-    public ResultDTO selectParent() throws BaseException {
-        List<MsgTypeDTO> msgTypeDTOS = msgTypeService.selectAllParent();
-        return new ResultDTO(msgTypeDTOS);
-    }
-
-    @ApiOperation(value = "根据parenid查询二级级分类", notes = "根据parenid查询二级级分类")
-    @GetMapping("/selectChildByParentId/{parentId}")
-    public ResultDTO selectChildren(@PathVariable String parentId) throws BaseException {
-        List<MsgTypeDTO> msgTypeDTOs = msgTypeService.selectChildrenByParentId(parentId);
+    @ApiOperation(value = "根据parenId查询", notes = "根据parenId查询,parentId为null或者空字符串，则查询根节点")
+    @GetMapping("/findByParentId")
+    public ResultDTO findByParentId(@RequestParam("parentId") String parentId) throws BaseException {
+        List<MsgTypeDTO> msgTypeDTOs = msgTypeService.findByParentId(parentId);
         return new ResultDTO(msgTypeDTOs);
     }
-
-
 }
 

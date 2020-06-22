@@ -31,7 +31,6 @@ public class MessagePageDTO extends BaseDTO implements Serializable {
     @ApiModelProperty(value = "标题")
     private String title;
 
-
     @ApiModelProperty(value = "消息类型表外键")
     private String msgTypeId;
 
@@ -44,26 +43,19 @@ public class MessagePageDTO extends BaseDTO implements Serializable {
     @ApiModelProperty(value = "消息内容")
     private String content;
 
-
     @ApiModelProperty(value = "浏览次数")
     private Integer views;
-
 
     @ApiModelProperty(value = "(带交易 已完成)")
     private Integer status;
 
-
     @ApiModelProperty(value = "过期时间")
     private LocalDate expareTime;
-
 
     @ApiModelProperty(value = "联系人")
     private String contacts;
 
-
     @ApiModelProperty(value = "联系电话")
     private String contactPhone;
-
-
 
 }
