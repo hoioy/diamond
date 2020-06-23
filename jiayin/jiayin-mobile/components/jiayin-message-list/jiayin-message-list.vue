@@ -13,7 +13,7 @@
 						<view class="message-list-item-title">{{ value.title }}</view>
 						<view class="message-list-item-content">{{ value.content }}</view>
 						<view class="message-list-item-contacts-views">
-							<view class="message-list-item-type">{{ value.msgTypeName}}</view>
+							<view class="message-list-item-type" :style="{backgroundColor: value.msgTypeColor}">{{ value.msgTypeName}}</view>
 							<view class="message-list-item-views">浏览:{{ value.views }}次</view>
 						</view>
 					</view>
@@ -249,13 +249,12 @@
 	}
 
 	.message-list-item-type {
-		background-color: #09BB07;
 		color: #FFFFFF;
-		padding-left: 5px;
-		padding-right: 5px;
+		padding-left: 10px;
+		padding-right: 10px;
 		padding-top: 2px;
 		padding-bottom: 2px;
-		border-radius: 5rpx;
+		border-radius: $uni-border-radius-lg;
 	}
 
 	.message-list-item-status-color {}
