@@ -113,7 +113,7 @@
 	}
 
 	.swiper {
-		height: 250rpx;
+		height: 375rpx;
 
 		.swiper-item {
 			height: 100%;
@@ -128,7 +128,6 @@
 
 	.nav-container {
 		display: flex;
-		margin-top: $uni-spacing-col-lg;
 		padding: $uni-spacing-col-lg;
 		flex-wrap: wrap;
 		box-shadow: 1px 1px 5px $uni-border-color;

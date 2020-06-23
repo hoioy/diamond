@@ -164,5 +164,5 @@ INSERT INTO `notice`(`id`, `flag`, `created_by`, `modified_by`, `created_date`, 
 -- ----------------------------
 -- Records of advert
 -- ----------------------------
-INSERT INTO `advert`(`id`, `flag`, `created_by`, `modified_by`, `created_date`, `modified_date`, `remark`, `content`, `icon`, `path`) VALUES ('e0c8cd338a98bc59a6a745b0bc7e56c8', 1, 'admin', 'admin', '2020-06-19', '2020-06-19', NULL, '广告1', '/static/img/user/contact.png', '');
-INSERT INTO `advert`(`id`, `flag`, `created_by`, `modified_by`, `created_date`, `modified_date`, `remark`, `content`, `icon`, `path`) VALUES ('222', 1, 'admin', 'admin', '2020-06-19', '2020-06-19', NULL, '广告2', '/static/img/user/collect.png', '');
+INSERT INTO `advert`(`id`, `flag`, `created_by`, `modified_by`, `created_date`, `modified_date`, `remark`, `content`, `icon`, `path`) VALUES ('e0c8cd338a98bc59a6a745b0bc7e56c8', 1, 'admin', 'admin', '2020-06-19', '2020-06-19', NULL, '广告1', '/static/img/advert/advert1.png', '');
+INSERT INTO `advert`(`id`, `flag`, `created_by`, `modified_by`, `created_date`, `modified_date`, `remark`, `content`, `icon`, `path`) VALUES ('222', 1, 'admin', 'admin', '2020-06-19', '2020-06-19', NULL, '广告2', '/static/img/advert/advert2.png', '');
