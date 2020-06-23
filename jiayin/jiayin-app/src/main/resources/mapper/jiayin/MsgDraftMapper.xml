@@ -15,34 +15,37 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id,openid,
-        msg_title, msg_type_id, created_date, msg_id, message_type
+        draft.id,draft.created_date,draft.flag,draft.created_by, draft.modified_by, draft.modified_date,draft.remark,
+        draft.msg_title, draft.msg_id, draft.message_type,
+        mst.type_name as msg_type_name,mst.id as msg_type_id,mst.color as msg_type_color
     </sql>
-    <delete id="removeByUserNameAndMsgId"   >
-        DELETE FROM jiayin_msg_draft WHERE openid=#{openid} and msg_id=#{msgId} and message_type =#{messageType} ;
-    </delete>
 
-    <select id="selectPage" resultType="com.hoioy.jiayin.domain.MsgDraft">
+    <select id="selectPage" resultType="java.util.Map">
         select
            <include refid="Base_Column_List" />
         from
-           jiayin_msg_draft
+           jiayin_msg_draft draft
+        left join jiayin_msg_type mst on draft.msg_type_id=mst.id
         where
-           flag=1
+        draft.flag=1
         <if test="msgDraft.msgTitle != null and msgDraft.msgTitle != ''">
-        AND msg_title = #{msgDraft.msgTitle}
+        AND draft.msg_title = #{msgDraft.msgTitle}
        </if>
         <if test="msgDraft.openid != null and msgDraft.openid != ''">
-            AND openid = #{msgDraft.openid}
+            AND draft.openid = #{msgDraft.openid}
         </if>
         <if test="msgDraft.msgTypeId != null and msgDraft.msgTypeId != ''">
-            AND msg_type_id = #{msgDraft.msgTypeId}
+            AND mst.msg_type_id = #{msgDraft.msgTypeId}
         </if>
         <if test="msgDraft.msgId != null and msgDraft.msgId != ''">
-            AND msg_id = #{msgDraft.msgId}
+            AND draft.msg_id = #{msgDraft.msgId}
         </if>
         <if test="msgDraft.messageType != null and msgDraft.messageType != ''">
-            AND message_type = #{msgDraft.messageType}
+            AND draft.message_type = #{msgDraft.messageType}
         </if>
     </select>
+
+    <delete id="removeByUserNameAndMsgId"   >
+        DELETE FROM jiayin_msg_draft WHERE openid=#{openid} and msg_id=#{msgId} and message_type =#{messageType} ;
+    </delete>
 </mapper>

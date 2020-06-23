@@ -5,7 +5,10 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hoioy.diamond.common.base.IBaseMapper;
 import com.hoioy.jiayin.domain.PublishHistory;
 import com.hoioy.jiayin.dto.MessageDTO;
+import com.hoioy.jiayin.dto.PublishHistoryDTO;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.Map;
 
 /**
  * <p>
@@ -20,7 +23,7 @@ public interface PublishHistoryMapper extends IBaseMapper<PublishHistory> {
     /**
      *  分页
      */
-    IPage<PublishHistory> selectPage(@Param("page") Page page, @Param("publishHistory") PublishHistory publishHistory);
+    IPage<Map> selectPage(@Param("page") Page page, @Param("publishHistory") PublishHistoryDTO publishHistory);
 
     int updateByPubilshId(PublishHistory publishHistory);
 

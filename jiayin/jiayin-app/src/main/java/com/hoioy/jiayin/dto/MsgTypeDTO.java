@@ -43,4 +43,7 @@ public class MsgTypeDTO  extends BaseTreeDTO implements Serializable {
     @ApiModelProperty(value = "页面路径")
     private String path;
 
+    @ApiModelProperty(value = "主题色")
+    private String color;
+
 }

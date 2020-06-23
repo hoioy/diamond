@@ -50,7 +50,4 @@ public class MsgCollect extends BaseDomain {
      * 消息类型主键
      */
     private String msgTypeId;
-    private String msgTypeName;
-
-
 }

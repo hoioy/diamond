@@ -40,11 +40,6 @@ public class Message extends BaseDomain {
      * 消息类型外键
      */
     private String msgTypeId;
-    /**
-     * 消息类型名称
-     */
-    @TableField(exist = false)
-    private String msgTypeName;
 
     /**
      * 消息内容

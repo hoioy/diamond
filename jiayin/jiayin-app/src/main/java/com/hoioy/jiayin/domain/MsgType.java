@@ -51,4 +51,7 @@ public class MsgType extends BaseTreeDomain {
      * 页面路径
      */
     private String path;
+
+    // 主题色
+    private String color;
 }

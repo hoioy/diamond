@@ -37,6 +37,9 @@ public class MessageDTO extends BaseDTO implements Serializable {
     @ApiModelProperty(value = "消息类型名称")
     private String msgTypeName;
 
+    @ApiModelProperty(value = "消息类型主题色")
+    private String msgTypeColor;
+
     @ApiModelProperty(value = "消息内容")
     private String content;
 

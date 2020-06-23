@@ -4,7 +4,10 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hoioy.diamond.common.base.IBaseMapper;
 import com.hoioy.jiayin.domain.MsgCollect;
+import com.hoioy.jiayin.dto.MsgCollectDTO;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.Map;
 
 /**
  * <p>
@@ -19,5 +22,5 @@ public interface MsgCollectMapper extends IBaseMapper<MsgCollect> {
     /**
      *  分页
      */
-    IPage<MsgCollect> selectPage(@Param("page") Page page, @Param("msgCollect") MsgCollect msgCollect);
+    IPage<Map> selectPage(@Param("page") Page page, @Param("msgCollect") MsgCollectDTO msgCollect);
 }

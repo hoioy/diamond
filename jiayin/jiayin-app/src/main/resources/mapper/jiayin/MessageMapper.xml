@@ -8,7 +8,6 @@
         <result column="title" property="title" />
         <result column="openid" property="openid" />
         <result column="msg_type_id" property="msgTypeId" />
-        <result column="msg_type_name" property="msgTypeName" />
         <result column="content" property="content" />
         <result column="views" property="views" />
         <result column="status" property="status" />
@@ -20,20 +19,18 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        msg.id, msg.openid,
-        title, content, views, status, expare_time, contacts, contact_phone,msg.created_date,type_name as msg_type_name,mst.id as msg_type_id
+        msg.id,msg.flag,msg.created_by, msg.created_date, msg.modified_by, msg.modified_date,msg.remark,
+        msg.openid,msg.title, msg.content, msg.views, msg.status, msg.expare_time, msg.contacts, msg.contact_phone,
+        mst.type_name as msg_type_name,mst.id as msg_type_id,mst.color as msg_type_color
     </sql>
 
-    <select id="selectPage" resultType="com.hoioy.jiayin.domain.Message">
+    <select id="selectPage" resultType="java.util.Map">
         select
            <include refid="Base_Column_List" />
         from
         jiayin_message msg
         left join jiayin_msg_type mst  on msg.msg_type_id=mst.id
         where msg.flag=1 and msg.status=1
-<!--        <if test="message.msgTypeParentId != null and message.msgTypeParentId != ''">-->
-<!--            AND mst.parent_id=#{message.msgTypeParentId}-->
-<!--        </if>-->
         <if test="message.title != null and message.title != ''">
             AND msg.title = #{message.title}
         </if>

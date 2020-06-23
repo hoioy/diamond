@@ -6,13 +6,17 @@ import com.hoioy.diamond.common.base.BaseServiceImpl;
 import com.hoioy.diamond.common.dto.PageDTO;
 import com.hoioy.diamond.common.exception.BaseException;
 import com.hoioy.diamond.common.util.CommonMybatisPageUtil;
+import com.hoioy.diamond.common.util.CommonMybatisPageUtil2;
 import com.hoioy.jiayin.domain.PublishHistory;
 import com.hoioy.jiayin.dto.MessageDTO;
+import com.hoioy.jiayin.dto.MsgDraftDTO;
 import com.hoioy.jiayin.dto.PublishHistoryDTO;
 import com.hoioy.jiayin.mapper.PublishHistoryMapper;
 import com.hoioy.jiayin.service.IPublishHistoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Map;
 
 /**
  * <p>
@@ -30,11 +34,11 @@ public class PublishHistoryServiceImpl extends BaseServiceImpl<PublishHistoryMap
 
 
     @Override
-    public PageDTO getPage(PageDTO pageDTO) throws BaseException {
+    public PageDTO getPage(PageDTO<PublishHistoryDTO> pageDTO) throws BaseException {
         Page page = CommonMybatisPageUtil.getPage(pageDTO);
-        PublishHistory publishHistory = getDomainFilterFromPageDTO(pageDTO);
-        IPage<PublishHistory> publishHistoryIPage = publishHistoryMapper.selectPage(page, publishHistory);
-        PageDTO resultPage = CommonMybatisPageUtil.getPageDTO(publishHistoryIPage);
+        PublishHistoryDTO filters = pageDTO.getFilters();
+        IPage<Map> pageList = iBaseRepository.selectPage(page, filters);
+        PageDTO resultPage = CommonMybatisPageUtil2.getInstance().iPageToPageDTO(pageList, PublishHistoryDTO.class);
         return resultPage;
     }
 

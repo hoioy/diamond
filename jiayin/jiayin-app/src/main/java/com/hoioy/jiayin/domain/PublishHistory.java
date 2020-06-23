@@ -38,7 +38,6 @@ public class PublishHistory extends BaseDomain {
      */
     private String openid;
 
-
     /**
      * 发布类型
      */
@@ -53,7 +52,5 @@ public class PublishHistory extends BaseDomain {
      * 消息类型主键
      */
     private String msgTypeId;
-    private String msgTypeName;
-
 
 }

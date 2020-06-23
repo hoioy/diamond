@@ -7,6 +7,8 @@ import com.hoioy.jiayin.domain.Message;
 import com.hoioy.jiayin.dto.MessagePageDTO;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Map;
+
 /**
  * <p>
  * 消息表 Mapper 接口
@@ -20,5 +22,5 @@ public interface MessageMapper extends IBaseMapper<Message> {
     /**
      *  分页
      */
-    IPage<Message> selectPage(@Param("page") Page page, @Param("message") MessagePageDTO message);
+    IPage<Map> selectPage(@Param("page") Page page, @Param("message") MessagePageDTO message);
 }

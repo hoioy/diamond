@@ -13,46 +13,46 @@
         <result column="publish_type" property="publishType" />
         <result column="publish_title" property="publishTitle" />
         <result column="msg_type_id" property="msgTypeId" />
-        <result column="type_name" property="msgTypeName" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        his.id,
-        his.flag,
-        publish_id, his.openid, publish_type, publish_title,his.created_date,type_name,msg_type_id
+        his.id,his.created_date,his.flag,his.created_by, his.modified_by, his.modified_date,his.remark,
+        his.publish_id, his.openid, his.publish_type, his.publish_title,
+        mst.type_name as msg_type_name,mst.id as msg_type_id,mst.color as msg_type_color
     </sql>
 
-    <select id="selectPage" resultMap="BaseResultMap" >
+    <select id="selectPage" resultType="java.util.Map" >
         select
            <include refid="Base_Column_List" />
         from
            jiayin_publish_history his
-        left join jiayin_msg_type msgType on his.msg_type_id=msgType.id
+        left join jiayin_msg_type mst on his.msg_type_id=mst.id
         where
         his.flag=1
         <if test="publishHistory.publishId != null and publishHistory.publishId != ''">
-            AND publish_id = #{publishHistory.publishId}
+            AND his.publish_id = #{publishHistory.publishId}
         </if>
         <if test="publishHistory.openid != null and publishHistory.openid != ''">
-            AND openid = #{publishHistory.openid}
+            AND his.openid = #{publishHistory.openid}
         </if>
         <if test="publishHistory.modifiedBy != null and publishHistory.modifiedBy != ''">
-            AND updated_by = #{publishHistory.modifiedBy}
+            AND his.updated_by = #{publishHistory.modifiedBy}
         </if>
         <if test="publishHistory.createdDate != null and publishHistory.createdDate != ''">
-            AND create_date = #{publishHistory.createdDate}
+            AND his.create_date = #{publishHistory.createdDate}
         </if>
         <if test="publishHistory.modifiedDate != null and publishHistory.modifiedDate != ''">
-            AND update_date = #{publishHistory.modifiedDate}
+            AND his.update_date = #{publishHistory.modifiedDate}
         </if>
         <if test="publishHistory.publishType != null and publishHistory.publishType != ''">
-            AND publish_type = #{publishHistory.publishType}
+            AND his.publish_type = #{publishHistory.publishType}
         </if>
         <if test="publishHistory.publishTitle != null and publishHistory.publishTitle != ''">
-            AND publish_title = #{publishHistory.publishTitle}
+            AND his.publish_title = #{publishHistory.publishTitle}
         </if>
     </select>
+
     <update id="updateByPubilshId" parameterType="com.hoioy.jiayin.domain.PublishHistory">
         update jiayin_publish_history
         <set>

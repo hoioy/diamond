@@ -28,7 +28,7 @@ public class MsgDraft extends BaseDomain {
 
     private static final long serialVersionUID=1L;
     /**
-     * 发布主键键
+     * 发布主键
      */
     private String msgId;
 
@@ -52,8 +52,5 @@ public class MsgDraft extends BaseDomain {
      * 消息类型主键
      */
     private String msgTypeId;
-    private String msgTypeName;
-
-
 
 }

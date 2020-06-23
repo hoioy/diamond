@@ -6,14 +6,18 @@ import com.hoioy.diamond.common.base.BaseServiceImpl;
 import com.hoioy.diamond.common.dto.PageDTO;
 import com.hoioy.diamond.common.exception.BaseException;
 import com.hoioy.diamond.common.util.CommonMybatisPageUtil;
+import com.hoioy.diamond.common.util.CommonMybatisPageUtil2;
 import com.hoioy.diamond.common.util.CommonSecurityUtils;
 import com.hoioy.jiayin.domain.MsgCollect;
+import com.hoioy.jiayin.dto.MessagePageDTO;
 import com.hoioy.jiayin.dto.MsgCollectDTO;
 import com.hoioy.jiayin.mapper.MsgCollectMapper;
 import com.hoioy.jiayin.service.IMsgCollectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Map;
 
 /**
  * <p>
@@ -25,18 +29,13 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 public class MsgCollectServiceImpl extends BaseServiceImpl<MsgCollectMapper, MsgCollect, MsgCollectDTO> implements IMsgCollectService<MsgCollect> {
-
-    @Autowired
-    private MsgCollectMapper msgCollectMapper;
-
-
     @Override
-    public PageDTO getPage(PageDTO pageDTO) throws BaseException {
+    public PageDTO getPage(PageDTO<MsgCollectDTO> pageDTO) throws BaseException {
         Page page = CommonMybatisPageUtil.getPage(pageDTO);
-        MsgCollect msgCollect = getDomainFilterFromPageDTO(pageDTO);
-        IPage<MsgCollect> messageIPage = msgCollectMapper.selectPage(page, msgCollect);
-        PageDTO returnPageDTO = CommonMybatisPageUtil.getPageDTO(messageIPage);
-        return returnPageDTO;
+        MsgCollectDTO filters = (MsgCollectDTO) pageDTO.getFilters();
+        IPage<Map> pageList = iBaseRepository.selectPage(page, filters);
+        PageDTO resultPage = CommonMybatisPageUtil2.getInstance().iPageToPageDTO(pageList, MsgCollectDTO.class);
+        return resultPage;
     }
 
     @Override

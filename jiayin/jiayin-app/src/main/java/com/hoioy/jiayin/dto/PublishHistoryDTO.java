@@ -49,6 +49,7 @@ public class PublishHistoryDTO extends BaseDTO implements Serializable {
     @ApiModelProperty(value = "消息类型名字")
     private String msgTypeName;
 
-
+    @ApiModelProperty(value = "消息类型主题色")
+    private String msgTypeColor;
 
 }

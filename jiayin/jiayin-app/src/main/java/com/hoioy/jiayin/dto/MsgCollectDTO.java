@@ -29,12 +29,8 @@ public class MsgCollectDTO  extends BaseDTO implements Serializable {
     @ApiModelProperty(value = "消息表主键")
     private String msgId;
 
-
     @ApiModelProperty(value = "小程序openid")
     private String openid;
-
-
-
 
     @ApiModelProperty(value = "消息类别用来区分不同业务")
     private String messageType;
@@ -46,5 +42,6 @@ public class MsgCollectDTO  extends BaseDTO implements Serializable {
     private String msgTypeId;
     @ApiModelProperty(value = "消息类型名称")
     private String msgTypeName;
-
+    @ApiModelProperty(value = "消息类型主题色")
+    private String msgTypeColor;
 }

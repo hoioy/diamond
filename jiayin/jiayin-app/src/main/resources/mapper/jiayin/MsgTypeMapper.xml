@@ -10,12 +10,13 @@
         <result column="expiry_date" property="expiryDate" />
         <result column="icon" property="icon" />
         <result column="path" property="path" />
+        <result column="color" property="color" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id,
-        type_name, money, expiry_date,created_date,modified_date,created_by,created_by,icon,path
+        type_name, money, expiry_date,created_date,modified_date,created_by,created_by,icon,path,color
     </sql>
 
     <select id="selectPage" resultType="com.hoioy.jiayin.domain.MsgType">
