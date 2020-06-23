@@ -214,77 +214,64 @@
 </script>
 
 <style lang="scss">
-	.index-header {
-		box-shadow: 1px 1px 5px $uni-border-color;
-		border-radius: $uni-border-radius-lg;
+	.uni-list-cell {
+		box-shadow: 1px 1px 1px 1px $uni-bg-color-grey;
+		border-radius: $uni-border-radius-base;
+
+		.message-list-item {
+			display: flex;
+			flex-direction: column;
+
+			.message-list-item-body {
+				margin-top: $uni-spacing-col-base;
+				margin-bottom: $uni-spacing-col-base;
+				display: flex;
+				flex-direction: column;
+				width: 750rpx;
+
+				.message-list-item-title {
+					font-size: $uni-font-size-lg;
+					color: $uni-color-title;
+					padding-left: $uni-spacing-row-base;
+				}
+
+				.message-list-item-content {
+					margin-top: $uni-spacing-col-base;
+					font-size: $uni-font-size-base;
+					color: $uni-text-color;
+					padding-left: $uni-spacing-row-base;
+					padding-right: $uni-spacing-row-base;
+					white-space: nowrap;
+					overflow: hidden;
+					text-overflow: ellipsis;
+				}
+
+				.message-list-item-contacts-views {
+					display: flex;
+					justify-content: space-between;
+					align-items: flex-end;
+					margin-top: $uni-spacing-col-base;
+					font-size: $uni-font-size-sm;
+					color: $uni-text-color-grey;
+					padding-left: $uni-spacing-row-base;
+					padding-right: $uni-spacing-row-base;
+
+					.message-list-item-type {
+						color: $uni-text-color-inverse;
+						padding-left: $uni-spacing-row-base;
+						padding-right: $uni-spacing-row-base;
+						padding-top: $uni-spacing-col-sm;
+						padding-bottom: $uni-spacing-col-sm;
+						border-radius: $uni-border-radius-lg;
+					}
+
+					.message-list-item-views {
+						align-items: flex-end;
+					}
+				}
+			}
+		}
 	}
-
-	.message-list-item {
-		display: flex;
-		flex-direction: column;
-	}
-
-	.message-list-item-body {
-		margin-top: 10px;
-		margin-bottom: 10px;
-		display: flex;
-		flex-direction: column;
-		width: 750rpx;
-	}
-
-	.message-list-item-title {
-		font-size: 17pt;
-		color: #000000;
-		padding-left: 15px;
-	}
-
-	.message-list-item-status-expareTime {
-		display: flex;
-		justify-content: space-between;
-		margin-top: 8px;
-		font-size: 11pt;
-		color: #888888;
-		padding-left: 15px;
-		padding-right: 15px;
-	}
-
-	.message-list-item-type {
-		color: #FFFFFF;
-		padding-left: 10px;
-		padding-right: 10px;
-		padding-top: 2px;
-		padding-bottom: 2px;
-		border-radius: $uni-border-radius-lg;
-	}
-
-	.message-list-item-status-color {}
-
-	.message-list-item-expareTime {}
-
-	.message-list-item-content {
-		margin-top: 8px;
-		font-size: 14pt;
-		color: #353535;
-		padding-left: 15px;
-		padding-right: 15px;
-		white-space: nowrap;
-		overflow: hidden;
-		text-overflow: ellipsis;
-	}
-
-	.message-list-item-contacts-views {
-		display: flex;
-		justify-content: space-between;
-		margin-top: 8px;
-		font-size: 11pt;
-		color: #888888;
-		padding-left: 15px;
-		padding-right: 15px;
-	}
-
-	.message-list-item-contacts {}
-
-	.message-list-item-views {}
 
 	.load-more {
 		width: 750rpx;

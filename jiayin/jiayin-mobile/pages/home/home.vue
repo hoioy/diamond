@@ -135,7 +135,6 @@
 
 		.nav-container-cell {
 			width: 25%;
-
 			.nav-container-item {
 				display: flex;
 				flex-direction: column;
