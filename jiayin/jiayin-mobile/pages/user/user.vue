@@ -52,12 +52,12 @@
 				navs: [{
 						icon: '/static/img/user/collect.png',
 						title: '我的收藏',
-						path: '/pages/collect/collect-list/collect-list'
+						path: '/pages/collect/collect-list'
 					},
 					{
 						icon: '/static/img/user/publish.png',
 						title: '我的发布',
-						path: '/pages/publish-history/history-list/publish-history-list'
+						path: '/pages/published/published'
 					}
 				]
 

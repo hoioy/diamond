@@ -10,13 +10,13 @@
         <result column="msg_type_id" property="msgTypeId" />
         <result column="created_date" property="createdDate" />
         <result column="msg_id" property="msgId" />
-        <result column="message_type" property="messageType" />
+        <result column="msg_table_name" property="msgTableName" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Page_Column_List">
         collect.id,collect.created_date,collect.flag,collect.created_by, collect.modified_by, collect.modified_date,collect.remark,
-        collect.openid,collect.msg_title, collect.msg_type_id, collect.msg_id, collect.message_type,
+        collect.openid,collect.msg_title, collect.msg_type_id, collect.msg_id, collect.msg_table_name,
         mst.type_name as msg_type_name,mst.id as msg_type_id,mst.color as msg_type_color
     </sql>
 

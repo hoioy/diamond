@@ -31,17 +31,14 @@ public class MsgDraft extends BaseDomain {
      * 发布主键
      */
     private String msgId;
-
+    /**
+     * 消息类别用来区分不同业务,来源于哪个消息表
+     */
+    private String msgTableName;
     /**
      * openid
      */
     private String openid;
-
-
-    /**
-     * 消息类别用来区分不同业务
-     */
-    private String messageType;
 
     /**
      * 消息标题

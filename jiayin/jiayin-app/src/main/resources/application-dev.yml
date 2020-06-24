@@ -3,7 +3,7 @@
 spring:
   datasource:                            #初始化sql配置
     initialization-mode: never
-    continue-on-error: true                        #在初始化数据库时，遇到错误是否继续，默认false
+    continue-on-error: false                        #在初始化数据库时，遇到错误是否继续，默认false
     test-on-borrow: false                           #当从连接池借用连接时，是否测试该连接.
     test-while-idle: true                           #当连接空闲时，是否执行连接测试.
     time-between-eviction-runs-millis: 3600000    #数据库连接时间

@@ -3,7 +3,7 @@ package com.hoioy.jiayin.service;
 import com.hoioy.diamond.common.domain.CommonDomain;
 import com.hoioy.diamond.common.service.IBaseService;
 import com.hoioy.jiayin.dto.MessageDTO;
-import com.hoioy.jiayin.dto.PublishHistoryDTO;
+import com.hoioy.jiayin.dto.MsgPublishedDTO;
 
 /**
  * <p>
@@ -13,8 +13,8 @@ import com.hoioy.jiayin.dto.PublishHistoryDTO;
  * @author 陈哲
  * @since 2020-05-21
  */
-public interface IPublishHistoryService<D extends CommonDomain>  extends IBaseService<PublishHistoryDTO,D> {
+public interface IMsgPublishedService<D extends CommonDomain>  extends IBaseService<MsgPublishedDTO,D> {
 
 
-    void saveOrUpdateDraft(String userName, MessageDTO update, String publishType);
+    void saveOrUpdateDraft(String userName, MessageDTO update, String msgTableName);
 }

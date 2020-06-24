@@ -45,12 +45,12 @@
 				"navigationBarTitleText": "联系我们"
 			}
 		}, {
-			"path": "pages/collect/collect-list/collect-list",
+			"path": "pages/collect/collect-list",
 			"style": {
 				"navigationBarTitleText": "我的收藏"
 			}
 		}, {
-			"path": "pages/publish-history/history-list/publish-history-list",
+			"path": "pages/published/published",
 			"style": {
 				"navigationBarTitleText": "我的发布"
 			}

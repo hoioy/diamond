@@ -5,7 +5,7 @@
 					<view class="publish-list-item">
 						<!-- <image class="publish-list-item-logo" :src="value.cover"></image> -->
 						<view class="publish-list-item-body">
-							<view class="publish-list-item-title">{{ value.publishTitle }}</view>
+							<view class="publish-list-item-title">{{ value.msgTitle }}</view>
 							<view class="publish-list-item-contacts-views">
 								<view class="publish-list-item-type">{{ value.msgTypeName}}</view>
 								<view class="publish-list-item-views">{{ value.createdDate |formatDate}}</view>
@@ -20,7 +20,7 @@
 
 <script>
 	import uniLoadMore from '@/components/uni-load-more/uni-load-more.vue';
-	import * as publishHistoryAPI from '@/api/publishHistory.js';
+	import * as publishedAPI from '@/api/msgPublished.js';
 	import dateFormat from '@/utils/date.js'
 	export default {
 		components: {
@@ -64,7 +64,7 @@
 			},
 			getList() {
 				this.status = 'loading';
-				publishHistoryAPI.getPage({
+				publishedAPI.getPage({
 					"filters": {},
 					"page": this.last_page,
 					"pageSize": 10,
@@ -87,9 +87,9 @@
 				})
 			},
 			goDetail: function(e) {
-				console.log(e.publishId)
+				console.log(e.msgId)
 				uni.navigateTo({
-					url: '/pages/message/message-save/message-save?messageId=' + e.publishId+'&msgTypeChildrenId='+e.msgTypeId+'&parentId='+e.parentId,
+					url: '/pages/message/message-save/message-save?messageId=' + e.msgId+'&msgTypeChildrenId='+e.msgTypeId+'&parentId='+e.parentId,
 				});
 			}
 		}

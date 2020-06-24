@@ -39,7 +39,7 @@ public class MsgCollect extends BaseDomain {
     /**
      * 消息类别用来区分不同业务
      */
-    private String messageType;
+    private String msgTableName;
 
     /**
      * 消息标题

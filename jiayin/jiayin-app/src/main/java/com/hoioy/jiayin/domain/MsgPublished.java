@@ -8,30 +8,20 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-
-/**
- * <p>
- * 
- * </p>
- *
- * @author 陈哲
- * @since 2020-05-21
- */
 @Data
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
-@TableName("jiayin_publish_history")
-@ApiModel(value="PublishHistory对象", description="")
-public class PublishHistory extends BaseDomain {
+@TableName("jiayin_msg_published")
+@ApiModel(value = "MsgPublished对象", description = "MsgPublished对象")
+public class MsgPublished extends BaseDomain {
 
-    private static final long serialVersionUID=1L;
+    private static final long serialVersionUID = 1L;
 
     /**
      * 发布主键键
      */
-    private String publishId;
+    private String msgId;
 
     /**
      * openid
@@ -41,12 +31,12 @@ public class PublishHistory extends BaseDomain {
     /**
      * 发布类型
      */
-    private String publishType;
+    private String msgTableName;
 
     /**
      * 发布标题
      */
-    private String publishTitle;
+    private String msgTitle;
 
     /**
      * 消息类型主键

@@ -38,11 +38,11 @@ public class MsgDraftServiceImpl extends BaseServiceImpl<MsgDraftMapper, MsgDraf
 
 
     @Override
-    public void saveOrUpdateDraft(String userName, MessageDTO update, String messageType) {
-        int count = iBaseRepository.removeByUserNameAndMsgId(userName, update.getId(), messageType);
+    public void saveOrUpdateDraft(String userName, MessageDTO update, String msgTableName) {
+        int count = iBaseRepository.removeByMsgTableNameAndMsgId(userName, update.getId(), msgTableName);
         if (count == 0) {
             MsgDraftDTO msgDraftDTO = new MsgDraftDTO();
-            msgDraftDTO.setMessageType("message");
+            msgDraftDTO.setMsgTableName("message");
             msgDraftDTO.setMsgId(update.getId());
             msgDraftDTO.setMsgTitle(update.getTitle());
             msgDraftDTO.setMsgTypeId(update.getMsgTypeId());

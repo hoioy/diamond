@@ -33,7 +33,7 @@ public class MsgCollectDTO  extends BaseDTO implements Serializable {
     private String openid;
 
     @ApiModelProperty(value = "消息类别用来区分不同业务")
-    private String messageType;
+    private String msgTableName;
 
     @ApiModelProperty(value = "消息标题")
     private String msgTitle;

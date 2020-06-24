@@ -9,14 +9,14 @@ import com.hoioy.diamond.common.util.CommonMybatisPageUtil;
 import com.hoioy.diamond.common.util.CommonMybatisPageUtil2;
 import com.hoioy.diamond.common.util.CommonSecurityUtils;
 import com.hoioy.jiayin.domain.Message;
+import com.hoioy.jiayin.domain.MsgPublished;
 import com.hoioy.jiayin.domain.MsgType;
-import com.hoioy.jiayin.domain.PublishHistory;
 import com.hoioy.jiayin.dto.MessageDTO;
 import com.hoioy.jiayin.dto.MessagePageDTO;
 import com.hoioy.jiayin.mapper.MessageMapper;
 import com.hoioy.jiayin.mapper.MsgCountMapper;
 import com.hoioy.jiayin.mapper.MsgTypeMapper;
-import com.hoioy.jiayin.mapper.PublishHistoryMapper;
+import com.hoioy.jiayin.mapper.MsgPublishedMapper;
 import com.hoioy.jiayin.service.IMessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,7 +42,7 @@ public class MessageServiceImpl extends BaseServiceImpl<MessageMapper, Message, 
     @Autowired
     private MsgTypeMapper msgTypeMapper;
     @Autowired
-    private PublishHistoryMapper publishHistoryMapper;
+    private MsgPublishedMapper msgPublishedMapper;
 
     @Override
     public PageDTO getPage(PageDTO pageDTO) throws BaseException {
@@ -57,12 +57,12 @@ public class MessageServiceImpl extends BaseServiceImpl<MessageMapper, Message, 
     public MessageDTO update(MessageDTO dto) throws BaseException {
         MessageDTO update = super.update(dto);
         String userName = CommonSecurityUtils.getCurrentLogin();
-        PublishHistory publishHistory = new PublishHistory();
-        publishHistory.setPublishTitle(dto.getTitle());
-        publishHistory.setPublishId(dto.getId());
-        publishHistory.setMsgTypeId(dto.getMsgTypeId());
-        publishHistory.setPublishType("msg");
-        publishHistoryMapper.updateByPubilshId(publishHistory);
+        MsgPublished msgPublished = new MsgPublished();
+        msgPublished.setMsgTitle(dto.getTitle());
+        msgPublished.setMsgId(dto.getId());
+        msgPublished.setMsgTypeId(dto.getMsgTypeId());
+        msgPublished.setMsgTableName("msg");
+        msgPublishedMapper.updateByPubilshId(msgPublished);
         return update;
     }
 
