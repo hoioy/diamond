@@ -6,6 +6,4 @@ import com.hoioy.jiayin.dto.MsgCountDTO;
 
 public interface IMsgCountService<D extends CommonDomain>  extends IBaseService<MsgCountDTO,D> {
 
-
-
 }

@@ -6,6 +6,4 @@ import com.hoioy.jiayin.dto.MsgHistoryDTO;
 
 public interface IMsgHistoryService<D extends CommonDomain>  extends IBaseService<MsgHistoryDTO,D> {
 
-
-
 }

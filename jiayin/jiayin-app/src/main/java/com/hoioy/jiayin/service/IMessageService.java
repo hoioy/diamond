@@ -6,5 +6,4 @@ import com.hoioy.jiayin.dto.MessageDTO;
 
 public interface IMessageService<D extends CommonDomain>  extends IBaseService<MessageDTO,D> {
 
-
 }

@@ -6,6 +6,4 @@ import com.hoioy.jiayin.dto.MsgCollectDTO;
 
 public interface IMsgCollectService<D extends CommonDomain>  extends IBaseService<MsgCollectDTO,D> {
 
-
-
 }
