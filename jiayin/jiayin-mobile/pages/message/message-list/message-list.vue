@@ -32,7 +32,7 @@
 		},
 		onReady() {
 			uni.setNavigationBarTitle({
-				title: this.selectedMsgType.typeName + '列表'
+				title: this.selectedMsgType.typeName + '信息列表'
 			});
 		}
 	}
