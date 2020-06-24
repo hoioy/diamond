@@ -16,14 +16,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Map;
 
-/**
- * <p>
- * 消息草稿 服务实现类
- * </p>
- *
- * @author 陈哲
- * @since 2020-04-19
- */
 @Service
 public class MsgDraftServiceImpl extends BaseServiceImpl<MsgDraftMapper, MsgDraft, MsgDraftDTO> implements IMsgDraftService<MsgDraft> {
 
@@ -35,7 +27,6 @@ public class MsgDraftServiceImpl extends BaseServiceImpl<MsgDraftMapper, MsgDraf
         PageDTO resultPage = CommonMybatisPageUtil2.getInstance().iPageToPageDTO(pageList, MsgDraftDTO.class);
         return resultPage;
     }
-
 
     @Override
     public void saveOrUpdateDraft(String userName, MessageDTO update, String msgTableName) {

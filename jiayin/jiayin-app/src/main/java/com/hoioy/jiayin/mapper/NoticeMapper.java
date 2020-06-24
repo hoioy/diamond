@@ -11,8 +11,5 @@ import org.apache.ibatis.annotations.Param;
 
 public interface NoticeMapper extends IBaseMapper<Notice> {
 
-    /**
-     *  分页
-     */
     IPage<Notice> selectPage(@Param("page") Page page, @Param("noticeDTO") NoticeDTO noticeDTO);
 }

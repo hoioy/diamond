@@ -14,26 +14,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- * <p>
- * 消息次数 前端控制器
- * </p>
- *
- * @author 陈哲
- * @since 2020-04-19
- */
 @Api(tags = "消息次数接口")
 @RestController
 @RequestMapping("/jiayin/msgCount")
 public class MsgCountController extends BaseController<IMsgCountService, MsgCountDTO> {
-    @Autowired
-    private IMsgCountService msgCountService;
-
-
     @ApiOperation(value = "分页", notes = "分页")
     @PostMapping("/page")
     public ResultDTO page(@RequestBody PageDTO<MsgCountDTO> pageDTO) throws BaseException {
-        PageDTO page = msgCountService.getPage(pageDTO);
+        PageDTO page = iBaseService.getPage(pageDTO);
         return new ResultDTO(page);
     }
 

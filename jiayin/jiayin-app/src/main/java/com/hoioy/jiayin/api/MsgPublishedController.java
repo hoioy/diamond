@@ -18,14 +18,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/jiayin/msgPublished")
 public class MsgPublishedController extends BaseController<IMsgPublishedService, MsgPublishedDTO> {
-    @Autowired
-    private IMsgPublishedService publishedService;
-
 
     @ApiOperation(value = "分页", notes = "分页")
     @PostMapping("/page")
     public ResultDTO page(@RequestBody PageDTO<MsgPublishedDTO> pageDTO) throws BaseException {
-        PageDTO page = publishedService.getPage(pageDTO);
+        PageDTO page = iBaseService.getPage(pageDTO);
         return new ResultDTO(page);
     }
 }

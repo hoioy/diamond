@@ -14,14 +14,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-/**
- * <p>
- * 消息类型 服务实现类
- * </p>
- *
- * @author 陈哲
- * @since 2020-04-19
- */
 @Service
 public class MsgTypeServiceImpl extends BaseTreeServiceImpl<MsgTypeMapper, MsgType, MsgTypeDTO> implements IMsgTypeService<MsgType> {
 

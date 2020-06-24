@@ -12,26 +12,12 @@ import com.hoioy.jiayin.dto.MessageDTO;
 import com.hoioy.jiayin.dto.MsgPublishedDTO;
 import com.hoioy.jiayin.mapper.MsgPublishedMapper;
 import com.hoioy.jiayin.service.IMsgPublishedService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
 
-/**
- * <p>
- * 服务实现类
- * </p>
- *
- * @author 陈哲
- * @since 2020-05-21
- */
 @Service
 public class MsgPublishedServiceImpl extends BaseServiceImpl<MsgPublishedMapper, MsgPublished, MsgPublishedDTO> implements IMsgPublishedService<MsgPublished> {
-
-    @Autowired
-    private MsgPublishedMapper msgPublishedMapper;
-
-
     @Override
     public PageDTO getPage(PageDTO<MsgPublishedDTO> pageDTO) throws BaseException {
         Page page = CommonMybatisPageUtil.getPage(pageDTO);
@@ -43,7 +29,7 @@ public class MsgPublishedServiceImpl extends BaseServiceImpl<MsgPublishedMapper,
 
     @Override
     public void saveOrUpdateDraft(String userName, MessageDTO update, String msgTableName) {
-        int count = msgPublishedMapper.updatePublished(userName, update, msgTableName);
+        int count = iBaseRepository.updatePublished(userName, update, msgTableName);
         if (count == 0) {
             MsgPublishedDTO msgPublished = new MsgPublishedDTO();
             msgPublished.setOpenid(userName);

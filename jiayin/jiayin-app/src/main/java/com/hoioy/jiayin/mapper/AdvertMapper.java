@@ -9,8 +9,5 @@ import org.apache.ibatis.annotations.Param;
 
 public interface AdvertMapper extends IBaseMapper<Advert> {
 
-    /**
-     * 分页
-     */
     IPage<Advert> selectPage(@Param("page") Page page, @Param("advertDTO") AdvertDTO advertDTO);
 }

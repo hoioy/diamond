@@ -14,29 +14,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- * <p>
- * 观看历史 前端控制器
- * </p>
- *
- * @author 陈哲
- * @since 2020-04-19
- */
 @Api(tags = "观看历史接口")
 @RestController
 @RequestMapping("/jiayin/msgHistory")
 public class MsgHistoryController extends BaseController<IMsgHistoryService, MsgHistoryDTO> {
-    @Autowired
-    private IMsgHistoryService msgHistoryService;
-
 
     @ApiOperation(value = "分页", notes = "分页")
     @PostMapping("/page")
     public ResultDTO page(@RequestBody PageDTO<MsgHistoryDTO> pageDTO) throws BaseException {
-        PageDTO page = msgHistoryService.getPage(pageDTO);
+        PageDTO page = iBaseService.getPage(pageDTO);
         return new ResultDTO(page);
     }
-
-
 }
 

@@ -14,26 +14,14 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
-/**
- * <p>
- * 消息收藏 前端控制器
- * </p>
- *
- * @author 陈哲
- * @since 2020-04-19
- */
 @Api(tags = "消息收藏接口")
 @RestController
 @RequestMapping("/jiayin/msgCollect")
 public class MsgCollectController extends BaseController<IMsgCollectService, MsgCollectDTO> {
-    @Autowired
-    private IMsgCollectService msgCollectService;
-
-
     @ApiOperation(value = "分页", notes = "分页")
     @PostMapping("/page")
     public ResultDTO page(@RequestBody PageDTO<MsgCollectDTO> pageDTO) throws BaseException {
-        PageDTO page = msgCollectService.getPage(pageDTO);
+        PageDTO page = iBaseService.getPage(pageDTO);
         return new ResultDTO(page);
     }
 

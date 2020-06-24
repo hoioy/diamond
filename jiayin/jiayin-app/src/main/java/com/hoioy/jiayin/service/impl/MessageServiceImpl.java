@@ -15,8 +15,8 @@ import com.hoioy.jiayin.dto.MessageDTO;
 import com.hoioy.jiayin.dto.MessagePageDTO;
 import com.hoioy.jiayin.mapper.MessageMapper;
 import com.hoioy.jiayin.mapper.MsgCountMapper;
-import com.hoioy.jiayin.mapper.MsgTypeMapper;
 import com.hoioy.jiayin.mapper.MsgPublishedMapper;
+import com.hoioy.jiayin.mapper.MsgTypeMapper;
 import com.hoioy.jiayin.service.IMessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,19 +24,9 @@ import org.springframework.stereotype.Service;
 import java.util.Map;
 import java.util.Optional;
 
-/**
- * <p>
- * 消息表 服务实现类
- * </p>
- *
- * @author 陈哲
- * @since 2020-04-19
- */
 @Service
 public class MessageServiceImpl extends BaseServiceImpl<MessageMapper, Message, MessageDTO> implements IMessageService<Message> {
 
-    @Autowired
-    private MessageMapper messageMapper;
     @Autowired
     private MsgCountMapper msgCountMapper;
     @Autowired
@@ -48,7 +38,7 @@ public class MessageServiceImpl extends BaseServiceImpl<MessageMapper, Message, 
     public PageDTO getPage(PageDTO pageDTO) throws BaseException {
         Page page = CommonMybatisPageUtil.getPage(pageDTO);
         MessagePageDTO filters = (MessagePageDTO) pageDTO.getFilters();
-        IPage<Map> pageList = messageMapper.selectPage(page, filters);
+        IPage<Map> pageList = iBaseRepository.selectPage(page, filters);
         PageDTO resultPage = CommonMybatisPageUtil2.getInstance().iPageToPageDTO(pageList, MessagePageDTO.class);
         return resultPage;
     }

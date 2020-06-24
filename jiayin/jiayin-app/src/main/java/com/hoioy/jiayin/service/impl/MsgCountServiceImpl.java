@@ -13,26 +13,14 @@ import com.hoioy.jiayin.service.IMsgCountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-/**
- * <p>
- * 消息次数 服务实现类
- * </p>
- *
- * @author 陈哲
- * @since 2020-04-19
- */
 @Service
 public class MsgCountServiceImpl extends BaseServiceImpl<MsgCountMapper, MsgCount, MsgCountDTO> implements IMsgCountService<MsgCount> {
-
-    @Autowired
-    private MsgCountMapper msgCountMapper;
-
 
     @Override
     public PageDTO getPage(PageDTO pageDTO) throws BaseException {
         Page page = CommonMybatisPageUtil.getPage(pageDTO);
         MsgCount msgCount = getDomainFilterFromPageDTO(pageDTO);
-        IPage<MsgCount> messageIPage = msgCountMapper.selectPage(page, msgCount);
+        IPage<MsgCount> messageIPage = iBaseRepository.selectPage(page, msgCount);
         PageDTO returnPageDTO = CommonMybatisPageUtil.getPageDTO(messageIPage);
         return returnPageDTO;
     }

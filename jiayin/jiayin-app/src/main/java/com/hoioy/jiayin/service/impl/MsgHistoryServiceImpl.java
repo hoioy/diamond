@@ -13,26 +13,14 @@ import com.hoioy.jiayin.service.IMsgHistoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-/**
- * <p>
- * 观看历史 服务实现类
- * </p>
- *
- * @author 陈哲
- * @since 2020-04-19
- */
 @Service
 public class MsgHistoryServiceImpl extends BaseServiceImpl<MsgHistoryMapper, MsgHistory, MsgHistoryDTO> implements IMsgHistoryService<MsgHistory> {
-
-    @Autowired
-    private MsgHistoryMapper msgHistoryMapper;
-
 
     @Override
     public PageDTO getPage(PageDTO pageDTO) throws BaseException {
         Page page = CommonMybatisPageUtil.getPage(pageDTO);
         MsgHistory msgHistory = getDomainFilterFromPageDTO(pageDTO);
-        IPage<MsgHistory> messageIPage = msgHistoryMapper.selectPage(page, msgHistory);
+        IPage<MsgHistory> messageIPage = iBaseRepository.selectPage(page, msgHistory);
         PageDTO returnPageDTO = CommonMybatisPageUtil.getPageDTO(messageIPage);
         return returnPageDTO;
     }

@@ -8,23 +8,7 @@ import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
-/**
- * <p>
- * 消息类型 Mapper 接口
- * </p>
- *
- * @author 陈哲
- * @since 2020-04-19
- */
 public interface MsgTypeMapper extends IBaseTreeMapper<MsgType> {
 
-    /**
-     * 分页
-     */
     IPage<MsgType> selectPage(@Param("page") Page page, @Param("msgType") MsgType msgType);
-
-    List<MsgType> selectAllParent();
-
-    List<MsgType> selectChildrenByParentId(String parentId);
-
 }

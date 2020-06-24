@@ -4,6 +4,7 @@ import com.hoioy.jiayin.dto.MessageDTO;
 
 public interface IPublishService {
 
-    public MessageDTO saveDraft(MessageDTO dto);
-    public MessageDTO publish(MessageDTO dto);
+    MessageDTO saveDraft(MessageDTO dto);
+
+    MessageDTO publish(MessageDTO dto);
 }
