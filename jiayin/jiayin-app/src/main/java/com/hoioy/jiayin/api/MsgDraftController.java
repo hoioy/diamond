@@ -26,28 +26,11 @@ import javax.validation.Valid;
 @RequestMapping("/jiayin/msgDraft")
 public class MsgDraftController extends BaseController<IMsgDraftService, MsgDraftDTO> {
 
-   @Autowired
-    private IMessageService messageService;
-
     @ApiOperation(value = "分页", notes = "分页")
     @PostMapping("/page")
     public ResultDTO page(@RequestBody PageDTO<MsgDraftDTO> pageDTO) throws BaseException {
         PageDTO page = iBaseService.getPage(pageDTO);
         return new ResultDTO(page);
     }
-
-    @Valid
-    @ApiOperation(value = "发布消息")
-    @PostMapping("/publish")
-    public ResultDTO publish(@RequestBody MsgDraftDTO dto) throws BaseException {
-        MessageDTO messageDTO = new MessageDTO();
-        BeanUtils.copyProperties(dto, messageDTO);
-        MessageDTO save = (MessageDTO) messageService.save(messageDTO);
-        if(save!=null){
-            iBaseService.removeById(dto.getId());
-        }
-        return new ResultDTO(save);
-    }
-
 }
 

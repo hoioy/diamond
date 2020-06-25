@@ -27,18 +27,18 @@ public class MsgPublishedServiceImpl extends BaseServiceImpl<MsgPublishedMapper,
         return resultPage;
     }
 
-    @Override
-    public void saveOrUpdateDraft(String userName, MessageDTO update, String msgTableName) {
-        int count = iBaseRepository.updatePublished(userName, update, msgTableName);
-        if (count == 0) {
-            MsgPublishedDTO msgPublished = new MsgPublishedDTO();
-            msgPublished.setOpenid(userName);
-            msgPublished.setMsgTitle(update.getTitle());
-            msgPublished.setMsgId(update.getId());
-            msgPublished.setMsgTypeId(update.getMsgTypeId());
-            msgPublished.setMsgTableName("message");
-            save(msgPublished);
-        }
-    }
+//    @Override
+//    public void saveOrUpdatePublished(String userName, MessageDTO update, String msgTableName) {
+//        int count = iBaseRepository.updatePublished(userName, update, msgTableName);
+//        if (count == 0) {
+//            MsgPublishedDTO msgPublished = new MsgPublishedDTO();
+//            msgPublished.setOpenid(userName);
+//            msgPublished.setMsgTitle(update.getTitle());
+//            msgPublished.setMsgId(update.getId());
+//            msgPublished.setMsgTypeId(update.getMsgTypeId());
+//            msgPublished.setMsgTableName("message");
+//            save(msgPublished);
+//        }
+//    }
 
 }

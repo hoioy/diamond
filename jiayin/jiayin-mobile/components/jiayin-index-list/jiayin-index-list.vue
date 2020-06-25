@@ -2,25 +2,20 @@
 	<view>
 		<view hover-class="uni-list-cell-hover" v-for="(value, key) in pageDTO.list" :key="key">
 			<uni-swipe-action>
-				<uni-swipe-action-item :options="options2" :show="isOpened" :auto-close="false" @change="change" @click="bindClick">
-					<view class="message-list-item">
-						<view class="message-list-item-cell">
-							<view class="message-list-item-cell-body" @click="goMessageSaveFromDraft(value)">
-								<view class="message-list-item-cell-body-title">{{ value.title }}</view>
-								<view class="message-list-item-cell-body-content">{{ value.content }}</view>
-								<view class="message-list-item-cell-body-date">{{ value.createdDate }}</view>
-							</view>
-							<view class="message-list-item-cell-button">
-								<button class="message-list-item-cell-button-pulish" @tap="openPopupPublish(value)">发布</button>
-								<button class="message-list-item-cell-button-delete" @tap="openPopupDelete(value)">删除</button>
-							</view>
+				<uni-swipe-action-item :options="swipeOptions" :show="value.isOptionOpened" :auto-close="false" @change="bindOptionChange($event,value)"
+				 @click="bindOptionClick($event,value)">
+					<view class="index-list-item-cell" @tap="goMessageSaveFromDraft(value)">
+						<view class="index-list-item-cell-title">{{ value.msgTitle }}</view>
+						<view class="index-list-item-cell-content">
+							<view class="index-list-item-cell-content-type" :style="{backgroundColor: value.msgTypeColor}">{{ value.msgTypeName}}</view>
+							<view class="index-list-item-cell-content-date">{{ value.createdDate |formatDate}}</view>
 						</view>
 					</view>
 				</uni-swipe-action-item>
 			</uni-swipe-action>
 		</view>
 		<uni-load-more :status="loadMoreData.status" :icon-size="16" :content-text="loadMoreData.contentText" />
-		<uni-popup ref="showtip" type="center" :mask-click="false" @change="popupChange">
+		<uni-popup ref="showtip" type="center" :mask-click="false">
 			<view class="uni-tip">
 				<text class="uni-tip-title">{{showTipData.title}}</text>
 				<text class="uni-tip-content">{{showTipData.content}}</text>
@@ -38,10 +33,12 @@
 	import uniPopup from '@/components/uni-popup/uni-popup.vue';
 	import uniSwipeAction from '@/components/uni-swipe-action/uni-swipe-action.vue'
 	import uniSwipeActionItem from '@/components/uni-swipe-action-item/uni-swipe-action-item.vue'
-	
+
+	import dateFormat from '@/utils/date.js'
 	import * as messageAPI from '@/api/message.js';
 	import * as draftAPI from '@/api/draft.js';
-	
+	import * as publishAPI from '@/api/publish.js';
+
 	export default {
 		components: {
 			uniLoadMore,
@@ -51,21 +48,20 @@
 		},
 		data() {
 			return {
-				options2: [{
-					text: '取消',
+				swipeOptions: [{
+					text: '发布',
 					style: {
-						backgroundColor: '#007aff'
+						backgroundColor: '#FFD700',
+						color: '#2C405A'
 					}
 				}, {
-					text: '确认',
+					text: '删除',
 					style: {
-						backgroundColor: '#dd524d'
+						backgroundColor: '#dd6572'
 					}
 				}],
 				pageDTO: {
-					"filters": {
-						
-					},
+					"filters": {},
 					"list": [],
 					"page": 1,
 					"pageSize": 10,
@@ -95,6 +91,12 @@
 		created: function(event) {
 			this.initList();
 		},
+		filters: {
+			formatDate(date) {
+				let nDate = new Date(date);
+				return dateFormat.formatDate(nDate, "yyyy年MM月dd日 hh时mm分");
+			}
+		},
 		methods: {
 			pullDownRefresh() {
 				this.initList();
@@ -114,8 +116,11 @@
 			},
 			getList() {
 				this.loadMoreData.status = 'loading';
-				
+
 				draftAPI.getPage(this.pageDTO, (data) => {
+					data.data.list.forEach(item => {
+						item.isOptionOpened = false
+					})
 					if (this.reload) {
 						this.pageDTO.list = data.data.list;
 						this.loadMoreData.status = 'more';
@@ -131,60 +136,70 @@
 					uni.stopPullDownRefresh();
 				})
 			},
-			goMessageSaveFromDraft(e) {
+			goMessageSaveFromDraft(item) {
 				uni.navigateTo({
-					url: '../message-save/message-save?draftId=' + e.id
+					url: '../message-save/message-save?messageId=' + item.msgId
 				});
 			},
-			publishMessage(draftMsg) {
-				draftAPI.publishMessage(draftMsg, (data) => {
-					this.pageDTO.list = [];
-					this.getList();
-					uni.showToast({
-						duration: 2000,
-						title: '发布消息成功'
-					});
-				})
+			bindOptionChange(isOpened, value) {
+				if (isOpened) {
+					this.pageDTO.list.forEach(item => {
+						item.isOptionOpened = (item.id == value.id)
+					})
+				} else {
+					this.pageDTO.list.forEach(item => {
+						if (item.id == value.id) {
+							item.isOptionOpened = false
+						}
+					})
+				}
 			},
-			deleteMessage(draftMsg) {
-				draftAPI.deleteById(draftMsg.id, (data) => {
-					this.pageDTO.list = [];
-					this.getList();
-					uni.showToast({
-						duration: 2000,
-						title: '删除草稿成功'
-					});
-				})
-			},
-			popupChange(e) {
-				console.log('是否打开:' + e.show)
-			},
-			openPopupPublish(draftItem) {
-				this.showTipData.title = ''
-				this.showTipData.content = '确定要发布此消息？'
-				this.showTipData.forWhich = 1
-				this.showTipData.currentDraftMsg = draftItem
-				this.$nextTick(() => {
-					this.$refs['showtip'].open()
-				})
-			},
-			openPopupDelete(draftItem) {
-				this.showTipData.title = ''
-				this.showTipData.content = '确定要删除此消息？'
-				this.showTipData.forWhich = 2
-				this.showTipData.currentDraftMsg = draftItem
-				this.$nextTick(() => {
-					this.$refs['showtip'].open()
-				})
+			bindOptionClick(e, value) {
+				switch (e.content.text) {
+					case '发布':
+						this.showTipData.title = ''
+						this.showTipData.content = '确定要发布此消息？'
+						this.showTipData.forWhich = 1
+						this.showTipData.currentDraftMsg = value
+						this.$nextTick(() => {
+							this.$refs['showtip'].open()
+						})
+						break;
+					case '删除':
+						this.showTipData.title = ''
+						this.showTipData.content = '确定要删除此消息？'
+						this.showTipData.forWhich = 2
+						this.showTipData.currentDraftMsg = value
+						this.$nextTick(() => {
+							this.$refs['showtip'].open()
+						})
+						break;
+				}
 			},
 			onSure() {
-				switch (this.showTipData.forWhich) {
+				const that = this
+				switch (that.showTipData.forWhich) {
 					case 1:
-						this.publishMessage(this.showTipData.currentDraftMsg);
-						break
+						messageAPI.findById(that.showTipData.currentDraftMsg.msgId, function(data) {
+							publishAPI.publish(data.data, (publishData) => {
+								that.initList();
+								uni.showToast({
+									duration: 2000,
+									title: '发布消息成功'
+								});
+							})
+						})
+
+						break;
 					case 2:
-						this.deleteMessage(this.showTipData.currentDraftMsg);
-						break
+						draftAPI.deleteById(that.showTipData.currentDraftMsg.id, (data) => {
+							that.initList();
+							uni.showToast({
+								duration: 2000,
+								title: '删除草稿成功'
+							});
+						})
+						break;
 				}
 				this.$refs['showtip'].close()
 			},
@@ -196,58 +211,43 @@
 </script>
 
 <style lang="scss">
-	.message-list-item {
+	.uni-list-cell-hover {
+		width: 750rpx;
+	}
+
+	.index-list-item-cell {
 		display: flex;
 		flex-direction: column;
-		border-bottom: 1px solid #B2B2B2;
+		margin-top: $uni-spacing-col-base;
+		margin-bottom: $uni-spacing-col-base;
+		box-shadow: 1px 1px 1px 1px $uni-bg-color-grey;
+		border-radius: $uni-border-radius-base;
+		width: 100%;
 
-		.message-list-item-cell {
+		.index-list-item-cell-title {
+			font-size: $uni-font-size-lg;
+			color: $uni-color-title;
+			padding-left: $uni-spacing-row-base;
+		}
+
+		.index-list-item-cell-content {
 			display: flex;
+			justify-content: space-between;
+			margin-top: $uni-spacing-col-base;
+			padding-left: $uni-spacing-row-base;
 
-			/* flex-wrap: nowrap; */
-			.message-list-item-cell-body {
-				margin-top: 10px;
-				margin-bottom: 10px;
-				display: flex;
-				flex-direction: column;
-				width: 600rpx;
-
-				.message-list-item-cell-body-title {
-					font-size: 17pt;
-					color: #000000;
-					padding-left: 15px;
-				}
-
-				.message-list-item-cell-body-content {
-					margin-top: 8px;
-					font-size: 14pt;
-					color: #353535;
-					padding-left: 15px;
-					padding-right: 15px;
-					white-space: nowrap;
-					overflow: hidden;
-					text-overflow: ellipsis;
-				}
-
-				.message-list-item-cell-body-date {
-					font-size: 11pt;
-					color: #888888;
-					padding-left: 15px;
-					padding-right: 15px;
-				}
+			.index-list-item-cell-content-type {
+				color: $uni-text-color-inverse;
+				padding-left: $uni-spacing-row-sm;
+				padding-right: $uni-spacing-row-sm;
+				padding-top: $uni-spacing-col-sm;
+				padding-bottom: $uni-spacing-col-sm;
+				border-radius: $uni-border-radius-lg;
 			}
 
-			.message-list-item-cell-button {
-				color: #888888;
-
-				.message-list-item-cell-button-pulish {
-					margin-bottom: 10px;
-				}
-
-				.message-list-item-cell-button-delete {
-					margin-bottom: 10px;
-				}
-
+			.index-list-item-cell-content-date {
+				color: $uni-text-color-grey;
+				padding-right: $uni-spacing-row-base;
 			}
 		}
 	}

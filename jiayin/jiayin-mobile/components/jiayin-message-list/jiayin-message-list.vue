@@ -258,8 +258,8 @@
 
 					.message-list-item-type {
 						color: $uni-text-color-inverse;
-						padding-left: $uni-spacing-row-base;
-						padding-right: $uni-spacing-row-base;
+						padding-left: $uni-spacing-row-sm;
+						padding-right: $uni-spacing-row-sm;
 						padding-top: $uni-spacing-col-sm;
 						padding-bottom: $uni-spacing-col-sm;
 						border-radius: $uni-border-radius-lg;

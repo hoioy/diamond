@@ -1,19 +1,20 @@
 <template>
 	<view class="content">
 		<view class="input-group">
-				<view class="input-row border">
-					<text class="title">消息类型：</text>
-					<view>{{msgType.typeName}}</view>
-				</view>
+			<view class="input-row border">
+				<text class="title">消息类型：</text>
+				<view>{{msgType.typeName}}</view>
+			</view>
 		</view>
 		<view class="input-group">
-                    <picker :disabled="msgTypeChildrenDisabled" @change="bindPickerChange" :value="msgTypeChildren.selectedIndex" :range="msgTypeChildren.types" range-key="typeName" mode="selector">
-						<view class="input-row border">
-							<text class="title">具体分类：</text>
-							<view class="uni-input">{{msgTypeChildren.types[msgTypeChildren.selectedIndex].typeName}}</view>
-						</view>
-                    </picker>
-        </view>
+			<picker :disabled="msgTypeChildrenDisabled" @change="bindPickerChange" :value="msgTypeChildren.selectedIndex" :range="msgTypeChildren.types"
+			 range-key="typeName" mode="selector">
+				<view class="input-row border">
+					<text class="title">具体分类：</text>
+					<view class="uni-input">{{msgTypeChildren.types[msgTypeChildren.selectedIndex].typeName}}</view>
+				</view>
+			</picker>
+		</view>
 		<view class="input-group">
 			<view class="input-row border">
 				<text class="title">标题：</text>
@@ -79,10 +80,10 @@
 		data() {
 			return {
 				msgType: {
-						id: '',
-						typeName: '',
-						money: '',
-						expiryDate: null
+					id: '',
+					typeName: '',
+					money: '',
+					expiryDate: null
 				},
 				msgTypeChildrenDisabled: false,
 				msgTypeChildren: {
@@ -131,27 +132,27 @@
 			};
 		},
 		onLoad: function(option) { //option为object类型，会序列化上个页面传递的参数
-		console.log(option)
+			console.log(option)
 			const that = this;
 			if (option.messageId) {
-				this.msgTypeChildrenDisabled=true
-			    this.initMessage(option.messageId)
-				console.log(option.msgTypeChildrenId+'   111111111111111111111111')
+				this.msgTypeChildrenDisabled = true
+				this.initMessage(option.messageId)
+				console.log(option.msgTypeChildrenId + '   111111111111111111111111')
 				this.findParentByChildId(option.msgTypeChildrenId)
 				// this.initMsgTypeChildren(option.msgTypeId)
 				this.findMsgTypeChildrenByMsgTypeId(option.msgTypeChildrenId)
 			}
 
 			if (option.msgTypeId) {
-	            this.initMsgType(option.msgTypeId)
+				this.initMsgType(option.msgTypeId)
 				this.initMsgTypeChildren(option.msgTypeId)
 			}
 		},
 		methods: {
-			     bindPickerChange: function(e) {
-			            console.log('picker发送选择改变，携带值为', e.target.value)
-			            this.msgTypeChildren.selectedIndex = e.target.value
-			        },
+			bindPickerChange: function(e) {
+				console.log('picker发送选择改变，携带值为', e.target.value)
+				this.msgTypeChildren.selectedIndex = e.target.value
+			},
 			onFocus(type) {
 				this.validateStatus[type] = false
 			},
@@ -190,28 +191,28 @@
 
 				return false;
 			},
-			
-			findParentByChildId(childId){
+
+			findParentByChildId(childId) {
 				msgTypeAPI.findParentByChildId(childId, (msgTypeparentData) => {
 					this.msgType = msgTypeparentData.data
 				})
 			},
-			initMessage(messageId){
+			initMessage(messageId) {
 				messageAPI.findById(messageId, (data) => {
 					this.message = data.data;
 				})
 			},
-			findMsgTypeChildrenByMsgTypeId(msgTypeChildrenId){
+			findMsgTypeChildrenByMsgTypeId(msgTypeChildrenId) {
 				msgTypeAPI.findById(msgTypeChildrenId, (msgTypeChildrenData) => {
 					this.msgTypeChildren.types = [msgTypeChildrenData.data]
 				})
 			},
-			initMsgType(msgTypeId){
+			initMsgType(msgTypeId) {
 				msgTypeAPI.findById(msgTypeId, (msgTypeData) => {
 					this.msgType = msgTypeData.data
 				})
 			},
-			initMsgTypeChildren(msgTypeId){
+			initMsgTypeChildren(msgTypeId) {
 				msgTypeAPI.selectChildren(msgTypeId, (msgTypeChildrenData) => {
 					this.msgTypeChildren.types = msgTypeChildrenData.data
 				})
@@ -219,7 +220,7 @@
 			saveMessage() {
 				debugger
 				if (this.prepareMessage()) {
-					this.message.status=1
+					this.message.status = 1
 					publishAPI.publish(this.message, (data) => {
 						uni.showToast({
 							duration: 2000,
@@ -231,14 +232,14 @@
 			},
 			saveDraftMessage() {
 				if (this.prepareMessage()) {
-					    this.message.status=3
-						publishAPI.saveDraft(this.message, (data) => {
-							uni.navigateBack()
-							uni.showToast({
-								duration: 2000,
-								title: '保存草稿成功'
-							});
-						})
+					this.message.status = 3
+					publishAPI.saveDraft(this.message, (data) => {
+						uni.navigateBack()
+						uni.showToast({
+							duration: 2000,
+							title: '保存草稿成功'
+						});
+					})
 				}
 			}
 		}
@@ -249,12 +250,13 @@
 	.validate-text {
 		color: #ff0000;
 	}
+
 	m-input {
 		width: 100%;
 		display: flex;
 		flex: 1;
 	}
-	
+
 	.content {
 		display: flex;
 		flex: 1;
@@ -262,13 +264,13 @@
 		background-color: #efeff4;
 		padding: 10px;
 	}
-	
+
 	.input-group {
 		background-color: #ffffff;
 		margin-top: 20px;
 		position: relative;
 	}
-	
+
 	.input-group::before {
 		position: absolute;
 		right: 0;
@@ -280,7 +282,7 @@
 		transform: scaleY(.5);
 		background-color: #c8c7cc;
 	}
-	
+
 	.input-group::after {
 		position: absolute;
 		right: 0;
@@ -292,7 +294,7 @@
 		transform: scaleY(.5);
 		background-color: #c8c7cc;
 	}
-	
+
 	.input-row {
 		display: flex;
 		flex-direction: row;
@@ -300,11 +302,11 @@
 		font-size: 18px;
 		line-height: 40px;
 	}
-	
+
 	.input-row .title {
 		padding-left: 15px;
 	}
-	
+
 	.input-row.border::after {
 		position: absolute;
 		right: 0;
@@ -316,19 +318,20 @@
 		transform: scaleY(.5);
 		background-color: #c8c7cc;
 	}
-	
-	.uni-textarea{
-		width:100%;
-		background:#FFF;
+
+	.uni-textarea {
+		width: 100%;
+		background: #FFF;
 	}
-	.uni-textarea textarea{
-		width:96%;
-		padding:18rpx 2%;
-		line-height:1.6;
-		font-size:28rpx;
-		height:150rpx;
+
+	.uni-textarea textarea {
+		width: 96%;
+		padding: 18rpx 2%;
+		line-height: 1.6;
+		font-size: 28rpx;
+		height: 150rpx;
 	}
-	
+
 	.btn-row {
 		margin-top: 25px;
 		padding: 10px;

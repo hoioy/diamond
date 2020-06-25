@@ -50,13 +50,14 @@ public class PublishServiceImpl implements IPublishService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public MessageDTO publish(MessageDTO dto) {
-        String userName = CommonSecurityUtils.getCurrentLogin();
-        dto.setOpenid(userName);
+        String loginName = CommonSecurityUtils.getCurrentLogin();
+        dto.setStatus(1);
+        dto.setOpenid(loginName);
         //如果没有id代表这条数据在草稿表里没有
         if (StrUtil.isBlank(dto.getId())) {
             MessageDTO save = (MessageDTO) iMessageService.save(dto);
             MsgPublishedDTO msgPublished = new MsgPublishedDTO();
-            msgPublished.setOpenid(userName);
+            msgPublished.setOpenid(loginName);
             msgPublished.setMsgTitle(dto.getTitle());
             msgPublished.setMsgId(save.getId());
             msgPublished.setMsgTypeId(dto.getMsgTypeId());
@@ -66,9 +67,16 @@ public class PublishServiceImpl implements IPublishService {
         } else {
             MessageDTO update = (MessageDTO) iMessageService.update(dto);
             //删除草稿中的这条记录
-            iMsgDraftService.saveOrUpdateDraft(userName, update, "message");
+            iMsgDraftService.saveOrUpdateDraft(loginName, update, "message");
+
             //在我的发布中新增这条记录
-            iMsgPublishedService.saveOrUpdateDraft(userName, update, "message");
+            MsgPublishedDTO msgPublished = new MsgPublishedDTO();
+            msgPublished.setOpenid(loginName);
+            msgPublished.setMsgTitle(update.getTitle());
+            msgPublished.setMsgId(update.getId());
+            msgPublished.setMsgTypeId(update.getMsgTypeId());
+            msgPublished.setMsgTableName("message");
+            iMsgPublishedService.save(msgPublished);
             return null;
         }
     }

@@ -45,7 +45,7 @@
         </if>
     </select>
 
-    <delete id="removeByMsgTableNameAndMsgId"   >
-        DELETE FROM jiayin_msg_draft WHERE openid=#{openid} and msg_id=#{msgId} and msg_table_name =#{msgTableName} ;
+    <delete id="removeByMsgTableNameAndMsgId">
+        DELETE FROM jiayin_msg_draft WHERE openid=#{openid} and msg_id=#{msgId} and msg_table_name =#{msgTableName}
     </delete>
 </mapper>

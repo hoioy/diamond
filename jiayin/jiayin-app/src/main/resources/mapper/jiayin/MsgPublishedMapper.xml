@@ -61,11 +61,11 @@
         </set>
         where msg_id = #{msgId}
     </update>
-    <update id="updatePublished">
-        update jiayin_msg_published
-        <set>
-            <if test="msgTitle != null and msgTitle != ''">msg_title = #{msgTitle},</if>
-        </set>
-        where msg_id = #{dto.id} and msg_table_name=#{msgTableName} and openid=#{openid}
-    </update>
+<!--    <update id="updatePublished">-->
+<!--        update jiayin_msg_published-->
+<!--        <set>-->
+<!--            <if test="msgTitle != null and msgTitle != ''">msg_title = #{msgTitle},</if>-->
+<!--        </set>-->
+<!--        where msg_id = #{dto.id} and msg_table_name=#{msgTableName} and openid=#{openid}-->
+<!--    </update>-->
 </mapper>

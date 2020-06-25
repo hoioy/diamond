@@ -1,14 +1,10 @@
 package com.hoioy.jiayin.api;
 
-import com.hoioy.diamond.common.api.BaseController;
-import com.hoioy.diamond.common.dto.PageDTO;
 import com.hoioy.diamond.common.dto.ResultDTO;
 import com.hoioy.diamond.common.exception.BaseException;
 import com.hoioy.jiayin.dto.MessageDTO;
-import com.hoioy.jiayin.dto.MessagePageDTO;
 import com.hoioy.jiayin.service.IPublishService;
 import io.swagger.annotations.ApiOperation;
-import org.omg.CORBA.PRIVATE_MEMBER;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

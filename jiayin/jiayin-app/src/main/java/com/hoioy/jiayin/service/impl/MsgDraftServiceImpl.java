@@ -11,13 +11,18 @@ import com.hoioy.jiayin.domain.MsgDraft;
 import com.hoioy.jiayin.dto.MessageDTO;
 import com.hoioy.jiayin.dto.MsgDraftDTO;
 import com.hoioy.jiayin.mapper.MsgDraftMapper;
+import com.hoioy.jiayin.service.IMessageService;
 import com.hoioy.jiayin.service.IMsgDraftService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
 
 @Service
 public class MsgDraftServiceImpl extends BaseServiceImpl<MsgDraftMapper, MsgDraft, MsgDraftDTO> implements IMsgDraftService<MsgDraft> {
+
+    @Autowired
+    private IMessageService iMessageService;
 
     @Override
     public PageDTO getPage(PageDTO<MsgDraftDTO> pageDTO) throws BaseException {
@@ -26,6 +31,14 @@ public class MsgDraftServiceImpl extends BaseServiceImpl<MsgDraftMapper, MsgDraf
         IPage<Map> pageList = iBaseRepository.selectPage(page, filters);
         PageDTO resultPage = CommonMybatisPageUtil2.getInstance().iPageToPageDTO(pageList, MsgDraftDTO.class);
         return resultPage;
+    }
+
+    @Override
+    public boolean removeById(String id) throws BaseException {
+        MsgDraftDTO draftDTO = findById(id).get();
+        Boolean rD = super.removeById(id);
+        Boolean mD = iMessageService.removeById(draftDTO.getMsgId());
+        return rD && mD;
     }
 
     @Override

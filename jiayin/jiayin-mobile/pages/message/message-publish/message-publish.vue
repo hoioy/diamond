@@ -32,6 +32,9 @@
 		},
 		onShow() {
 			this.initMsgType();
+			if (this.$refs.jiayinIndexList) {
+				this.$refs.jiayinIndexList.initList();
+			}
 		},
 		onPullDownRefresh() {
 			this.$refs.jiayinIndexList.pullDownRefresh();

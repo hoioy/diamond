@@ -16,28 +16,10 @@ export function findById(id,onSuccess) {
 	})
 }
 
-export function addMessage(data,onSuccess) {
-	return request({
-		url: 'jiayin/msgDraft',
-		method: 'POST',
-		data: data,
-		onSuccess: onSuccess
-	})
-}
-
 export function deleteById(id,onSuccess) {
 	request({
 		url: 'jiayin/msgDraft/'+id,
 		method: 'delete',
-		onSuccess: onSuccess
-	})
-}
-
-export function updateMessage(data,onSuccess) {
-	return request({
-		url: 'jiayin/msgDraft',
-		method: 'PUT',
-		data: data,
 		onSuccess: onSuccess
 	})
 }
