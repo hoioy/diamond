@@ -442,8 +442,8 @@ SET FOREIGN_KEY_CHECKS = 1;
 -- ----------------------------
 -- Table structure for notice
 -- ----------------------------
-DROP TABLE IF EXISTS `notice`;
-CREATE TABLE `notice`  (
+DROP TABLE IF EXISTS `jiayin_notice`;
+CREATE TABLE `jiayin_notice`  (
   `id` char(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '主键',
   `flag` int(11) NULL DEFAULT NULL COMMENT '删除标记',
   `created_by` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建人',
@@ -459,8 +459,8 @@ SET FOREIGN_KEY_CHECKS = 1;
 -- ----------------------------
 -- Table structure for advert
 -- ----------------------------
-DROP TABLE IF EXISTS `advert`;
-CREATE TABLE `advert`  (
+DROP TABLE IF EXISTS `jiayin_advert`;
+CREATE TABLE `jiayin_advert`  (
   `id` char(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '主键',
   `flag` int(11) NULL DEFAULT NULL COMMENT '删除标记',
   `created_by` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建人',
