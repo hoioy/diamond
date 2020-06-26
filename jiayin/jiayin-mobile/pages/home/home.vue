@@ -19,8 +19,7 @@
 		</view>
 		<uni-notice-bar v-if="notice!=''" class="notice-bar" :scrollable="true" :single="true" :text="notice" />
 		<view class="list-container">
-			<jiayinMessageList ref="jiayinMessageList" :msgTypetId="selectedMsgType.id" 
-			:msgTypeName="selectedMsgType.typeName"></jiayinMessageList>
+			<jiayinMessageList ref="jiayinMessageList" :msgTypetId="selectedMsgType.id" :msgTypeName="selectedMsgType.typeName"></jiayinMessageList>
 		</view>
 	</view>
 </template>
@@ -42,29 +41,46 @@
 				msgTypeList: [],
 				advertList: [],
 				notice: "",
-				selectedMsgType:{
-					id:'',
-					typeName:''
+				selectedMsgType: {
+					id: '',
+					typeName: ''
 				}
 			}
 		},
 		onShow() {
-			this.initMsgType()
-			this.initAdvertAPI()
-			this.initNoticeAPI()
+			this.init(false)
 		},
 		onReady() {
 			if (this.$refs.jiayinMessageList) {
-				this.$refs.jiayinMessageList.init(this.selectedMsgType.id,this.selectedMsgType.typeName);
+				this.$refs.jiayinMessageList.init(this.selectedMsgType.id, this.selectedMsgType.typeName);
 			}
 		},
 		onPullDownRefresh() {
+			this.init(true)
 			this.$refs.jiayinMessageList.pullDownRefresh();
 		},
 		onReachBottom() {
 			this.$refs.jiayinMessageList.reachBottom();
 		},
 		methods: {
+			init(isAll) {
+				if (isAll) {
+					this.initMsgType()
+					this.initAdvertAPI()
+					this.initNoticeAPI()
+				} else {
+					//为了减少前后端交互，不进行全量刷新
+					if (this.msgTypeList.length <= 0) {
+						this.initMsgType()
+					}
+					if (this.advertList.length <= 0) {
+						this.initAdvertAPI()
+					}
+					if (this.notice == '') {
+						this.initNoticeAPI()
+					}
+				}
+			},
 			initNoticeAPI() {
 				const that = this
 				noticeAPI.getPage({
@@ -74,6 +90,7 @@
 					"sorts": [],
 				}, (data) => {
 					if (data.data.list) {
+						that.notice = ''
 						data.data.list.forEach(n => {
 							that.notice += " " + n.content
 						})
@@ -138,8 +155,10 @@
 		flex-wrap: wrap;
 		box-shadow: 1px 1px 5px $uni-border-color;
 		border-radius: $uni-border-radius-lg;
+
 		.nav-container-cell {
 			width: 25%;
+
 			.nav-container-item {
 				display: flex;
 				flex-direction: column;
@@ -155,8 +174,8 @@
 			}
 		}
 	}
-	
-	.list-container{
+
+	.list-container {
 		width: 100%;
 	}
 </style>
