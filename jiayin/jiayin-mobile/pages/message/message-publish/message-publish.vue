@@ -36,6 +36,12 @@
 				this.$refs.jiayinIndexList.initList();
 			}
 		},
+		onReady() {
+			debugger
+			if (this.$refs.jiayinIndexList) {
+				this.$refs.jiayinIndexList.initList();
+			}
+		},
 		onPullDownRefresh() {
 			this.$refs.jiayinIndexList.pullDownRefresh();
 		},

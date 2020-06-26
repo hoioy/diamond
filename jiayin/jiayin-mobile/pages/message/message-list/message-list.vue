@@ -1,7 +1,6 @@
 <template>
 	<view class="list-container">
-		<jiayinMessageList ref="jiayinMessageList" :msgTypeId="selectedMsgType.id" :msgTypeName="selectedMsgType.typeName"
-		 :fixed="true" top="70rpx" listMarginTop="70rpx"></jiayinMessageList>
+		<jiayinMessageList ref="jiayinMessageSubList"></jiayinMessageList>
 	</view>
 </template>
 
@@ -21,10 +20,10 @@
 			}
 		},
 		onPullDownRefresh() {
-			this.$refs.jiayinMessageList.pullDownRefresh();
+			this.$refs.jiayinMessageSubList.pullDownRefresh();
 		},
 		onReachBottom() {
-			this.$refs.jiayinMessageList.reachBottom();
+			this.$refs.jiayinMessageSubList.reachBottom();
 		},
 		onLoad(option) {
 			this.selectedMsgType.id = option.msgTypeId
@@ -34,10 +33,16 @@
 			uni.setNavigationBarTitle({
 				title: this.selectedMsgType.typeName + '信息列表'
 			});
+			
+			if (this.$refs.jiayinMessageSubList) {
+				this.$refs.jiayinMessageSubList.init(this.selectedMsgType.id,this.selectedMsgType.typeName);
+			}
 		}
 	}
 </script>
 
 <style>
-
+	.list-container {
+		width: 100%
+	}
 </style>

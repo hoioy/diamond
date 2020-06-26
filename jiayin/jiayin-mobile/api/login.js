@@ -25,7 +25,7 @@ export function bindDiamondUaaUser(userInfo, onSuccess) {
 		onSuccess: onSuccess
 	})
 }
-//微信登录等OAuth2登录成功后做用户绑定
+
 export function weChatMiniAppLogin(appId, code, onSuccess) {
 	request({
 		url: 'wx/user/' + appId + "/login?code=" + code,

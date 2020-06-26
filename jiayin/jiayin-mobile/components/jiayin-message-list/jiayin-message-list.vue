@@ -55,25 +55,14 @@
 				default: function() {
 					return "0rpx"
 				}
-			},
-			msgTypeId: {
-				type: String,
-				default: function() {
-					return ""
-				}
-			},
-			msgTypeName: {
-				type: String,
-				default: function() {
-					return ""
-				}
 			}
 		},
 		data() {
 			return {
 				pageDTO: {
 					"filters": {
-						"msgTypeId": ""
+						"msgTypeId": "",
+						"msgTypeName": "",
 					},
 					"list": [],
 					"page": 1,
@@ -134,9 +123,7 @@
 			}
 		},
 		created: function(event) {
-			this.pageDTO.filters.msgTypeId = this.msgTypeId
-			this.initList();
-			this.initMsgType();
+			
 		},
 		methods: {
 			pullDownRefresh() {
@@ -147,14 +134,20 @@
 				this.pageDTO.page += 1;
 				this.getList();
 			},
+			init(msgTId,msgTName){
+				this.pageDTO.filters.msgTypeId = msgTId
+				this.pageDTO.filters.msgTypeName = msgTName
+				this.initMsgType();
+				this.initList();
+			},
 			initMsgType() {
 				var that = this;
 				that.jiayinFilterData.msgTypelistData = [{
-					title: '全部' + that.msgTypeName + '信息',
-					value: that.msgTypeId
+					title: '全部' + that.pageDTO.filters.msgTypeName + '信息',
+					value: that.pageDTO.filters.msgTypeId
 				}];
 
-				msgTypeAPI.selectChildren(this.msgTypeId, function(data) {
+				msgTypeAPI.selectChildren(that.pageDTO.filters.msgTypeId, function(data) {
 					if (data.data) {
 						data.data.forEach(item => {
 							that.jiayinFilterData.msgTypelistData.push({

@@ -48,10 +48,15 @@
 				}
 			}
 		},
-		onLoad() {
+		onShow() {
 			this.initMsgType()
 			this.initAdvertAPI()
 			this.initNoticeAPI()
+		},
+		onReady() {
+			if (this.$refs.jiayinMessageList) {
+				this.$refs.jiayinMessageList.init(this.selectedMsgType.id,this.selectedMsgType.typeName);
+			}
 		},
 		onPullDownRefresh() {
 			this.$refs.jiayinMessageList.pullDownRefresh();
@@ -113,6 +118,7 @@
 	}
 
 	.swiper {
+		width: 750rpx;
 		height: 375rpx;
 
 		.swiper-item {
@@ -132,7 +138,6 @@
 		flex-wrap: wrap;
 		box-shadow: 1px 1px 5px $uni-border-color;
 		border-radius: $uni-border-radius-lg;
-
 		.nav-container-cell {
 			width: 25%;
 			.nav-container-item {
@@ -149,5 +154,9 @@
 				.nav-container-item-name {}
 			}
 		}
+	}
+	
+	.list-container{
+		width: 100%;
 	}
 </style>

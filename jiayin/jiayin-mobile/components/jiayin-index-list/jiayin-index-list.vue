@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<view hover-class="uni-list-cell-hover" v-for="(value, key) in pageDTO.list" :key="key">
-			<uni-swipe-action>
+			<uni-swipe-action class="uni-swipe-action">
 				<uni-swipe-action-item :options="swipeOptions" :show="value.isOptionOpened" :auto-close="false" @change="bindOptionChange($event,value)"
 				 @click="bindOptionClick($event,value)">
 					<view class="index-list-item-cell" @tap="goMessageSaveFromDraft(value)">
@@ -89,7 +89,7 @@
 			};
 		},
 		created: function(event) {
-			this.initList();
+
 		},
 		filters: {
 			formatDate(date) {
@@ -215,14 +215,18 @@
 		width: 750rpx;
 	}
 
+	.uni-swipe-action {
+		box-shadow: 1px 1px 1px 1px $uni-bg-color-grey;
+		border-radius: $uni-border-radius-base;
+		margin-top: $uni-spacing-col-base;
+		margin-bottom: $uni-spacing-col-base;
+	}
+
 	.index-list-item-cell {
 		display: flex;
 		flex-direction: column;
-		margin-top: $uni-spacing-col-base;
-		margin-bottom: $uni-spacing-col-base;
-		box-shadow: 1px 1px 1px 1px $uni-bg-color-grey;
-		border-radius: $uni-border-radius-base;
 		width: 100%;
+		margin-top: $uni-spacing-col-base;
 
 		.index-list-item-cell-title {
 			font-size: $uni-font-size-lg;
