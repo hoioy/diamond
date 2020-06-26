@@ -9,6 +9,7 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 /**
@@ -57,4 +58,15 @@ public class MessageDTO extends BaseDTO implements Serializable {
 
     @ApiModelProperty(value = "联系电话")
     private String contactPhone;
+
+    @ApiModelProperty(value = "价格")
+    private String price;
+    @ApiModelProperty(value = "省")
+    private String province;
+    @ApiModelProperty(value = "市")
+    private String city;
+    @ApiModelProperty(value = "县")
+    private String country;
+    @ApiModelProperty(value = "村")
+    private String village;
 }

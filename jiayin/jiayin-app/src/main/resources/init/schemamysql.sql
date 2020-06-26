@@ -279,6 +279,10 @@ CREATE TABLE `web_logs`  (
 
 SET FOREIGN_KEY_CHECKS = 1;
 
+
+-- ----------------------------
+-- Table structure for jiayin_message
+-- ----------------------------
 DROP TABLE IF EXISTS `jiayin_message`;
 CREATE TABLE `jiayin_message`  (
   `id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '主键',
@@ -292,11 +296,17 @@ CREATE TABLE `jiayin_message`  (
   `title` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '标题',
   `msg_type_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '消息类型主键',
   `content` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '消息内容',
-  `views` int(11) NULL DEFAULT NULL COMMENT '浏览次数',
-  `status` int(11) NULL DEFAULT NULL COMMENT '(带交易 已完成)',
+  `views` int(0) NULL DEFAULT NULL COMMENT '浏览次数',
+  `status` int(0) NULL DEFAULT NULL COMMENT '(带交易 已完成)',
   `expare_time` date NULL DEFAULT NULL COMMENT '过期时间',
   `contacts` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '联系人',
-  `contact_phone` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '联系电话'
+  `contact_phone` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '联系电话',
+  `price` decimal(10, 2) NULL DEFAULT NULL COMMENT '价格',
+  `province` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '省',
+  `city` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '市',
+  `country` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '县',
+  `town` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '镇',
+  `village` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '村'
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '消息表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------

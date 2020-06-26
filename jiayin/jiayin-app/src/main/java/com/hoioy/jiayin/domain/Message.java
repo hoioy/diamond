@@ -4,11 +4,13 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.hoioy.diamond.common.base.BaseDomain;
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 /**
@@ -70,6 +72,29 @@ public class Message extends BaseDomain {
      * 联系电话
      */
     private String contactPhone;
-
+    /**
+     * 价格
+     */
+    private BigDecimal price;
+    /**
+     * 省
+     */
+    private String province;
+    /**
+     * 市
+     */
+    private String city;
+    /**
+     * 县
+     */
+    private String country;
+    /**
+     * 镇
+     */
+    private String town;
+    /**
+     * 村
+     */
+    private String village;
 
 }
