@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
-@TableName("notice")
+@TableName("jiayin_notice")
 public class Notice extends BaseDomain {
 
     private static final long serialVersionUID = 1L;

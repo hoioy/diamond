@@ -27,7 +27,7 @@
         select
         <include refid="Base_Column_List"/>
         from
-        advert u
+        jiayin_advert u
         where u.flag=1
         <if test="advertDTO.createdBy != null and advertDTO.createdBy != ''">
             AND u.created_by = #{advertDTO.createdBy}

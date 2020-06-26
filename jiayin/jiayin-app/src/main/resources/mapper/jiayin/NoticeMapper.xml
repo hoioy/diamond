@@ -25,7 +25,7 @@
         select
         <include refid="Base_Column_List"/>
         from
-        notice u
+        jiayin_notice u
         where u.flag=1
         <if test="noticeDTO.createdBy != null and noticeDTO.createdBy != ''">
             AND u.created_by = #{noticeDTO.createdBy}
