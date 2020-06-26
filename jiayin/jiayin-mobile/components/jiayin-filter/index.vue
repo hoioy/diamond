@@ -5,7 +5,7 @@
 			 :data-index="index" @tap="changeSort">
 				<text v-if="item.filterType!=2">{{ item.title }}</text>
 				<picker v-else @change="bindPickerChange" :value="pickerIndex" :range="item.options||[]" range-key="title">
-					{{item.options[pickerIndex].title}}
+					{{item.options[pickerIndex]?item.options[pickerIndex].title:''}}
 				</picker>
 				<text v-if="item.filterType==2"></text>
 				<image src="/static/img/jiayin-filter/normal.png" mode="widthFix" v-else-if="activeIndex!=index"></image>
