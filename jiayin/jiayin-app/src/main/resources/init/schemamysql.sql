@@ -485,5 +485,6 @@ CREATE TABLE `jiayin_zone_code`  (
   `modified_by` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '修改人',
   `created_date` date NULL DEFAULT NULL COMMENT '创建时间',
   `modified_date` date NULL DEFAULT NULL COMMENT '修改时间',
+  `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
