@@ -13,7 +13,7 @@
 		</view>
 		<view class="uni-list-title">草稿箱</view>
 		<view class="list-container">
-			<jiayinIndexList ref="jiayinIndexList"></jiayinIndexList>
+			<jiayinIndexList ref="jiayinIndexList" apiType="draft"></jiayinIndexList>
 		</view>
 	</view>
 </template>
@@ -37,7 +37,6 @@
 			}
 		},
 		onReady() {
-			debugger
 			if (this.$refs.jiayinIndexList) {
 				this.$refs.jiayinIndexList.initList();
 			}

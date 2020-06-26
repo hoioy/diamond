@@ -24,9 +24,9 @@ export function addCollect(data,onSuccess) {
 		onSuccess: onSuccess
 	})
 }
-export function delCollect(data,onSuccess) {
+export function delCollect(id,onSuccess) {
 	return request({
-		url: 'jiayin/msgCollect/'+data,
+		url: 'jiayin/msgCollect/'+id,
 		method: 'DELETE',
 		onSuccess: onSuccess
 	})

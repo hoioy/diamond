@@ -4,7 +4,7 @@
 			<uni-swipe-action class="uni-swipe-action">
 				<uni-swipe-action-item :options="swipeOptions" :show="value.isOptionOpened" :auto-close="false" @change="bindOptionChange($event,value)"
 				 @click="bindOptionClick($event,value)">
-					<view class="index-list-item-cell" @tap="goMessageSaveFromDraft(value)">
+					<view class="index-list-item-cell" @tap="onMessageTap(value)">
 						<view class="index-list-item-cell-title">{{ value.msgTitle }}</view>
 						<view class="index-list-item-cell-content">
 							<view class="index-list-item-cell-content-type" :style="{backgroundColor: value.msgTypeColor}">{{ value.msgTypeName}}</view>
@@ -38,6 +38,8 @@
 	import * as messageAPI from '@/api/message.js';
 	import * as draftAPI from '@/api/draft.js';
 	import * as publishAPI from '@/api/publish.js';
+	import * as collectAPI from '@/api/collect.js';
+	import * as publishedAPI from '@/api/msgPublished.js';
 
 	export default {
 		components: {
@@ -46,20 +48,31 @@
 			uniSwipeAction,
 			uniSwipeActionItem
 		},
+		props: {
+			// 是否固定至顶部
+			apiType: {
+				type: String
+			},
+			swipeOptions: {
+				type: Array,
+				default: function() {
+					return [{
+						text: '发布',
+						style: {
+							backgroundColor: '#FFD700',
+							color: '#2C405A'
+						}
+					}, {
+						text: '删除',
+						style: {
+							backgroundColor: '#dd6572'
+						}
+					}]
+				}
+			}
+		},
 		data() {
 			return {
-				swipeOptions: [{
-					text: '发布',
-					style: {
-						backgroundColor: '#FFD700',
-						color: '#2C405A'
-					}
-				}, {
-					text: '删除',
-					style: {
-						backgroundColor: '#dd6572'
-					}
-				}],
 				pageDTO: {
 					"filters": {},
 					"list": [],
@@ -82,8 +95,7 @@
 				showTipData: {
 					title: null,
 					content: null,
-					forWhich: 1, // publish：1，delete：2
-					currentDraftMsg: null
+					currentHandleMsg: null
 				},
 				reload: false, //是否刷新模式，false：瀑布流
 			};
@@ -114,10 +126,20 @@
 				this.pageDTO.page = 1;
 				this.getList();
 			},
+			getAPI() {
+				switch (this.apiType) {
+					case 'draft':
+						return draftAPI
+					case 'collect':
+						return collectAPI
+					case 'published':
+						return publishedAPI
+				}
+			},
 			getList() {
 				this.loadMoreData.status = 'loading';
 
-				draftAPI.getPage(this.pageDTO, (data) => {
+				this.getAPI().getPage(this.pageDTO, (data) => {
 					data.data.list.forEach(item => {
 						item.isOptionOpened = false
 					})
@@ -136,10 +158,25 @@
 					uni.stopPullDownRefresh();
 				})
 			},
-			goMessageSaveFromDraft(item) {
-				uni.navigateTo({
-					url: '../message-save/message-save?messageId=' + item.msgId
-				});
+			onMessageTap(item) {
+				switch (this.apiType) {
+					case 'draft':
+						uni.navigateTo({
+							url: '/pages/message/message-save/message-save?messageId=' + item.msgId
+						});
+						break;
+					case 'collect':
+						uni.navigateTo({
+							url: '/pages/message/message-detail/message-detail?id=' + item.msgId
+						});
+						break;
+					case 'published':
+						uni.navigateTo({
+							url: '/pages/message/message-save/message-save?messageId=' + item.msgId +
+								'&msgTypeChildrenId=' + item.msgTypeId + '&parentId=' + item.parentId,
+						});
+						break;
+				}
 			},
 			bindOptionChange(isOpened, value) {
 				if (isOpened) {
@@ -157,19 +194,33 @@
 			bindOptionClick(e, value) {
 				switch (e.content.text) {
 					case '发布':
-						this.showTipData.title = ''
-						this.showTipData.content = '确定要发布此消息？'
-						this.showTipData.forWhich = 1
-						this.showTipData.currentDraftMsg = value
+						this.showTipData.title = '发布'
+						this.showTipData.content = '确定发布此消息？'
+						this.showTipData.currentHandleMsg = value
 						this.$nextTick(() => {
 							this.$refs['showtip'].open()
 						})
 						break;
 					case '删除':
-						this.showTipData.title = ''
-						this.showTipData.content = '确定要删除此消息？'
-						this.showTipData.forWhich = 2
-						this.showTipData.currentDraftMsg = value
+						this.showTipData.title = '删除'
+						this.showTipData.content = '确定删除此消息？'
+						this.showTipData.currentHandleMsg = value
+						this.$nextTick(() => {
+							this.$refs['showtip'].open()
+						})
+						break;
+					case '取消收藏':
+						this.showTipData.title = '取消收藏'
+						this.showTipData.content = '确定取消收藏此消息？'
+						this.showTipData.currentHandleMsg = value
+						this.$nextTick(() => {
+							this.$refs['showtip'].open()
+						})
+						break;
+					case '取消发布':
+						this.showTipData.title = '取消发布'
+						this.showTipData.content = '确定取消发布此消息？'
+						this.showTipData.currentHandleMsg = value
 						this.$nextTick(() => {
 							this.$refs['showtip'].open()
 						})
@@ -178,9 +229,9 @@
 			},
 			onSure() {
 				const that = this
-				switch (that.showTipData.forWhich) {
-					case 1:
-						messageAPI.findById(that.showTipData.currentDraftMsg.msgId, function(data) {
+				switch (that.showTipData.title) {
+					case '发布':
+						messageAPI.findById(that.showTipData.currentHandleMsg.msgId, function(data) {
 							publishAPI.publish(data.data, (publishData) => {
 								that.initList();
 								uni.showToast({
@@ -191,14 +242,36 @@
 						})
 
 						break;
-					case 2:
-						draftAPI.deleteById(that.showTipData.currentDraftMsg.id, (data) => {
+					case '删除':
+						draftAPI.deleteById(that.showTipData.currentHandleMsg.id, (data) => {
 							that.initList();
 							uni.showToast({
 								duration: 2000,
 								title: '删除草稿成功'
 							});
 						})
+						break;
+					case '取消收藏':
+						collectAPI.delCollect(that.showTipData.currentHandleMsg.id, (data) => {
+							that.initList();
+							uni.showToast({
+								duration: 2000,
+								title: '取消收藏成功'
+							});
+						})
+						break;
+					case '取消发布':
+						uni.showToast({
+							duration: 2000,
+							title: '赵召不知道调哪个接口'
+						});
+						// publishedAPI.delCollect(that.showTipData.currentHandleMsg.id, (data) => {
+						// 	that.initList();
+						// 	uni.showToast({
+						// 		duration: 2000,
+						// 		title: '取消发布成功'
+						// 	});
+						// })
 						break;
 				}
 				this.$refs['showtip'].close()

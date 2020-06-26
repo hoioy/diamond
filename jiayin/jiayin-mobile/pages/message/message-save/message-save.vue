@@ -218,7 +218,6 @@
 				})
 			},
 			saveMessage() {
-				debugger
 				if (this.prepareMessage()) {
 					this.message.status = 1
 					publishAPI.publish(this.message, (data) => {
