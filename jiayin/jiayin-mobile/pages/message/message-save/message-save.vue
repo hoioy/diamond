@@ -34,7 +34,7 @@
 			</picker>
 		</view>
 		<view class="input-group">
-				<picker mode="multiSelector" @change="bindAddressData" @columnchange="bindMultiPickerColumnChange" :value="multiIndex" :range="multiArray" range-key="address">
+				<picker :disabled="msgTypeChildrenDisabled"  mode="multiSelector" @change="bindAddressData" @columnchange="bindMultiPickerColumnChange" :value="multiIndex" :range="multiArray" range-key="address">
 					<view class="input-row border">
 						<text class="title">地区：</text>
 						<view class="uni-input" v-model="message.town">{{multiArray[0][multiIndex[0]].address}}</view>
@@ -169,7 +169,7 @@
 				this.initMessage(option.messageId)
 				this.findParentByChildId(option.msgTypeChildrenId)
 				this.findMsgTypeChildrenByMsgTypeId(option.msgTypeChildrenId)
-				this.initAddress()
+				// this.initAddress(this.message.town,this.message.village)
 			}
 
 			if (option.msgTypeId) {
@@ -254,12 +254,18 @@
 			initMessage(messageId) {
 				messageAPI.findById(messageId, (data) => {
 					this.message = data.data;
+					zoneCodeAPI.findById( data.data.town,(townData) =>{
+						console.log(townData.data.address)
+						this.multiArray[0] =[townData.data]
+							zoneCodeAPI.findById(data.data.village,(villageData) =>{
+								this.multiArray[1] =[villageData.data]
+								this.multiIndex.splice(1,0)
+							})
+					})
+				
 				})
 			},
-			initAddress(id){
-				if(id){
-					
-				}else{
+			initAddress(){
 					zoneCodeAPI.findByParentId("",(data) =>{
 						this.multiArray[0]=data.data
 						this.message.town=data.data[0].id
@@ -269,7 +275,6 @@
 							this.message.village=villageData.data[0].id
 						})
 					})
-				}
 			},
 			findMsgTypeChildrenByMsgTypeId(msgTypeChildrenId) {
 				msgTypeAPI.findById(msgTypeChildrenId, (msgTypeChildrenData) => {

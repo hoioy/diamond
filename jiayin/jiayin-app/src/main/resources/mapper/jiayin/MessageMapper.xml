@@ -14,12 +14,17 @@
         <result column="expare_time" property="expareTime" />
         <result column="contacts" property="contacts" />
         <result column="contact_phone" property="contactPhone" />
-        <result column="created_date" property="createdDate" />
+        <result column="price" property="price" />
+        <result column="province" property="province" />
+        <result column="city" property="city" />
+        <result column="country" property="country" />
+        <result column="town" property="town" />
+        <result column="village" property="village" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        msg.id,msg.flag,msg.created_by, msg.created_date, msg.modified_by, msg.modified_date,msg.remark,
+        msg.id, msg.price,msg.town,msg.village, msg.flag,msg.created_by, msg.created_date, msg.modified_by, msg.modified_date,msg.remark,
         msg.openid,msg.title, msg.content, msg.views, msg.status, msg.expare_time, msg.contacts, msg.contact_phone,
         mst.type_name as msg_type_name,mst.id as msg_type_id,mst.color as msg_type_color
     </sql>

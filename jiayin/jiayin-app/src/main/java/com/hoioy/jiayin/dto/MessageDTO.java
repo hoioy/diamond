@@ -60,7 +60,7 @@ public class MessageDTO extends BaseDTO implements Serializable {
     private String contactPhone;
 
     @ApiModelProperty(value = "价格")
-    private String price;
+    private BigDecimal price;
     @ApiModelProperty(value = "省")
     private String province;
     @ApiModelProperty(value = "市")

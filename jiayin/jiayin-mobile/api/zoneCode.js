@@ -14,7 +14,7 @@ export function selectParent(onSuccess) {
 }
 export function findById(id,onSuccess) {
 	request({
-		url: 'jiayin/msgType/'+id,
+		url: 'jiayin/zonecode/'+id,
 		onSuccess: onSuccess
 	})
 }
