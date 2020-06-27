@@ -33,4 +33,8 @@ public class ZoneCode extends BaseTreeDomain {
      * 区划名称
      */
     private String address;
+    /**
+     * 排序
+     */
+    private int orderIndex;
 }

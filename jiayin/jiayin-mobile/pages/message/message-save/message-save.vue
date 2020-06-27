@@ -34,6 +34,23 @@
 			</picker>
 		</view>
 		<view class="input-group">
+				<picker mode="multiSelector" @change="bindAddressData" @columnchange="bindMultiPickerColumnChange" :value="multiIndex" :range="multiArray" range-key="address">
+					<view class="input-row border">
+						<text class="title">地区：</text>
+						<view class="uni-input" v-model="message.town">{{multiArray[0][multiIndex[0]].address}}</view>
+					    	<view v-if="multiArray[1][multiIndex[1]]" > - </view>
+						<view v-if="multiArray[1][multiIndex[1]]"   class="uni-input">{{multiArray[1][multiIndex[1]].address}}</view>
+					</view>
+				</picker>
+				
+				<view class="input-row border">
+					<text class=".uni-form-item__title">价格：</text>
+					<input class="	uni-input" type="number"  v-model="message.price" @focus="onFocus('price')" @blur="validate('price')"
+					 placeholder="请输入价格"></m-input>
+					<text class="validate-text" v-if="validateStatus.price">格式不正确</text>
+				</view>
+		</view>
+		<view class="input-group">
 			<view class="input-row border">
 				<text class="title">联系人：</text>
 				<m-input type="text" clearable v-model="message.contacts" @focus="onFocus('contacts')" @blur="validate('contacts')"
@@ -71,6 +88,7 @@
 	import * as messageAPI from '@/api/message.js';
 	import * as draftAPI from '@/api/draft.js';
 	import * as msgTypeAPI from '@/api/msgType.js';
+	import * as zoneCodeAPI from '@/api/zoneCode.js';
 	import mInput from '@/components/m-input.vue';
 
 	export default {
@@ -95,15 +113,24 @@
 					}],
 					selectedIndex: 0,
 				},
-				array: ['中国', '美国', '巴西', '日本'],
-				index: 0,
 				validateStatus: {
 					title: false, //标题
 					content: false, //消息内容
 					expareTime: false, //过期时间
 					contacts: false, //联系人
 					contactPhone: false, //联系电话
+					price: false, //联系电话
 				},
+				multiArray: [
+					[{
+						id: '1276540590057693185',
+						address: '嘉荫县'
+					}, {
+						id: '1276522368780578817',
+						address: '嘉荫农场'
+					}],[]
+				],
+				multiIndex: [0, 0],
 				message: {
 					id: null,
 					parentId: null,
@@ -117,6 +144,9 @@
 					token: null,
 					children: [],
 					title: "", //标题
+					price: 0, //标题
+					town: "", //镇
+					village: "", //村
 					// msgType: 0,//消息类型
 					msgTypeId: null, //消息类型
 					msgTypeName: null, //消息类型
@@ -137,27 +167,51 @@
 			if (option.messageId) {
 				this.msgTypeChildrenDisabled = true
 				this.initMessage(option.messageId)
-				console.log(option.msgTypeChildrenId + '   111111111111111111111111')
 				this.findParentByChildId(option.msgTypeChildrenId)
-				// this.initMsgTypeChildren(option.msgTypeId)
 				this.findMsgTypeChildrenByMsgTypeId(option.msgTypeChildrenId)
+				this.initAddress()
 			}
 
 			if (option.msgTypeId) {
 				this.initMsgType(option.msgTypeId)
 				this.initMsgTypeChildren(option.msgTypeId)
+				this.initAddress()
 			}
 		},
 		methods: {
+			
+			bindMultiPickerColumnChange: function(e) {
+				this.multiIndex[e.detail.column] = e.detail.value
+					
+					if(e.detail.column===0){
+						console.log('修改的id：' +    this.multiArray[e.detail.column ][e.detail.value].id           + '，值为：' + e.detail.value)
+						zoneCodeAPI.findByParentId(this.multiArray[e.detail.column ][e.detail.value].id ,(data) =>{
+							this.multiArray[1]=data.data
+						    this.multiIndex.splice(1,0)
+						})
+					}
+				this.$forceUpdate()
+			},
 			bindPickerChange: function(e) {
-				console.log('picker发送选择改变，携带值为', e.target.value)
+				console.log('msgtype发送选择改变，携带值为', e.target.value)
 				this.msgTypeChildren.selectedIndex = e.target.value
+			},
+			bindAddressData:function(e) {
+				console.log('address发送选择改变，携带值为', e.target.value)
+				this.message.town= this.multiArray[0][e.target.value[0]].id
+				if(this.multiArray[1][0]){
+						console.log('bindAddressData' +this.multiArray[1])
+				this.message.village= this.multiArray[1][e.target.value[1]].id
+				}
 			},
 			onFocus(type) {
 				this.validateStatus[type] = false
 			},
 			validate(type) {
 				switch (type) {
+					case "price":
+						this.validateStatus.price = (this.message.price == "")
+						return this.validateStatus.price;
 					case "title":
 						this.validateStatus.title = (this.message.title == "")
 						return this.validateStatus.title;
@@ -201,6 +255,21 @@
 				messageAPI.findById(messageId, (data) => {
 					this.message = data.data;
 				})
+			},
+			initAddress(id){
+				if(id){
+					
+				}else{
+					zoneCodeAPI.findByParentId("",(data) =>{
+						this.multiArray[0]=data.data
+						this.message.town=data.data[0].id
+						zoneCodeAPI.findByParentId(data.data[0].id,(villageData) =>{
+							this.multiArray[1]=villageData.data
+							this.multiIndex.splice(1,0)
+							this.message.village=villageData.data[0].id
+						})
+					})
+				}
 			},
 			findMsgTypeChildrenByMsgTypeId(msgTypeChildrenId) {
 				msgTypeAPI.findById(msgTypeChildrenId, (msgTypeChildrenData) => {
@@ -281,7 +350,10 @@
 		transform: scaleY(.5);
 		background-color: #c8c7cc;
 	}
-
+    .uni-form-item__title {
+        font-size: 16px;
+        line-height: 24px;
+    }
 	.input-group::after {
 		position: absolute;
 		right: 0;
@@ -334,5 +406,13 @@
 	.btn-row {
 		margin-top: 25px;
 		padding: 10px;
+	}
+	.uni-input {
+	    height: 28px;
+	    line-height: 28px;
+	    font-size: 15px;
+	    padding: 0px;
+	    flex: 1;
+	    background-color: #FFFFFF;
 	}
 </style>

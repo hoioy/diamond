@@ -67,6 +67,9 @@ public class MessageDTO extends BaseDTO implements Serializable {
     private String city;
     @ApiModelProperty(value = "县")
     private String country;
+    @ApiModelProperty(value = "镇")
+    private String town;
     @ApiModelProperty(value = "村")
     private String village;
+
 }

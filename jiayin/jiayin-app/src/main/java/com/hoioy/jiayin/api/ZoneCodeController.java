@@ -6,7 +6,6 @@ import com.hoioy.diamond.common.dto.ResultDTO;
 import com.hoioy.diamond.common.exception.BaseException;
 import com.hoioy.jiayin.dto.MsgTypeDTO;
 import com.hoioy.jiayin.dto.ZoneCodeDTO;
-import com.hoioy.jiayin.service.IMsgTypeService;
 import com.hoioy.jiayin.service.IZoneCodeService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -21,16 +20,16 @@ public class ZoneCodeController extends BaseController<IZoneCodeService, ZoneCod
 
     @ApiOperation(value = "分页", notes = "分页")
     @PostMapping("/page")
-    public ResultDTO page(@RequestBody PageDTO<MsgTypeDTO> pageDTO) throws BaseException {
+    public ResultDTO page(@RequestBody PageDTO<ZoneCodeDTO> pageDTO) throws BaseException {
         PageDTO page = iBaseService.getPage(pageDTO);
         return new ResultDTO(page);
     }
 
     @ApiOperation(value = "根据parenId查询", notes = "根据parenId查询,parentId为null或者空字符串，则查询根节点")
     @GetMapping("/findByParentId")
-    public ResultDTO findByParentId(@RequestParam("parentId") String parentId) throws BaseException {
-        List<MsgTypeDTO> msgTypeDTOs = iBaseService.findByParentId(parentId);
-        return new ResultDTO(msgTypeDTOs);
+    public ResultDTO findByParentId(@RequestParam(name = "parentId",required = false) String parentId) throws BaseException {
+        List<ZoneCodeDTO> dtos = iBaseService.findByParentId(parentId);
+         return new ResultDTO(dtos);
     }
 
 }

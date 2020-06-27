@@ -32,4 +32,7 @@ public class ZoneCodeDTO extends BaseTreeDTO {
 
     @ApiModelProperty(value = "区划名称")
     private String address;
+
+    @ApiModelProperty(value = "排序")
+    private String orderIndex;
 }
