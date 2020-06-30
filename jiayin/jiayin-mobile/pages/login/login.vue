@@ -2,7 +2,7 @@
 	<view class="container">
 		<image src="/static/img/logo/logo.png" mode="widthFix"></image>
 		<text>登陆后体验更好！</text>
-		<button type="primary" class="primary" open-type="getUserInfo" @getuserinfo="weixinLogin()" @tap="weixinLogin()">一键登录</button>
+		<button type="default" class="login-submit" open-type="getUserInfo" @getuserinfo="weixinLogin()" @tap="weixinLogin()">一键登录</button>
 	</view>
 </template>
 
@@ -91,11 +91,15 @@
 			color: $uni-text-color-grey;
 		}
 
-		button {
+		.login-submit {
 			margin-top: 10%;
 			background-color: $jiayin-bg-color;
-			color: $uni-color-title;
+			color: #000000;
 			width: 50%;
+		}
+		.login-submit:hover,
+		.login-submit:active {
+			background: $jiayin-bg-color-active;
 		}
 	}
 </style>
