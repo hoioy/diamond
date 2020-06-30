@@ -12,7 +12,7 @@
 				<view class="uni-uploader">
 					<view class="uni-uploader-head">
 						<view class="uni-uploader-title">点击预览问题反馈图片</view>
-						<view class="uni-uploader-info">{{imageList.length}}/8</view>
+						<view class="uni-uploader-info">{{imageList.length}}/4</view>
 					</view>
 					<view class="uni-uploader-body">
 						<view class="uni-uploader__files">
@@ -22,7 +22,7 @@
 									<view class="close-view" @click="close(index)">x</view>
 								</view>
 							</block>
-							<view class="uni-uploader__input-box" v-show="imageList.length < 8">
+							<view class="uni-uploader__input-box" v-show="imageList.length < 4">
 								<view class="uni-uploader__input" @tap="chooseImg"></view>
 							</view>
 						</view>
@@ -75,7 +75,7 @@
 				uni.chooseImage({
 					sourceType: ["camera", "album"],
 					sizeType: "compressed",
-					count: 8 - this.imageList.length,
+					count: 4 - this.imageList.length,
 					success: (res) => {
 						this.imageList = this.imageList.concat(res.tempFilePaths);
 					}
@@ -116,10 +116,15 @@
 					}
 				})
 				debugger
+					var header = {
+						'Authorization': 'Bearer BaseJwtToken80023F7F3F92DCF66807EB95AA8E0368BC1965542B72258DEF1F8DA556C3323FF4B097AE45E7E24C48071ED9C655D5DA8D829E2281D836AB516C89261A669900169AE1C75EE5F3BA67B68A4A97194E511A60071C37A046D7D601CFAC13499792237A0892B577F9F2F9275873CF4DFC0F951668D3468DF6C7D9137075F6812D8D09F657EE099AD4B480B1AEA4AE09AC4230FFDCB9EEA9AFE1847C44003D890AD50C68132FD3EC35F0A460B547C763314B1D5E22C42E1ACE18602F520187EBF26DCEDBB84D204A3C5CA9A9815CA61C3357A2AA85CD49066D51F93A67BFEAEB900DD27ED9C4CF272563AFC2AA36A9516DB76A190530E17A7B1D2EA0EA59B0456A9331124B9BB3539266D9AD3037367BDA62C5F47FC5D9806D29995D79A02129B12BD4674FE02C65C21B56BDF5D92434DAE1CA31DD63C244261D'
+					}
+	
 				uni.uploadFile({
-					url: "https://service.dcloud.net.cn/feedback",
+					url: "http://localhost:7779/jiayin/file/upload",
 					files: imgs,
 					formData: this.sendDate,
+					header: header,
 					success: (res) => {
 						if (typeof res.data === 'string') {
 							res.data = JSON.parse(res.data)

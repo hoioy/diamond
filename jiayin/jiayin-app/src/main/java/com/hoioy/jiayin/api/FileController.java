@@ -15,13 +15,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @RestController
 @RequestMapping("/jiayin/file")
@@ -34,17 +34,21 @@ public class FileController {
     private ThumbImageConfig thumbImageConfig;
 
     @PostMapping("/upload")
-    public List<String> fileUpload(@RequestParam("file") MultipartFile[] file, @RequestParam("paths") String paths) throws IOException {
+    public List<String> fileUpload(MultipartHttpServletRequest request , @RequestParam(name = "paths",required = false) String paths) throws IOException {
         List<String> list = new ArrayList();
-        for (int i = 0; i < file.length; i++) {
-            MultipartFile multipartFile = file[i];
-            Set<MetaData> metaDataSet = createMetaData();
-            String suffix = multipartFile.getOriginalFilename().substring(multipartFile.getOriginalFilename().lastIndexOf(".") + 1);
-            StorePath path = storageClient.uploadFile(multipartFile.getInputStream(), multipartFile.getSize(), suffix,
-                    metaDataSet);
-            String fullPath = path.getFullPath();
-            list.add(fullPath);
-
+        Map<String, MultipartFile> map = request.getFileMap();
+        if (map.size() > 0) {
+            for (Map.Entry<String, MultipartFile> entry : map.entrySet()) {
+                MultipartFile multipartFile = entry.getValue();
+                Set<MetaData> metaDataSet = createMetaData();
+                String suffix = multipartFile.getOriginalFilename().substring(multipartFile.getOriginalFilename().lastIndexOf(".") + 1);
+                StorePath path = storageClient.uploadFile(multipartFile.getInputStream(), multipartFile.getSize(), suffix,
+                        metaDataSet);
+                //删除是为了减少服务器垃圾图片
+                storageClient.deleteFile(path.getGroup(), path.getPath());
+                String fullPath = path.getFullPath();
+                list.add(fullPath);
+            };
         }
         if (StrUtil.isNotBlank(paths)) {
             String[] split = paths.split(",");
@@ -64,4 +68,5 @@ public class FileController {
         metaDataSet.add(new MetaData("createDate", today));
         return metaDataSet;
     }
+
 }
