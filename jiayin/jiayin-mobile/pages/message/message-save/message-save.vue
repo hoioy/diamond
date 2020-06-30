@@ -6,34 +6,33 @@
 					<text class="validate-text" v-if="validateStatus.title">标题格式不正确</text>
 				</view>
 				<view class="container-input-wrapper">
-					<input class="container-input" placeholder="(在此输入信息标题)" v-model="message.title" @focus="onFocus('title')" @blur="onValidate('title')" />
+					<input class="container-input" placeholder="(请在此处输入信息标题)" v-model="message.title" @focus="onFocus('title')" @blur="onValidate('title')" />
 					<text class="container-input-icon" @click="cleartInput('title')">&#xe434;</text>
 				</view>
 				<view class='container-title'>
-					<text class="title">{{msgType.typeName}}信息具体类型</text>
+					<!-- <text class="title">{{msgType.typeName}}信息具体类型</text> -->
 				</view>
 				<picker class="container-picker" :disabled="msgTypeChildrenDisabled" @change="bindPickerChange" :value="msgTypeChildren.selectedIndex"
 				 :range="msgTypeChildren.types" range-key="typeName" mode="selector">
-					<input class="container-input" v-model="msgTypeChildren.types[msgTypeChildren.selectedIndex].typeName" />
+					<input class="container-input" placeholder="(请在此处选择信息具体类型)" v-model="msgTypeChildren.types[msgTypeChildren.selectedIndex].typeName" />
 				</picker>
 				<view class='container-title'>
-					<text class="title">信息有效截止日期</text>
+					<!-- <text class="title">信息有效截止日期</text> -->
 				</view>
 				<picker class="container-picker" mode="date" :value="message.expareTime" @change="bindDateChange">
-					<input class="container-input" v-model="message.expareTime" />
+					<input class="container-input" placeholder="(请在此处选择信息有效截止日期)" v-model="message.expareTime" />
 				</picker>
 				<view class='container-title'>
-					<text>联系人</text>
 					<text class="validate-text" v-if="validateStatus.contacts">联系人格式不正确</text>
 					<text class="validate-text" v-if="validateStatus.contactPhone">联系人电话格式不正确</text>
 				</view>
 				<view class="container-input-wrapper">
-					<input class="container-input" placeholder="(请输入联系人真实姓名)" v-model="message.contacts" @focus="onFocus('contacts')"
+					<input class="container-input" placeholder="(请在此处输入联系人真实姓名)" v-model="message.contacts" @focus="onFocus('contacts')"
 					 @blur="onValidate('contacts')" />
 					<text class="container-input-icon" @click="cleartInput('contacts')">&#xe434;</text>
 				</view>
 				<view class="container-input-wrapper margin-bottom">
-					<input class="container-input" type="number" placeholder="(请输入联系人电话)" v-model="message.contactPhone" @focus="onFocus('contactPhone')"
+					<input class="container-input" type="number" placeholder="(请在此处输入联系人电话)" v-model="message.contactPhone" @focus="onFocus('contactPhone')"
 					 @blur="onValidate('contactPhone')" />
 					<text class="container-input-icon" @click="cleartInput('contactPhone')">&#xe434;</text>
 				</view>
@@ -41,18 +40,17 @@
 
 			<uni-collapse-item class="container-item" :open="false" :show-animation="true" title="地区和价格(选填)" thumb="/static/img/save/price.png">
 				<view class='container-title'>
-					<text class="title">地址</text>
+					<!-- <text class="title">地址</text> -->
 				</view>
 				<picker class="container-picker" mode="multiSelector" @change="bindAddressData" @columnchange="bindMultiPickerColumnChange"
 				 :value="multiIndex" :range="multiArray" range-key="address">
-					<input type="text" class="container-input" v-model="message.addressName" />
+					<input placeholder="(请在此处选择信息有效截止日期)" class="container-input" v-model="message.addressName" />
 				</picker>
 				<view class='container-title'>
-					<text>价格(单位：元)</text>
 					<text class="validate-text" v-if="validateStatus.price">请输入正确的价格</text>
 				</view>
 				<view class="container-input-wrapper margin-bottom">
-					<input class="container-input" type="digit" placeholder="(请输入价格)" v-model="message.price" @focus="onFocus('price')"
+					<input class="container-input" type="digit" placeholder="(请在此处输入价格(单位：元)" v-model="message.price" @focus="onFocus('price')"
 					 @blur="onValidate('price')" />
 					<text class="container-input-icon" @click="cleartInput('price')">&#xe434;</text>
 				</view>
@@ -75,7 +73,7 @@
 					<text class="validate-text" v-if="validateStatus.content">请填写信息内容</text>
 				</view>
 				<view class="container-textarea">
-					<textarea placeholder="请输入信息内容" v-model="message.content" auto-height maxlength="1000" @focus="onFocus('content')"
+					<textarea placeholder="请在此处输入信息内容" v-model="message.content" auto-height maxlength="1000" @focus="onFocus('content')"
 					 @blur="onValidate('content')"></textarea>
 				</view>
 			</uni-collapse-item>
