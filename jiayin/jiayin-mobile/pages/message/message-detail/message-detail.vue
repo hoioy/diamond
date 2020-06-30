@@ -2,20 +2,36 @@
 	<view class="message">
 		<view class="message-detail">
 			<view class="message-detail-head">
-				<view class="message-detail-title">{{message.title}}</view>
+				<text class="message-detail-title">{{message.title}}</text>
 				<view class="msg-detail-head-body">
-						<view>更新时间:{{message.modifiedDate|formatDate}}</view>
-						<view>浏览:{{message.views}}次</view>
+					<view class="msg-detail-head-body-price">{{message.price}}元</view>
+				</view>
+				<view class="msg-detail-head-body">
+					<view>发布时间:{{message.createdDate|formatDate}}</view>
+					<view>浏览:{{message.views}}次</view>
 				</view>
 			</view>
 			<view class="message-detail-content">
-				<view class="message-detail-content-head">详细内容</view>
+				<view class="message-detail-content-body">{{ message.msgTypeName }}类型消息</view>
+			</view>
+			<view class="message-detail-content">
 				<view class="message-detail-content-body">{{ message.content }}</view>
 			</view>
 			<view class="message-detail-item-contacts">
-				<view>联系人:{{ message.contacts}}</view>
-				<view>联系电话:{{ message.contactPhone }}</view>
+				<view class="message-detail-item-contacts-item">
+					<view class="message-detail-item-contacts-item-key">联系人: </view>
+					<view class="message-detail-item-contacts-item-value">{{ message.contacts}}</view>
+				</view>
+				<view class="message-detail-item-contacts-item">
+					<view class="message-detail-item-contacts-item-key">联系电话: </view>
+					<view class="message-detail-item-contacts-item-value">{{ message.contactPhone}}</view>
+				</view>
+				<view class="message-detail-item-contacts-item">
+					<view class="message-detail-item-contacts-item-key">所在地: </view>
+					<view class="message-detail-item-contacts-item-value">{{ message.town}}</view>
+				</view>
 			</view>
+			<view class="message-detail-expare">有效期：截止到{{message.expareTime}}有效</view>
 		</view>
 		<view class="message-nav">
 			<message-detail-nav :fill="true" :options="options" :buttonGroup="buttonGroup" @click="onClick" @buttonClick="buttonClick" />
@@ -41,18 +57,18 @@
 					infoColor: "red",
 					iconColor: "#FFD700"
 				}],
-				buttonGroup: [
-					{
+				buttonGroup: [{
 						text: '分享',
 						backgroundColor: '#00BFFF',
 						color: '#fff',
 						share: 'share'
 					},
 					{
-					text: '打电话',
-					backgroundColor: '#ffa200',
-					color: '#fff'
-				}],
+						text: '打电话',
+						backgroundColor: '#ffa200',
+						color: '#fff'
+					}
+				],
 				message: {
 					id: null,
 					parentId: null,
@@ -84,13 +100,13 @@
 		onShareAppMessage(res) {
 			return {
 				title: this.message.title,
-				path: '/pages/message/message-detail/message-detail?id='+this.message.id
+				path: '/pages/message/message-detail/message-detail?id=' + this.message.id
 			}
 		},
-		filters:{
-			formatDate(date){
-			    let nDate = new Date(date);
-			    return dateFormat.formatDate(nDate, "yyyy-MM-dd");
+		filters: {
+			formatDate(date) {
+				let nDate = new Date(date);
+				return dateFormat.formatDate(nDate, "yyyy-MM-dd");
 			}
 		},
 		onLoad: function(option) { //option为object类型，会序列化上个页面传递的参数
@@ -137,7 +153,7 @@
 			},
 			buttonClick(e) {
 				console.log(e)
-				if(e.index == 1){
+				if (e.index == 1) {
 					uni.makePhoneCall({
 						phoneNumber: '17710666027' //仅为示例
 					});
@@ -153,44 +169,78 @@
 	}
 </script>
 
-
-<style>
+<style lang="scss">
 	.message {
 		padding-bottom: 50px;
 		width: 750rpx;
-	}
 
-	.message-nav {
-		position: fixed;
-		bottom: 0;
-		width: 100%;
-	}
+		.message-detail {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
 
+			.message-detail-head {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				border-bottom: 2rpx solid #DDDDDD;
 
-	.message-detail-title{
-		margin: 2rpx 2rpx 5rpx 2rpx;
-	}
+				.message-detail-title {
+					font-size: $uni-font-size-title;
+					color: $uni-color-title;
+				}
 
-	.message-detail-item-contacts{
-			margin: 2rpx 2rpx 2rpx 2rpx;
-	}
-	.message-detail-head{
-		border-bottom: 2rpx solid #DDDDDD;
-	}
-	.message-detail-content-head{
-			margin: 2rpx 2rpx 2rpx 2rpx;
-	}
-	.message-detail-content-body{
-			margin: 2rpx 2rpx 2rpx 2rpx;
-	}
-	.message-detail-content{
-		border-bottom: 2rpx solid #DDDDDD;
-	}
-	.msg-detail-head-body{
-		display: flex;
-		justify-content: space-between;
-		margin-top: 8px;
-		font-size: 11pt;
-		margin: 2rpx 2rpx 5rpx 2rpx  /* 上 右 下 左 顺序调节边距*/
+				.msg-detail-head-body {
+					width: 750rpx;
+					display: flex;
+					justify-content: space-between;
+					font-size: $uni-font-size-base;
+					color: $uni-text-color-placeholder;
+
+					.msg-detail-head-body-price {
+						font-size: $uni-font-size-title;
+						color: $uni-color-error;
+					}
+				}
+			}
+
+			.message-detail-content {
+				width: 750rpx;
+				.message-detail-content-body {
+					color: $uni-color-paragraph;
+					font-size: $uni-font-size-paragraph;
+				}
+			}
+
+			.message-detail-item-contacts {
+				flex-direction: column;
+				display: flex;
+				width: 750rpx;
+
+				.message-detail-item-contacts-item {
+					display: flex;
+					flex-wrap: nowrap;
+
+					.message-detail-item-contacts-item-key {
+						width: 20%;
+					}
+
+					.message-detail-item-contacts-item-value {
+						width: 80%;
+					}
+				}
+			}
+			
+			.message-detail-expare{
+				font-size: $uni-font-size-base;
+				color: $uni-text-color-placeholder;
+			}
+		}
+
+		.message-nav {
+			position: fixed;
+			bottom: 0;
+			width: 100%;
+		}
 	}
 </style>
