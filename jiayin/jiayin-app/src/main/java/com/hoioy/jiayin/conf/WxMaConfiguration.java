@@ -94,14 +94,14 @@ public class WxMaConfiguration {
     };
 
     private final WxMaMessageHandler logHandler = (wxMessage, context, service, sessionManager) -> {
-        System.out.println("收到消息：" + wxMessage.toString());
+        System.out.println("收到信息：" + wxMessage.toString());
         service.getMsgService().sendKefuMsg(WxMaKefuMessage.newTextBuilder().content("收到信息为：" + wxMessage.toJson())
             .toUser(wxMessage.getFromUser()).build());
         return null;
     };
 
     private final WxMaMessageHandler textHandler = (wxMessage, context, service, sessionManager) -> {
-        service.getMsgService().sendKefuMsg(WxMaKefuMessage.newTextBuilder().content("回复文本消息")
+        service.getMsgService().sendKefuMsg(WxMaKefuMessage.newTextBuilder().content("回复文本信息")
             .toUser(wxMessage.getFromUser()).build());
         return null;
     };

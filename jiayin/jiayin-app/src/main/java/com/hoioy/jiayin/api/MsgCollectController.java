@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
-@Api(tags = "消息收藏接口")
+@Api(tags = "信息收藏接口")
 @RestController
 @RequestMapping("/jiayin/msgCollect")
 public class MsgCollectController extends BaseController<IMsgCollectService, MsgCollectDTO> {

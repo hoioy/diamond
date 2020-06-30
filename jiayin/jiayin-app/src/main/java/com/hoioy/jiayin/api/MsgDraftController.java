@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
-@Api(tags = "消息草稿接口")
+@Api(tags = "信息草稿接口")
 @RestController
 @RequestMapping("/jiayin/msgDraft")
 public class MsgDraftController extends BaseController<IMsgDraftService, MsgDraftDTO> {

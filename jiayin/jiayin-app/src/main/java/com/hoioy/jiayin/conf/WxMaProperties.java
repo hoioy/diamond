@@ -24,17 +24,17 @@ public class WxMaProperties {
         private String secret;
 
         /**
-         * 设置微信小程序消息服务器配置的token
+         * 设置微信小程序信息服务器配置的token
          */
         private String token;
 
         /**
-         * 设置微信小程序消息服务器配置的EncodingAESKey
+         * 设置微信小程序信息服务器配置的EncodingAESKey
          */
         private String aesKey;
 
         /**
-         * 消息格式，XML或者JSON
+         * 信息格式，XML或者JSON
          */
         private String msgDataFormat;
     }

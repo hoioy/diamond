@@ -25,7 +25,7 @@
 //                          @RequestParam(name = "timestamp", required = false) String timestamp,
 //                          @RequestParam(name = "nonce", required = false) String nonce,
 //                          @RequestParam(name = "echostr", required = false) String echostr) {
-//        this.logger.info("\n接收到来自微信服务器的认证消息：signature = [{}], timestamp = [{}], nonce = [{}], echostr = [{}]",
+//        this.logger.info("\n接收到来自微信服务器的认证信息：signature = [{}], timestamp = [{}], nonce = [{}], echostr = [{}]",
 //            signature, timestamp, nonce, echostr);
 //
 //        if (StringUtils.isAnyBlank(signature, timestamp, nonce, echostr)) {
@@ -58,7 +58,7 @@
 //        final boolean isJson = Objects.equals(wxService.getWxMaConfig().getMsgDataFormat(),
 //            WxMaConstants.MsgDataFormat.JSON);
 //        if (StringUtils.isBlank(encryptType)) {
-//            // 明文传输的消息
+//            // 明文传输的信息
 //            WxMaMessage inMessage;
 //            if (isJson) {
 //                inMessage = WxMaMessage.fromJson(requestBody);
@@ -71,7 +71,7 @@
 //        }
 //
 //        if ("aes".equals(encryptType)) {
-//            // 是aes加密的消息
+//            // 是aes加密的信息
 //            WxMaMessage inMessage;
 //            if (isJson) {
 //                inMessage = WxMaMessage.fromEncryptedJson(requestBody, wxService.getWxMaConfig());

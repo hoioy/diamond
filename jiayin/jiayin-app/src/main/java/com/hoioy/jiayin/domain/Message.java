@@ -15,7 +15,7 @@ import java.time.LocalDate;
 
 /**
  * <p>
- * 消息表
+ * 信息表
  * </p>
  *
  * @author 陈哲
@@ -26,7 +26,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @TableName("jiayin_message")
-@ApiModel(value="Message对象", description="消息表")
+@ApiModel(value="Message对象", description="信息表")
 public class Message extends BaseDomain {
 
     private static final long serialVersionUID=1L;
@@ -39,12 +39,12 @@ public class Message extends BaseDomain {
     private String openid;
 
     /**
-     * 消息类型外键
+     * 信息类型外键
      */
     private String msgTypeId;
 
     /**
-     * 消息内容
+     * 信息内容
      */
     private String content;
 

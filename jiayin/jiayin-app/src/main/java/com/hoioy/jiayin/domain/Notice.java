@@ -17,7 +17,7 @@ public class Notice extends BaseDomain {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 消息内容
+     * 信息内容
      */
     private String content;
 }

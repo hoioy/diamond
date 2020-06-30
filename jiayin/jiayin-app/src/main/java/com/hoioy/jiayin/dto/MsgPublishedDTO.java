@@ -29,13 +29,13 @@ public class MsgPublishedDTO extends BaseDTO implements Serializable {
     @ApiModelProperty(value = "发布标题")
     private String msgTitle;
 
-    @ApiModelProperty(value = "消息类型主键")
+    @ApiModelProperty(value = "信息类型主键")
     private String msgTypeId;
 
-    @ApiModelProperty(value = "消息类型名字")
+    @ApiModelProperty(value = "信息类型名字")
     private String msgTypeName;
 
-    @ApiModelProperty(value = "消息类型主题色")
+    @ApiModelProperty(value = "信息类型主题色")
     private String msgTypeColor;
 
 }

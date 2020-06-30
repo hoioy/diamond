@@ -27,7 +27,7 @@ public class MsgHistory extends BaseDomain {
     private static final long serialVersionUID=1L;
 
     /**
-     * 消息表主键键
+     * 信息表主键键
      */
     private String msgId;
 

@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 
 /**
  * <p>
- * 消息类型
+ * 信息类型
  * </p>
  *
  * @author 陈哲

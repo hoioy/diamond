@@ -195,7 +195,7 @@
 				switch (e.content.text) {
 					case '发布':
 						this.showTipData.title = '发布'
-						this.showTipData.content = '确定发布此消息？'
+						this.showTipData.content = '确定发布此信息？'
 						this.showTipData.currentHandleMsg = value
 						this.$nextTick(() => {
 							this.$refs['showtip'].open()
@@ -203,7 +203,7 @@
 						break;
 					case '删除':
 						this.showTipData.title = '删除'
-						this.showTipData.content = '确定删除此消息？'
+						this.showTipData.content = '确定删除此信息？'
 						this.showTipData.currentHandleMsg = value
 						this.$nextTick(() => {
 							this.$refs['showtip'].open()
@@ -211,7 +211,7 @@
 						break;
 					case '取消收藏':
 						this.showTipData.title = '取消收藏'
-						this.showTipData.content = '确定取消收藏此消息？'
+						this.showTipData.content = '确定取消收藏此信息？'
 						this.showTipData.currentHandleMsg = value
 						this.$nextTick(() => {
 							this.$refs['showtip'].open()
@@ -219,7 +219,7 @@
 						break;
 					case '取消发布':
 						this.showTipData.title = '取消发布'
-						this.showTipData.content = '确定取消发布此消息？'
+						this.showTipData.content = '确定取消发布此信息？'
 						this.showTipData.currentHandleMsg = value
 						this.$nextTick(() => {
 							this.$refs['showtip'].open()
@@ -236,7 +236,7 @@
 								that.initList();
 								uni.showToast({
 									duration: 2000,
-									title: '发布消息成功'
+									title: '发布信息成功'
 								});
 							})
 						})

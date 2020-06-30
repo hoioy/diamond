@@ -9,23 +9,23 @@
 		}, {
 			"path": "pages/message/message-list/message-list",
 			"style": {
-				"navigationBarTitleText": "消息列表",
+				"navigationBarTitleText": "信息列表",
 				"enablePullDownRefresh": true
 			}
 		}, {
 			"path": "pages/message/message-detail/message-detail",
 			"style": {
-				"navigationBarTitleText": "消息详情"
+				"navigationBarTitleText": "信息详情"
 			}
 		}, {
 			"path": "pages/message/message-save/message-save",
 			"style": {
-				"navigationBarTitleText": "消息编辑"
+				"navigationBarTitleText": "信息编辑"
 			}
 		}, {
 			"path": "pages/message/message-publish/message-publish",
 			"style": {
-				"navigationBarTitleText": "消息发布",
+				"navigationBarTitleText": "信息发布",
 				"enablePullDownRefresh": true
 			}
 		},

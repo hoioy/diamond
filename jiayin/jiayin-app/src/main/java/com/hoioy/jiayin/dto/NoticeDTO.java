@@ -18,6 +18,6 @@ public class NoticeDTO extends BaseDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(value = "通知内容消息内容")
+    @ApiModelProperty(value = "通知内容信息内容")
     private String content;
 }

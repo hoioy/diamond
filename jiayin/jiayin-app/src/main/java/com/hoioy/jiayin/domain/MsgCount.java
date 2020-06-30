@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 
 /**
  * <p>
- * 消息次数
+ * 信息次数
  * </p>
  *
  * @author 陈哲
@@ -21,7 +21,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @TableName("jiayin_msg_count")
-@ApiModel(value="MsgCount对象", description="消息次数")
+@ApiModel(value="MsgCount对象", description="信息次数")
 public class MsgCount extends BaseDomain {
 
     private static final long serialVersionUID=1L;

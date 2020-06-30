@@ -12,7 +12,7 @@ import java.io.Serializable;
 
 /**
  * <p>
- * 消息次数
+ * 信息次数
  * </p>
  *
  * @author 陈哲
@@ -21,7 +21,7 @@ import java.io.Serializable;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-@ApiModel(value="MsgCount对象", description="消息次数")
+@ApiModel(value="MsgCount对象", description="信息次数")
 public class MsgCountDTO  extends BaseDTO implements Serializable {
 
     private static final long serialVersionUID=1L;

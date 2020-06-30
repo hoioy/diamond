@@ -3,11 +3,10 @@
 		<uni-collapse>
 			<uni-collapse-item class="container-item" :open="true" :show-animation="true" title="基础内容(必填)" thumb="/static/img/save/base.png">
 				<view class='container-title'>
-					<text>标题</text>
 					<text class="validate-text" v-if="validateStatus.title">标题格式不正确</text>
 				</view>
 				<view class="container-input-wrapper">
-					<input class="container-input" placeholder="(请输入标题)" v-model="message.title" @focus="onFocus('title')" @blur="onValidate('title')" />
+					<input class="container-input" placeholder="(在此输入信息标题)" v-model="message.title" @focus="onFocus('title')" @blur="onValidate('title')" />
 					<text class="container-input-icon" @click="cleartInput('title')">&#xe434;</text>
 				</view>
 				<view class='container-title'>
@@ -73,10 +72,10 @@
 			<uni-collapse-item class="container-item" :open="true" :show-animation="true" title="主要内容(必填)" thumb="/static/img/save/wen.png">
 				<view class='container-title'>
 					<text>内容(最多1000字)</text>
-					<text class="validate-text" v-if="validateStatus.content">请填写消息内容</text>
+					<text class="validate-text" v-if="validateStatus.content">请填写信息内容</text>
 				</view>
 				<view class="container-textarea">
-					<textarea placeholder="请输入消息内容" v-model="message.content" auto-height maxlength="1000" @focus="onFocus('content')"
+					<textarea placeholder="请输入信息内容" v-model="message.content" auto-height maxlength="1000" @focus="onFocus('content')"
 					 @blur="onValidate('content')"></textarea>
 				</view>
 			</uni-collapse-item>
@@ -124,7 +123,7 @@
 				},
 				validateStatus: {
 					title: false, //标题
-					content: false, //消息内容
+					content: false, //信息内容
 					expareTime: false, //过期时间
 					contacts: false, //联系人
 					contactPhone: false, //联系电话
@@ -158,10 +157,10 @@
 					town: "", //镇
 					village: "", //村
 					addressName: "", //默认的，或者当前选中的地区名称
-					// msgType: 0,//消息类型
-					msgTypeId: null, //消息类型
-					msgTypeName: null, //消息类型
-					content: "", //消息内容
+					// msgType: 0,//信息类型
+					msgTypeId: null, //信息类型
+					msgTypeName: null, //信息类型
+					content: "", //信息内容
 					// status: 0,//带交易 已完成
 					status: "0", //带交易 已完成
 					expareTime: "", //过期时间
@@ -321,7 +320,7 @@
 					publishAPI.publish(this.message, (data) => {
 						uni.showToast({
 							duration: 2000,
-							title: '发布消息成功'
+							title: '发布信息成功'
 						});
 					})
 				}

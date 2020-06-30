@@ -7,7 +7,7 @@
 					<view class="nav-container-item-img">
 						<image class="nav-container-item-img-image" :src="value.icon"></image>
 					</view>
-					<view class="nav-container-item-name">新增{{ value.typeName }}消息</view>
+					<view class="nav-container-item-name">新增{{ value.typeName }}信息</view>
 				</view>
 			</view>
 		</view>

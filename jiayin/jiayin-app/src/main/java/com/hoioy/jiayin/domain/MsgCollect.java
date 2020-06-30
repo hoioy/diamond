@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 
 /**
  * <p>
- * 消息收藏
+ * 信息收藏
  * </p>
  *
  * @author 陈哲
@@ -21,7 +21,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @TableName("jiayin_msg_collect")
-@ApiModel(value="MsgCollect对象", description="消息收藏")
+@ApiModel(value="MsgCollect对象", description="信息收藏")
 public class MsgCollect extends BaseDomain {
 
     private static final long serialVersionUID=1L;
@@ -37,17 +37,17 @@ public class MsgCollect extends BaseDomain {
 
 
     /**
-     * 消息类别用来区分不同业务
+     * 信息类别用来区分不同业务
      */
     private String msgTableName;
 
     /**
-     * 消息标题
+     * 信息标题
      */
     private String msgTitle;
 
     /**
-     * 消息类型主键
+     * 信息类型主键
      */
     private String msgTypeId;
 }

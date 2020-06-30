@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@Api(tags = "消息表接口")
+@Api(tags = "信息表接口")
 @RestController
 @RequestMapping("/jiayin/message")
 public class MessageController extends BaseController<IMessageService, MessageDTO> {

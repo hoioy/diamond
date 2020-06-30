@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 
 /**
  * <p>
- * 消息类型
+ * 信息类型
  * </p>
  *
  * @author 陈哲
@@ -21,7 +21,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @TableName("jiayin_msg_type")
-@ApiModel(value="MsgType对象", description="消息类型")
+@ApiModel(value="MsgType对象", description="信息类型")
 public class FeedBack extends BaseDomain {
 
     private static final long serialVersionUID=1L;

@@ -39,7 +39,7 @@ public class MsgPublished extends BaseDomain {
     private String msgTitle;
 
     /**
-     * 消息类型主键
+     * 信息类型主键
      */
     private String msgTypeId;
 

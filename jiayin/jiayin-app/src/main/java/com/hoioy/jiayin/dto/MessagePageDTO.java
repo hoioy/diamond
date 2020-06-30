@@ -13,7 +13,7 @@ import java.time.LocalDate;
 
 /**
  * <p>
- * 消息表
+ * 信息表
  * </p>
  *
  * @author 陈哲
@@ -22,7 +22,7 @@ import java.time.LocalDate;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-@ApiModel(value="Message对象", description="消息表")
+@ApiModel(value="Message对象", description="信息表")
 public class MessagePageDTO extends BaseDTO implements Serializable {
 
     private static final long serialVersionUID=1L;
@@ -31,16 +31,16 @@ public class MessagePageDTO extends BaseDTO implements Serializable {
     @ApiModelProperty(value = "标题")
     private String title;
 
-    @ApiModelProperty(value = "消息类型表外键")
+    @ApiModelProperty(value = "信息类型表外键")
     private String msgTypeId;
 
-    @ApiModelProperty(value = "消息类型名称")
+    @ApiModelProperty(value = "信息类型名称")
     private String msgTypeName;
 
-    @ApiModelProperty(value = "消息类型主题色")
+    @ApiModelProperty(value = "信息类型主题色")
     private String msgTypeColor;
 
-    @ApiModelProperty(value = "消息内容")
+    @ApiModelProperty(value = "信息内容")
     private String content;
 
     @ApiModelProperty(value = "浏览次数")

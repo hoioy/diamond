@@ -156,7 +156,7 @@
 				// });
 				// filterType为0，普通方式，无排序，1：排序模式，2：下拉筛选模式，当前支持一级，多级可自行扩展
 				return [{
-						title: '消息类别',
+						title: '信息类别',
 						value: 0,
 						filterType: 2,
 						options: this.jiayinFilterData.msgTypelistData

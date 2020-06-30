@@ -42,7 +42,7 @@ public class PublishServiceImpl implements IPublishService {
         } else {
             MessageDTO update = (MessageDTO) iMessageService.update(dto);
             iMsgDraftService.saveOrUpdateDraft(userName, update, "message");
-            //查询这条消息在草稿里有没有,如果有修改如果没有新增
+            //查询这条信息在草稿里有没有,如果有修改如果没有新增
             return update;
         }
     }

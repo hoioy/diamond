@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Api(tags = "消息类型接口")
+@Api(tags = "信息类型接口")
 @RestController
 @RequestMapping("/jiayin/msgType")
 public class MsgTypeController extends BaseController<IMsgTypeService, MsgTypeDTO> {

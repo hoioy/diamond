@@ -12,7 +12,7 @@ import java.io.Serializable;
 
 /**
  * <p>
- * 消息类型
+ * 信息类型
  * </p>
  *
  * @author 陈哲
@@ -21,7 +21,7 @@ import java.io.Serializable;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-@ApiModel(value="MsgType对象", description="消息类型")
+@ApiModel(value="MsgType对象", description="信息类型")
 public class MsgTypeDTO  extends BaseTreeDTO implements Serializable {
 
     private static final long serialVersionUID=1L;

@@ -12,7 +12,7 @@ import java.time.LocalDate;
 
 /**
  * <p>
- * 消息草稿
+ * 信息草稿
  * </p>
  *
  * @author 陈哲
@@ -23,7 +23,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @TableName("jiayin_msg_draft")
-@ApiModel(value="MsgDraft对象", description="消息草稿")
+@ApiModel(value="MsgDraft对象", description="信息草稿")
 public class MsgDraft extends BaseDomain {
 
     private static final long serialVersionUID=1L;
@@ -32,7 +32,7 @@ public class MsgDraft extends BaseDomain {
      */
     private String msgId;
     /**
-     * 消息类别用来区分不同业务,来源于哪个消息表
+     * 信息类别用来区分不同业务,来源于哪个信息表
      */
     private String msgTableName;
     /**
@@ -41,12 +41,12 @@ public class MsgDraft extends BaseDomain {
     private String openid;
 
     /**
-     * 消息标题
+     * 信息标题
      */
     private String msgTitle;
 
     /**
-     * 消息类型主键
+     * 信息类型主键
      */
     private String msgTypeId;
 

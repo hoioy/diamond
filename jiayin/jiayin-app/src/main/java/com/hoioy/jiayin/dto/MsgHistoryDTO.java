@@ -26,7 +26,7 @@ public class MsgHistoryDTO  extends BaseDTO implements Serializable {
 
     private static final long serialVersionUID=1L;
 
-    @ApiModelProperty(value = "消息表主键键")
+    @ApiModelProperty(value = "信息表主键键")
     private String msgId;
 
 

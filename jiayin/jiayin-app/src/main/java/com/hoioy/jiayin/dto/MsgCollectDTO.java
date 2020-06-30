@@ -12,7 +12,7 @@ import java.io.Serializable;
 
 /**
  * <p>
- * 消息收藏
+ * 信息收藏
  * </p>
  *
  * @author 陈哲
@@ -21,27 +21,27 @@ import java.io.Serializable;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-@ApiModel(value="MsgCollect对象", description="消息收藏")
+@ApiModel(value="MsgCollect对象", description="信息收藏")
 public class MsgCollectDTO  extends BaseDTO implements Serializable {
 
     private static final long serialVersionUID=1L;
 
-    @ApiModelProperty(value = "消息表主键")
+    @ApiModelProperty(value = "信息表主键")
     private String msgId;
 
     @ApiModelProperty(value = "小程序openid")
     private String openid;
 
-    @ApiModelProperty(value = "消息类别用来区分不同业务")
+    @ApiModelProperty(value = "信息类别用来区分不同业务")
     private String msgTableName;
 
-    @ApiModelProperty(value = "消息标题")
+    @ApiModelProperty(value = "信息标题")
     private String msgTitle;
 
-    @ApiModelProperty(value = "消息类型主键")
+    @ApiModelProperty(value = "信息类型主键")
     private String msgTypeId;
-    @ApiModelProperty(value = "消息类型名称")
+    @ApiModelProperty(value = "信息类型名称")
     private String msgTypeName;
-    @ApiModelProperty(value = "消息类型主题色")
+    @ApiModelProperty(value = "信息类型主题色")
     private String msgTypeColor;
 }

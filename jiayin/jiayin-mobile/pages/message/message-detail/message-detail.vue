@@ -12,7 +12,7 @@
 				</view>
 			</view>
 			<view class="message-detail-content">
-				<view class="message-detail-content-body">{{ message.msgTypeName }}类型消息</view>
+				<view class="message-detail-content-body">{{ message.msgTypeName }}类型信息</view>
 			</view>
 			<view class="message-detail-content">
 				<view class="message-detail-content-body">{{ message.content }}</view>
@@ -82,9 +82,9 @@
 					token: null,
 					children: [],
 					title: "", //标题
-					msgTypeId: "", //消息类型
-					msgTypeName: "", //消息类型
-					content: "", //消息内容
+					msgTypeId: "", //信息类型
+					msgTypeName: "", //信息类型
+					content: "", //信息内容
 					status: "0", //待交易 已完成
 					expareTime: "", //过期时间
 					contacts: "", //联系人
