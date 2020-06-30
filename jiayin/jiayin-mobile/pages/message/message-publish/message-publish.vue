@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<view class="nav-container-title">新增一条消息</view>
+		<view class="nav-container-title">新增发布</view>
 		<view class="nav-container">
 			<view class="nav-container-cell" v-for="(value, key) in msgTypeList" :key="key" @click="goMessageSave(value)">
 				<view class="nav-container-item">
@@ -11,7 +11,7 @@
 				</view>
 			</view>
 		</view>
-		<view class="uni-list-title">草稿箱</view>
+		<view class="uni-list-title">从草稿箱发布</view>
 		<view class="list-container">
 			<jiayinIndexList ref="jiayinIndexList" apiType="draft"></jiayinIndexList>
 		</view>

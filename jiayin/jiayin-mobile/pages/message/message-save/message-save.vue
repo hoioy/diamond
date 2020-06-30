@@ -1,99 +1,108 @@
 <template>
-	<view class="content">
-		<view class="input-group">
-			<view class="input-row border">
-				<text class="title">消息类型：</text>
-				<view>{{msgType.typeName}}</view>
-			</view>
-		</view>
-		<view class="input-group">
-			<picker :disabled="msgTypeChildrenDisabled" @change="bindPickerChange" :value="msgTypeChildren.selectedIndex" :range="msgTypeChildren.types"
-			 range-key="typeName" mode="selector">
-				<view class="input-row border">
-					<text class="title">具体分类：</text>
-					<view class="uni-input">{{msgTypeChildren.types[msgTypeChildren.selectedIndex].typeName}}</view>
+	<view class="container">
+		<uni-collapse>
+			<uni-collapse-item class="container-item" :open="true" :show-animation="true" title="基础内容(必填)" thumb="/static/img/save/base.png">
+				<view class='container-title'>
+					<text>标题</text>
+					<text class="validate-text" v-if="validateStatus.title">标题格式不正确</text>
 				</view>
-			</picker>
-		</view>
-		<view class="input-group">
-			<view class="input-row border">
-				<text class="title">标题：</text>
-				<m-input type="text" clearable v-model="message.title" @focus="onFocus('title')" @blur="validate('title')"
-				 placeholder="请输入标题"></m-input>
-				<text class="validate-text" v-if="validateStatus.title">格式不正确</text>
-			</view>
-		</view>
-
-		<view class="input-group">
-			<picker mode="date" :value="message.expareTime" @change="bindDateChange">
-				<view class="input-row border">
-					<text class="title">过期日期：</text>
-					<view>{{message.expareTime}}</view>
-					<text class="validate-text" v-if="validateStatus.expareTime">请选择日期</text>
+				<view class="container-input-wrapper">
+					<input class="container-input" placeholder="(请输入标题)" v-model="message.title" @focus="onFocus('title')" @blur="onValidate('title')" />
+					<text class="container-input-icon" @click="cleartInput('title')">&#xe434;</text>
 				</view>
-			</picker>
-		</view>
-		<view class="input-group">
-				<picker :disabled="msgTypeChildrenDisabled"  mode="multiSelector" @change="bindAddressData" @columnchange="bindMultiPickerColumnChange" :value="multiIndex" :range="multiArray" range-key="address">
-					<view class="input-row border">
-						<text class="title">地区：</text>
-						<view class="uni-input" v-model="message.town">{{multiArray[0][multiIndex[0]].address}}</view>
-					    	<view v-if="multiArray[1][multiIndex[1]]" > - </view>
-						<view v-if="multiArray[1][multiIndex[1]]"   class="uni-input">{{multiArray[1][multiIndex[1]].address}}</view>
-					</view>
+				<view class='container-title'>
+					<text class="title">{{msgType.typeName}}信息具体类型</text>
+				</view>
+				<picker class="container-picker" :disabled="msgTypeChildrenDisabled" @change="bindPickerChange" :value="msgTypeChildren.selectedIndex"
+				 :range="msgTypeChildren.types" range-key="typeName" mode="selector">
+					<input class="container-input" v-model="msgTypeChildren.types[msgTypeChildren.selectedIndex].typeName" />
 				</picker>
-				
-				<view class="input-row border">
-					<text class=".uni-form-item__title">价格：</text>
-					<input class="	uni-input" type="number"  v-model="message.price" @focus="onFocus('price')" @blur="validate('price')"
-					 placeholder="请输入价格"></m-input>
-					<text class="validate-text" v-if="validateStatus.price">格式不正确</text>
+				<view class='container-title'>
+					<text class="title">信息有效截止日期</text>
 				</view>
-		</view>
-		<view class="input-group">
-			<view class="input-row border">
-				<text class="title">联系人：</text>
-				<m-input type="text" clearable v-model="message.contacts" @focus="onFocus('contacts')" @blur="validate('contacts')"
-				 placeholder="请输入联系人"></m-input>
-				<text class="validate-text" v-if="validateStatus.contacts">格式不正确</text>
-			</view>
-			<view class="input-row border">
-				<text class="title">联系电话：</text>
-				<m-input type="text" clearable v-model="message.contactPhone" @focus="onFocus('contactPhone')" @blur="validate('contactPhone')"
-				 placeholder="请输入联系电话"></m-input>
-				<text class="validate-text" v-if="validateStatus.contactPhone">格式不正确</text>
-			</view>
-		</view>
-		<view class="input-group">
-			<view class="input-row border">
-				<text class="title">消息内容：</text>
-				<text class="validate-text" v-if="validateStatus.content">请填写消息内容</text>
-			</view>
-			<view class="uni-textarea">
-				<textarea placeholder="请输入消息内容" v-model="message.content" @focus="onFocus('content')" @blur="validate('content')"
-				 auto-height maxlength="1000"></textarea>
-			</view>
-		</view>
-		<view class="btn-row">
-			<button type="default" @tap="saveDraftMessage">保存为草稿</button>
-		</view>
-		<view class="btn-row">
-			<button type="primary" class="primary" @tap="saveMessage">发布</button>
+				<picker class="container-picker" mode="date" :value="message.expareTime" @change="bindDateChange">
+					<input class="container-input" v-model="message.expareTime" />
+				</picker>
+				<view class='container-title'>
+					<text>联系人</text>
+					<text class="validate-text" v-if="validateStatus.contacts">联系人格式不正确</text>
+					<text class="validate-text" v-if="validateStatus.contactPhone">联系人电话格式不正确</text>
+				</view>
+				<view class="container-input-wrapper">
+					<input class="container-input" placeholder="(请输入联系人真实姓名)" v-model="message.contacts" @focus="onFocus('contacts')"
+					 @blur="onValidate('contacts')" />
+					<text class="container-input-icon" @click="cleartInput('contacts')">&#xe434;</text>
+				</view>
+				<view class="container-input-wrapper margin-bottom">
+					<input class="container-input" type="number" placeholder="(请输入联系人电话)" v-model="message.contactPhone" @focus="onFocus('contactPhone')"
+					 @blur="onValidate('contactPhone')" />
+					<text class="container-input-icon" @click="cleartInput('contactPhone')">&#xe434;</text>
+				</view>
+			</uni-collapse-item>
+
+			<uni-collapse-item class="container-item" :open="false" :show-animation="true" title="地区和价格(选填)" thumb="/static/img/save/price.png">
+				<view class='container-title'>
+					<text class="title">地址</text>
+				</view>
+				<picker class="container-picker" mode="multiSelector" @change="bindAddressData" @columnchange="bindMultiPickerColumnChange"
+				 :value="multiIndex" :range="multiArray" range-key="address">
+					<input type="text" class="container-input" v-model="message.addressName" />
+				</picker>
+				<view class='container-title'>
+					<text>价格(单位：元)</text>
+					<text class="validate-text" v-if="validateStatus.price">请输入正确的价格</text>
+				</view>
+				<view class="container-input-wrapper margin-bottom">
+					<input class="container-input" type="digit" placeholder="(请输入价格)" v-model="message.price" @focus="onFocus('price')"
+					 @blur="onValidate('price')" />
+					<text class="container-input-icon" @click="cleartInput('price')">&#xe434;</text>
+				</view>
+				<!-- <view class="input-group">
+					<picker :disabled="msgTypeChildrenDisabled" mode="multiSelector" @change="bindAddressData" @columnchange="bindMultiPickerColumnChange"
+					 :value="multiIndex" :range="multiArray" range-key="address">
+						<view class="input-row border">
+							<text class="title">地区：</text>
+							<view class="uni-input" v-model="message.town">{{multiArray[0][multiIndex[0]].address}}</view>
+							<view v-if="multiArray[1][multiIndex[1]]"> - </view>
+							<view v-if="multiArray[1][multiIndex[1]]" class="uni-input">{{multiArray[1][multiIndex[1]].address}}</view>
+						</view>
+					</picker> 
+					</view> -->
+			</uni-collapse-item>
+
+			<uni-collapse-item class="container-item" :open="true" :show-animation="true" title="主要内容(必填)" thumb="/static/img/save/wen.png">
+				<view class='container-title'>
+					<text>内容(最多1000字)</text>
+					<text class="validate-text" v-if="validateStatus.content">请填写消息内容</text>
+				</view>
+				<view class="container-textarea">
+					<textarea placeholder="请输入消息内容" v-model="message.content" auto-height maxlength="1000" @focus="onFocus('content')"
+					 @blur="onValidate('content')"></textarea>
+				</view>
+			</uni-collapse-item>
+		</uni-collapse>
+
+		<view class="button-container">
+			<button type="default" class="button-container-save" @tap="saveDraftMessage">保存为草稿</button>
+			<button type="default" class="button-container-pub" @tap="saveMessage">直接发布</button>
 		</view>
 	</view>
 </template>
 
 <script>
+	import uniCollapse from '@/components/uni-collapse/uni-collapse.vue'
+	import uniCollapseItem from '@/components/uni-collapse-item/uni-collapse-item.vue'
+
 	import * as publishAPI from '@/api/publish.js';
 	import * as messageAPI from '@/api/message.js';
 	import * as draftAPI from '@/api/draft.js';
 	import * as msgTypeAPI from '@/api/msgType.js';
 	import * as zoneCodeAPI from '@/api/zoneCode.js';
-	import mInput from '@/components/m-input.vue';
 
 	export default {
 		components: {
-			mInput
+			uniCollapse,
+			uniCollapseItem
 		},
 		data() {
 			return {
@@ -128,7 +137,8 @@
 					}, {
 						id: '1276522368780578817',
 						address: '嘉荫农场'
-					}],[]
+					}],
+					[]
 				],
 				multiIndex: [0, 0],
 				message: {
@@ -147,6 +157,7 @@
 					price: 0, //标题
 					town: "", //镇
 					village: "", //村
+					addressName: "", //默认的，或者当前选中的地区名称
 					// msgType: 0,//消息类型
 					msgTypeId: null, //消息类型
 					msgTypeName: null, //消息类型
@@ -177,37 +188,50 @@
 				this.initMsgTypeChildren(option.msgTypeId)
 				this.initAddress()
 			}
+
+			if (option.msgTypeName) {
+				uni.setNavigationBarTitle({
+					title: option.msgTypeName + "类信息编辑"
+				});
+			}
+		},
+		onReady() {
+
 		},
 		methods: {
-			
+			cleartInput(propertyName) {
+				this.message[propertyName] = "";
+			},
 			bindMultiPickerColumnChange: function(e) {
 				this.multiIndex[e.detail.column] = e.detail.value
-					
-					if(e.detail.column===0){
-						console.log('修改的id：' +    this.multiArray[e.detail.column ][e.detail.value].id           + '，值为：' + e.detail.value)
-						zoneCodeAPI.findByParentId(this.multiArray[e.detail.column ][e.detail.value].id ,(data) =>{
-							this.multiArray[1]=data.data
-						    this.multiIndex.splice(1,0)
-						})
-					}
-				this.$forceUpdate()
+
+				if (e.detail.column === 0) {
+					console.log('修改的id：' + this.multiArray[e.detail.column][e.detail.value].id + '，值为：' + e.detail.value)
+					zoneCodeAPI.findByParentId(this.multiArray[e.detail.column][e.detail.value].id, (data) => {
+						this.multiArray[1] = data.data
+						this.multiIndex.splice(1, 0)
+					})
+				}
+				// this.$forceUpdate()
 			},
 			bindPickerChange: function(e) {
-				console.log('msgtype发送选择改变，携带值为', e.target.value)
 				this.msgTypeChildren.selectedIndex = e.target.value
 			},
-			bindAddressData:function(e) {
-				console.log('address发送选择改变，携带值为', e.target.value)
-				this.message.town= this.multiArray[0][e.target.value[0]].id
-				if(this.multiArray[1][0]){
-						console.log('bindAddressData' +this.multiArray[1])
-				this.message.village= this.multiArray[1][e.target.value[1]].id
+			bindAddressData: function(e) {
+				// console.log('address发送选择改变，携带值为', e.target.value)
+				this.message.town = this.multiArray[0][e.target.value[0]].id;
+			
+				if (this.multiArray[1][0]) {
+					// console.log('bindAddressData' + this.multiArray[1])
+					this.message.village = this.multiArray[1][e.target.value[1]].id
 				}
+				
+				this.message.addressName = this.multiArray[0][this.multiIndex[0]].address + "-"+this.multiArray[1][this.multiIndex[1]].address
 			},
 			onFocus(type) {
 				this.validateStatus[type] = false
 			},
-			validate(type) {
+			onValidate(type) {
 				switch (type) {
 					case "price":
 						this.validateStatus.price = (this.message.price == "")
@@ -235,11 +259,11 @@
 			},
 			prepareMessage() {
 				this.message.msgTypeId = this.msgTypeChildren.types[this.msgTypeChildren.selectedIndex].id
-				if (!this.validate("title") &&
-					!this.validate("content") &&
-					!this.validate("expareTime") &&
-					!this.validate("contacts") &&
-					!this.validate("contactPhone")) {
+				if (!this.onValidate("title") &&
+					!this.onValidate("content") &&
+					!this.onValidate("expareTime") &&
+					!this.onValidate("contacts") &&
+					!this.onValidate("contactPhone")) {
 					return true
 				}
 
@@ -254,27 +278,27 @@
 			initMessage(messageId) {
 				messageAPI.findById(messageId, (data) => {
 					this.message = data.data;
-					zoneCodeAPI.findById( data.data.town,(townData) =>{
+					zoneCodeAPI.findById(data.data.town, (townData) => {
 						console.log(townData.data.address)
-						this.multiArray[0] =[townData.data]
-							zoneCodeAPI.findById(data.data.village,(villageData) =>{
-								this.multiArray[1] =[villageData.data]
-								this.multiIndex.splice(1,0)
-							})
-					})
-				
-				})
-			},
-			initAddress(){
-					zoneCodeAPI.findByParentId("",(data) =>{
-						this.multiArray[0]=data.data
-						this.message.town=data.data[0].id
-						zoneCodeAPI.findByParentId(data.data[0].id,(villageData) =>{
-							this.multiArray[1]=villageData.data
-							this.multiIndex.splice(1,0)
-							this.message.village=villageData.data[0].id
+						this.multiArray[0] = [townData.data]
+						zoneCodeAPI.findById(data.data.village, (villageData) => {
+							this.multiArray[1] = [villageData.data]
+							this.multiIndex.splice(1, 0)
 						})
 					})
+
+				})
+			},
+			initAddress() {
+				zoneCodeAPI.findByParentId("", (data) => {
+					this.multiArray[0] = data.data
+					this.message.town = data.data[0].id
+					zoneCodeAPI.findByParentId(data.data[0].id, (villageData) => {
+						this.multiArray[1] = villageData.data
+						this.multiIndex.splice(1, 0)
+						this.message.village = villageData.data[0].id
+					})
+				})
 			},
 			findMsgTypeChildrenByMsgTypeId(msgTypeChildrenId) {
 				msgTypeAPI.findById(msgTypeChildrenId, (msgTypeChildrenData) => {
@@ -319,105 +343,117 @@
 	}
 </script>
 
-<style>
-	.validate-text {
-		color: #ff0000;
-	}
+<style lang="scss">
+	.container {
+		width: 750rpx;
 
-	m-input {
-		width: 100%;
-		display: flex;
-		flex: 1;
-	}
+		.validate-text {
+			color: $uni-color-error;
+		}
 
-	.content {
-		display: flex;
-		flex: 1;
-		flex-direction: column;
-		background-color: #efeff4;
-		padding: 10px;
-	}
+		.container-item {
+			.margin-bottom {
+				margin-bottom: $uni-spacing-col-lg;
+			}
+		}
 
-	.input-group {
-		background-color: #ffffff;
-		margin-top: 20px;
-		position: relative;
-	}
+		.container-title {
+			display: flex;
+			flex-direction: row;
+			justify-content: space-between;
+			align-items: center;
+			color: $uni-text-color-grey;
+			font-size: $uni-font-size-base;
+			margin-top: $uni-spacing-col-base;
+			margin-left: 2*$uni-spacing-col-base;
+			margin-right: 2*$uni-spacing-col-base;
+		}
 
-	.input-group::before {
-		position: absolute;
-		right: 0;
-		top: 0;
-		left: 0;
-		height: 1px;
-		content: '';
-		-webkit-transform: scaleY(.5);
-		transform: scaleY(.5);
-		background-color: #c8c7cc;
-	}
-    .uni-form-item__title {
-        font-size: 16px;
-        line-height: 24px;
-    }
-	.input-group::after {
-		position: absolute;
-		right: 0;
-		bottom: 0;
-		left: 0;
-		height: 1px;
-		content: '';
-		-webkit-transform: scaleY(.5);
-		transform: scaleY(.5);
-		background-color: #c8c7cc;
-	}
+		.container-input-wrapper {
+			display: flex;
+			flex-direction: row;
+			flex-wrap: nowrap;
+			align-items: center;
+			margin-top: $uni-spacing-col-base;
+			margin-left: 2*$uni-spacing-col-base;
+			margin-right: 2*$uni-spacing-col-base;
+			border: 1px solid $uni-border-color;
 
-	.input-row {
-		display: flex;
-		flex-direction: row;
-		position: relative;
-		font-size: 18px;
-		line-height: 40px;
-	}
+			.container-input {
+				height: 50rpx;
+				padding: $uni-spacing-col-base;
+				font-size: $uni-font-size-lg;
+				flex-grow: 1;
+			}
 
-	.input-row .title {
-		padding-left: 15px;
-	}
+			.container-input-icon {
+				font-family: uniicons;
+				font-size: 24px;
+				color: $uni-text-color-grey;
+				padding: $uni-spacing-col-base;
+			}
+		}
 
-	.input-row.border::after {
-		position: absolute;
-		right: 0;
-		bottom: 0;
-		left: 8px;
-		height: 1px;
-		content: '';
-		-webkit-transform: scaleY(.5);
-		transform: scaleY(.5);
-		background-color: #c8c7cc;
-	}
+		.container-picker {
+			border: 1px solid $uni-border-color;
+			margin-top: $uni-spacing-col-base;
+			margin-left: 2*$uni-spacing-col-base;
+			margin-right: 2*$uni-spacing-col-base;
 
-	.uni-textarea {
-		width: 100%;
-		background: #FFF;
-	}
+			.container-input {
+				font-size: $uni-font-size-lg;
+				height: 50rpx;
+				padding: $uni-spacing-col-base;
+			}
+		}
 
-	.uni-textarea textarea {
-		width: 96%;
-		padding: 18rpx 2%;
-		line-height: 1.6;
-		font-size: 28rpx;
-		height: 150rpx;
-	}
+		.container-textarea {
+			min-height: 500rpx;
+			font-size: $uni-font-size-lg;
+			box-sizing: border-box;
+			padding: $uni-spacing-col-base;
+			margin-top: $uni-spacing-col-base;
+			margin-left: 2*$uni-spacing-col-base;
+			margin-right: 2*$uni-spacing-col-base;
+			border: 1px solid $uni-border-color;
 
-	.btn-row {
-		margin-top: 25px;
-		padding: 10px;
-	}
-	.uni-input {
-	    height: 28px;
-	    line-height: 28px;
-	    font-size: 15px;
-	    padding: 0px;
-	    flex: 1;
-	    background-color: #FFFFFF;
+			textarea {
+				width: 100%;
+			}
+		}
+
+		.button-container {
+			display: flex;
+			flex-direction: row;
+			flex-wrap: nowrap;
+			align-items: center;
+			margin-top: $uni-spacing-col-base;
+			margin-left: 2*$uni-spacing-col-base;
+			margin-right: 2*$uni-spacing-col-base;
+
+			.button-container-pub {
+				width: 50%;
+				margin: $uni-spacing-col-base;
+				background: $jiayin-bg-color;
+				color: #000000;
+			}
+
+			.button-container-pub:hover,
+			.button-container-pub:active {
+				background: $jiayin-bg-color-active;
+			}
+
+			.button-container-save {
+				width: 50%;
+				margin: $uni-spacing-col-base;
+				background: #dd6572;
+				color: #fff;
+			}
+
+			.button-container-save:hover,
+			.button-container-save:active {
+				background: #b6535e;
+			}
+		}
 	}
 </style>

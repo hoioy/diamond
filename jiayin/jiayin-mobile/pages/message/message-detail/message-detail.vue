@@ -26,12 +26,10 @@
 <script>
 	import * as messageAPI from '@/api/message.js';
 	import * as collectAPI from '@/api/collect.js';
-	import mInput from '@/components/m-input.vue';
 	import messageDetailNav from '@/components/message-detail-nav/message-detail-nav.vue'
 	import dateFormat from '@/utils/date.js'
 	export default {
 		components: {
-			mInput,
 			messageDetailNav
 		},
 		data() {
