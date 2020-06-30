@@ -3,27 +3,25 @@ package com.hoioy.jiayin.api;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.text.StrSpliter;
 import cn.hutool.core.util.StrUtil;
-import com.github.tobato.fastdfs.domain.fdfs.FileInfo;
 import com.github.tobato.fastdfs.domain.fdfs.MetaData;
 import com.github.tobato.fastdfs.domain.fdfs.StorePath;
 import com.github.tobato.fastdfs.domain.fdfs.ThumbImageConfig;
 import com.github.tobato.fastdfs.service.FastFileStorageClient;
-import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
-import javax.xml.crypto.Data;
-import java.io.File;
-import java.io.FileNotFoundException;
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.util.*;
-
-import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
 
 @RestController
 @RequestMapping("/jiayin/file")
@@ -36,17 +34,21 @@ public class FileController {
     private ThumbImageConfig thumbImageConfig;
 
     @PostMapping("/upload")
-    public List<String> fileUpload(@RequestParam("file") MultipartFile[] file, @RequestParam("paths") String paths) throws IOException {
+    public List<String> fileUpload(MultipartHttpServletRequest request , @RequestParam(name = "paths",required = false) String paths) throws IOException {
         List<String> list = new ArrayList();
-        for (int i = 0; i < file.length; i++) {
-            MultipartFile multipartFile = file[i];
-            Set<MetaData> metaDataSet = createMetaData();
-            String suffix = multipartFile.getOriginalFilename().substring(multipartFile.getOriginalFilename().lastIndexOf(".") + 1);
-            StorePath path = storageClient.uploadFile(multipartFile.getInputStream(), multipartFile.getSize(), suffix,
-                    metaDataSet);
-            String fullPath = path.getFullPath();
-            list.add(fullPath);
-
+        Map<String, MultipartFile> map = request.getFileMap();
+        if (map.size() > 0) {
+            for (Map.Entry<String, MultipartFile> entry : map.entrySet()) {
+                MultipartFile multipartFile = entry.getValue();
+                Set<MetaData> metaDataSet = createMetaData();
+                String suffix = multipartFile.getOriginalFilename().substring(multipartFile.getOriginalFilename().lastIndexOf(".") + 1);
+                StorePath path = storageClient.uploadFile(multipartFile.getInputStream(), multipartFile.getSize(), suffix,
+                        metaDataSet);
+                //删除是为了减少服务器垃圾图片
+                storageClient.deleteFile(path.getGroup(), path.getPath());
+                String fullPath = path.getFullPath();
+                list.add(fullPath);
+            };
         }
         if (StrUtil.isNotBlank(paths)) {
             String[] split = paths.split(",");
@@ -66,4 +68,5 @@ public class FileController {
         metaDataSet.add(new MetaData("createDate", today));
         return metaDataSet;
     }
+
 }
