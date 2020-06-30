@@ -126,10 +126,11 @@
 					formData: this.sendDate,
 					header: header,
 					success: (res) => {
+						debugger
 						if (typeof res.data === 'string') {
 							res.data = JSON.parse(res.data)
 						}
-						if (res.statusCode === 200 && res.data && res.data.ret === 0) {
+						if (res.statusCode === 200 && res.data ) {
 							uni.showModal({
 								content: '反馈成功',
 								showCancel: false
