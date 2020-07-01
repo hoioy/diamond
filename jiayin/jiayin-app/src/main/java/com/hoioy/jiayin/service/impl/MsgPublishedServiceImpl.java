@@ -27,7 +27,12 @@ public class MsgPublishedServiceImpl extends BaseServiceImpl<MsgPublishedMapper,
         return resultPage;
     }
 
-//    @Override
+    @Override
+    public boolean removeById(String id) throws BaseException {
+        return iBaseRepository.removeById(id);
+    }
+
+    //    @Override
 //    public void saveOrUpdatePublished(String userName, MessageDTO update, String msgTableName) {
 //        int count = iBaseRepository.updatePublished(userName, update, msgTableName);
 //        if (count == 0) {

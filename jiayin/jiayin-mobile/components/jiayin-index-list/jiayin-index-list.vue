@@ -261,17 +261,18 @@
 						})
 						break;
 					case '取消发布':
-						uni.showToast({
-							duration: 2000,
-							title: '赵召不知道调哪个接口'
-						});
-						// publishedAPI.delCollect(that.showTipData.currentHandleMsg.id, (data) => {
-						// 	that.initList();
-						// 	uni.showToast({
-						// 		duration: 2000,
-						// 		title: '取消发布成功'
-						// 	});
-						// })
+						if(that.showTipData.currentHandleMsg.msgTableName === 'message'){
+							console.log(that.showTipData.currentHandleMsg)
+							messageAPI.cancelPublish(that.showTipData.currentHandleMsg.msgId,(data) =>{
+								publishedAPI.delById(that.showTipData.currentHandleMsg.id,(publishedData) =>{
+									that.initList();
+									uni.showToast({
+										duration: 2000,
+										title: '取消发布成功'
+									});
+								})
+							})
+						}
 						break;
 				}
 				this.$refs['showtip'].close()

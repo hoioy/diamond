@@ -10,10 +10,7 @@ import com.hoioy.jiayin.service.IMessageService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Api(tags = "信息表接口")
 @RestController
@@ -26,6 +23,11 @@ public class MessageController extends BaseController<IMessageService, MessageDT
         PageDTO<MessagePageDTO> page = iBaseService.getPage(pageDTO);
         return new ResultDTO(page);
     }
-
+    @ApiOperation(value = "取消发布", notes = "取消发布")
+    @GetMapping("/cancelpublish/{msgId}")
+    public ResultDTO<Boolean> cancelPublish(@PathVariable("msgId") String msgId) throws BaseException {
+        Boolean  result =  iBaseService.cancelPublish(msgId);
+        return new ResultDTO(result);
+    }
 }
 

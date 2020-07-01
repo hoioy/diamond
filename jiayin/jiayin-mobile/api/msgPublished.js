@@ -15,3 +15,10 @@ export function findById(id,onSuccess) {
 		onSuccess: onSuccess
 	})
 }
+export function delById(id,onSuccess) {
+	return request({
+		url: 'jiayin/msgPublished/'+id,
+		method: 'DELETE',
+		onSuccess: onSuccess
+	})
+}

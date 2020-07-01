@@ -33,3 +33,10 @@ export function updateMessage(data,onSuccess) {
 		onSuccess: onSuccess
 	})
 }
+
+export function cancelPublish(msgId,onSuccess) {
+	 request({
+		url: 'jiayin/message/cancelpublish/'+msgId,
+		onSuccess: onSuccess
+	})
+}

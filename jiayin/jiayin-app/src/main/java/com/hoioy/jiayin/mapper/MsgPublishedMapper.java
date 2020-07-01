@@ -15,5 +15,7 @@ public interface MsgPublishedMapper extends IBaseMapper<MsgPublished> {
 
     int updateByPubilshId(MsgPublished msgPublished);
 
+    boolean removeById(String id);
+
 //    int updatePublished(@Param("openid") String openid, @Param("dto") MessageDTO dto, @Param("msgTableName") String msgTableName);
 }

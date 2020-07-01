@@ -11,12 +11,10 @@ import com.hoioy.diamond.common.util.CommonSecurityUtils;
 import com.hoioy.jiayin.domain.Message;
 import com.hoioy.jiayin.domain.MsgPublished;
 import com.hoioy.jiayin.domain.MsgType;
+import com.hoioy.jiayin.domain.ZoneCode;
 import com.hoioy.jiayin.dto.MessageDTO;
 import com.hoioy.jiayin.dto.MessagePageDTO;
-import com.hoioy.jiayin.mapper.MessageMapper;
-import com.hoioy.jiayin.mapper.MsgCountMapper;
-import com.hoioy.jiayin.mapper.MsgPublishedMapper;
-import com.hoioy.jiayin.mapper.MsgTypeMapper;
+import com.hoioy.jiayin.mapper.*;
 import com.hoioy.jiayin.service.IMessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,6 +31,9 @@ public class MessageServiceImpl extends BaseServiceImpl<MessageMapper, Message, 
     private MsgTypeMapper msgTypeMapper;
     @Autowired
     private MsgPublishedMapper msgPublishedMapper;
+
+    @Autowired
+    private ZoneCodeMapper zoneCodeMapper;
 
     @Override
     public PageDTO getPage(PageDTO pageDTO) throws BaseException {
@@ -64,8 +65,24 @@ public class MessageServiceImpl extends BaseServiceImpl<MessageMapper, Message, 
             MsgType msgType = msgTypeMapper.selectById(messageDTO.getMsgTypeId());
             messageDTO.setMsgTypeName(msgType.getTypeName());
             messageDTO.setMsgTypeColor(msgType.getColor());
+            ZoneCode town = zoneCodeMapper.selectById(messageDTO.getTown());
+            if (town != null) {
+                messageDTO.setTownName(town.getAddress());
+            }
+            ZoneCode village = zoneCodeMapper.selectById(messageDTO.getVillage());
+            if (village != null) {
+                messageDTO.setVillageName(village.getAddress());
+            }
             return Optional.ofNullable(messageDTO);
         }
         return byId;
+    }
+
+    @Override
+    public Boolean cancelPublish(String msgId) throws BaseException {
+        Message message = iBaseRepository.selectById(msgId);
+        message.setStatus(2);
+        int i = iBaseRepository.updateById(message);
+        return i>0?true:false;
     }
 }
