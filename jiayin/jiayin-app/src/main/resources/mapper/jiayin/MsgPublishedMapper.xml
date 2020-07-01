@@ -64,6 +64,18 @@
         </set>
         where msg_id = #{msgId}
     </update>
+
+    <select id="findByMsgIdAndOpenIdAndTable" resultType="java.util.Map">
+        select
+        <include refid="Base_Column_List" />
+        from
+        jiayin_msg_published his
+        left join jiayin_msg_type mst on his.msg_type_id=mst.id
+        where
+        his.flag=1
+        and his.openid=#{openid} and his.msg_id=#{msgId} and his.msg_table_name =#{msgTableName}
+    </select>
+
 <!--    <update id="updatePublished">-->
 <!--        update jiayin_msg_published-->
 <!--        <set>-->

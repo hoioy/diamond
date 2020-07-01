@@ -23,6 +23,12 @@
 				}]
 			}
 		},
+		onShow() {
+			if (this.$refs.jiayinIndexList) {
+				debugger
+				this.$refs.jiayinIndexList.initList();
+			}
+		},
 		onReady() {
 			if (this.$refs.jiayinIndexList) {
 				this.$refs.jiayinIndexList.initList();

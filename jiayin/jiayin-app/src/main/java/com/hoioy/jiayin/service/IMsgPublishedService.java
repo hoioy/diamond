@@ -5,6 +5,8 @@ import com.hoioy.diamond.common.service.IBaseService;
 import com.hoioy.jiayin.dto.MessageDTO;
 import com.hoioy.jiayin.dto.MsgPublishedDTO;
 
-public interface IMsgPublishedService<D extends CommonDomain>  extends IBaseService<MsgPublishedDTO,D> {
+public interface IMsgPublishedService<D extends CommonDomain> extends IBaseService<MsgPublishedDTO, D> {
 //    void saveOrUpdatePublished(String userName, MessageDTO update, String msgTableName);
+
+    MsgPublishedDTO findByMsgIdAndOpenIdAndTable(String userName, MessageDTO update, String msgTableName);
 }

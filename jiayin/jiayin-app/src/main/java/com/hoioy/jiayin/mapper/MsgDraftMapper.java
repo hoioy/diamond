@@ -14,4 +14,6 @@ public interface MsgDraftMapper extends IBaseMapper<MsgDraft> {
     IPage<Map> selectPage(@Param("page") Page page, @Param("msgDraft") MsgDraftDTO msgDraft);
 
     int removeByMsgTableNameAndMsgId(@Param("openid") String openid, @Param("msgId") String msgId, @Param("msgTableName") String msgTableName);
+
+    Map findByMsgIdAndOpenIdAndTable(@Param("openid") String openid, @Param("msgId") String msgId, @Param("msgTableName") String msgTableName);
 }

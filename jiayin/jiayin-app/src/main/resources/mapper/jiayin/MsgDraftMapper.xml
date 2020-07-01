@@ -48,4 +48,16 @@
     <delete id="removeByMsgTableNameAndMsgId">
         DELETE FROM jiayin_msg_draft WHERE openid=#{openid} and msg_id=#{msgId} and msg_table_name =#{msgTableName}
     </delete>
+
+    <select id="findByMsgIdAndOpenIdAndTable" resultType="java.util.Map">
+        select
+        <include refid="Base_Column_List" />
+        from
+        jiayin_msg_draft draft
+        left join jiayin_msg_type mst on draft.msg_type_id=mst.id
+        where
+        draft.flag=1
+        and draft.openid=#{openid} and draft.msg_id=#{msgId} and draft.msg_table_name =#{msgTableName}
+    </select>
+
 </mapper>

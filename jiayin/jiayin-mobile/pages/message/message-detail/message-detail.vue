@@ -134,7 +134,7 @@
 
 <style lang="scss">
 	.message {
-		padding-bottom: 50px;
+		padding-bottom: 200rpx;
 		width: 750rpx;
 
 		.message-detail {

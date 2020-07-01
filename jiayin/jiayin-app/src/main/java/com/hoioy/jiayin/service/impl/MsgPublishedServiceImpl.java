@@ -9,6 +9,7 @@ import com.hoioy.diamond.common.util.CommonMybatisPageUtil;
 import com.hoioy.diamond.common.util.CommonMybatisPageUtil2;
 import com.hoioy.jiayin.domain.MsgPublished;
 import com.hoioy.jiayin.dto.MessageDTO;
+import com.hoioy.jiayin.dto.MsgDraftDTO;
 import com.hoioy.jiayin.dto.MsgPublishedDTO;
 import com.hoioy.jiayin.mapper.MsgPublishedMapper;
 import com.hoioy.jiayin.service.IMsgPublishedService;
@@ -32,6 +33,12 @@ public class MsgPublishedServiceImpl extends BaseServiceImpl<MsgPublishedMapper,
         return iBaseRepository.removeById(id);
     }
 
+    @Override
+    public MsgPublishedDTO findByMsgIdAndOpenIdAndTable(String userName, MessageDTO update, String msgTableName) {
+        Map map = iBaseRepository.findByMsgIdAndOpenIdAndTable(userName, update.getId(), msgTableName);
+        MsgPublishedDTO dto = CommonMybatisPageUtil2.getInstance().mapToDTO(map,MsgPublishedDTO.class);
+        return dto;
+    }
     //    @Override
 //    public void saveOrUpdatePublished(String userName, MessageDTO update, String msgTableName) {
 //        int count = iBaseRepository.updatePublished(userName, update, msgTableName);

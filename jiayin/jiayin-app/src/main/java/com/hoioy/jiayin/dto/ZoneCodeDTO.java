@@ -22,7 +22,6 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
-@TableName("jiayin_msg_type")
 @ApiModel(value="ZoneCodeDTO", description="区划DTO")
 public class ZoneCodeDTO extends BaseTreeDTO {
 
