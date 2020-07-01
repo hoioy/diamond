@@ -7,6 +7,7 @@ import com.github.tobato.fastdfs.domain.fdfs.MetaData;
 import com.github.tobato.fastdfs.domain.fdfs.StorePath;
 import com.github.tobato.fastdfs.domain.fdfs.ThumbImageConfig;
 import com.github.tobato.fastdfs.service.FastFileStorageClient;
+import com.hoioy.diamond.common.dto.ResultDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,7 @@ public class FileController {
     private ThumbImageConfig thumbImageConfig;
 
     @PostMapping("/upload")
-    public List<String> fileUpload(MultipartHttpServletRequest request , @RequestParam(name = "paths",required = false) String paths) throws IOException {
+    public ResultDTO<List<String>> fileUpload(MultipartHttpServletRequest request , @RequestParam(name = "paths",required = false) String paths) throws IOException {
         List<String> list = new ArrayList();
         Map<String, MultipartFile> map = request.getFileMap();
         if (map.size() > 0) {
@@ -58,7 +59,7 @@ public class FileController {
                 storageClient.deleteFile(groupPath.get(0), groupPath.get(1));
             }
         }
-        return list;
+        return new ResultDTO<List<String>>(list);
     }
     private Set<MetaData> createMetaData() {
         Set<MetaData> metaDataSet = new HashSet<>();

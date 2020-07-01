@@ -44,7 +44,7 @@
 				</view>
 				<picker class="container-picker" mode="multiSelector" @change="bindAddressData" @columnchange="bindMultiPickerColumnChange"
 				 :value="multiIndex" :range="multiArray" range-key="address">
-					<input placeholder="(请在此处选择信息有效截止日期)" class="container-input" v-model="message.addressName" />
+					<input placeholder="(请在此处选择地区)" class="container-input" v-model="message.addressName" />
 				</picker>
 				<view class='container-title'>
 					<text class="validate-text" v-if="validateStatus.price">请输入正确的价格</text>
@@ -125,7 +125,7 @@
 					expareTime: false, //过期时间
 					contacts: false, //联系人
 					contactPhone: false, //联系电话
-					price: false, //联系电话
+					price: false, //价格
 				},
 				multiArray: [
 					[{
@@ -151,7 +151,7 @@
 					token: null,
 					children: [],
 					title: "", //标题
-					price: 0, //标题
+					price: 0, 
 					town: "", //镇
 					village: "", //村
 					addressName: "", //默认的，或者当前选中的地区名称
@@ -217,13 +217,14 @@
 			bindAddressData: function(e) {
 				// console.log('address发送选择改变，携带值为', e.target.value)
 				this.message.town = this.multiArray[0][e.target.value[0]].id;
-			
+
 				if (this.multiArray[1][0]) {
 					// console.log('bindAddressData' + this.multiArray[1])
 					this.message.village = this.multiArray[1][e.target.value[1]].id
 				}
-				
-				this.message.addressName = this.multiArray[0][this.multiIndex[0]].address + "-"+this.multiArray[1][this.multiIndex[1]].address
+
+				this.message.addressName = this.multiArray[0][this.multiIndex[0]].address + "-" + this.multiArray[1][this.multiIndex[
+					1]].address
 			},
 			onFocus(type) {
 				this.validateStatus[type] = false
@@ -405,7 +406,6 @@
 		}
 
 		.container-textarea {
-			min-height: 500rpx;
 			font-size: $uni-font-size-lg;
 			box-sizing: border-box;
 			padding: $uni-spacing-col-base;
@@ -416,6 +416,7 @@
 
 			textarea {
 				width: 100%;
+				min-height: 500rpx;
 			}
 		}
 
