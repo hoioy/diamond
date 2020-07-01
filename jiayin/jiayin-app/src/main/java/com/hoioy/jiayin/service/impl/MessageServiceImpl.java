@@ -1,5 +1,6 @@
 package com.hoioy.jiayin.service.impl;
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hoioy.diamond.common.base.BaseServiceImpl;
@@ -65,12 +66,12 @@ public class MessageServiceImpl extends BaseServiceImpl<MessageMapper, Message, 
             MsgType msgType = msgTypeMapper.selectById(messageDTO.getMsgTypeId());
             messageDTO.setMsgTypeName(msgType.getTypeName());
             messageDTO.setMsgTypeColor(msgType.getColor());
+            if (StrUtil.isNotBlank(messageDTO.getTown())) {
             ZoneCode town = zoneCodeMapper.selectById(messageDTO.getTown());
-            if (town != null) {
-                messageDTO.setTownName(town.getAddress());
+            messageDTO.setTownName(town.getAddress());
             }
+            if (StrUtil.isNotBlank(messageDTO.getVillage())) {
             ZoneCode village = zoneCodeMapper.selectById(messageDTO.getVillage());
-            if (village != null) {
                 messageDTO.setVillageName(village.getAddress());
             }
             return Optional.ofNullable(messageDTO);
