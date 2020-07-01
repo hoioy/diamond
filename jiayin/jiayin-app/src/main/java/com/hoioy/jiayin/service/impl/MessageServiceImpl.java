@@ -63,6 +63,7 @@ public class MessageServiceImpl extends BaseServiceImpl<MessageMapper, Message, 
             MessageDTO messageDTO = byId.get();
             MsgType msgType = msgTypeMapper.selectById(messageDTO.getMsgTypeId());
             messageDTO.setMsgTypeName(msgType.getTypeName());
+            messageDTO.setMsgTypeColor(msgType.getColor());
             return Optional.ofNullable(messageDTO);
         }
         return byId;

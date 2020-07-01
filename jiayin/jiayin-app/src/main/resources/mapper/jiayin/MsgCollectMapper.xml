@@ -31,5 +31,11 @@
         <if test="msgCollect.msgId != null and msgCollect.msgId != ''">
             AND msg_id = #{msgCollect.msgId}
         </if>
+        <if test="msgCollect.openid != null and msgCollect.openid != ''">
+            AND openid = #{msgCollect.openid}
+        </if>
+        <if test="msgCollect.msgTypeId != null and msgCollect.msgTypeId != ''">
+            AND msg_type_id = #{msgCollect.msgTypeId}
+        </if>
     </select>
 </mapper>

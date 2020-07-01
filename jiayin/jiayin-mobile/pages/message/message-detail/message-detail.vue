@@ -2,19 +2,17 @@
 	<view class="message">
 		<view class="message-detail">
 			<view class="message-detail-head">
-				<text class="message-detail-title">{{message.title}}</text>
-				<view class="msg-detail-head-body">
-					<view class="msg-detail-head-body-price">{{message.price}}元</view>
-				</view>
+				<view class="message-detail-title">{{message.title}}</view>
+				<view class="msg-detail-head-body-price">{{message.price}}元</view>
 				<view class="msg-detail-head-body">
 					<view>发布时间:{{message.createdDate|formatDate}}</view>
 					<view>浏览:{{message.views}}次</view>
 				</view>
 			</view>
 			<view class="message-detail-content">
-				<view class="message-detail-content-body">{{ message.msgTypeName }}类型信息</view>
-			</view>
-			<view class="message-detail-content">
+				<view>
+					<text class="message-detail-content-type" :style="{backgroundColor: message.msgTypeColor}">{{ message.msgTypeName }}类型信息</text>
+				</view>
 				<view class="message-detail-content-body">{{ message.content }}</view>
 			</view>
 			<view class="message-detail-item-contacts">
@@ -34,7 +32,11 @@
 			<view class="message-detail-expare">有效期：截止到{{message.expareTime}}有效</view>
 		</view>
 		<view class="message-nav">
-			<message-detail-nav :fill="true" :options="options" :buttonGroup="buttonGroup" @click="onClick" @buttonClick="buttonClick" />
+			<view class="button-container">
+				<button type="default" class="button-container-button button-red" @tap="onCollect">{{collectButtonName}}</button>
+				<button type="default" class="button-container-button button-blue" open-type="share">分享</button>
+				<button type="default" class="button-container-button button-yellow" @tap="onPhone">打电话</button>
+			</view>
 		</view>
 	</view>
 </template>
@@ -42,59 +44,14 @@
 <script>
 	import * as messageAPI from '@/api/message.js';
 	import * as collectAPI from '@/api/collect.js';
-	import messageDetailNav from '@/components/message-detail-nav/message-detail-nav.vue'
 	import dateFormat from '@/utils/date.js'
+
 	export default {
-		components: {
-			messageDetailNav
-		},
 		data() {
 			return {
-				options: [{
-					icon: 'icon-shoucang-copy',
-					text: '收藏',
-					infoBackgroundColor: '#007aff',
-					infoColor: "red",
-					iconColor: "#FFD700"
-				}],
-				buttonGroup: [{
-						text: '分享',
-						backgroundColor: '#00BFFF',
-						color: '#fff',
-						share: 'share'
-					},
-					{
-						text: '打电话',
-						backgroundColor: '#ffa200',
-						color: '#fff'
-					}
-				],
-				message: {
-					id: null,
-					parentId: null,
-					createdBy: '',
-					createdDate: null,
-					modifiedBy: null,
-					modifiedDate: null,
-					flag: null,
-					remark: null,
-					version: null,
-					token: null,
-					children: [],
-					title: "", //标题
-					msgTypeId: "", //信息类型
-					msgTypeName: "", //信息类型
-					content: "", //信息内容
-					status: "0", //待交易 已完成
-					expareTime: "", //过期时间
-					contacts: "", //联系人
-					contactPhone: "", //联系电话
-					views: "0" //浏览次数
-				},
-				"collect": {
-					flag: 0,
-					id: ""
-				}
+				message: {},
+				collectButtonName: "收藏",
+				collectId: ""
 			};
 		},
 		onShareAppMessage(res) {
@@ -115,55 +72,61 @@
 			}
 		},
 		methods: {
-			onClick(e) {
-				//分享
-				//收藏
-				if (e.index === 0) {
-					if (this.collect.flag === 0) {
+			initData(id) {
+				var that = this;
+				messageAPI.findById(id, function(data) {
+					that.message = data.data;
+					that.initCollect()
+				})
+			},
+			initCollect() {
+				var that = this;
+				collectAPI.getPage({
+					"filters": {
+						"openid": that.message.openid,
+						"msgId": that.message.id
+					},
+					"page": 1,
+					"pageSize": 1
+				}, (data) => {
+					if (data.data.list && data.data.list.length > 0) {
+						that.collectButtonName = "取消收藏"
+						that.collectId = data.data.list[0].id
+					} else {
+						that.collectButtonName = "收藏"
+					}
+				})
+			},
+			onCollect(e) {
+				var that = this
+				switch (that.collectButtonName) {
+					case "取消收藏":
+						collectAPI.delCollect(that.collectId, function(data) {
+							that.collectButtonName = "收藏"
+							uni.showToast({
+								title: `取消收藏成功`
+							})
+						})
+						break;
+					case "收藏":
 						collectAPI.addCollect({
 							"msgId": this.message.id,
 							"msgTitle": this.message.title,
 							"msgTypeId": this.message.msgTypeId,
 						}, (data) => {
-							this.collect.id = data.data.id
+							that.collectId = data.data.id
+							that.collectButtonName = "取消收藏"
 							uni.showToast({
-								title: `收藏成功`,
-								icon: 'none'
+								title: `收藏成功`
 							})
 						})
-						this.collect.flag = 1
-						this.options[1].iconColor = '#FFD700'
-					} else {
-						collectAPI.delCollect(this.collect.id, function(data) {
-							uni.showToast({
-								title: `取消收藏`,
-								icon: 'none'
-							})
-						})
-						this.options[1].iconColor = '#646566'
-						this.collect.flag = 0
-					}
-
-				}
-
-				uni.showToast({
-					title: `点击${e.content.text}`,
-					icon: 'none'
-				})
-			},
-			buttonClick(e) {
-				console.log(e)
-				if (e.index == 1) {
-					uni.makePhoneCall({
-						phoneNumber: '17710666027' //仅为示例
-					});
+						break;
 				}
 			},
-			initData(id) {
-				var that = this;
-				messageAPI.findById(id, function(data) {
-					that.message = data.data;
-				})
+			onPhone(e) {
+				uni.makePhoneCall({
+					phoneNumber: this.message.contactPhone
+				});
 			}
 		}
 	}
@@ -177,50 +140,68 @@
 		.message-detail {
 			display: flex;
 			flex-direction: column;
-			align-items: center;
 
 			.message-detail-head {
 				display: flex;
 				flex-direction: column;
-				align-items: center;
-				border-bottom: 2rpx solid #DDDDDD;
+				box-shadow: 1px 1px 5px $uni-border-color;
+				border-radius: $uni-border-radius-lg;
+				padding: $uni-spacing-col-base;
 
 				.message-detail-title {
+					align-self: center;
 					font-size: $uni-font-size-title;
 					color: $uni-color-title;
 				}
 
+				.msg-detail-head-body-price {
+					font-size: $uni-font-size-subtitle;
+					color: $uni-color-error;
+				}
+
 				.msg-detail-head-body {
-					width: 750rpx;
 					display: flex;
 					justify-content: space-between;
 					font-size: $uni-font-size-base;
 					color: $uni-text-color-placeholder;
-
-					.msg-detail-head-body-price {
-						font-size: $uni-font-size-title;
-						color: $uni-color-error;
-					}
+					margin-top: $uni-spacing-col-base;
 				}
 			}
 
 			.message-detail-content {
-				width: 750rpx;
+				display: flex;
+				flex-direction: column;
+				margin-top: $uni-spacing-col-base;
+				box-shadow: 1px 1px 5px $uni-border-color;
+				border-radius: $uni-border-radius-lg;
+				padding: $uni-spacing-col-base;
+
+				.message-detail-content-type {
+					font-size: $uni-font-size-sm;
+					color: $uni-text-color-inverse;
+					padding: $uni-spacing-col-sm $uni-spacing-row-sm;
+					border-radius: $uni-border-radius-lg;
+				}
+
 				.message-detail-content-body {
 					color: $uni-color-paragraph;
 					font-size: $uni-font-size-paragraph;
+					margin-top: $uni-spacing-col-base;
 				}
 			}
 
 			.message-detail-item-contacts {
-				flex-direction: column;
 				display: flex;
-				width: 750rpx;
+				flex-direction: column;
+				margin-top: $uni-spacing-col-base;
+				box-shadow: 1px 1px 10px $uni-border-color;
+				border-radius: $uni-border-radius-lg;
+				padding: $uni-spacing-col-base;
 
 				.message-detail-item-contacts-item {
 					display: flex;
 					flex-wrap: nowrap;
-
+					margin-top: $uni-spacing-col-base;
 					.message-detail-item-contacts-item-key {
 						width: 20%;
 					}
@@ -230,10 +211,12 @@
 					}
 				}
 			}
-			
-			.message-detail-expare{
+
+			.message-detail-expare {
 				font-size: $uni-font-size-base;
 				color: $uni-text-color-placeholder;
+				align-self: center;
+				margin-top: $uni-spacing-col-base;
 			}
 		}
 
@@ -241,6 +224,48 @@
 			position: fixed;
 			bottom: 0;
 			width: 100%;
+
+			.button-container {
+				display: flex;
+				flex-direction: row;
+				flex-wrap: nowrap;
+				margin: $uni-spacing-col-base;
+
+				.button-blue {
+					background: #00BFFF;
+					color: #fff;
+
+					.button-blue:hover,
+					.button-blue:active {
+						background: #00a0d5;
+					}
+				}
+
+				.button-red {
+					background: #dd6572;
+					color: #fff;
+
+					.button-red:hover,
+					.button-red:active {
+						background: #b6535e;
+					}
+				}
+
+				.button-yellow {
+					background: $jiayin-bg-color;
+					color: #000000;
+
+					.button-yellow:hover,
+					.button-yellow:active {
+						background: $jiayin-bg-color-active;
+					}
+				}
+
+				.button-container-button {
+					width: 50%;
+					margin: $uni-spacing-col-base;
+				}
+			}
 		}
 	}
 </style>

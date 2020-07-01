@@ -61,6 +61,7 @@ public class MessageDTO extends BaseDTO implements Serializable {
 
     @ApiModelProperty(value = "价格")
     private BigDecimal price;
+
     @ApiModelProperty(value = "省")
     private String province;
     @ApiModelProperty(value = "市")
@@ -72,4 +73,14 @@ public class MessageDTO extends BaseDTO implements Serializable {
     @ApiModelProperty(value = "村")
     private String village;
 
+    @ApiModelProperty(value = "省Name")
+    private String provinceName;
+    @ApiModelProperty(value = "市Name")
+    private String cityName;
+    @ApiModelProperty(value = "县Name")
+    private String countryName;
+    @ApiModelProperty(value = "镇Name")
+    private String townName;
+    @ApiModelProperty(value = "村Name")
+    private String villageName;
 }

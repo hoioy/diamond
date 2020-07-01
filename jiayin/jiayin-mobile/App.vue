@@ -12,11 +12,10 @@
 	}
 </script>
 
-<style>
-	@import "components/m-icon/m-icon.css";
+<style lang="scss">
 	page {
 		min-height: 100%;
 		display: flex;
-		font-size: 16px;
+		font-size: $uni-font-size-base;
 	}
 </style>
