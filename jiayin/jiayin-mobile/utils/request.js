@@ -39,10 +39,10 @@ const handleRes = function(res, param) {
 			})
 		}
 	} else {
-		if(typeof res.data =='string'&&res.data .constructor==String){
+		if (typeof res.data == 'string' && res.data.constructor == String) {
 			res.data = JSON.parse(res.data)
 		}
-		
+
 		if (res.data.code !== 1 && res.data.code !== 200) {
 			if (res.data.code === 2 || res.data.code === 3 || res.data.code === 500) {
 				if (isTokenError(res.data.message)) {
@@ -78,6 +78,8 @@ const request = function(param) {
 		}
 	}
 
+	uni.showLoading({})
+	
 	if (param.isUpload) {
 		//如果是上传文件
 		uni.uploadFile({
