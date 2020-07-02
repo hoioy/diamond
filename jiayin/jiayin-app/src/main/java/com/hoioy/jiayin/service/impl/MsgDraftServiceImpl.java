@@ -13,6 +13,7 @@ import com.hoioy.jiayin.dto.MsgDraftDTO;
 import com.hoioy.jiayin.mapper.MsgDraftMapper;
 import com.hoioy.jiayin.service.IMessageService;
 import com.hoioy.jiayin.service.IMsgDraftService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -53,5 +54,12 @@ public class MsgDraftServiceImpl extends BaseServiceImpl<MsgDraftMapper, MsgDraf
             msgDraftDTO.setOpenid(update.getOpenid());
             save(msgDraftDTO);
         }
+    }
+
+    @Override
+    public MsgDraftDTO findByMsgIdAndOpenIdAndTable(String userName, MessageDTO update, String msgTableName) {
+        Map map = iBaseRepository.findByMsgIdAndOpenIdAndTable(userName, update.getId(), msgTableName);
+        MsgDraftDTO dto = CommonMybatisPageUtil2.getInstance().mapToDTO(map,MsgDraftDTO.class);
+        return dto;
     }
 }

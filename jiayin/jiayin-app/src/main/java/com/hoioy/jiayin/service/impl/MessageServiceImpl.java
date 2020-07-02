@@ -30,8 +30,8 @@ public class MessageServiceImpl extends BaseServiceImpl<MessageMapper, Message, 
     private MsgCountMapper msgCountMapper;
     @Autowired
     private MsgTypeMapper msgTypeMapper;
-    @Autowired
-    private MsgPublishedMapper msgPublishedMapper;
+//    @Autowired
+//    private MsgPublishedMapper msgPublishedMapper;
 
     @Autowired
     private ZoneCodeMapper zoneCodeMapper;
@@ -48,13 +48,13 @@ public class MessageServiceImpl extends BaseServiceImpl<MessageMapper, Message, 
     @Override
     public MessageDTO update(MessageDTO dto) throws BaseException {
         MessageDTO update = super.update(dto);
-        String userName = CommonSecurityUtils.getCurrentLogin();
-        MsgPublished msgPublished = new MsgPublished();
-        msgPublished.setMsgTitle(dto.getTitle());
-        msgPublished.setMsgId(dto.getId());
-        msgPublished.setMsgTypeId(dto.getMsgTypeId());
-        msgPublished.setMsgTableName("msg");
-        msgPublishedMapper.updateByPubilshId(msgPublished);
+//        String userName = CommonSecurityUtils.getCurrentLogin();
+//        MsgPublished msgPublished = new MsgPublished();
+//        msgPublished.setMsgTitle(dto.getTitle());
+//        msgPublished.setMsgId(dto.getId());
+//        msgPublished.setMsgTypeId(dto.getMsgTypeId());
+//        msgPublished.setMsgTableName("msg");
+//        msgPublishedMapper.updateByPubilshId(msgPublished);
         return update;
     }
 

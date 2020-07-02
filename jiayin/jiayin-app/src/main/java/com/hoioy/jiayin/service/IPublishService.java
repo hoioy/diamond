@@ -7,4 +7,6 @@ public interface IPublishService {
     MessageDTO saveDraft(MessageDTO dto);
 
     MessageDTO publish(MessageDTO dto);
+
+    MessageDTO rePublish(MessageDTO dto);
 }

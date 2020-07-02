@@ -162,7 +162,8 @@
 				switch (this.apiType) {
 					case 'draft':
 						uni.navigateTo({
-							url: '/pages/message/message-save/message-save?messageId=' + item.msgId
+							url: '/pages/message/message-save/message-save?messageId=' + item.msgId+
+								'&msgTypeId=' + item.msgTypeId + '&msgTypeName=' + item.msgTypeName
 						});
 						break;
 					case 'collect':
@@ -173,7 +174,8 @@
 					case 'published':
 						uni.navigateTo({
 							url: '/pages/message/message-save/message-save?messageId=' + item.msgId +
-								'&msgTypeChildrenId=' + item.msgTypeId + '&parentId=' + item.parentId,
+								'&msgTypeId=' + item.msgTypeId + '&msgTypeName=' + item.msgTypeName+
+								'&from=published' 
 						});
 						break;
 				}

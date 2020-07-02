@@ -24,11 +24,17 @@ public class PublishController {
         return new ResultDTO(messageDTO1);
     }
 
-    @ApiOperation(value = "发布", notes = "发布")
+    @ApiOperation(value = "发布", notes = "直接发布，从草稿页面发布")
     @PostMapping("/publish")
     public ResultDTO publish(@RequestBody MessageDTO messageDTO) throws BaseException {
         MessageDTO messageDTO1 = iPublishService.publish(messageDTO);
         return new ResultDTO(messageDTO1);
     }
 
+    @ApiOperation(value = "更新发布", notes = "从发布页面进入更新，重新发布")
+    @PostMapping("/re-publish")
+    public ResultDTO rePublish(@RequestBody MessageDTO messageDTO) throws BaseException {
+        MessageDTO messageDTO1 = iPublishService.rePublish(messageDTO);
+        return new ResultDTO(messageDTO1);
+    }
 }

@@ -9,18 +9,15 @@
 					<input class="container-input" placeholder="(请在此处输入信息标题)" v-model="message.title" @focus="onFocus('title')" @blur="onValidate('title')" />
 					<text class="container-input-icon" @click="cleartInput('title')">&#xe434;</text>
 				</view>
-				<view class='container-title'>
-					<!-- <text class="title">{{msgType.typeName}}信息具体类型</text> -->
-				</view>
-				<picker class="container-picker" :disabled="msgTypeChildrenDisabled" @change="bindPickerChange" :value="msgTypeChildren.selectedIndex"
-				 :range="msgTypeChildren.types" range-key="typeName" mode="selector">
-					<input class="container-input" placeholder="(请在此处选择信息具体类型)" v-model="msgTypeChildren.types[msgTypeChildren.selectedIndex].typeName" />
+				<picker class="container-picker" v-if="msgType.children.msgTypes[0].id" @change="bindMsgTypeChange" :value="msgType.children.selectedIndex"
+				 :range="msgType.children.msgTypes" range-key="typeName" mode="selector">
+					<input class="container-input" placeholder="(请在此处选择信息具体类型)" v-model="msgType.children.msgTypes[msgType.children.selectedIndex].typeName" />
 				</picker>
 				<view class='container-title'>
-					<!-- <text class="title">信息有效截止日期</text> -->
+					<text class="validate-text" v-if="validateStatus.expareTime">截至日期不能小于今天</text>
 				</view>
 				<picker class="container-picker" mode="date" :value="message.expareTime" @change="bindDateChange">
-					<input class="container-input" placeholder="(请在此处选择信息有效截止日期)" v-model="message.expareTime" />
+					<input class="container-input" placeholder="(请在此处选择信息有效截止日期)" v-model="message.expareTime" @focus="onFocus('expareTime')" />
 				</picker>
 				<view class='container-title'>
 					<text class="validate-text" v-if="validateStatus.contacts">联系人格式不正确</text>
@@ -39,13 +36,18 @@
 			</uni-collapse-item>
 
 			<uni-collapse-item class="container-item" :open="false" :show-animation="true" title="地区和价格(选填)" thumb="/static/img/save/price.png">
-				<view class='container-title'>
-					<!-- <text class="title">地址</text> -->
+				<view class='container-row'>
+					<picker class="container-picker" @change="bindTownChange" :value="address.town.zoneCodes.selectedIndex" :range="address.town.zoneCodes"
+					 range-key="address" mode="selector">
+						<input class="container-input" placeholder="(选择一级地区)" v-model="address.town.zoneCodes[address.town.selectedIndex].address" />
+					</picker>
+					<text v-if="address.village.zoneCodes[0].id">——</text>
+					<picker class="container-picker" v-if="address.village.zoneCodes[0].id" @change="bindVillageChange" :value="address.village.zoneCodes.selectedIndex"
+					 :range="address.village.zoneCodes" range-key="address" mode="selector">
+						<input class="container-input" placeholder="(选择二级地区)" v-model="address.village.zoneCodes[address.village.selectedIndex].address" />
+					</picker>
 				</view>
-				<picker class="container-picker" mode="multiSelector" @change="bindAddressData" @columnchange="bindMultiPickerColumnChange"
-				 :value="multiIndex" :range="multiArray" range-key="address">
-					<input placeholder="(请在此处选择地区)" class="container-input" v-model="message.addressName" />
-				</picker>
+
 				<view class='container-title'>
 					<text class="validate-text" v-if="validateStatus.price">请输入正确的价格</text>
 				</view>
@@ -54,17 +56,6 @@
 					 @blur="onValidate('price')" />
 					<text class="container-input-icon" @click="cleartInput('price')">&#xe434;</text>
 				</view>
-				<!-- <view class="input-group">
-					<picker :disabled="msgTypeChildrenDisabled" mode="multiSelector" @change="bindAddressData" @columnchange="bindMultiPickerColumnChange"
-					 :value="multiIndex" :range="multiArray" range-key="address">
-						<view class="input-row border">
-							<text class="title">地区：</text>
-							<view class="uni-input" v-model="message.town">{{multiArray[0][multiIndex[0]].address}}</view>
-							<view v-if="multiArray[1][multiIndex[1]]"> - </view>
-							<view v-if="multiArray[1][multiIndex[1]]" class="uni-input">{{multiArray[1][multiIndex[1]].address}}</view>
-						</view>
-					</picker> 
-					</view> -->
 			</uni-collapse-item>
 
 			<uni-collapse-item class="container-item" :open="true" :show-animation="true" title="主要内容(必填)" thumb="/static/img/save/wen.png">
@@ -80,8 +71,9 @@
 		</uni-collapse>
 
 		<view class="button-container">
-			<button type="default" class="button-container-save" @tap="saveDraftMessage">保存为草稿</button>
-			<button type="default" class="button-container-pub" @tap="saveMessage">直接发布</button>
+			<button type="default" v-if="!isPublished" class="button-container-save" @tap="saveDraftMessage">保存为草稿</button>
+			<button type="default" v-if="!isPublished" class="button-container-pub" @tap="saveMessage">直接发布</button>
+			<button type="default" v-if="isPublished" class="button-container-pub" @tap="rePublishMesage">更新</button>
 		</view>
 	</view>
 </template>
@@ -106,18 +98,10 @@
 				msgType: {
 					id: '',
 					typeName: '',
-					money: '',
-					expiryDate: null
-				},
-				msgTypeChildrenDisabled: false,
-				msgTypeChildren: {
-					types: [{
-						id: '',
-						typeName: '',
-						money: '',
-						expiryDate: null
-					}],
-					selectedIndex: 0,
+					children: {
+						msgTypes: [{}],
+						selectedIndex: 0
+					},
 				},
 				validateStatus: {
 					title: false, //标题
@@ -125,19 +109,19 @@
 					expareTime: false, //过期时间
 					contacts: false, //联系人
 					contactPhone: false, //联系电话
-					price: false, //价格
+					price: false //价格
 				},
-				multiArray: [
-					[{
-						id: '1276540590057693185',
-						address: '嘉荫县'
-					}, {
-						id: '1276522368780578817',
-						address: '嘉荫农场'
-					}],
-					[]
-				],
-				multiIndex: [0, 0],
+				address: {
+					town: {
+						zoneCodes: [{}],
+						selectedIndex: 0
+					},
+					village: {
+						zoneCodes: [{}],
+						selectedIndex: 0
+					}
+				},
+				isPublished: false,
 				message: {
 					id: null,
 					parentId: null,
@@ -151,7 +135,7 @@
 					token: null,
 					children: [],
 					title: "", //标题
-					price: 0, 
+					price: 0,
 					town: "", //镇
 					village: "", //村
 					addressName: "", //默认的，或者当前选中的地区名称
@@ -170,61 +154,102 @@
 			};
 		},
 		onLoad: function(option) { //option为object类型，会序列化上个页面传递的参数
-			console.log(option)
-			const that = this;
+			this.msgType.id = option.msgTypeId
+			this.msgType.typeName = option.msgTypeName
+			uni.setNavigationBarTitle({
+				title: option.msgTypeName + "类信息编辑"
+			});
 			if (option.messageId) {
-				this.msgTypeChildrenDisabled = true
 				this.initMessage(option.messageId)
-				this.findParentByChildId(option.msgTypeChildrenId)
-				this.findMsgTypeChildrenByMsgTypeId(option.msgTypeChildrenId)
-				// this.initAddress(this.message.town,this.message.village)
+			} else {
+				this.initMsgTypeChildren()
+				this.initAddressTown()
 			}
-
-			if (option.msgTypeId) {
-				this.initMsgType(option.msgTypeId)
-				this.initMsgTypeChildren(option.msgTypeId)
-				this.initAddress()
-			}
-
-			if (option.msgTypeName) {
-				uni.setNavigationBarTitle({
-					title: option.msgTypeName + "类信息编辑"
-				});
-			}
-		},
-		onReady() {
-
+			
+			if (option.from && option.from == 'published') {
+				//从发布入口进来
+				this.isPublished =  true;
+			} 
+			
 		},
 		methods: {
+			initMessage(messageId) {
+				messageAPI.findById(messageId, (data) => {
+					this.message = data.data;
+					this.initMsgTypeChildren()
+					this.initAddressTown()
+				})
+			},
+			initMsgTypeChildren() {
+				const that = this
+				msgTypeAPI.selectChildren(this.msgType.id, (data) => {
+					if (data.data.length > 0) {
+						that.msgType.children.msgTypes = data.data
+					} else {
+						that.msgType.children.msgTypes = [{}]
+						that.msgType.children.selectedIndex = 0
+					}
+				})
+			},
+			initAddressTown() {
+				const that = this
+				this.address.town.selectedIndex = 0
+				zoneCodeAPI.findByParentId("", (data) => {
+					that.address.town.zoneCodes = data.data
+					if (that.message.town) {
+						//初始化选中值
+						var index = -1
+						that.address.town.zoneCodes.forEach(item => {
+							index++;
+							if (item.id == that.message.town) {
+								that.address.town.selectedIndex = index
+								return;
+							}
+						})
+					}
+					this.initAddressVillage()
+				})
+			},
+			initAddressVillage() {
+				this.address.village.selectedIndex = 0
+				var id = this.address.town.zoneCodes[this.address.town.selectedIndex].id;
+				const that = this
+				zoneCodeAPI.findByParentId(id, (data) => {
+					if (data.data.length > 0) {
+						that.address.village.zoneCodes = data.data
+						if (that.message.village) {
+							//初始化选中值
+							var index = -1
+							that.address.village.zoneCodes.forEach(item => {
+								index++;
+								if (item.id == that.message.village) {
+									that.address.village.selectedIndex = index
+									return;
+								}
+							})
+						}
+					} else {
+						that.address.village.zoneCodes = [{}]
+						that.address.village.selectedIndex = 0
+					}
+				})
+			},
 			cleartInput(propertyName) {
 				this.message[propertyName] = "";
 			},
-			bindMultiPickerColumnChange: function(e) {
-				this.multiIndex[e.detail.column] = e.detail.value
-
-				if (e.detail.column === 0) {
-					console.log('修改的id：' + this.multiArray[e.detail.column][e.detail.value].id + '，值为：' + e.detail.value)
-					zoneCodeAPI.findByParentId(this.multiArray[e.detail.column][e.detail.value].id, (data) => {
-						this.multiArray[1] = data.data
-						this.multiIndex.splice(1, 0)
-					})
-				}
-				// this.$forceUpdate()
+			bindMsgTypeChange: function(e) {
+				this.msgType.children.selectedIndex = e.target.value
 			},
-			bindPickerChange: function(e) {
-				this.msgTypeChildren.selectedIndex = e.target.value
+			bindTownChange: function(e) {
+				this.address.town.selectedIndex = e.target.value
+				this.initAddressVillage()
 			},
-			bindAddressData: function(e) {
-				// console.log('address发送选择改变，携带值为', e.target.value)
-				this.message.town = this.multiArray[0][e.target.value[0]].id;
-
-				if (this.multiArray[1][0]) {
-					// console.log('bindAddressData' + this.multiArray[1])
-					this.message.village = this.multiArray[1][e.target.value[1]].id
-				}
-
-				this.message.addressName = this.multiArray[0][this.multiIndex[0]].address + "-" + this.multiArray[1][this.multiIndex[
-					1]].address
+			bindVillageChange: function(e) {
+				this.address.village.selectedIndex = e.target.value
+			},
+			bindDateChange: function(e) {
+				this.message.expareTime = e.detail.value
+				this.validateStatus.expareTime = (new Date(this.message.expareTime) <= new Date())
 			},
 			onFocus(type) {
 				this.validateStatus[type] = false
@@ -232,7 +257,7 @@
 			onValidate(type) {
 				switch (type) {
 					case "price":
-						this.validateStatus.price = (this.message.price == "")
+						this.validateStatus.price = (this.message.price < 0)
 						return this.validateStatus.price;
 					case "title":
 						this.validateStatus.title = (this.message.title == "")
@@ -241,22 +266,38 @@
 						this.validateStatus.content = (this.message.content == "")
 						return this.validateStatus.content;
 					case "expareTime":
-						this.validateStatus.expareTime = (this.message.expareTime == "")
-						return this.validateStatus.expareTime;
+						return (new Date(this.message.expareTime) <= new Date());
 					case "contacts":
 						this.validateStatus.contacts = (this.message.contacts == "")
 						return this.validateStatus.contacts;
 					case "contactPhone":
-						this.validateStatus.contactPhone = (this.message.contactPhone == "")
+						if (this.message.contactPhone) {
+							this.validateStatus.contactPhone = false
+						} else {
+							this.validateStatus.contactPhone = true
+						}
 						return this.validateStatus.contactPhone;
 				}
 			},
-			bindDateChange: function(e) {
-				this.validateStatus.expareTime = false
-				this.message.expareTime = e.detail.value
-			},
 			prepareMessage() {
-				this.message.msgTypeId = this.msgTypeChildren.types[this.msgTypeChildren.selectedIndex].id
+				if (this.msgType.children.msgTypes[this.msgType.children.selectedIndex].id) {
+					this.message.msgTypeId = this.msgType.children.msgTypes[this.msgType.children.selectedIndex].id
+				} else {
+					this.message.msgTypeId = this.msgType.id
+				}
+
+				if (this.address.village.zoneCodes[this.address.village.selectedIndex].id) {
+					this.message.village = this.address.village.zoneCodes[this.address.village.selectedIndex].id
+				} else {
+					this.message.village = ""
+				}
+
+				if (this.address.town.zoneCodes[this.address.town.selectedIndex].id) {
+					this.message.town = this.address.town.zoneCodes[this.address.town.selectedIndex].id
+				} else {
+					this.message.town = ""
+				}
+
 				if (!this.onValidate("title") &&
 					!this.onValidate("content") &&
 					!this.onValidate("expareTime") &&
@@ -267,72 +308,46 @@
 
 				return false;
 			},
-
-			findParentByChildId(childId) {
-				msgTypeAPI.findParentByChildId(childId, (msgTypeparentData) => {
-					this.msgType = msgTypeparentData.data
-				})
-			},
-			initMessage(messageId) {
-				messageAPI.findById(messageId, (data) => {
-					this.message = data.data;
-					zoneCodeAPI.findById(data.data.town, (townData) => {
-						console.log(townData.data.address)
-						this.multiArray[0] = [townData.data]
-						zoneCodeAPI.findById(data.data.village, (villageData) => {
-							this.multiArray[1] = [villageData.data]
-							this.multiIndex.splice(1, 0)
-						})
-					})
-
-				})
-			},
-			initAddress() {
-				zoneCodeAPI.findByParentId("", (data) => {
-					this.multiArray[0] = data.data
-					this.message.town = data.data[0].id
-					zoneCodeAPI.findByParentId(data.data[0].id, (villageData) => {
-						this.multiArray[1] = villageData.data
-						this.multiIndex.splice(1, 0)
-						this.message.village = villageData.data[0].id
-					})
-				})
-			},
-			findMsgTypeChildrenByMsgTypeId(msgTypeChildrenId) {
-				msgTypeAPI.findById(msgTypeChildrenId, (msgTypeChildrenData) => {
-					this.msgTypeChildren.types = [msgTypeChildrenData.data]
-				})
-			},
-			initMsgType(msgTypeId) {
-				msgTypeAPI.findById(msgTypeId, (msgTypeData) => {
-					this.msgType = msgTypeData.data
-				})
-			},
-			initMsgTypeChildren(msgTypeId) {
-				msgTypeAPI.selectChildren(msgTypeId, (msgTypeChildrenData) => {
-					this.msgTypeChildren.types = msgTypeChildrenData.data
-				})
-			},
 			saveMessage() {
 				if (this.prepareMessage()) {
 					this.message.status = 1
 					publishAPI.publish(this.message, (data) => {
 						uni.showToast({
 							duration: 2000,
-							title: '发布信息成功'
+							title: '发布信息成功',
+							success: () => {
+								uni.navigateBack()
+							}
 						});
+
 					})
 				}
+			},
+			rePublishMesage() {
+				if (this.prepareMessage()) {
+					this.message.status = 1
+					publishAPI.rePublish(this.message, (data) => {
+						uni.showToast({
+							duration: 2000,
+							title: '更新发布信息成功',
+							success: () => {
+								uni.navigateBack()
+							}
+						});
 
+					})
+				}
 			},
 			saveDraftMessage() {
 				if (this.prepareMessage()) {
 					this.message.status = 3
 					publishAPI.saveDraft(this.message, (data) => {
-						uni.navigateBack()
 						uni.showToast({
 							duration: 2000,
-							title: '保存草稿成功'
+							title: '保存草稿成功',
+							success: () => {
+								uni.navigateBack()
+							}
 						});
 					})
 				}
@@ -352,6 +367,12 @@
 		.container-item {
 			.margin-bottom {
 				margin-bottom: $uni-spacing-col-lg;
+			}
+
+			.container-row {
+				display: flex;
+				flex-direction: row;
+				align-items: center;
 			}
 		}
 
@@ -425,6 +446,7 @@
 			flex-direction: row;
 			flex-wrap: nowrap;
 			align-items: center;
+			justify-content: center;
 			margin-top: $uni-spacing-col-base;
 			margin-left: 2*$uni-spacing-col-base;
 			margin-right: 2*$uni-spacing-col-base;

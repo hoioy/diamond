@@ -7,4 +7,5 @@ import com.hoioy.jiayin.dto.MsgDraftDTO;
 
 public interface IMsgDraftService<D extends CommonDomain>  extends IBaseService<MsgDraftDTO,D> {
     void saveOrUpdateDraft(String userName, MessageDTO update,String msgTableName);
+    MsgDraftDTO findByMsgIdAndOpenIdAndTable(String userName, MessageDTO update,String msgTableName);
 }

@@ -29,20 +29,24 @@ public class PublishServiceImpl implements IPublishService {
     public MessageDTO saveDraft(MessageDTO dto) {
         String userName = CommonSecurityUtils.getCurrentLogin();
         dto.setOpenid(userName);
+
+        MsgDraftDTO msgDraftDTO = new MsgDraftDTO();
+        msgDraftDTO.setMsgTableName("message");
+        msgDraftDTO.setMsgTitle(dto.getTitle());
+        msgDraftDTO.setMsgTypeId(dto.getMsgTypeId());
+        msgDraftDTO.setOpenid(dto.getOpenid());
+
         if (StrUtil.isBlank(dto.getId())) {
             MessageDTO save = (MessageDTO) iMessageService.save(dto);
-            MsgDraftDTO msgDraftDTO = new MsgDraftDTO();
-            msgDraftDTO.setMsgTableName("message");
             msgDraftDTO.setMsgId(save.getId());
-            msgDraftDTO.setMsgTitle(dto.getTitle());
-            msgDraftDTO.setMsgTypeId(dto.getMsgTypeId());
-            msgDraftDTO.setOpenid(dto.getOpenid());
             iMsgDraftService.save(msgDraftDTO);
             return save;
         } else {
             MessageDTO update = (MessageDTO) iMessageService.update(dto);
-            iMsgDraftService.saveOrUpdateDraft(userName, update, "message");
-            //查询这条信息在草稿里有没有,如果有修改如果没有新增
+            String draftId = iMsgDraftService.findByMsgIdAndOpenIdAndTable(dto.getOpenid(),update,"message").getId();
+            msgDraftDTO.setId(draftId);
+            msgDraftDTO.setMsgId(update.getId());
+            iMsgDraftService.update(msgDraftDTO);
             return update;
         }
     }
@@ -79,5 +83,26 @@ public class PublishServiceImpl implements IPublishService {
             iMsgPublishedService.save(msgPublished);
             return null;
         }
+    }
+
+    @Override
+    public MessageDTO rePublish(MessageDTO dto) {
+        String loginName = CommonSecurityUtils.getCurrentLogin();
+        dto.setStatus(1);
+        dto.setOpenid(loginName);
+        MessageDTO update = (MessageDTO) iMessageService.update(dto);
+
+        String publishedId = iMsgPublishedService.findByMsgIdAndOpenIdAndTable(dto.getOpenid(),update,"message").getId();
+
+        //在我的发布中新增这条记录
+        MsgPublishedDTO msgPublished = new MsgPublishedDTO();
+        msgPublished.setId(publishedId);
+        msgPublished.setOpenid(loginName);
+        msgPublished.setMsgTitle(update.getTitle());
+        msgPublished.setMsgId(update.getId());
+        msgPublished.setMsgTypeId(update.getMsgTypeId());
+        msgPublished.setMsgTableName("message");
+        iMsgPublishedService.update(msgPublished);
+        return null;
     }
 }
