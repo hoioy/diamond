@@ -33,9 +33,12 @@
 		</view>
 		<view class="message-nav">
 			<view class="button-container">
-				<button type="default" class="button-container-button button-red" @tap="onCollect">{{collectButtonName}}</button>
-				<button type="default" class="button-container-button button-blue" open-type="share">分享</button>
-				<button type="default" class="button-container-button button-yellow" @tap="onPhone">打电话</button>
+				<view>
+									<view  class="iconfont icon-shoucang1 "  size="50" color="#ffa200" ></view>
+									<text class="uni-tab__text">收藏</text>
+				</view>
+				<button type="default" class="button-container-button" open-type="share" style="background-color: #0FAEFF;color: #fff">分享</button>
+				<button type="default" class="button-container-button" style="background-color: #ffa200;color: #fff" @tap="onPhone">打电话</button>
 			</view>
 		</view>
 	</view>
@@ -136,7 +139,7 @@
 	.message {
 		padding-bottom: 50px;
 		width: 750rpx;
-
+   
 		.message-detail {
 			display: flex;
 			flex-direction: column;
@@ -224,46 +227,27 @@
 			position: fixed;
 			bottom: 0;
 			width: 100%;
-
+			background-color: #F8F8F8 ;
+			height: 50rpx;
+			.uni-tab__text {
+				font-size: 12px;
+				color: #646566;
+				height: 40rpx;
+			}
 			.button-container {
 				display: flex;
 				flex-direction: row;
 				flex-wrap: nowrap;
-				margin: $uni-spacing-col-base;
-
-				.button-blue {
-					background: #00BFFF;
-					color: #fff;
-
-					.button-blue:hover,
-					.button-blue:active {
-						background: #00a0d5;
-					}
-				}
-
-				.button-red {
-					background: #dd6572;
-					color: #fff;
-
-					.button-red:hover,
-					.button-red:active {
-						background: #b6535e;
-					}
-				}
-
-				.button-yellow {
-					background: $jiayin-bg-color;
-					color: #000000;
-
-					.button-yellow:hover,
-					.button-yellow:active {
-						background: $jiayin-bg-color-active;
-					}
-				}
-
 				.button-container-button {
 					width: 50%;
-					margin: $uni-spacing-col-base;
+					/* #ifndef APP-NVUE */
+					display: flex;
+					flex-direction: column;
+					/* #endif */
+					flex: 1;
+					justify-content: center;
+					align-items: center;
+					height: 40rpx;
 				}
 			}
 		}
