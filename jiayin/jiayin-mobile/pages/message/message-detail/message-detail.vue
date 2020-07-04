@@ -29,16 +29,15 @@
 					<view class="message-detail-item-contacts-item-value">{{ message.town}}</view>
 				</view>
 			</view>
-			<view class="message-detail-expare">有效期：截止到{{message.expareTime}}有效</view>
 		</view>
 		<view class="message-nav">
 			<view class="button-container">
-				<view>
-									<view  class="iconfont icon-shoucang1 "  size="50" color="#ffa200" ></view>
-									<text class="uni-tab__text">收藏</text>
+				<view class="button-container-icon" @click="onCollect">
+									<view  class="iconfont icon-shoucang1 "    :style="{color:collectColor,fontSize:30}" ></view>
+									<text class="button-container-text" >{{collectButtonName}}</text>
 				</view>
-				<button type="default" class="button-container-button" open-type="share" style="background-color: #0FAEFF;color: #fff">分享</button>
-				<button type="default" class="button-container-button" style="background-color: #ffa200;color: #fff" @tap="onPhone">打电话</button>
+				<button type="default" class="button-container-button" open-type="share"  style="background-color: #0FAEFF;color: #fff;border-radius: 100px 0px 0px 100px;">分享</button>
+				<button type="default" class="button-container-button" style="background-color: #ffa200;color: #fff;border-radius: 0px 100px 100px 0px;" @tap="onPhone">打电话</button>
 			</view>
 		</view>
 	</view>
@@ -54,6 +53,7 @@
 			return {
 				message: {},
 				collectButtonName: "收藏",
+				collectColor: "#FFC0CB",
 				collectId: ""
 			};
 		},
@@ -94,6 +94,7 @@
 				}, (data) => {
 					if (data.data.list && data.data.list.length > 0) {
 						that.collectButtonName = "取消收藏"
+						that.collectColor="#FFD700"
 						that.collectId = data.data.list[0].id
 					} else {
 						that.collectButtonName = "收藏"
@@ -106,6 +107,7 @@
 					case "取消收藏":
 						collectAPI.delCollect(that.collectId, function(data) {
 							that.collectButtonName = "收藏"
+							that.collectColor="#FFC0CB"
 							uni.showToast({
 								title: `取消收藏成功`
 							})
@@ -117,6 +119,7 @@
 							"msgTitle": this.message.title,
 							"msgTypeId": this.message.msgTypeId,
 						}, (data) => {
+							that.collectColor="#FFD700"
 							that.collectId = data.data.id
 							that.collectButtonName = "取消收藏"
 							uni.showToast({
@@ -136,21 +139,24 @@
 </script>
 
 <style lang="scss">
+	page {
+	 background-color: #F5F5F5;
+	}
 	.message {
 		padding-bottom: 200rpx;
 		width: 750rpx;
-   
+     	
 		.message-detail {
 			display: flex;
 			flex-direction: column;
-
+            
 			.message-detail-head {
 				display: flex;
 				flex-direction: column;
 				box-shadow: 1px 1px 5px $uni-border-color;
 				border-radius: $uni-border-radius-lg;
 				padding: $uni-spacing-col-base;
-
+                background-color: $jiayin-msg-color;
 				.message-detail-title {
 					align-self: center;
 					font-size: $uni-font-size-title;
@@ -178,7 +184,7 @@
 				box-shadow: 1px 1px 5px $uni-border-color;
 				border-radius: $uni-border-radius-lg;
 				padding: $uni-spacing-col-base;
-
+                background-color: $jiayin-msg-color;
 				.message-detail-content-type {
 					font-size: $uni-font-size-sm;
 					color: $uni-text-color-inverse;
@@ -200,7 +206,7 @@
 				box-shadow: 1px 1px 10px $uni-border-color;
 				border-radius: $uni-border-radius-lg;
 				padding: $uni-spacing-col-base;
-
+                background-color: $jiayin-msg-color;
 				.message-detail-item-contacts-item {
 					display: flex;
 					flex-wrap: nowrap;
@@ -227,18 +233,32 @@
 			position: fixed;
 			bottom: 0;
 			width: 100%;
-			background-color: #F8F8F8 ;
-			height: 50rpx;
-			.uni-tab__text {
-				font-size: 12px;
-				color: #646566;
-				height: 40rpx;
+			background-color: $jiayin-msg-color ;
+			.button-container-icon{
+				margin: 0 10px;
+				display: flex;
+				flex-direction: column;
+				position: relative;
+				align-items: center;
+				justify-content: center;
+				align-content: center;
+				 .button-container-text{
+					 margin-top: 3px;
+					 align-items: center;
+					 font-size: 30rpx;
+					 justify-content: center;
+				 }
 			}
 			.button-container {
 				display: flex;
+				flex: 1;
 				flex-direction: row;
 				flex-wrap: nowrap;
+			    align-items: center;
+				margin: 4px 8px 4px 0px;
 				.button-container-button {
+			
+					border-left: 20rpx ;
 					width: 50%;
 					/* #ifndef APP-NVUE */
 					display: flex;
@@ -247,7 +267,6 @@
 					flex: 1;
 					justify-content: center;
 					align-items: center;
-					height: 40rpx;
 				}
 			}
 		}

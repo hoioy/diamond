@@ -106,7 +106,7 @@
 		filters: {
 			formatDate(date) {
 				let nDate = new Date(date);
-				return dateFormat.formatDate(nDate, "yyyy年MM月dd日 hh时mm分");
+				return dateFormat.formatDate(nDate, "MM月dd日 ");
 			}
 		},
 		methods: {
