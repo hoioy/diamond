@@ -3,38 +3,34 @@
 		<view class="message-detail">
 			<view class="message-detail-head">
 				<view class="message-detail-title">{{message.title}}</view>
-				<view class="msg-detail-head-body-price">{{message.price}}元</view>
 				<view class="msg-detail-head-body">
-					<view>发布时间:{{message.createdDate|formatDate}}</view>
-					<view>浏览:{{message.views}}次</view>
+					<view class="msg-detail-head-body-content">更新: {{message.modifiedDate|formatDate}}</view>
+					<view class="msg-detail-head-body-content">浏览: {{message.views}}次</view>
 				</view>
 			</view>
-			<view class="message-detail-content">
-				<view>
-					<text class="message-detail-content-type" :style="{backgroundColor: message.msgTypeColor}">{{ message.msgTypeName }}类型信息</text>
+			<view class="message-detail-body">
+				<view  class="message-detail-body-item">
+					<view class="message-detail-body-price">价格:{{ message.price}}</view>
+					<view class="message-detail-body-item-key">类别: <text class="message-detail-body-type" :style="{backgroundColor: message.msgTypeColor}">{{ message.msgTypeName }}</text></view>
 				</view>
-				<view class="message-detail-content-body">{{ message.content }}</view>
-			</view>
-			<view class="message-detail-item-contacts">
-				<view class="message-detail-item-contacts-item">
-					<view class="message-detail-item-contacts-item-key">联系人: </view>
-					<view class="message-detail-item-contacts-item-value">{{ message.contacts}}</view>
+				<view class="message-detail-body-item">
+					<view class="message-detail-body-item-value">联系人: {{ message.contacts}}</view>
+					<view class="message-detail-body-item-value">联系电话:{{ message.contactPhone}}</view>
 				</view>
-				<view class="message-detail-item-contacts-item">
-					<view class="message-detail-item-contacts-item-key">联系电话: </view>
-					<view class="message-detail-item-contacts-item-value">{{ message.contactPhone}}</view>
-				</view>
-				<view class="message-detail-item-contacts-item">
-					<view class="message-detail-item-contacts-item-key">所在地: </view>
-					<view class="message-detail-item-contacts-item-value">{{ message.town}}</view>
+				<view class="message-detail-body-item">
+					<view class="message-detail-body-item-address">
+						<view class="message-detail-body-item-key">地区: </view>
+						<view class="message-detail-body-item-value">{{ message.town}}</view>
+					</view>
+		
 				</view>
 			</view>
-		</view>
+	    </view>
 		<view class="message-nav">
 			<view class="button-container">
 				<view class="button-container-icon" @click="onCollect">
-									<view  class="iconfont icon-shoucang1 "    :style="{color:collectColor,fontSize:30}" ></view>
-									<text class="button-container-text" >{{collectButtonName}}</text>
+						<view  class="iconfont icon-shoucang1 "    :style="{color:collectColor,fontSize:30}" ></view>
+						<text class="button-container-text" >{{collectButtonName}}</text>
 				</view>
 				<button type="default" class="button-container-button" open-type="share"  style="background-color: #0FAEFF;color: #fff;border-radius: 100px 0px 0px 100px;">分享</button>
 				<button type="default" class="button-container-button" style="background-color: #ffa200;color: #fff;border-radius: 0px 100px 100px 0px;" @tap="onPhone">打电话</button>
@@ -158,12 +154,12 @@
 				padding: $uni-spacing-col-base;
                 background-color: $jiayin-msg-color;
 				.message-detail-title {
-					align-self: center;
+					align-self: left;
 					font-size: $uni-font-size-title;
 					color: $uni-color-title;
 				}
 
-				.msg-detail-head-body-price {
+				.message-detail-body-price {
 					font-size: $uni-font-size-subtitle;
 					color: $uni-color-error;
 				}
@@ -174,19 +170,35 @@
 					font-size: $uni-font-size-base;
 					color: $uni-text-color-placeholder;
 					margin-top: $uni-spacing-col-base;
+				
+					.msg-detail-head-body-content{
+						color: $jiayin-head-content-color;
+						font-size: $jiayin-head-content-font-size;
+					}
 				}
 			}
 
-			.message-detail-content {
+			.message-detail-body {
 				display: flex;
 				flex-direction: column;
 				margin-top: $uni-spacing-col-base;
-				box-shadow: 1px 1px 5px $uni-border-color;
+				box-shadow: 1px 1px 10px $uni-border-color;
 				border-radius: $uni-border-radius-lg;
 				padding: $uni-spacing-col-base;
-                background-color: $jiayin-msg-color;
-				.message-detail-content-type {
-					font-size: $uni-font-size-sm;
+				background-color: $jiayin-msg-color;
+				.message-detail-body-item-address{
+						display: flex;
+						flex-direction: row;
+				}
+				.message-detail-body-item {
+					display: flex;
+					flex-wrap: nowrap;
+					justify-content: space-between;
+					font-size: 13pt;
+					color: #353535;
+					margin-top: $uni-spacing-col-base;
+				}
+				.message-detail-body-type {
 					color: $uni-text-color-inverse;
 					padding: $uni-spacing-col-sm $uni-spacing-row-sm;
 					border-radius: $uni-border-radius-lg;
@@ -196,28 +208,6 @@
 					color: $uni-color-paragraph;
 					font-size: $uni-font-size-paragraph;
 					margin-top: $uni-spacing-col-base;
-				}
-			}
-
-			.message-detail-item-contacts {
-				display: flex;
-				flex-direction: column;
-				margin-top: $uni-spacing-col-base;
-				box-shadow: 1px 1px 10px $uni-border-color;
-				border-radius: $uni-border-radius-lg;
-				padding: $uni-spacing-col-base;
-                background-color: $jiayin-msg-color;
-				.message-detail-item-contacts-item {
-					display: flex;
-					flex-wrap: nowrap;
-					margin-top: $uni-spacing-col-base;
-					.message-detail-item-contacts-item-key {
-						width: 20%;
-					}
-
-					.message-detail-item-contacts-item-value {
-						width: 80%;
-					}
 				}
 			}
 
