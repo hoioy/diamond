@@ -3,7 +3,7 @@
 		<!-- <uni-collapse> -->
 		<view class="container-item" :open="true" :show-animation="true" title="基础内容(必填)" thumb="/static/img/save/base.png">
 			<view class='container-title'>
-				<text class="validate-text" v-if="validateStatus.title">标题格式不正确</text>
+				<text class="validate-text" v-if="validateStatus.title">标题格式不正确,标题不能超过18个字</text>
 			</view>
 			<view class="container-input-wrapper">
 				<text class="container-input-lable">标题:</text>
@@ -284,7 +284,7 @@
 						this.validateStatus.price = (this.message.price < 0)
 						return this.validateStatus.price;
 					case "title":
-						this.validateStatus.title = (this.message.title == "")
+						this.validateStatus.title = (this.message.title == "" || this.message.title.length > 18)
 						return this.validateStatus.title;
 					case "content":
 						this.validateStatus.content = (this.message.content == "")

@@ -58,4 +58,8 @@ public class MessagePageDTO extends BaseDTO implements Serializable {
     @ApiModelProperty(value = "联系电话")
     private String contactPhone;
 
+    @ApiModelProperty(value = "所属用户名称")
+    private String userName;
+    @ApiModelProperty(value = "所属用户头像")
+    private String avatar;
 }

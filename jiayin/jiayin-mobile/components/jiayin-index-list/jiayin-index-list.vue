@@ -77,7 +77,7 @@
 					"filters": {},
 					"list": [],
 					"page": 1,
-					"pageSize": 20,
+					"pageSize": 15,
 					"sorts": [{
 						"direction": "desc",
 						"fieldName": "createdDate"

@@ -9,6 +9,8 @@ import com.hoioy.diamond.common.exception.BaseException;
 import com.hoioy.diamond.common.util.CommonMybatisPageUtil;
 import com.hoioy.diamond.common.util.CommonMybatisPageUtil2;
 import com.hoioy.diamond.common.util.CommonSecurityUtils;
+import com.hoioy.diamond.sys.dto.UserInfoDTO;
+import com.hoioy.diamond.sys.service.IUserInfoService;
 import com.hoioy.jiayin.domain.Message;
 import com.hoioy.jiayin.domain.MsgPublished;
 import com.hoioy.jiayin.domain.MsgType;
@@ -31,6 +33,9 @@ public class MessageServiceImpl extends BaseServiceImpl<MessageMapper, Message, 
 
     @Autowired
     private ZoneCodeMapper zoneCodeMapper;
+
+    @Autowired
+    private IUserInfoService iUserInfoService;
 
     @Override
     public PageDTO getPage(PageDTO pageDTO) throws BaseException {
@@ -59,17 +64,26 @@ public class MessageServiceImpl extends BaseServiceImpl<MessageMapper, Message, 
         Optional<MessageDTO> byId = super.findById(id);
         if (byId.isPresent()) {
             MessageDTO messageDTO = byId.get();
+            //拼接messageType
             MsgType msgType = msgTypeMapper.selectById(messageDTO.getMsgTypeId());
             messageDTO.setMsgTypeName(msgType.getTypeName());
             messageDTO.setMsgTypeColor(msgType.getColor());
+
+            //拼接地区
             if (StrUtil.isNotBlank(messageDTO.getTown())) {
-            ZoneCode town = zoneCodeMapper.selectById(messageDTO.getTown());
-            messageDTO.setTownName(town.getAddress());
+                ZoneCode town = zoneCodeMapper.selectById(messageDTO.getTown());
+                messageDTO.setTownName(town.getAddress());
             }
             if (StrUtil.isNotBlank(messageDTO.getVillage())) {
-            ZoneCode village = zoneCodeMapper.selectById(messageDTO.getVillage());
+                ZoneCode village = zoneCodeMapper.selectById(messageDTO.getVillage());
                 messageDTO.setVillageName(village.getAddress());
             }
+
+            //拼接用户
+            String userId = iUserInfoService.findIdByLoginName(messageDTO.getOpenid());
+            UserInfoDTO dto = (UserInfoDTO) iUserInfoService.findById(userId).get();
+            messageDTO.setUserName(dto.getUserName());
+            messageDTO.setAvatar(dto.getAvatar());
             return Optional.ofNullable(messageDTO);
         }
         return byId;
@@ -80,6 +94,6 @@ public class MessageServiceImpl extends BaseServiceImpl<MessageMapper, Message, 
         Message message = iBaseRepository.selectById(msgId);
         message.setStatus(2);
         int i = iBaseRepository.updateById(message);
-        return i>0?true:false;
+        return i > 0 ? true : false;
     }
 }

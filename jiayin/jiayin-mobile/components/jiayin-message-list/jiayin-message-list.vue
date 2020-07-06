@@ -8,12 +8,22 @@
 		<view class="uni-list" :style="{ marginTop: listMarginTop }">
 			<view class="uni-list-cell" hover-class="uni-list-cell-hover" v-for="(value, key) in pageDTO.list" :key="key" @click="goDetail(value)">
 				<view class="message-list-item">
-					<!-- <image class="message-list-item-logo" :src="value.cover"></image> -->
 					<view class="message-list-item-body">
+						<view class="message-list-item-body-user">
+							<image mode="widthFix" class="message-list-item-body-user-avatar" :src="value.avatar"></image>
+							<view class="message-list-item-body-user-detail">
+								<view class="message-list-item-body-user-name">{{ value.userName }}</view>
+								<view class="message-list-item-body-user-date">{{value.createdDate|formatDate}}</view>
+							</view>
+						</view>
 						<view class="message-list-item-title">{{ value.title }}</view>
-						<view class="message-list-item-content">{{ value.content }}</view>
+						<view class="message-list-item-content">
+							<view class="message-list-item-content-type" :style="{backgroundColor: value.msgTypeColor}">{{ value.msgTypeName}}</view>
+							<view class="message-list-item-content-content">{{ value.content }}</view>
+						</view>
+
 						<view class="message-list-item-contacts-views">
-							<view class="message-list-item-type" :style="{backgroundColor: value.msgTypeColor}">{{ value.msgTypeName}}</view>
+							<view class="message-list-item-expareTime">有效截至日期:{{ value.expareTime}}</view>
 							<view class="message-list-item-views">浏览:{{ value.views }}次</view>
 						</view>
 					</view>
@@ -27,8 +37,10 @@
 <script>
 	import jiayinFilter from '@/components/jiayin-filter/index.vue';
 	import uniLoadMore from '@/components/uni-load-more/uni-load-more.vue';
+	import dateFormat from '@/utils/date.js'
 	import * as messageAPI from '@/api/message.js';
 	import * as msgTypeAPI from '@/api/msgType.js';
+
 	export default {
 		components: {
 			uniLoadMore,
@@ -66,7 +78,7 @@
 					},
 					"list": [],
 					"page": 1,
-					"pageSize": 20,
+					"pageSize": 15,
 					"sorts": [{
 						"direction": "desc",
 						"fieldName": "createdDate"
@@ -122,8 +134,14 @@
 				]
 			}
 		},
+		filters: {
+			formatDate(date) {
+				let nDate = new Date(date);
+				return dateFormat.formatDate(nDate, "yyyy-MM-dd");
+			}
+		},
 		created: function(event) {
-			
+
 		},
 		methods: {
 			pullDownRefresh() {
@@ -134,7 +152,7 @@
 				this.pageDTO.page += 1;
 				this.getList();
 			},
-			init(msgTId,msgTName){
+			init(msgTId, msgTName) {
 				this.pageDTO.filters.msgTypeId = msgTId
 				this.pageDTO.filters.msgTypeName = msgTName
 				this.initMsgType();
@@ -172,13 +190,13 @@
 					} else {
 						this.pageDTO.list = this.pageDTO.list.concat(data.data.list);
 					}
-					
+
 					if (data.data.list.length > 0) {
 						this.loadMoreData.status = 'more';
 					} else {
 						this.loadMoreData.status = 'noMore';
 					}
-					
+
 					this.reload = false;
 					uni.stopPullDownRefresh();
 				})
@@ -223,21 +241,63 @@
 				flex-direction: column;
 				width: 750rpx;
 
+				.message-list-item-body-user {
+					display: flex;
+					padding-left: $uni-spacing-row-base;
+					align-items: center;
+					
+					.message-list-item-body-user-avatar {
+						width: $uni-img-size-lg;
+						border-radius: $uni-border-radius-circle;
+					}
+
+					.message-list-item-body-user-detail {
+						display: flex;
+						flex-direction: column;
+						margin-left: $uni-spacing-row-base;
+
+						.message-list-item-body-user-name {
+							font-size: $uni-font-size-base;
+							color: $uni-color-title;
+						}
+
+						.message-list-item-body-user-date {
+							font-size: $uni-font-size-sm;
+							color: $uni-text-color-grey;
+						}
+					}
+				}
+
 				.message-list-item-title {
 					font-size: $uni-font-size-lg;
 					color: $uni-color-title;
 					padding-left: $uni-spacing-row-base;
+					margin-top: $uni-spacing-col-base;
 				}
 
 				.message-list-item-content {
-					margin-top: $uni-spacing-col-base;
-					font-size: $uni-font-size-base;
-					color: $uni-text-color;
-					padding-left: $uni-spacing-row-base;
-					padding-right: $uni-spacing-row-base;
-					white-space: nowrap;
-					overflow: hidden;
-					text-overflow: ellipsis;
+					display: flex;
+					flex-wrap: nowrap;
+					align-items: center;
+					margin-top: $uni-spacing-col-sm;
+					margin-left: $uni-spacing-col-base;
+					
+					.message-list-item-content-type {
+						font-size: $uni-font-size-base;
+						color: $uni-text-color-inverse;
+						padding: 0 $uni-spacing-col-sm;
+						border-radius: $uni-border-radius-lg;
+					}
+					.message-list-item-content-content{
+						font-size: $uni-font-size-base;
+						color: $uni-text-color;
+						padding-left: $uni-spacing-row-base;
+						padding-right: $uni-spacing-row-base;
+						white-space: nowrap;
+						overflow: hidden;
+						text-overflow: ellipsis;
+						width: 80%;
+					}
 				}
 
 				.message-list-item-contacts-views {
@@ -250,14 +310,7 @@
 					padding-left: $uni-spacing-row-base;
 					padding-right: $uni-spacing-row-base;
 
-					.message-list-item-type {
-						color: $uni-text-color-inverse;
-						padding-left: $uni-spacing-row-sm;
-						padding-right: $uni-spacing-row-sm;
-						padding-top: $uni-spacing-col-sm;
-						padding-bottom: $uni-spacing-col-sm;
-						border-radius: $uni-border-radius-lg;
-					}
+					.message-list-item-expareTime {}
 
 					.message-list-item-views {
 						align-items: flex-end;
