@@ -25,7 +25,6 @@
 		},
 		onShow() {
 			if (this.$refs.jiayinIndexList) {
-				debugger
 				this.$refs.jiayinIndexList.initList();
 			}
 		},

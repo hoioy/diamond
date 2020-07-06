@@ -75,8 +75,8 @@
 				<text class="validate-text" v-if="validateStatus.price">请输入正确的价格</text>
 			</view>
 			<view class="container-input-wrapper">
-				<text class="container-input-lable">价格（选填）:</text>
-				<input class="container-input" type="digit" placeholder="(请输入价格(单位：元)" v-model="message.price" @focus="onFocus('price')"
+				<text class="container-input-lable">价格(选填):</text>
+				<input class="container-input" type="digit" placeholder="(请输入价格(单位：元))" v-model="message.price" @focus="onFocus('price')"
 				 @blur="onValidate('price')" />
 				<text class="container-input-icon" @click="cleartInput('price')">&#xe434;</text>
 			</view>
