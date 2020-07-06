@@ -27,11 +27,7 @@ import java.util.Optional;
 public class MessageServiceImpl extends BaseServiceImpl<MessageMapper, Message, MessageDTO> implements IMessageService<Message> {
 
     @Autowired
-    private MsgCountMapper msgCountMapper;
-    @Autowired
     private MsgTypeMapper msgTypeMapper;
-//    @Autowired
-//    private MsgPublishedMapper msgPublishedMapper;
 
     @Autowired
     private ZoneCodeMapper zoneCodeMapper;
