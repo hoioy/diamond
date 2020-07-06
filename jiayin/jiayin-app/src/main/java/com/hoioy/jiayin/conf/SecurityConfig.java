@@ -41,15 +41,18 @@ public class SecurityConfig extends JwtWebSecurityConfigurerAdapter {
         // @formatter:off
         // 过滤器的安全拦截器的每一次的要求
         http.authorizeRequests().filterSecurityInterceptorOncePerRequest(true)
-                .antMatchers("/auth/**", "/auth", "/captcha", "/error").permitAll()
+                .antMatchers("/auth/**",  "/captcha", "/error").permitAll()
                 .antMatchers("/sys/user/save").permitAll()//注册用户
                 //通过Oauth2登录时绑定用户接口，暂时开启，否则与JwtAuthorizationTokenFilter逻辑冲突（本系统还没有用户所以查不出来）
-                .antMatchers("/bindOAuth2User").permitAll()
+                .antMatchers("/auth","/bindOAuth2User").permitAll()
                 .antMatchers("/wx/user/**").permitAll()
-                .antMatchers("/bindDiamondUaaUser").permitAll()
-                .antMatchers("/files/**").permitAll()
-                .antMatchers("/user-upload-avatar-rest").permitAll()
+                .antMatchers("/files/**","/user-upload-avatar-rest").permitAll()
                 .antMatchers(HttpMethod.GET,"/jiayin/message/**").permitAll()//未登录用户允许查看信息
+                .antMatchers("/jiayin/message/page").permitAll()
+                .antMatchers("/jiayin/advert/**").permitAll()
+                .antMatchers("/jiayin/msgType/**").permitAll()
+                .antMatchers("/jiayin/notice/search").permitAll()
+                .antMatchers("/jiayin/zonecode/**").permitAll()
                 // 使其支持跨域
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                 .anyRequest().fullyAuthenticated()

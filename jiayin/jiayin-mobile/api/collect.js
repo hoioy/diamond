@@ -1,11 +1,12 @@
 import request from '@/utils/request'
 
-export function getPage(data,onSuccess) {
+export function getPage(data,onSuccess,onComplete) {
 	request({
 		url: 'jiayin/msgCollect/page',
 		method: 'POST',
 		data: data,
-		onSuccess: onSuccess
+		onSuccess: onSuccess,
+		onComplete: onComplete
 	})
 }
 

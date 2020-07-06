@@ -24,10 +24,3 @@ export function findParentByChildId(id,onSuccess) {
 		onSuccess: onSuccess
 	})
 }
-export function deleteById(id,onSuccess) {
-	request({
-		url: 'jiayin/msgType/'+id,
-		method: 'delete',
-		onSuccess: onSuccess
-	})
-}

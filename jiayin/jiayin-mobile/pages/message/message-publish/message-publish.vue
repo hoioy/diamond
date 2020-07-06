@@ -27,18 +27,20 @@
 		},
 		data() {
 			return {
-				msgTypeList: []
+				msgTypeList: [],
+				isOnIniting: false
 			};
 		},
 		onShow() {
 			this.initMsgType();
 			if (this.$refs.jiayinIndexList) {
-				this.$refs.jiayinIndexList.initList();
+				this.initIndexList()
 			}
 		},
 		onReady() {
-			if (this.$refs.jiayinIndexList) {
-				this.$refs.jiayinIndexList.initList();
+			if (!this.isOnIniting && this.$refs.jiayinIndexList 
+				&& this.$refs.jiayinIndexList.pageDTO.list.length <= 0) {
+				this.initIndexList()
 			}
 		},
 		onPullDownRefresh() {
@@ -51,6 +53,13 @@
 			this.$refs.jiayinIndexList.backPress();
 		},
 		methods: {
+			initIndexList(){
+				this.isOnIniting = true
+				var that = this
+				this.$refs.jiayinIndexList.initList(function(){
+					that.isOnIniting = false
+				});
+			},
 			initMsgType() {
 				var that = this;
 				msgTypeAPI.selectParent((data) => {

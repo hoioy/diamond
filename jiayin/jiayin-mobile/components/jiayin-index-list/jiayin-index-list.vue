@@ -121,10 +121,10 @@
 			backPress() {
 				this.$refs['showtip'].close()
 			},
-			initList() {
+			initList(callBack) {
 				this.reload = true;
 				this.pageDTO.page = 1;
-				this.getList();
+				this.getList(callBack);
 			},
 			getAPI() {
 				switch (this.apiType) {
@@ -136,7 +136,7 @@
 						return publishedAPI
 				}
 			},
-			getList() {
+			getList(callBack) {
 				this.loadMoreData.status = 'loading';
 
 				this.getAPI().getPage(this.pageDTO, (data) => {
@@ -156,6 +156,13 @@
 					}
 					this.reload = false;
 					uni.stopPullDownRefresh();
+					if(callBack){
+						callBack()
+					}
+				},()=>{
+					if(callBack){
+						callBack()
+					}
 				})
 			},
 			onMessageTap(item) {
@@ -245,7 +252,7 @@
 
 						break;
 					case '删除':
-						draftAPI.deleteById(that.showTipData.currentHandleMsg.id, (data) => {
+						draftAPI.deleteDraftById(that.showTipData.currentHandleMsg.id, (data) => {
 							that.initList();
 							uni.showToast({
 								duration: 2000,

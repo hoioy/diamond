@@ -42,6 +42,8 @@
 
 <style lang="scss">
 	.list-container {
+		width: 750rpx;
+
 		.index-list {
 			width: 750rpx;
 		}

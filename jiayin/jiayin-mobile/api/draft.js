@@ -1,11 +1,12 @@
 import request from '@/utils/request'
 
-export function getPage(data,onSuccess) {
+export function getPage(data,onSuccess,onComplete) {
 	request({
 		url: 'jiayin/msgDraft/page',
 		method: 'POST',
 		data: data,
-		onSuccess: onSuccess
+		onSuccess: onSuccess,
+		onComplete: onComplete
 	})
 }
 
@@ -16,7 +17,7 @@ export function findById(id,onSuccess) {
 	})
 }
 
-export function deleteById(id,onSuccess) {
+export function deleteDraftById(id,onSuccess) {
 	request({
 		url: 'jiayin/msgDraft/'+id,
 		method: 'delete',

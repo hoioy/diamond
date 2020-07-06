@@ -27,7 +27,7 @@
 								provider: "weixin",
 								success: (infoRes) => {
 									//微信用户信息存储到后端数据库中
-									loginAPI.bindDiamondUaaUser({
+									loginAPI.bindOAuth2User({
 										name: infoRes.userInfo.nickName,
 										loginName: data.data.openid,
 										avatar: infoRes.userInfo.avatarUrl,

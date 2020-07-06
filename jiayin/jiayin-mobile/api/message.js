@@ -16,15 +16,6 @@ export function findById(id,onSuccess) {
 	})
 }
 
-// export function saveMessage(data,onSuccess) {
-// 	return request({
-// 		url: 'jiayin/message',
-// 		method: 'POST',
-// 		data: data,
-// 		onSuccess: onSuccess
-// 	})
-// }
-
 export function updateMessage(data,onSuccess) {
 	return request({
 		url: 'jiayin/message',

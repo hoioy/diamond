@@ -79,6 +79,10 @@
 					if (this.notice == '') {
 						this.initNoticeAPI()
 					}
+					if (this.$refs.jiayinMessageList && this.$refs.jiayinMessageList.pageDTO.list.length <=0) {
+						debugger
+						this.$refs.jiayinMessageList.init(this.selectedMsgType.id, this.selectedMsgType.typeName);
+					}
 				}
 			},
 			initNoticeAPI() {
