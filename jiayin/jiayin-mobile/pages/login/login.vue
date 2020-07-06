@@ -2,7 +2,7 @@
 	<view class="container">
 		<image src="/static/img/logo/logo.png" mode="widthFix"></image>
 		<text>登陆后体验更好！</text>
-		<button type="default" class="login-submit" open-type="getUserInfo" @getuserinfo="weixinLogin()" @tap="weixinLogin()">一键登录</button>
+		<button class="login-submit" open-type="getUserInfo" @getuserinfo="weixinLogin()" @tap="weixinLogin()">一键登录</button>
 	</view>
 </template>
 

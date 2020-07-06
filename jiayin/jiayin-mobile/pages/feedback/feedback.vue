@@ -37,7 +37,8 @@
 			</view>
 		</view>
 
-		<button type="default" class="feedback-submit" @tap="send">提交</button>
+		<button class="feedback-submit" @tap="send">提交</button>
+		
 		<w-compress ref='wCompress' />
 	</view>
 </template>
@@ -222,12 +223,14 @@
 		background: $jiayin-bg-color;
 		color: #000000;
 		margin-top: $uni-spacing-row-base;
+		
+		.feedback-submit:hover,
+		.feedback-submit:active {
+			background: $jiayin-bg-color-active;
+		}
 	}
 
-	.feedback-submit:hover,
-	.feedback-submit:active {
-		background: $jiayin-bg-color-active;
-	}
+	
 
 	/* 上传 */
 	.uni-uploader {

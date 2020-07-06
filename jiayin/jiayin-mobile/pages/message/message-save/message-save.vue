@@ -95,9 +95,9 @@
 		<!-- </uni-collapse> -->
 
 		<view class="button-container">
-			<button type="default" v-if="!isPublished" class="button-container-save" @tap="saveDraftMessage">保存为草稿</button>
-			<button type="default" v-if="!isPublished" class="button-container-pub" @tap="saveMessage">直接发布</button>
-			<button type="default" v-if="isPublished" class="button-container-pub" @tap="rePublishMesage">更新</button>
+			<button v-if="!isPublished" class="button-container-save" @tap="saveDraftMessage">保存为草稿</button>
+			<button v-if="!isPublished" class="button-container-pub" @tap="saveMessage">直接发布</button>
+			<button v-if="isPublished" class="button-container-pub" @tap="rePublishMesage">更新</button>
 		</view>
 	</view>
 </template>

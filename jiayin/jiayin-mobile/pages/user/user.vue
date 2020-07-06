@@ -6,7 +6,7 @@
 				<image v-else src="/static/img/user-default.png"></image>
 			</view>
 			<view class="user-container-login" v-if="!alreadyLogin">
-				<button type="default" plain="true" @click="loginIn">点此登录</button>
+				<button plain="true" @click="loginIn">点此登录</button>
 			</view>
 			<view class="user-container-info-name" v-if="alreadyLogin">
 				<text>{{userinfo.userName}}</text>

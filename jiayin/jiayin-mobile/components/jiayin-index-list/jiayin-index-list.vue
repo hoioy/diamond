@@ -145,15 +145,16 @@
 					})
 					if (this.reload) {
 						this.pageDTO.list = data.data.list;
-						this.loadMoreData.status = 'more';
 					} else {
 						this.pageDTO.list = this.pageDTO.list.concat(data.data.list);
-						if (data.data.list.length > 0) {
-							this.loadMoreData.status = 'more';
-						} else {
-							this.loadMoreData.status = 'noMore';
-						}
 					}
+					
+					if (data.data.list.length > 0) {
+						this.loadMoreData.status = 'more';
+					} else {
+						this.loadMoreData.status = 'noMore';
+					}
+					
 					this.reload = false;
 					uni.stopPullDownRefresh();
 					if(callBack){

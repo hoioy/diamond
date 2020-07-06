@@ -32,8 +32,8 @@
 					<text class="container-input-icon" :style="{color:collectColor}">&#xe438;</text>
 					<text class="button-container-text" >{{collectButtonName}}</text>
 				</view>
-				<button type="default" class="button-container-button" open-type="share"  style="background-color: #0FAEFF;color: #fff;border-radius: 100px 0px 0px 100px;">分享</button>
-				<button type="default" class="button-container-button" style="background-color: #ffa200;color: #fff;border-radius: 0px 100px 100px 0px;" @tap="onPhone">打电话</button>
+				<button  class="button-container-button" open-type="share"  style="background-color: #0FAEFF;color: #fff;border-radius: 100px 0px 0px 100px;">分享</button>
+				<button  class="button-container-button" style="background-color: #ffa200;color: #fff;border-radius: 0px 100px 100px 0px;" @tap="onPhone">打电话</button>
 			</view>
 		</view>
 	</view>
