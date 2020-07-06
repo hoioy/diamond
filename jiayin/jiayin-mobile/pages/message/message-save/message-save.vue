@@ -408,7 +408,7 @@
 			.container-input-icon {
 				font-family: uniicons;
 				font-size: 24px;
-				color: $uni-text-color-grey;
+				color: $jiayin-bg-color-active;
 				padding: $uni-spacing-col-base;
 			}
 		}
