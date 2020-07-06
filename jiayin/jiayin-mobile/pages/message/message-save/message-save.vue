@@ -1,73 +1,97 @@
 <template>
 	<view class="container">
 		<!-- <uni-collapse> -->
-			<view class="container-item" :open="true" :show-animation="true" title="基础内容(必填)" thumb="/static/img/save/base.png">
-				<view class='container-title'>
-					<text class="validate-text" v-if="validateStatus.title">标题格式不正确</text>
-				</view>
+		<view class="container-item" :open="true" :show-animation="true" title="基础内容(必填)" thumb="/static/img/save/base.png">
+			<view class='container-title'>
+				<text class="validate-text" v-if="validateStatus.title">标题格式不正确</text>
+			</view>
+			<view class="container-input-wrapper">
+				<text class="container-input-lable">标题:</text>
+				<input class="container-input" placeholder="(请输入信息标题)" v-model="message.title" @focus="onFocus('title')" @blur="onValidate('title')" />
+				<text class="container-input-icon" @click="cleartInput('title')">&#xe434;</text>
+			</view>
+			<view class='container-title'>
+				<text class="validate-text" v-if="false">（预留校验信息位置）</text>
+			</view>
+			<picker v-if="msgType.children.msgTypes[0].id" @change="bindMsgTypeChange" :value="msgType.children.selectedIndex"
+			 :range="msgType.children.msgTypes" range-key="typeName" mode="selector">
 				<view class="container-input-wrapper">
-					<input class="container-input" placeholder="(请在此处输入信息标题)" v-model="message.title" @focus="onFocus('title')" @blur="onValidate('title')" />
-					<text class="container-input-icon" @click="cleartInput('title')">&#xe434;</text>
+					<text class="container-input-lable">具体类型:</text>
+					<view class="container-input">{{msgType.children.msgTypes[msgType.children.selectedIndex].typeName}}</view>
 				</view>
-				<picker class="container-picker" v-if="msgType.children.msgTypes[0].id" @change="bindMsgTypeChange" :value="msgType.children.selectedIndex"
-				 :range="msgType.children.msgTypes" range-key="typeName" mode="selector">
-					<input class="container-input" placeholder="(请在此处选择信息具体类型)" v-model="msgType.children.msgTypes[msgType.children.selectedIndex].typeName" />
-				</picker>
-				<view class='container-title'>
-					<text class="validate-text" v-if="validateStatus.expareTime">截至日期不能小于今天</text>
-				</view>
-				<picker class="container-picker" mode="date" :value="message.expareTime" @change="bindDateChange">
-					<input class="container-input" placeholder="(请在此处选择信息有效截止日期)" v-model="message.expareTime" @focus="onFocus('expareTime')" />
-				</picker>
-				<view class='container-title'>
-					<text class="validate-text" v-if="validateStatus.contacts">联系人格式不正确</text>
-					<text class="validate-text" v-if="validateStatus.contactPhone">联系人电话格式不正确</text>
-				</view>
+			</picker>
+			<view class='container-title'>
+				<text class="validate-text" v-if="validateStatus.expareTime">截至日期不能小于今天</text>
+			</view>
+			<picker mode="date" :value="message.expareTime" @change="bindDateChange">
 				<view class="container-input-wrapper">
-					<input class="container-input" placeholder="(请在此处输入联系人真实姓名)" v-model="message.contacts" @focus="onFocus('contacts')"
-					 @blur="onValidate('contacts')" />
-					<text class="container-input-icon" @click="cleartInput('contacts')">&#xe434;</text>
+					<text class="container-input-lable">效截止日期:</text>
+					<view class="container-input">{{message.expareTime}}</view>
 				</view>
-				<view class="container-input-wrapper margin-bottom">
-					<input class="container-input" type="number" placeholder="(请在此处输入联系人电话)" v-model="message.contactPhone" @focus="onFocus('contactPhone')"
-					 @blur="onValidate('contactPhone')" />
-					<text class="container-input-icon" @click="cleartInput('contactPhone')">&#xe434;</text>
-				</view>
+			</picker>
+			<view class='container-title'>
+				<text class="validate-text" v-if="validateStatus.contacts">联系人格式不正确</text>
 			</view>
-
-			<view class="container-item" :open="false" :show-animation="true" title="地区和价格(选填)" thumb="/static/img/save/price.png">
-				<view class='container-row'>
-					<picker class="container-picker" @change="bindTownChange" :value="address.town.zoneCodes.selectedIndex" :range="address.town.zoneCodes"
-					 range-key="address" mode="selector">
-						<input class="container-input" placeholder="(选择一级地区)" v-model="address.town.zoneCodes[address.town.selectedIndex].address" />
-					</picker>
-					<text v-if="address.village.zoneCodes[0].id">——</text>
-					<picker class="container-picker" v-if="address.village.zoneCodes[0].id" @change="bindVillageChange" :value="address.village.zoneCodes.selectedIndex"
-					 :range="address.village.zoneCodes" range-key="address" mode="selector">
-						<input class="container-input" placeholder="(选择二级地区)" v-model="address.village.zoneCodes[address.village.selectedIndex].address" />
-					</picker>
-				</view>
-
-				<view class='container-title'>
-					<text class="validate-text" v-if="validateStatus.price">请输入正确的价格</text>
-				</view>
-				<view class="container-input-wrapper margin-bottom">
-					<input class="container-input" type="digit" placeholder="(请在此处输入价格(单位：元)" v-model="message.price" @focus="onFocus('price')"
-					 @blur="onValidate('price')" />
-					<text class="container-input-icon" @click="cleartInput('price')">&#xe434;</text>
-				</view>
+			<view class="container-input-wrapper">
+				<text class="container-input-lable">联系人姓名:</text>
+				<input class="container-input" placeholder="(请输入联系姓名)" v-model="message.contacts" @focus="onFocus('contacts')"
+				 @blur="onValidate('contacts')" />
+				<text class="container-input-icon" @click="cleartInput('contacts')">&#xe434;</text>
 			</view>
-
-			<view class="container-item" :open="true" :show-animation="true" title="主要内容(必填)" thumb="/static/img/save/wen.png">
-				<view class='container-title'>
-					<text>内容(最多1000字)</text>
-					<text class="validate-text" v-if="validateStatus.content">请填写信息内容</text>
-				</view>
-				<view class="container-textarea">
-					<textarea placeholder="请在此处输入信息内容" v-model="message.content" auto-height maxlength="1000" @focus="onFocus('content')"
-					 @blur="onValidate('content')"></textarea>
-				</view>
+			<view class='container-title'>
+				<text class="validate-text" v-if="validateStatus.contactPhone">联系人电话格式不正确</text>
 			</view>
+			<view class="container-input-wrapper">
+				<text class="container-input-lable">联系人电话:</text>
+				<input class="container-input" type="number" placeholder="(请输入联系人电话)" v-model="message.contactPhone" @focus="onFocus('contactPhone')"
+				 @blur="onValidate('contactPhone')" />
+				<text class="container-input-icon" @click="cleartInput('contactPhone')">&#xe434;</text>
+			</view>
+		</view>
+
+
+		<view class="container-item" :open="false" :show-animation="true" title="地区和价格(选填)" thumb="/static/img/save/price.png">
+			<view class='container-title'>
+				<text class="validate-text" v-if="false">（预留校验信息位置）</text>
+			</view>
+			<picker @change="bindTownChange" :value="address.town.zoneCodes.selectedIndex" :range="address.town.zoneCodes"
+			 range-key="address" mode="selector">
+				<view class="container-input-wrapper">
+					<text class="container-input-lable">一级地区(选填):</text>
+					<view class="container-input">{{address.town.zoneCodes[address.town.selectedIndex].address}}</view>
+				</view>
+			</picker>
+			<view class='container-title'>
+				<text class="validate-text" v-if="false">（预留校验信息位置）</text>
+			</view>
+			<picker v-if="address.village.zoneCodes[0].id" @change="bindVillageChange" :value="address.village.zoneCodes.selectedIndex"
+			 :range="address.village.zoneCodes" range-key="address" mode="selector">
+				<view class="container-input-wrapper">
+					<text class="container-input-lable">二级地区(选填):</text>
+					<view class="container-input">{{address.village.zoneCodes[address.village.selectedIndex].address}}</view>
+				</view>
+			</picker>
+			<view class='container-title'>
+				<text class="validate-text" v-if="validateStatus.price">请输入正确的价格</text>
+			</view>
+			<view class="container-input-wrapper">
+				<text class="container-input-lable">价格（选填）:</text>
+				<input class="container-input" type="digit" placeholder="(请输入价格(单位：元)" v-model="message.price" @focus="onFocus('price')"
+				 @blur="onValidate('price')" />
+				<text class="container-input-icon" @click="cleartInput('price')">&#xe434;</text>
+			</view>
+		</view>
+
+		<view class="container-item" :open="true" :show-animation="true" title="主要内容(必填)" thumb="/static/img/save/wen.png">
+			<view class='container-title'>
+				<text class="validate-text" v-if="validateStatus.content">请填写信息内容</text>
+			</view>
+			<view class="container-textarea">
+				<text class="container-input-lable">内容(最多1000字)</text>
+				<textarea placeholder="请输入信息内容" v-model="message.content" auto-height maxlength="1000" @focus="onFocus('content')"
+				 @blur="onValidate('content')"></textarea>
+			</view>
+		</view>
 		<!-- </uni-collapse> -->
 
 		<view class="button-container">
@@ -165,12 +189,12 @@
 				this.initMsgTypeChildren()
 				this.initAddressTown()
 			}
-			
+
 			if (option.from && option.from == 'published') {
 				//从发布入口进来
-				this.isPublished =  true;
-			} 
-			
+				this.isPublished = true;
+			}
+
 		},
 		methods: {
 			initMessage(messageId) {
@@ -365,10 +389,6 @@
 		}
 
 		.container-item {
-			.margin-bottom {
-				margin-bottom: $uni-spacing-col-lg;
-			}
-
 			.container-row {
 				display: flex;
 				flex-direction: row;
@@ -383,7 +403,6 @@
 			align-items: center;
 			color: $uni-text-color-grey;
 			font-size: $uni-font-size-base;
-			margin-top: $uni-spacing-col-base;
 			margin-left: 2*$uni-spacing-col-base;
 			margin-right: 2*$uni-spacing-col-base;
 		}
@@ -411,20 +430,13 @@
 				color: $jiayin-bg-color-active;
 				padding: $uni-spacing-col-base;
 			}
-		}
 
-		.container-picker {
-			border: 1px solid $uni-border-color;
-			margin-top: $uni-spacing-col-base;
-			margin-left: 2*$uni-spacing-col-base;
-			margin-right: 2*$uni-spacing-col-base;
-
-			.container-input {
+			.container-input-lable {
 				font-size: $uni-font-size-lg;
-				height: 50rpx;
 				padding: $uni-spacing-col-base;
 			}
 		}
+
 
 		.container-textarea {
 			font-size: $uni-font-size-lg;
@@ -447,7 +459,6 @@
 			flex-wrap: nowrap;
 			align-items: center;
 			justify-content: center;
-			margin-top: $uni-spacing-col-base;
 			margin-left: 2*$uni-spacing-col-base;
 			margin-right: 2*$uni-spacing-col-base;
 
