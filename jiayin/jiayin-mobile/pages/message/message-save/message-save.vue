@@ -21,11 +21,11 @@
 				</view>
 			</picker>
 			<view class='container-title'>
-				<text class="validate-text" v-if="validateStatus.expareTime">截至日期不能小于今天</text>
+				<text class="validate-text" v-if="validateStatus.expareTime">截至日期不能小于今天,最多一个月时间</text>
 			</view>
 			<picker mode="date" :value="message.expareTime" @change="bindDateChange">
 				<view class="container-input-wrapper">
-					<text class="container-input-lable">效截止日期:</text>
+					<text class="container-input-lable">有效期:</text>
 					<view class="container-input">{{message.expareTime}}</view>
 				</view>
 			</picker>
@@ -422,6 +422,7 @@
 				padding: $uni-spacing-col-base;
 				font-size: $uni-font-size-lg;
 				flex-grow: 1;
+				color: $uni-color-subtitle;
 			}
 
 			.container-input-icon {

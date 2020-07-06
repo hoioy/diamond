@@ -10,10 +10,10 @@
 				<view class="message-list-item">
 					<view class="message-list-item-body">
 						<view class="message-list-item-body-user">
-							<image mode="widthFix" class="message-list-item-body-user-avatar" :src="value.avatar"></image>
+							<image class="message-list-item-body-user-avatar" :src="value.avatar"></image>
 							<view class="message-list-item-body-user-detail">
 								<view class="message-list-item-body-user-name">{{ value.userName }}</view>
-								<view class="message-list-item-body-user-date">{{value.createdDate|formatDate}}</view>
+								<view class="message-list-item-body-user-date">发布于{{value.createdDate|formatDate}}</view>
 							</view>
 						</view>
 						<view class="message-list-item-title">{{ value.title }}</view>
@@ -23,7 +23,7 @@
 						</view>
 
 						<view class="message-list-item-contacts-views">
-							<view class="message-list-item-expareTime">有效截至日期:{{ value.expareTime}}</view>
+							<view class="message-list-item-expareTime">有效期{{ value.expareTime}}</view>
 							<view class="message-list-item-views">浏览:{{ value.views }}次</view>
 						</view>
 					</view>
@@ -248,6 +248,7 @@
 					
 					.message-list-item-body-user-avatar {
 						width: $uni-img-size-lg;
+						height: $uni-img-size-lg;
 						border-radius: $uni-border-radius-circle;
 					}
 

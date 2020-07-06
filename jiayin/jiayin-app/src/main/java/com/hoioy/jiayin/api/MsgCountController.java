@@ -4,6 +4,7 @@ import com.hoioy.diamond.common.api.BaseController;
 import com.hoioy.diamond.common.dto.PageDTO;
 import com.hoioy.diamond.common.dto.ResultDTO;
 import com.hoioy.diamond.common.exception.BaseException;
+import com.hoioy.diamond.common.util.CommonSecurityUtils;
 import com.hoioy.jiayin.dto.MsgCountDTO;
 import com.hoioy.jiayin.service.IMsgCountService;
 import io.swagger.annotations.Api;
@@ -21,6 +22,8 @@ public class MsgCountController extends BaseController<IMsgCountService, MsgCoun
     @ApiOperation(value = "分页", notes = "分页")
     @PostMapping("/page")
     public ResultDTO page(@RequestBody PageDTO<MsgCountDTO> pageDTO) throws BaseException {
+        pageDTO.getFilters().setOpenid(CommonSecurityUtils.getCurrentLogin());
+
         PageDTO page = iBaseService.getPage(pageDTO);
         return new ResultDTO(page);
     }

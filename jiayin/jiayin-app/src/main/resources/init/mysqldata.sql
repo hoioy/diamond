@@ -148,41 +148,33 @@ INSERT INTO `jiayin_msg_type`(`id`,`color`, `parent_id`, `type_name`, `money`, `
 INSERT INTO `jiayin_msg_type`(`id`,`color`, `parent_id`, `type_name`, `money`, `expiry_date`, `flag`, `created_by`, `modified_by`, `created_date`, `modified_date`, `remark`,`icon`,`path`) VALUES ('7d2c229de95fb67419238ee1470efb40','#4f68b0', '2c53d081bbcd42592c5ca04869bb1274', '酒店', '0', NULL, 1, 'admin', 'admin', '2020-06-22', '2020-06-22', '酒店', NULL, NULL);
 INSERT INTO `jiayin_msg_type`(`id`,`color`, `parent_id`, `type_name`, `money`, `expiry_date`, `flag`, `created_by`, `modified_by`, `created_date`, `modified_date`, `remark`,`icon`,`path`) VALUES ('f6a77e61f33dff20415550e5d8927c5f','#4f68b0', '2c53d081bbcd42592c5ca04869bb1274', '民宿', '0', NULL, 1, 'admin', 'admin', '2020-06-22', '2020-06-22', '民宿', NULL, NULL);
 
+-- ----------------------------
+-- Records of jiayin_notice
+-- ----------------------------
+INSERT INTO `jiayin_notice`(`id`, `flag`, `created_by`, `modified_by`, `created_date`, `modified_date`, `remark`, `content`) VALUES ('d1695380e4e6c53f7fdea5e951570003', 1, 'admin', 'admin', '2020-06-19', '2020-06-19', NULL, '欢迎使用嘉荫小程序');
+INSERT INTO `jiayin_notice`(`id`, `flag`, `created_by`, `modified_by`, `created_date`, `modified_date`, `remark`, `content`) VALUES ('2', 1, 'admin', 'admin', '2020-06-19', '2020-06-19', NULL, '您的支持是我们最大的动力');
 
 -- ----------------------------
--- Records of jiayin_message
+-- Records of jiayin_advert
 -- ----------------------------
-INSERT INTO `jiayin_message`(`id`, `created_by`, `created_date`, `modified_by`, `modified_date`, `flag`, `remark`, `openid`, `title`, `msg_type_id`, `content`, `views`, `status`, `expare_time`, `contacts`, `contact_phone`) VALUES ('b0a138088bf98e2d5a91cf93b963eaf0', 'admin', '2020-06-14 23:53:11.553000', 'admin', '2020-06-14 23:53:11.553000', 1, NULL, 'admin', 'asdfa', '08f1750267aff6081955446e255aee5e', 'wer afdsfd', 0, 1, '2020-06-14', '234w', 'errwe');
-
-
--- ----------------------------
--- Records of notice
--- ----------------------------
-INSERT INTO `notice`(`id`, `flag`, `created_by`, `modified_by`, `created_date`, `modified_date`, `remark`, `content`) VALUES ('d1695380e4e6c53f7fdea5e951570003', 1, 'admin', 'admin', '2020-06-19', '2020-06-19', NULL, '欢迎使用嘉荫小程序');
-INSERT INTO `notice`(`id`, `flag`, `created_by`, `modified_by`, `created_date`, `modified_date`, `remark`, `content`) VALUES ('2', 1, 'admin', 'admin', '2020-06-19', '2020-06-19', NULL, '您的支持是我们最大的动力');
-
--- ----------------------------
--- Records of advert
--- ----------------------------
-INSERT INTO `advert`(`id`, `flag`, `created_by`, `modified_by`, `created_date`, `modified_date`, `remark`, `content`, `icon`, `path`) VALUES ('e0c8cd338a98bc59a6a745b0bc7e56c8', 1, 'admin', 'admin', '2020-06-19', '2020-06-19', NULL, '广告1', '/static/img/advert/advert1.png', '');
-INSERT INTO `advert`(`id`, `flag`, `created_by`, `modified_by`, `created_date`, `modified_date`, `remark`, `content`, `icon`, `path`) VALUES ('222', 1, 'admin', 'admin', '2020-06-19', '2020-06-19', NULL, '广告2', '/static/img/advert/advert2.png', '');
+INSERT INTO `jiayin_advert`(`id`, `flag`, `created_by`, `modified_by`, `created_date`, `modified_date`, `remark`, `content`, `icon`, `path`) VALUES ('e0c8cd338a98bc59a6a745b0bc7e56c8', 1, 'admin', 'admin', '2020-06-19', '2020-06-19', NULL, '广告1', '/static/img/advert/advert1.png', '');
+INSERT INTO `jiayin_advert`(`id`, `flag`, `created_by`, `modified_by`, `created_date`, `modified_date`, `remark`, `content`, `icon`, `path`) VALUES ('222', 1, 'admin', 'admin', '2020-06-19', '2020-06-19', NULL, '广告2', '/static/img/advert/advert2.png', '');
 
 -- ----------------------------
 -- Records of jiayin_zone_code
 -- ----------------------------
-INSERT INTO  `jiayin_zone_code` ('id','address','parent_id','created_by','modified_by','created_date','modified_date','flag','remark') VALUES ('1276521365989601281', '嘉荫县', NULL, 'admin', 'admin', '2020-06-26', '2020-06-26', 1, '嘉荫县');
-INSERT INTO  `jiayin_zone_code` ('id','address','parent_id','created_by','modified_by','created_date','modified_date','flag','remark') VALUES ('1276522303320076290', '红光乡', '1276521365989601281', 'admin', 'admin', '2020-06-26', '2020-06-26', 1, '红光乡');
-INSERT INTO  `jiayin_zone_code` ('id','address','parent_id','created_by','modified_by','created_date','modified_date','flag','remark') VALUES ('1276522335662354434', '嘉荫县', '1276521365989601281', 'admin', 'admin', '2020-06-26', '2020-06-26', 1, '嘉荫县');
-INSERT INTO  `jiayin_zone_code` ('id','address','parent_id','created_by','modified_by','created_date','modified_date','flag','remark') VALUES ('1276522368780578817', '嘉荫农场', '1276521365989601281', 'admin', 'admin', '2020-06-26', '2020-06-26', 1, '嘉荫农场');
-INSERT INTO  `jiayin_zone_code` ('id','address','parent_id','created_by','modified_by','created_date','modified_date','flag','remark') VALUES ('1276522434257858562', '一连', '1276522368780578817', 'admin', 'admin', '2020-06-26', '2020-06-26', 1, '一连');
-INSERT INTO  `jiayin_zone_code` ('id','address','parent_id','created_by','modified_by','created_date','modified_date','flag','remark') VALUES ('1276522482764984321', '大岗', '1276522368780578817', 'admin', 'admin', '2020-06-26', '2020-06-26', 1, '大岗');
-INSERT INTO  `jiayin_zone_code` ('id','address','parent_id','created_by','modified_by','created_date','modified_date','flag','remark') VALUES ('1276522517716119554', '四连', '1276522368780578817', 'admin', 'admin', '2020-06-26', '2020-06-26', 1, '四连');
-INSERT INTO  `jiayin_zone_code` ('id','address','parent_id','created_by','modified_by','created_date','modified_date','flag','remark') VALUES ('1276522579359805441', '六连', '1276522368780578817', 'admin', 'admin', '2020-06-26', '2020-06-26', 1, '六连');
-INSERT INTO  `jiayin_zone_code` ('id','address','parent_id','created_by','modified_by','created_date','modified_date','flag','remark') VALUES ('1276522663094890497', '十一连', '1276522368780578817', 'admin', 'admin', '2020-06-26', '2020-06-26', 1, '十一连');
-INSERT INTO  `jiayin_zone_code` ('id','address','parent_id','created_by','modified_by','created_date','modified_date','flag','remark') VALUES ('1276522690341089281', '十四连', '1276522368780578817', 'admin', 'admin', '2020-06-26', '2020-06-26', 1, '十四连');
-INSERT INTO  `jiayin_zone_code` ('id','address','parent_id','created_by','modified_by','created_date','modified_date','flag','remark') VALUES ('1276522745194196994', '团部', '1276522368780578817', 'admin', 'admin', '2020-06-26', '2020-06-26', 1, '团部');
-INSERT INTO  `jiayin_zone_code` ('id','address','parent_id','created_by','modified_by','created_date','modified_date','flag','remark') VALUES ('1276522784582905858', '十五连', '1276522368780578817', 'admin', 'admin', '2020-06-26', '2020-06-26', 1, '十五连');
-INSERT INTO  `jiayin_zone_code` ('id','address','parent_id','created_by','modified_by','created_date','modified_date','flag','remark') VALUES ('1276522814278578178', '十六连', '1276522368780578817', 'admin', 'admin', '2020-06-26', '2020-06-26', 1, '十六连');
-INSERT INTO  `jiayin_zone_code` ('id','address','parent_id','created_by','modified_by','created_date','modified_date','flag','remark') VALUES ('1276522868783558657', '十七连', '1276522368780578817', 'admin', 'admin', '2020-06-26', '2020-06-26', 1, '十七连');
-INSERT INTO  `jiayin_zone_code` ('id','address','parent_id','created_by','modified_by','created_date','modified_date','flag','remark') VALUES ('1276522892443627521', '十八连', '1276522368780578817', 'admin', 'admin', '2020-06-26', '2020-06-26', 1, '十八连');
-INSERT INTO  `jiayin_zone_code` ('id','address','parent_id','created_by','modified_by','created_date','modified_date','flag','remark') VALUES ('1276522940212555778', '三连', '1276522368780578817', 'admin', 'admin', '2020-06-26', '2020-06-26', 1, '三连');
+INSERT INTO `jiayin_zone_code`(`id`, `address`, `parent_id`, `created_by`, `modified_by`, `created_date`, `modified_date`, `flag`, `remark`, `order_index`) VALUES ('1276522368780578817', '嘉荫农场', NULL, 'admin', 'admin', '2020-06-26', '2020-06-26', 1, '嘉荫农场', 2);
+INSERT INTO `jiayin_zone_code`(`id`, `address`, `parent_id`, `created_by`, `modified_by`, `created_date`, `modified_date`, `flag`, `remark`, `order_index`) VALUES ('1276522434257858562', '一连', '1276522368780578817', 'admin', 'admin', '2020-06-26', '2020-06-26', 1, '一连', NULL);
+INSERT INTO `jiayin_zone_code`(`id`, `address`, `parent_id`, `created_by`, `modified_by`, `created_date`, `modified_date`, `flag`, `remark`, `order_index`) VALUES ('1276522482764984321', '大岗', '1276522368780578817', 'admin', 'admin', '2020-06-26', '2020-06-26', 1, '大岗', NULL);
+INSERT INTO `jiayin_zone_code`(`id`, `address`, `parent_id`, `created_by`, `modified_by`, `created_date`, `modified_date`, `flag`, `remark`, `order_index`) VALUES ('1276522517716119554', '四连', '1276522368780578817', 'admin', 'admin', '2020-06-26', '2020-06-26', 1, '四连', NULL);
+INSERT INTO `jiayin_zone_code`(`id`, `address`, `parent_id`, `created_by`, `modified_by`, `created_date`, `modified_date`, `flag`, `remark`, `order_index`) VALUES ('1276522579359805441', '六连', '1276522368780578817', 'admin', 'admin', '2020-06-26', '2020-06-26', 1, '六连', NULL);
+INSERT INTO `jiayin_zone_code`(`id`, `address`, `parent_id`, `created_by`, `modified_by`, `created_date`, `modified_date`, `flag`, `remark`, `order_index`) VALUES ('1276522663094890497', '十一连', '1276522368780578817', 'admin', 'admin', '2020-06-26', '2020-06-26', 1, '十一连', NULL);
+INSERT INTO `jiayin_zone_code`(`id`, `address`, `parent_id`, `created_by`, `modified_by`, `created_date`, `modified_date`, `flag`, `remark`, `order_index`) VALUES ('1276522690341089281', '十四连', '1276522368780578817', 'admin', 'admin', '2020-06-26', '2020-06-26', 1, '十四连', NULL);
+INSERT INTO `jiayin_zone_code`(`id`, `address`, `parent_id`, `created_by`, `modified_by`, `created_date`, `modified_date`, `flag`, `remark`, `order_index`) VALUES ('1276522745194196994', '团部', '1276522368780578817', 'admin', 'admin', '2020-06-26', '2020-06-26', 1, '团部', NULL);
+INSERT INTO `jiayin_zone_code`(`id`, `address`, `parent_id`, `created_by`, `modified_by`, `created_date`, `modified_date`, `flag`, `remark`, `order_index`) VALUES ('1276522784582905858', '十五连', '1276522368780578817', 'admin', 'admin', '2020-06-26', '2020-06-26', 1, '十五连', NULL);
+INSERT INTO `jiayin_zone_code`(`id`, `address`, `parent_id`, `created_by`, `modified_by`, `created_date`, `modified_date`, `flag`, `remark`, `order_index`) VALUES ('1276522814278578178', '十六连', '1276522368780578817', 'admin', 'admin', '2020-06-26', '2020-06-26', 1, '十六连', NULL);
+INSERT INTO `jiayin_zone_code`(`id`, `address`, `parent_id`, `created_by`, `modified_by`, `created_date`, `modified_date`, `flag`, `remark`, `order_index`) VALUES ('1276522868783558657', '十七连', '1276522368780578817', 'admin', 'admin', '2020-06-26', '2020-06-26', 1, '十七连', NULL);
+INSERT INTO `jiayin_zone_code`(`id`, `address`, `parent_id`, `created_by`, `modified_by`, `created_date`, `modified_date`, `flag`, `remark`, `order_index`) VALUES ('1276522892443627521', '十八连', '1276522368780578817', 'admin', 'admin', '2020-06-26', '2020-06-26', 1, '十八连', NULL);
+INSERT INTO `jiayin_zone_code`(`id`, `address`, `parent_id`, `created_by`, `modified_by`, `created_date`, `modified_date`, `flag`, `remark`, `order_index`) VALUES ('1276522940212555778', '三连', '1276522368780578817', 'admin', 'admin', '2020-06-26', '2020-06-26', 1, '三连', NULL);
+INSERT INTO `jiayin_zone_code`(`id`, `address`, `parent_id`, `created_by`, `modified_by`, `created_date`, `modified_date`, `flag`, `remark`, `order_index`) VALUES ('1276540590057693185', '嘉荫县', NULL, 'admin', 'admin', '2020-06-26', '2020-06-26', 1, '嘉荫县', 1);
+INSERT INTO `jiayin_zone_code`(`id`, `address`, `parent_id`, `created_by`, `modified_by`, `created_date`, `modified_date`, `flag`, `remark`, `order_index`) VALUES ('1276540651458109442', '红光乡', NULL, 'admin', 'admin', '2020-06-26', '2020-06-26', 1, '红光乡', 3);

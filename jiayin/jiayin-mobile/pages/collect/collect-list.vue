@@ -20,12 +20,19 @@
 					style: {
 						backgroundColor: '#dd6572'
 					}
-				}]
+				}],
+				isOnIniting: false
+			}
+		},
+		onShow() {
+			if (this.$refs.jiayinIndexList) {
+				this.initIndexList()
 			}
 		},
 		onReady() {
-			if (this.$refs.jiayinIndexList) {
-				this.$refs.jiayinIndexList.initList();
+			if (!this.isOnIniting && this.$refs.jiayinIndexList &&
+				this.$refs.jiayinIndexList.pageDTO.list.length <= 0) {
+				this.initIndexList()
 			}
 		},
 		onPullDownRefresh() {
@@ -36,6 +43,15 @@
 		},
 		onBackPress() {
 			this.$refs.jiayinIndexList.backPress();
+		},
+		methods: {
+			initIndexList() {
+				this.isOnIniting = true
+				var that = this
+				this.$refs.jiayinIndexList.initList(function() {
+					that.isOnIniting = false
+				});
+			},
 		}
 	}
 </script>

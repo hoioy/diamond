@@ -479,6 +479,7 @@ DROP TABLE IF EXISTS `jiayin_zone_code`;
 CREATE TABLE `jiayin_zone_code`  (
   `id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `order_index` int(11) NULL DEFAULT NULL,
   `parent_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `flag` int(11) NULL DEFAULT NULL COMMENT '删除标记',
   `created_by` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建人',
