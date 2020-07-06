@@ -29,8 +29,8 @@
 		<view class="message-nav">
 			<view class="button-container">
 				<view class="button-container-icon" @click="onCollect">
-						<view  class="iconfont icon-shoucang1 "    :style="{color:collectColor,fontSize:30}" ></view>
-						<text class="button-container-text" >{{collectButtonName}}</text>
+					<text class="container-input-icon" :style="{color:collectColor}">&#xe438;</text>
+					<text class="button-container-text" >{{collectButtonName}}</text>
 				</view>
 				<button type="default" class="button-container-button" open-type="share"  style="background-color: #0FAEFF;color: #fff;border-radius: 100px 0px 0px 100px;">分享</button>
 				<button type="default" class="button-container-button" style="background-color: #ffa200;color: #fff;border-radius: 0px 100px 100px 0px;" @tap="onPhone">打电话</button>
@@ -238,6 +238,10 @@
 					 font-size: 30rpx;
 					 justify-content: center;
 				 }
+				 
+				 .container-input-icon {
+				 	font-family: uniicons;
+				 }
 			}
 			.button-container {
 				display: flex;
@@ -250,10 +254,6 @@
 			
 					border-left: 20rpx ;
 					width: 50%;
-					/* #ifndef APP-NVUE */
-					display: flex;
-					flex-direction: column;
-					/* #endif */
 					flex: 1;
 					justify-content: center;
 					align-items: center;

@@ -1,7 +1,7 @@
 <template>
 	<view class="container">
-		<uni-collapse>
-			<uni-collapse-item class="container-item" :open="true" :show-animation="true" title="基础内容(必填)" thumb="/static/img/save/base.png">
+		<!-- <uni-collapse> -->
+			<view class="container-item" :open="true" :show-animation="true" title="基础内容(必填)" thumb="/static/img/save/base.png">
 				<view class='container-title'>
 					<text class="validate-text" v-if="validateStatus.title">标题格式不正确</text>
 				</view>
@@ -33,9 +33,9 @@
 					 @blur="onValidate('contactPhone')" />
 					<text class="container-input-icon" @click="cleartInput('contactPhone')">&#xe434;</text>
 				</view>
-			</uni-collapse-item>
+			</view>
 
-			<uni-collapse-item class="container-item" :open="false" :show-animation="true" title="地区和价格(选填)" thumb="/static/img/save/price.png">
+			<view class="container-item" :open="false" :show-animation="true" title="地区和价格(选填)" thumb="/static/img/save/price.png">
 				<view class='container-row'>
 					<picker class="container-picker" @change="bindTownChange" :value="address.town.zoneCodes.selectedIndex" :range="address.town.zoneCodes"
 					 range-key="address" mode="selector">
@@ -56,9 +56,9 @@
 					 @blur="onValidate('price')" />
 					<text class="container-input-icon" @click="cleartInput('price')">&#xe434;</text>
 				</view>
-			</uni-collapse-item>
+			</view>
 
-			<uni-collapse-item class="container-item" :open="true" :show-animation="true" title="主要内容(必填)" thumb="/static/img/save/wen.png">
+			<view class="container-item" :open="true" :show-animation="true" title="主要内容(必填)" thumb="/static/img/save/wen.png">
 				<view class='container-title'>
 					<text>内容(最多1000字)</text>
 					<text class="validate-text" v-if="validateStatus.content">请填写信息内容</text>
@@ -67,8 +67,8 @@
 					<textarea placeholder="请在此处输入信息内容" v-model="message.content" auto-height maxlength="1000" @focus="onFocus('content')"
 					 @blur="onValidate('content')"></textarea>
 				</view>
-			</uni-collapse-item>
-		</uni-collapse>
+			</view>
+		<!-- </uni-collapse> -->
 
 		<view class="button-container">
 			<button type="default" v-if="!isPublished" class="button-container-save" @tap="saveDraftMessage">保存为草稿</button>
@@ -79,8 +79,8 @@
 </template>
 
 <script>
-	import uniCollapse from '@/components/uni-collapse/uni-collapse.vue'
-	import uniCollapseItem from '@/components/uni-collapse-item/uni-collapse-item.vue'
+	// import uniCollapse from '@/components/uni-collapse/uni-collapse.vue'
+	// import uniCollapseItem from '@/components/view/view.vue'
 
 	import * as publishAPI from '@/api/publish.js';
 	import * as messageAPI from '@/api/message.js';
@@ -90,8 +90,8 @@
 
 	export default {
 		components: {
-			uniCollapse,
-			uniCollapseItem
+			// uniCollapse,
+			// uniCollapseItem
 		},
 		data() {
 			return {
