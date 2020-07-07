@@ -2,7 +2,7 @@
 #全局datasource配置
 spring:
   datasource:                            #初始化sql配置
-    initialization-mode: always
+    initialization-mode: never
     continue-on-error: false                        #在初始化数据库时，遇到错误是否继续，默认false
     test-on-borrow: false                           #当从连接池借用连接时，是否测试该连接.
     test-while-idle: true                           #当连接空闲时，是否执行连接测试.
