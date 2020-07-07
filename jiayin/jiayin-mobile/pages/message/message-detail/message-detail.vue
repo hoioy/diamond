@@ -10,26 +10,42 @@
 			</view>
 			<view class="message-detail-body">
 				<view  class="message-detail-body-item">
-					<view class="message-detail-body-price">价格:{{ message.price}}</view>
-					<view class="message-detail-body-item-key">类别: <text class="message-detail-body-type" :style="{backgroundColor: message.msgTypeColor}">{{ message.msgTypeName }}</text></view>
+					<view class="message-detail-body-item">
+						<view class="message-detail-body-price">价格:</view>
+						<view class="message-detail-body-price">{{ message.price}}</view>
+					</view>
+					<view class="message-detail-body-item">
+						<!-- <view class="message-detail-body-item-key">类别:</view> -->
+					    <text class="message-detail-body-type" :style="{backgroundColor: message.msgTypeColor}">{{ message.msgTypeName }}</text>
+					</view>
 				</view>
 				<view class="message-detail-body-item">
-					<view class="message-detail-body-item-value">联系人: {{ message.contacts}}</view>
-					<view class="message-detail-body-item-value">联系电话:{{ message.contactPhone}}</view>
+					<view class="message-detail-body-item">
+						<view class="message-detail-body-item-key">联系人:</view>
+						<view class="message-detail-body-item-value">{{ message.contact}}</view>
+					</view>
+					<view class="message-detail-body-item">
+						<view class="message-detail-body-item-key">电话:</view>
+						<view class="message-detail-body-price">{{ message.contactPhone}}</view>
+					</view>
 				</view>
 				<view class="message-detail-body-item">
 					<view class="message-detail-body-item-address">
-						<view class="message-detail-body-item-key">地区: </view>
-						<view class="message-detail-body-item-value">{{ message.town}}</view>
+						<view class="message-detail-body-item-key">地区: {{ message.townName}}</view>
+						<view class="message-detail-body-item-value">{{ message.townName}}</view>
 					</view>
 		
 				</view>
+			</view>
+			<view class="message-detail-content">
+					<view class="message-detail-content-title">详细信息</view>
+					<view class="message-detail-content-value">{{ message.content}}</view>
 			</view>
 	    </view>
 		<view class="message-nav">
 			<view class="button-container">
 				<view class="button-container-icon" @click="onCollect">
-					<text class="container-input-icon" :style="{color:collectColor}">&#xe438;</text>
+					<text class="container-input-icon" :style="{color:collectColor,fontSize: collectIconSize}">&#xe438;</text>
 					<text class="button-container-text" >{{collectButtonName}}</text>
 				</view>
 				<button  class="button-container-button" open-type="share"  style="background-color: #0FAEFF;color: #fff;border-radius: 100px 0px 0px 100px;">分享</button>
@@ -50,6 +66,7 @@
 				message: {},
 				collectButtonName: "收藏",
 				collectColor: "#FFC0CB",
+				collectIconSize: "15px",
 				collectId: ""
 			};
 		},
@@ -150,7 +167,6 @@
 				display: flex;
 				flex-direction: column;
 				box-shadow: 1px 1px 5px $uni-border-color;
-				border-radius: $uni-border-radius-lg;
 				padding: $uni-spacing-col-base;
                 background-color: $jiayin-msg-color;
 				.message-detail-title {
@@ -166,7 +182,7 @@
 
 				.msg-detail-head-body {
 					display: flex;
-					justify-content: space-between;
+					justify-content: center;
 					font-size: $uni-font-size-base;
 					color: $uni-text-color-placeholder;
 					margin-top: $uni-spacing-col-base;
@@ -183,7 +199,6 @@
 				flex-direction: column;
 				margin-top: $uni-spacing-col-base;
 				box-shadow: 1px 1px 10px $uni-border-color;
-				border-radius: $uni-border-radius-lg;
 				padding: $uni-spacing-col-base;
 				background-color: $jiayin-msg-color;
 				.message-detail-body-item-address{
@@ -191,6 +206,11 @@
 						flex-direction: row;
 				}
 				.message-detail-body-item {
+					.message-detail-body-item-key{
+						font-size: 13pt;
+						color: $jiayin-head-content-color;
+					}
+					white-space: pre;
 					display: flex;
 					flex-wrap: nowrap;
 					justify-content: space-between;
@@ -217,6 +237,21 @@
 				align-self: center;
 				margin-top: $uni-spacing-col-base;
 			}
+			
+		   .message-detail-content{
+			   display: flex;
+			   flex-direction: column;
+			   margin-top: $uni-spacing-col-base;
+			   .message-detail-content-title{
+				   color: #353535;
+				   font-size: 11pt;
+				   background-color: $jiayin-msg-color;
+			   }
+			   .message-detail-content-value{
+				   background-color: $jiayin-msg-color;
+				   margin-top: 3px;
+			   }
+		   }
 		}
 
 		.message-nav {
