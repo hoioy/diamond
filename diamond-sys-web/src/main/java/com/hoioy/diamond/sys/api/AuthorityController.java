@@ -129,6 +129,8 @@ public class AuthorityController {
             String id = userService.findIdByLoginName(userName);
             user = (UserInfoDTO) userService.findById(id).get();
             user.setPassword(null);
+            List<String> roleIds = iRoleUserService.findRoleIdsByUserIds(Arrays.asList(user.getId()));
+            user.setRoleId(String.join(",", roleIds));
         } catch (Exception e) {
             e.printStackTrace();
         }

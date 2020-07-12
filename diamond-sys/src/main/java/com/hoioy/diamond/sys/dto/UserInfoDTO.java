@@ -43,4 +43,6 @@ public class UserInfoDTO extends CommonUserDTO {
     private String file;
 
     private byte[] avatarContent;
+
+    private String roleId;
 }
