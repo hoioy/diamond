@@ -24,7 +24,7 @@ import java.util.List;
 @Service
 public class FileStorageServiceImpl extends BaseServiceImpl<FileStorageMapper, FileStorage, FileStorageDTO> implements IFileStorageService<FileStorage> {
 
-    @Value("${tdf.sys.file-storage.root-path}")
+    @Value("${base.sys.file-storage.root-path}")
     public String fileStorageRootPath;
 
     @Override

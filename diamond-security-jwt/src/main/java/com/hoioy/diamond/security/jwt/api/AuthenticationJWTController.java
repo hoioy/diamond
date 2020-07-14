@@ -27,12 +27,12 @@ import java.util.Objects;
 @Api(tags = {"01.普通登录接口"})
 @RestController
 public class AuthenticationJWTController{
-    private static final String lockedRedisKeyPre = "tdf:locked";
+    private static final String lockedRedisKeyPre = "base:locked";
     //允许登录错误次数，对登录错误一定次数的用户进行封锁账号以及 IP 等措施
-    @Value("${tdf.security.login.retry-time}")
+    @Value("${base.security.login.retry-time}")
     private Integer retryTime = 5;
     //被锁定，不允许登录后恢复时间间隔
-    @Value("${tdf.security.login.locked-recover-second}")
+    @Value("${base.security.login.locked-recover-second}")
     private long lockedRecoverSecond = 12 * 3600;
 
     @Autowired

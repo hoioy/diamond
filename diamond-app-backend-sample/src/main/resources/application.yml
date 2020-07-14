@@ -29,7 +29,7 @@ spring:
       max-file-size: 20MB
       max-request-size: 20MB
 
-tdf:
+base:
   sys:
     file-storage:
       root-path: "D:\\storage\\"  # TDF提供简单的文件上传功能，文件上传的根路径

@@ -16,17 +16,17 @@ import java.util.Map;
 @Service
 public class CaptchaService {
     private static final String captchaEnableOn = "on";
-    private static final String captchaRedisKeyPre = "tdf:captcha";
-    private static final String captchaSameIpLimitRedisKeyPre = "tdf:ipLimitPerMinutes";
+    private static final String captchaRedisKeyPre = "base:captcha";
+    private static final String captchaSameIpLimitRedisKeyPre = "base:ipLimitPerMinutes";
 
     //是否启用验证码逻辑
-    @Value("${tdf.security.captcha-enable}")
+    @Value("${base.security.captcha-enable}")
     private String captchaEnable = captchaEnableOn;
     //验证码有效期，单位：秒
-    @Value("${tdf.security.captcha-max-wait-second}")
+    @Value("${base.security.captcha-max-wait-second}")
     private long captchaMaxWaitSecond = 600l;
     //同一个IP地址，每分钟限制请求多少次验证码
-    @Value("${tdf.security.captcha-same-ip-limit-per-minutes}")
+    @Value("${base.security.captcha-same-ip-limit-per-minutes}")
     private long captchaSameIpLimitPerMinutes = 60;
     @Autowired
     private CommonRedisUtil commonRedisUtil;

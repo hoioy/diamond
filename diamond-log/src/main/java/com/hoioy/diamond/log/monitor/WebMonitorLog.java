@@ -26,7 +26,7 @@ public class WebMonitorLog {
     @Autowired
     private IWebLogsService iWebLogsService;
 
-    @Value("${tdf.log.lock}")
+    @Value("${base.log.lock}")
     public String loglock;
 
     /**
