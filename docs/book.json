@@ -1,0 +1,48 @@
+{
+  "title": "TDF帮助文档",
+  "links" : {
+    "sidebar" : {
+      "太极开发框架TDF(Base版)" : ""
+    }
+  },
+  "description": "TDF（base版）帮助文档",
+  "plugins": [
+    "back-to-top-button",
+    "code",
+    "github",
+    "hide-element",
+    "simple-page-toc",
+    "page-toc-button",
+    "splitter",
+    "-lunr",
+    "-search",
+    "search-pro",
+    "custom-favicon",
+    "pageview-count",
+    "tbfed-pagefooter",
+    "popup",
+    "advanced-emoji"
+  ],
+  "pluginsConfig": {
+    "favicon": "./icon/book.ico",
+    "simple-page-toc": {
+      "maxDepth": 3,
+      "skipFirstH1": true
+    },
+    "github": {
+      "url": "http://gitlab.taiji.com.cn/IRI/tdf"
+    },
+    "hide-element": {
+      "elements": [".gitbook-link"]
+    },
+    "page-toc-button": {
+      "maxTocDepth": 2,
+      "minTocSize": 2
+    },
+    "tbfed-pagefooter": {
+      "copyright": "Copyright &copy 太极计算机股份有限公司",
+      "modify_label": "该文章修订时间：",
+      "modify_format": "YYYY-MM-DD HH:mm:ss"
+    }
+  }
+}
