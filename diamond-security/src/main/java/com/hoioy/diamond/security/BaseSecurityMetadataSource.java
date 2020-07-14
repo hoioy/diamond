@@ -29,7 +29,7 @@ public abstract class BaseSecurityMetadataSource implements FilterInvocationSecu
 
     // 返回所请求资源所需要的权限
     // 需要注意性能问题
-    // Diamond解决方案是使用Spring Cache增加缓存
+    // TDF解决方案是使用Spring Cache增加缓存
     public Collection<ConfigAttribute> getAttributes(Object object) throws IllegalArgumentException {
         String requestUrl = ((FilterInvocation) object).getRequest().getRequestURI();
         List<String> roleIds = findRoleIdsByRequestUrl(requestUrl);

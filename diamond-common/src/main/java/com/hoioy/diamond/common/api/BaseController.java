@@ -1,6 +1,7 @@
 package com.hoioy.diamond.common.api;
 
 import com.hoioy.diamond.common.dto.BaseDTO;
+import com.hoioy.diamond.common.dto.CommonDTO;
 import com.hoioy.diamond.common.dto.PageDTO;
 import com.hoioy.diamond.common.dto.ResultDTO;
 import com.hoioy.diamond.common.exception.BaseException;
@@ -14,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 public abstract class BaseController<S extends IBaseService, DTO extends BaseDTO> {
     protected Logger log = LoggerFactory.getLogger(getClass());
@@ -25,16 +25,16 @@ public abstract class BaseController<S extends IBaseService, DTO extends BaseDTO
     @ApiOperation(value = "001.新增")
     @ApiOperationSupport(order = 1)
     @PostMapping
-    public ResultDTO<DTO> save(@RequestBody DTO dto) throws BaseException {
-        DTO resultDTO = (DTO) iBaseService.save(dto);
+    public ResultDTO<DTO> create(@RequestBody DTO dto) throws BaseException {
+        DTO resultDTO = (DTO) iBaseService.create(dto);
         return new ResultDTO(resultDTO);
     }
 
     @ApiOperation(value = "002.批量新增")
     @ApiOperationSupport(order = 2)
-    @PostMapping("/batchSave")
-    public ResultDTO batchSave(@RequestBody List<DTO> dtos) throws BaseException {
-        iBaseService.batchSave(dtos);
+    @PostMapping("/batchCreate")
+    public ResultDTO batchCreate(@RequestBody List<DTO> dtos) throws BaseException {
+        iBaseService.batchCreate(dtos);
         return new ResultDTO();
     }
 
@@ -67,12 +67,12 @@ public abstract class BaseController<S extends IBaseService, DTO extends BaseDTO
     @ApiOperationSupport(order = 6)
     @GetMapping("/{id}")
     public ResultDTO<DTO> selectById(@PathVariable("id") String id) throws BaseException {
-        Optional<DTO> byId = iBaseService.findById(id);
-        return new ResultDTO<DTO>(byId.get());
+        CommonDTO byId = iBaseService.findById(id);
+        return new ResultDTO(byId);
     }
 
     @Valid
-    @ApiOperation(value = "普通单表分页查询")
+    @ApiOperation(value = "007.普通单表分页查询")
     @PostMapping(value = "/search")
     public ResultDTO<PageDTO<DTO>> selectByPage(@RequestBody PageDTO<DTO> pageDTO) {
         pageDTO = iBaseService.getPage(pageDTO);

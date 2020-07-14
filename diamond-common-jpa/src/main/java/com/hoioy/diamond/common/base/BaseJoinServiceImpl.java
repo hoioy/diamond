@@ -11,6 +11,7 @@ import org.springframework.util.CollectionUtils;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -22,24 +23,26 @@ public abstract class BaseJoinServiceImpl<I extends IBaseJoinRepository<D>, D ex
     private EntityManager entityManager;
 
     @Override
-    public Optional<DTO> findById(String id) throws BaseException {
+    public DTO findById(String id) throws BaseException {
         Optional<D> t = iBaseRepository.findById(id);
         if (!t.isPresent()) {
-            return Optional.ofNullable(null);
+            return null;
         }
-        DTO dto = domainToDTO(t.get(), true);
-        return Optional.ofNullable(dto);
+        return domainToDTO(t.get(), true);
     }
 
     @Override
     public List<DTO> findByIds(List<String> ids) {
+        if(CollectionUtils.isEmpty(ids)){
+            return new ArrayList<DTO>();
+        }
         List<D> ts = iBaseRepository.findAllById(ids);
         List<DTO> dtos = domainListToDTOList(ts);
         return dtos;
     }
 
     @Override
-    public DTO save(DTO dto) {
+    public DTO create(DTO dto) {
         D t = dtoToDomain(dto, true);
         t.setId(generateJoinId(t));
         t = iBaseRepository.saveAndFlush(t);
@@ -48,7 +51,7 @@ public abstract class BaseJoinServiceImpl<I extends IBaseJoinRepository<D>, D ex
     }
 
     @Override
-    public boolean batchSave(List<DTO> dtoList) {
+    public boolean batchCreate(List<DTO> dtoList) {
         List<D> ts = dtoListToDomainList(dtoList, true);
         ts.forEach(t -> {
             t.setId(generateJoinId(t));

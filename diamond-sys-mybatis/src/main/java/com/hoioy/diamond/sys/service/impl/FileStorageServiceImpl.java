@@ -20,13 +20,18 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class FileStorageServiceImpl extends BaseServiceImpl<FileStorageMapper, FileStorage, FileStorageDTO> implements IFileStorageService<FileStorage> {
 
-    @Value("${diamond.sys.file-storage.root-path}")
+    @Value("${tdf.sys.file-storage.root-path}")
     public String fileStorageRootPath;
+
+    @Override
+    public String getFileStorageRootPath() {
+        return fileStorageRootPath;
+    }
+
     @Override
     public FileStorageDTO saveFile(MultipartFile file, String relativePath, String replacedFileName) throws BaseException, IOException {
         if (file == null || file.isEmpty()) {
@@ -40,7 +45,7 @@ public class FileStorageServiceImpl extends BaseServiceImpl<FileStorageMapper, F
         //1. 存储文件到服务器
         // 获取文件的扩展名
         String extensionName = filename.substring(filename.lastIndexOf(".") + 1);
-        Path path = Paths.get(fileStorageRootPath+ relativePath);
+        Path path = Paths.get(fileStorageRootPath + relativePath);
         Files.createDirectories(path);
         Files.copy(file.getInputStream(), path.resolve(replacedFileName + "." + extensionName), StandardCopyOption.REPLACE_EXISTING);
         //2. 文件元数据存储到数据库
@@ -48,16 +53,14 @@ public class FileStorageServiceImpl extends BaseServiceImpl<FileStorageMapper, F
         dto.setFileName(replacedFileName);
         dto.setExtension(extensionName);
         dto.setRelativePath(relativePath);
-        return super.save(dto);
+        return super.create(dto);
     }
-
-
 
     @Override
     public boolean removeById(String id) throws BaseException {
-        Optional<FileStorageDTO> dtoOptional = findById(id);
-        if (dtoOptional.isPresent()) {
-            FileStorageDTO dto = dtoOptional.get();
+        FileStorageDTO dtoOptional = findById(id);
+        if (dtoOptional != null) {
+            FileStorageDTO dto = dtoOptional;
             Path path = Paths.get(fileStorageRootPath + dto.getRelativePath()).resolve(dto.getFileName() + "." + dto.getExtension());
             try {
                 FileSystemUtils.deleteRecursively(path);
@@ -73,7 +76,9 @@ public class FileStorageServiceImpl extends BaseServiceImpl<FileStorageMapper, F
 
     @Override
     public boolean removeByIds(List<String> ids) throws BaseException {
-        boolean b = super.removeByIds(ids);
+        ids.forEach(id -> {
+            removeById(id);
+        });
         return true;
     }
 

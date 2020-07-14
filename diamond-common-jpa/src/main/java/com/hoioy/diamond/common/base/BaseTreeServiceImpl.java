@@ -2,7 +2,6 @@ package com.hoioy.diamond.common.base;
 
 import com.hoioy.diamond.common.dto.BaseTreeDTO;
 import com.hoioy.diamond.common.service.IBaseTreeService;
-import cn.hutool.core.util.StrUtil;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
@@ -12,7 +11,11 @@ public abstract class BaseTreeServiceImpl<I extends IBaseTreeRepository<D>, D ex
 
     @Override
     public List<DTO> findByParentId(String parentId) {
-        List<D>  parents = iBaseRepository.findByParentId(parentId);
+        if(StringUtils.isBlank(parentId)){
+            //JPA只支持null
+            parentId = null;
+        }
+        List<D> parents = iBaseRepository.findByParentId(parentId);
         List<DTO> dtos = this.domainListToDTOList(parents);
         return dtos;
     }

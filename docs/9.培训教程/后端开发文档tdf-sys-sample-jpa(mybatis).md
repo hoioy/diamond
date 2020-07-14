@@ -46,19 +46,19 @@ BaseXXX系列代码在tdf-common模块，是各个层代码的一种约束，需
 
 ```xml
 </dependency>
-    <groupId>cn.com.taiji</groupId>
+    <groupId>com.hoioy.diamond</groupId>
     <artifactId>tdf-log-jpa</artifactId>
 </dependency>
 <dependency>
-    <groupId>cn.com.taiji</groupId>
+    <groupId>com.hoioy.diamond</groupId>
     <artifactId>tdf-security-jwt</artifactId>
 </dependency>
 <dependency>
-    <groupId>cn.com.taiji</groupId>
+    <groupId>com.hoioy.diamond</groupId>
     <artifactId>tdf-sys-jpa</artifactId>
 </dependency>
 <dependency>
-    <groupId>cn.com.taiji</groupId>
+    <groupId>com.hoioy.diamond</groupId>
     <artifactId>tdf-sys-web</artifactId>
 </dependency>
 ```
@@ -67,19 +67,19 @@ BaseXXX系列代码在tdf-common模块，是各个层代码的一种约束，需
 
 ```xml
 <dependency>
-    <groupId>cn.com.taiji</groupId>
+    <groupId>com.hoioy.diamond</groupId>
     <artifactId>tdf-log-mybatis</artifactId>
 </dependency>
 <dependency>
-    <groupId>cn.com.taiji</groupId>
+    <groupId>com.hoioy.diamond</groupId>
     <artifactId>tdf-security-jwt</artifactId>
 </dependency>
 <dependency>
-    <groupId>cn.com.taiji</groupId>
+    <groupId>com.hoioy.diamond</groupId>
     <artifactId>tdf-sys-mybatis</artifactId>
 </dependency>
 <dependency>
-    <groupId>cn.com.taiji</groupId>
+    <groupId>com.hoioy.diamond</groupId>
     <artifactId>tdf-sys-web</artifactId>
 </dependency>
 ```
@@ -177,7 +177,7 @@ String findScoreWithNamesPageableJPQL = " from CourseStudentScore t " +
         " where (:#{#scoreWithNamesDTO.studentName} is null or s.studentName LIKE CONCAT('%',:#{#scoreWithNamesDTO.studentName},'%')) " +
         " and (:#{#scoreWithNamesDTO.courseName} is null or c.courseName  LIKE CONCAT('%',:#{#scoreWithNamesDTO.courseName},'%')) ";
 
-@Query(value = "select new com.sample.tdf.dto.ScoreWithNamesDTO(t.score,s.studentName,s.studentClass,s.studentSex,c.courseName) " + findScoreWithNamesPageableJPQL,
+@Query(value = "select new com.hoioy.sample.dto.ScoreWithNamesDTO(t.score,s.studentName,s.studentClass,s.studentSex,c.courseName) " + findScoreWithNamesPageableJPQL,
         countQuery = " select count(t.id) " + findScoreWithNamesPageableJPQL)
 Page<ScoreWithNamesDTO> findScoreWithNamesPageable(@Param("scoreWithNamesDTO") ScoreWithNamesDTO scoreWithNamesDTO, Pageable pageable);
 

@@ -23,4 +23,7 @@ public class DataItem extends BaseTreeDomain {
     private String name;
 
     private String state;
+
+    private String dataItemTypeId;
+
 }

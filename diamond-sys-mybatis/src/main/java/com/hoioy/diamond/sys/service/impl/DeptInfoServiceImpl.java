@@ -8,15 +8,20 @@ import com.hoioy.diamond.sys.dto.DeptInfoDTO;
 import com.hoioy.diamond.sys.exception.SysException;
 import com.hoioy.diamond.sys.mapper.DeptInfoMapper;
 import com.hoioy.diamond.sys.service.IDeptInfoService;
+import com.hoioy.diamond.sys.service.IDeptUserService;
 import cn.hutool.core.collection.CollUtil;
-import cn.hutool.core.util.StrUtil;
+import cn.hutool.core.collection.CollectionUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
 public class DeptInfoServiceImpl extends BaseTreeServiceImpl<DeptInfoMapper, DeptInfo, DeptInfoDTO> implements IDeptInfoService<DeptInfo> {
+    @Autowired
+    private IDeptUserService iDeptUserService;
+
     @Override
     public PageDTO<DeptInfoDTO> getPage(PageDTO<DeptInfoDTO> pageDTO) {
         DeptInfo bean = getDomainFilterFromPageDTO(pageDTO);
@@ -30,48 +35,34 @@ public class DeptInfoServiceImpl extends BaseTreeServiceImpl<DeptInfoMapper, Dep
         } else {
             return pageDTO;
         }
-
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
-    public DeptInfoDTO save(DeptInfoDTO dto) throws BaseException {
-        DeptInfo deptInfo = iBaseRepository.findByDeptName(dto.getDeptName());
-        if (deptInfo != null) {
-            throw new SysException("该部门名称已存在");
+    public void beforeRemove(List<String> ids) {
+        super.beforeRemove(ids);
+        QueryWrapper<DeptInfo> ew = new QueryWrapper<>();
+        ew.in("parent_id", ids);
+        List<DeptInfo> children = iBaseRepository.selectList(ew);
+        if (CollectionUtil.isNotEmpty(children)) {
+            throw new SysException("所选数据下面含有子元素集合，不能删除！需要先删除子元素");
         }
-//        dto.setCreatedDate(LocalDateTime.now());
-        return super.save(dto);
+
+        if (CollectionUtil.isNotEmpty(iDeptUserService.findSecondIdsByFirstIds(ids))) {
+            throw new SysException("所选部门下有用户，不能删除！请先删除所选部门下所有用户");
+        }
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
-    public DeptInfoDTO update(DeptInfoDTO dto) throws BaseException {
-        DeptInfo deptInfo = iBaseRepository.findByDeptName(dto.getDeptName());
-        if (deptInfo != null && !dto.getId().equals(deptInfo.getId())) {
-            throw new SysException("该部门名称已存在");
-        }
-        return super.update(dto);
+    public DeptInfoDTO findById(String id) throws BaseException {
+        DeptInfoDTO deptInfoDTO = super.findById(id);
+        DeptInfoDTO parentDTO = findById(deptInfoDTO.getParentId());
+        deptInfoDTO.setParentName(parentDTO.getDeptName());
+        return deptInfoDTO;
     }
-
     @Override
     public List<DeptInfoDTO> findAll() {
         List<DeptInfo> list = iBaseRepository.findAllSort();
         List<DeptInfoDTO> deptInfoDTOS = domainListToDTOList(list);
         return deptInfoDTOS;
-    }
-
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public boolean removeById(String id) throws BaseException {
-        if (StrUtil.isNotBlank(id)) {
-            List<DeptInfoDTO> byParentId = findByParentId(id);
-            if (CollUtil.isNotEmpty(byParentId)) {
-                throw new SysException("该条记录下面含有子元素集合，不能删除！");
-            }
-            return super.removeById(id);
-        } else {
-            return false;
-        }
     }
 }

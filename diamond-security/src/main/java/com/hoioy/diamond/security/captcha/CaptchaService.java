@@ -16,17 +16,17 @@ import java.util.Map;
 @Service
 public class CaptchaService {
     private static final String captchaEnableOn = "on";
-    private static final String captchaRedisKeyPre = "diamond:captcha";
-    private static final String captchaSameIpLimitRedisKeyPre = "diamond:ipLimitPerMinutes";
+    private static final String captchaRedisKeyPre = "tdf:captcha";
+    private static final String captchaSameIpLimitRedisKeyPre = "tdf:ipLimitPerMinutes";
 
     //是否启用验证码逻辑
-    @Value("${diamond.security.captcha-enable}")
+    @Value("${tdf.security.captcha-enable}")
     private String captchaEnable = captchaEnableOn;
     //验证码有效期，单位：秒
-    @Value("${diamond.security.captcha-max-wait-second}")
+    @Value("${tdf.security.captcha-max-wait-second}")
     private long captchaMaxWaitSecond = 600l;
     //同一个IP地址，每分钟限制请求多少次验证码
-    @Value("${diamond.security.captcha-same-ip-limit-per-minutes}")
+    @Value("${tdf.security.captcha-same-ip-limit-per-minutes}")
     private long captchaSameIpLimitPerMinutes = 60;
     @Autowired
     private CommonRedisUtil commonRedisUtil;
@@ -34,7 +34,7 @@ public class CaptchaService {
     public ResultDTO captcha(String clientIp) {
         String ipLimitRedisKey = captchaSameIpLimitRedisKeyPre + ":" + clientIp;
         String time = commonRedisUtil.get(ipLimitRedisKey);
-        if (StringUtils.isEmpty(time)) {
+        if (StringUtils.isBlank(time)) {
             //没有记录，说明之前没有错误认证
             time = captchaSameIpLimitPerMinutes + "";
             commonRedisUtil.set(ipLimitRedisKey, time, 60);
@@ -60,7 +60,7 @@ public class CaptchaService {
             String captchaKey = authenticationRequest.getCaptchaKey();
             String captchaCode = authenticationRequest.getCaptchaCode();
             //验证码校验逻辑启用
-            if (StringUtils.isEmpty(captchaKey)) {
+            if (StringUtils.isBlank(captchaKey)) {
                 throw new BaseSecurityException("验证码Key不可以为空");
             }
             String storedCaptchaCode = commonRedisUtil.get(captchaRedisKeyPre + ":" + captchaKey);

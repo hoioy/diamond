@@ -6,7 +6,6 @@ import com.hoioy.diamond.log.service.IWebLogsService;
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import springfox.documentation.annotations.ApiIgnore;
 
 @Api(tags = {"日志查看"})
 @RestController

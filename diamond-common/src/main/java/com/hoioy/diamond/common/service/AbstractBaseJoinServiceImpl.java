@@ -8,11 +8,11 @@ import com.hoioy.diamond.common.exception.CommonException;
 import com.hoioy.diamond.common.util.CommonRedisUtil;
 import com.hoioy.diamond.common.util.CommonStatic;
 import cn.hutool.core.util.ReflectUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -125,7 +125,7 @@ public abstract class AbstractBaseJoinServiceImpl<I extends ICommonRepository<D>
     //根据BaseJoinId注解获取对应顺序的名称
     protected final String getIdFieldNameByIndex(BaseJoinId.Index index) {
         String idFieldName = domainIdFieldNames.get(index.ordinal());
-        if (StringUtils.isEmpty(idFieldName)) {
+        if (StringUtils.isBlank(idFieldName)) {
             Class<D> domainClass = getDomainClass();
             List<Field> fields = Arrays.asList(ReflectUtil.getFields(domainClass));
             for (Field field : fields) {

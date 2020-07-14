@@ -24,7 +24,8 @@ public abstract class BaseServiceImpl<M extends IBaseMapper<T>, T extends BaseDo
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public DTO save(DTO dto) throws BaseException {
+    public DTO create(DTO dto) throws BaseException {
+        dto = beforeSave(dto);
         T t = createDomain();
         CommonBeanUtil.saveCopy(dto, t);
         iBaseRepository.insert(t);
@@ -48,6 +49,7 @@ public abstract class BaseServiceImpl<M extends IBaseMapper<T>, T extends BaseDo
     @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean removeById(String id) throws BaseException {
+        beforeRemove(Arrays.asList(id));
         iBaseRepository.deleteById(id);
         return true;
     }
@@ -55,6 +57,7 @@ public abstract class BaseServiceImpl<M extends IBaseMapper<T>, T extends BaseDo
     @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean removeByIds(List<String> ids) throws BaseException {
+        beforeRemove(ids);
         Set<String> cacheKeys = new HashSet<>();
         ids.forEach(id -> {
             cacheKeys.add(CacheKey_dto + "::" + CommonRedisUtil.getCacheKey(getDTOClass().getSimpleName(), id));
@@ -66,13 +69,13 @@ public abstract class BaseServiceImpl<M extends IBaseMapper<T>, T extends BaseDo
     }
 
     @Override
-    public Optional<DTO> findById(String id) throws BaseException {
+    public DTO findById(String id) throws BaseException {
         T domain = iBaseRepository.selectById(id);
-        if(domain==null) {
-            return Optional.ofNullable(null);
+        if (domain == null) {
+            return null;
         }
         DTO dto = domainToDTO(domain, true);
-        return Optional.ofNullable(dto);
+        return dto;
     }
 
     @Override
@@ -87,8 +90,9 @@ public abstract class BaseServiceImpl<M extends IBaseMapper<T>, T extends BaseDo
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public boolean batchSave(List<DTO> dtoList) throws BaseException {
+    public boolean batchCreate(List<DTO> dtoList) throws BaseException {
         dtoList.stream().forEach(dto -> {
+            dto = beforeSave(dto);
             T domain = createDomain();
             CommonBeanUtil.saveCopy(dto, domain);
             iBaseRepository.insert(domain);

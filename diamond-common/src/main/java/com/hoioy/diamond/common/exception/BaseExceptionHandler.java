@@ -24,15 +24,12 @@ import javax.servlet.http.HttpServletRequest;
  */
 public abstract class BaseExceptionHandler {
     private static final Logger logger = LoggerFactory.getLogger(BaseExceptionHandler.class);
-    //diamond base的基础异常，如果实际项目没有覆盖，则会被此handler捕捉处理
+    //基础异常，如果实际项目没有覆盖，则会被此handler捕捉处理
     @ExceptionHandler(BaseException.class)
     @ResponseBody
     public ResponseEntity<ResultDTO> baseExceptionHandler(HttpServletRequest request, BaseException ex) {
-        HttpStatus status = getStatus(request);
-        //TODO 自定义扩展HTTP status，或不扩展, 与熔断机制融合
-        // 为500时，返回自定义错误码
-        ex.printStackTrace();
-        return new ResponseEntity<>(new ResultDTO<>(ex.getCode(), ex.getMessage(), ex.getMessage()), status);
+        // 框架自定义异常属于业务异常，统一返回200状态
+        return new ResponseEntity<>(new ResultDTO<>(ex.getCode(), ex.getMessage(), ex.getMessage()), HttpStatus.OK);
    }
 
     //最基础异常封装，起"保底"作用

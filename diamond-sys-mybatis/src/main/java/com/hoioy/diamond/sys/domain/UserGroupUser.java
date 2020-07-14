@@ -5,7 +5,6 @@ import com.hoioy.diamond.common.base.BaseJoinDomain;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Data

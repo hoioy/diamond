@@ -3,7 +3,10 @@ package com.hoioy.diamond.log.monitor;
 import com.hoioy.diamond.log.annotation.OperationLogAnno;
 import com.hoioy.diamond.log.service.IWebLogsService;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.*;
+import org.aspectj.lang.annotation.After;
+import org.aspectj.lang.annotation.AfterReturning;
+import org.aspectj.lang.annotation.AfterThrowing;
+import org.aspectj.lang.annotation.Aspect;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +26,7 @@ public class WebMonitorLog {
     @Autowired
     private IWebLogsService iWebLogsService;
 
-    @Value("${diamond.log.lock}")
+    @Value("${tdf.log.lock}")
     public String loglock;
 
     /**
@@ -31,7 +34,7 @@ public class WebMonitorLog {
      */
 //    @After("bean(*Controller)")
     @After("within(com.hoioy.diamond.common.api.BaseController+)")
-//    @Before("within(com.hoioy.*.web..*) || within(com.hoioy.*.api..*)")
+//    @Before("within(com.hoioy.diamond.*.web..*) || within(com.hoioy.diamond.*.api..*)")
     public void beforeAdvice(JoinPoint joinPoint) {
         startTime = LocalDateTime.now();
     }
@@ -41,7 +44,7 @@ public class WebMonitorLog {
      */
 //    @After("bean(*Controller)")
     @After("within(com.hoioy.diamond.common.api.BaseController+)")
-//    @After("within(com.hoioy.*.web..*) || within(com.hoioy.*.api..*)")
+//    @After("within(com.hoioy.diamond.*.web..*) || within(com.hoioy.diamond.*.api..*)")
     public void afterAdvice(JoinPoint joinPoint) throws Exception {
         if (loglock.equals("on")) {
             iWebLogsService.saveLog(joinPoint, startTime);

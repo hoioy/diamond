@@ -10,4 +10,7 @@ import java.io.IOException;
 
 public interface IFileStorageService<D extends CommonDomain> extends IBaseService<FileStorageDTO, D> {
     FileStorageDTO saveFile(MultipartFile file, String relativePath, String replacedFileName) throws BaseException, IOException;
+
+    //获取文件上传的根路径
+    String getFileStorageRootPath();
 }

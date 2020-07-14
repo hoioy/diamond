@@ -58,7 +58,7 @@ public class RoleUserServiceImpl extends BaseJoinServiceImpl<RoleUserMapper, Rol
                     RoleUserJoinDTO pk = new RoleUserJoinDTO();
                     pk.setRoleId(roleId);
                     pk.setUserId(differenceSet.get(i));
-                    save(pk);
+                    create(pk);
                 }
             }
         }

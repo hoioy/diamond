@@ -6,7 +6,6 @@ import com.hoioy.diamond.common.util.CommonBeanUtil;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * 两个表关联表基础service
@@ -32,8 +31,8 @@ public interface ICommonService<DTO extends CommonDTO, D extends CommonDomain> {
 
     default DTO createDTO() {
         try {
-            DTO domain = getDTOClass().newInstance();
-            return domain;
+            DTO dto = getDTOClass().newInstance();
+            return dto;
         } catch (InstantiationException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
@@ -84,14 +83,14 @@ public interface ICommonService<DTO extends CommonDTO, D extends CommonDomain> {
         return dList;
     }
 
-    Optional<DTO> findById(String id);
+    DTO findById(String id);
 
     List<DTO> findByIds(List<String> ids);
 
     // 成功返回ID
-    DTO save(DTO dto);
+    DTO create(DTO dto);
 
-    boolean batchSave(List<DTO> dtoList);
+    boolean batchCreate(List<DTO> dtoList);
 
     boolean removeById(String id);
 

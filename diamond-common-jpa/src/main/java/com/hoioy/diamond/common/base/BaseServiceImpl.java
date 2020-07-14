@@ -8,14 +8,12 @@ import com.hoioy.diamond.common.service.AbstractBaseServiceImpl;
 import com.hoioy.diamond.common.service.IBaseService;
 import com.hoioy.diamond.common.util.*;
 import com.hoioy.diamond.common.validator.exception.ValidateException;
+import cn.hutool.core.collection.CollectionUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
@@ -35,17 +33,20 @@ public abstract class BaseServiceImpl<I extends IBaseRepository<D>, D extends Ba
     private CommonRedisUtil commonRedisUtil;
 
     @Override
-    public Optional<DTO> findById(String id) throws BaseException {
+    public DTO findById(String id) throws BaseException {
         Optional<D> t = iBaseRepository.findById(id);
         if(!t.isPresent()) {
-            return Optional.ofNullable(null);
+            return null;
         }
         DTO dto = domainToDTO(t.get(), true);
-        return Optional.ofNullable(dto);
+        return dto;
     }
 
     @Override
     public List<DTO> findByIds(List<String> ids) {
+        if(CollectionUtils.isEmpty(ids)){
+            return new ArrayList<DTO>();
+        }
         List<D> ts = iBaseRepository.findAllById(ids);
         List<DTO> dtos = domainListToDTOList(ts);
         return dtos;
@@ -53,7 +54,7 @@ public abstract class BaseServiceImpl<I extends IBaseRepository<D>, D extends Ba
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public DTO save(DTO dto) throws BaseException {
+    public DTO create(DTO dto) throws BaseException {
         dto = beforeSave(dto);
         D t = dtoToDomain(dto, true);
         t = iBaseRepository.saveAndFlush(t);
@@ -62,9 +63,10 @@ public abstract class BaseServiceImpl<I extends IBaseRepository<D>, D extends Ba
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public boolean batchSave(List<DTO> dtoList) throws BaseException {
+    public boolean batchCreate(List<DTO> dtoList) throws BaseException {
         List<D> ts = new ArrayList();
         dtoList.forEach(dto -> {
+            dto = beforeSave(dto);
             D t = dtoToDomain(dto, true);
             ts.add(t);
         });
@@ -95,6 +97,7 @@ public abstract class BaseServiceImpl<I extends IBaseRepository<D>, D extends Ba
     @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean removeById(String id) throws BaseException {
+        beforeRemove(Arrays.asList(id));
         DTO dto = createDTO();
         dto.setId(id);
         dto.setFlag(0);
@@ -107,15 +110,12 @@ public abstract class BaseServiceImpl<I extends IBaseRepository<D>, D extends Ba
     //@CacheEvict(value="role",key="#ids") //TODO
     //@CachePut(value="DataItem", keyGenerator="BaseJoinCacheKeyGenerator")
     public boolean removeByIds(List<String> ids) throws BaseException {
+        beforeRemove(ids);
         //TODO 有性能问题，需要优化
         List<D> ts = new ArrayList();
         Set<String> cacheKeys = new HashSet<>();
 
         ids.forEach(id -> {
-            if (StringUtils.isBlank(id)) {
-                throw new ValidateException("ID不能为空");
-            }
-
             Optional<D> old = iBaseRepository.findById(id);
             if (old.isPresent()) {
                 old.get().setFlag(0);
@@ -123,7 +123,7 @@ public abstract class BaseServiceImpl<I extends IBaseRepository<D>, D extends Ba
                 cacheKeys.add(CacheKey_dto + "::" + CommonRedisUtil.getCacheKey(getDTOClass().getSimpleName(), id));
             }
         });
-        if (!CollectionUtils.isEmpty(ts)) {
+        if (CollectionUtil.isNotEmpty(ts)) {
             iBaseRepository.saveAll(ts);
             //删除对应的缓存
             commonRedisUtil.mremove(cacheKeys);

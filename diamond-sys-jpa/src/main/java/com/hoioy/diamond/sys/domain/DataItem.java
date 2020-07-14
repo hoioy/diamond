@@ -9,6 +9,7 @@ import org.hibernate.annotations.Where;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 /**
  * 数据字典
@@ -16,7 +17,7 @@ import javax.persistence.Table;
 @Data
 @NoArgsConstructor
 @Entity
-@Table(name = "data_item")
+@Table(name = "data_item", uniqueConstraints = @UniqueConstraint(name = "flag_code唯一索引", columnNames = {"flag", "code"}))
 @Where(clause = "flag=1")
 public class DataItem extends BaseTreeDomain {
 
@@ -36,4 +37,9 @@ public class DataItem extends BaseTreeDomain {
     @Column(name = "state")
     @CommonJpaQueryWord(func = CommonJpaQueryWord.MatchType.like)
     private String state;
+    
+    @Column(name = "data_item_type_id")
+    @CommonJpaQueryWord(func = CommonJpaQueryWord.MatchType.like)
+    private String dataItemTypeId;
+    
 }

@@ -21,7 +21,8 @@ import java.io.IOException;
  * 最核心的代码就是invoke方法中的InterceptorStatusToken token = super.beforeInvocation(fi);这一句，
  * 即在执行doFilter之前，进行权限的检查，而具体的实现已经交给accessDecisionManager
  */
-public class BaseFilterSecurityInterceptor extends AbstractSecurityInterceptor implements Filter {
+public class BaseFilterSecurityInterceptor extends AbstractSecurityInterceptor
+        implements Filter {
     //与security-config.xml里的myFilter的属性securityMetadataSource对应，
     // 其他的两个组件，已经在AbstractSecurityInterceptor定义
     private BaseSecurityMetadataSource fisMetadataSource;

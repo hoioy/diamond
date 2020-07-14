@@ -210,7 +210,7 @@ npm publish --registry=http://repo.taiji.com.cn:8081/repository/npmPrivate/
 在后台开发过程中，经常会用到当前登录用户信息的情况，一下代码可以获取当前登录用户信息。
 
 ```java
-import cn.com.taiji.security.SecurityUtils;
+import com.hoioy.diamond.security.SecurityUtils;
 final String userName = SecurityUtils.getCurrentLogin();
 user = userService.findByLoginName(userName);
 ```

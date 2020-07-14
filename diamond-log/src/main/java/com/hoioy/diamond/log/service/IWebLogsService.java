@@ -18,6 +18,10 @@ public interface IWebLogsService<D extends CommonDomain> extends IBaseService<We
 
     default WebLogsDTO saveLog(JoinPoint joinPoint, LocalDateTime startTime) throws Exception {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        if(attributes == null){
+            //controller中可能有其他非接口类型方法，这些方法不应该被记录日志
+            return null;
+        }
         HttpServletRequest request = attributes.getRequest();
         // 远程客户ip地址
         String remoteClientIp = WebSiteUtil.getIpAddress(request);
@@ -67,6 +71,6 @@ public interface IWebLogsService<D extends CommonDomain> extends IBaseService<We
             }
         }
 
-        return save(webLogsDTO);
+        return create(webLogsDTO);
     }
 }

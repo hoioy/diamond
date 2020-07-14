@@ -6,8 +6,8 @@ import com.hoioy.diamond.sys.dto.MenuDTO;
 import com.hoioy.diamond.sys.dto.RoleDTO;
 import com.hoioy.diamond.sys.dto.UserInfoDTO;
 import com.hoioy.diamond.sys.exception.SysException;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.hoioy.diamond.sys.service.*;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,12 +41,12 @@ public class AuthorityController {
     public ResultDTO<Set<String>> hasPermission(String menuId) {
         String userNames = CommonSecurityUtils.getCurrentLogin();
         String userId = userService.findIdByLoginName(userNames);
-        if (StringUtils.isEmpty(userId)) {
+        if (StringUtils.isBlank(userId)) {
             throw new SysException("没有找登录用户");
         }
 
         //TODO 加校验后，这些代码都可以删除
-        if (StringUtils.isEmpty(menuId) || "index".equalsIgnoreCase(menuId)) {
+        if (StringUtils.isBlank(menuId) || "index".equalsIgnoreCase(menuId)) {
             logger.info("hasPermission_缺少必要参数menuId,可能是首页刷新情况导致id:{}", userId);
             throw new SysException("hasPermission_缺少必要参数menuId,可能是首页刷新情况导致id:{}", userId);
         }
@@ -66,7 +66,7 @@ public class AuthorityController {
     }
 
     /**
-     * 使用太极统一认证服务时，将统一认证中的用户信息，与本系统的权限体系进行绑定
+     * 使用统一认证服务时，将统一认证中的用户信息，与本系统的权限体系进行绑定
      * 目前采用最简单的绑定策略：如果本系统用户表没有统一认证服务中的用户，则本系统默认添加
      *
      * @param userInfo
@@ -83,14 +83,14 @@ public class AuthorityController {
         String loginName = (String) userInfo.get("loginName");
         String email = (String) userInfo.get("email");
         String avatar = (String) userInfo.get("avatar");
-        //有一些用户不在太极的用户表中-比如测试用户admin，可能这部分逻辑还要改。
+        //有一些不在用户表中-比如测试用户admin，可能这部分逻辑还要改。
         if (null == loginName) {
             loginName = name;
         }
         dto.setLoginName(loginName);
         String userId = userService.findIdByLoginName(dto.getLoginName());
 
-        if (StringUtils.isEmpty(userId)) {
+        if (StringUtils.isBlank(userId)) {
             //如果本系统没有此用户，则新增
             //用户信息填充
             dto.setUserName(name);
@@ -127,7 +127,7 @@ public class AuthorityController {
         try {
             final String userName = CommonSecurityUtils.getCurrentLogin();
             String id = userService.findIdByLoginName(userName);
-            user = (UserInfoDTO) userService.findById(id).get();
+            user = (UserInfoDTO) userService.findById(id);
             user.setPassword(null);
             List<String> roleIds = iRoleUserService.findRoleIdsByUserIds(Arrays.asList(user.getId()));
             user.setRoleId(String.join(",", roleIds));
@@ -165,8 +165,8 @@ public class AuthorityController {
         final String userName = CommonSecurityUtils.getCurrentLogin();
         String userId = userService.findIdByLoginName(userName);
 
-        Optional<UserInfoDTO> userInfoDTO = userService.findById(userId);
-        List<String> roleIds = iRoleUserService.findRoleIdsByUserIds(Arrays.asList(userInfoDTO.get().getId()));
+        UserInfoDTO userInfoDTO = (UserInfoDTO) userService.findById(userId);
+        List<String> roleIds = iRoleUserService.findRoleIdsByUserIds(Arrays.asList(userInfoDTO.getId()));
         List<String> menuIds = iRoleMenuService.findMenuIdsByRoleIds(roleIds);
         Set<String> menuSet = new HashSet(menuIds);
 

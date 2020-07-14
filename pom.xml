@@ -5,13 +5,13 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.1.14.RELEASE</version>
+        <version>2.3.1.RELEASE</version>
         <relativePath/>
     </parent>
     <groupId>com.hoioy</groupId>
     <artifactId>diamond-bom</artifactId>
     <packaging>pom</packaging>
-    <version>2.1.14-SNAPSHOT</version>
+    <version>2.3.2-SNAPSHOT</version>
 
     <description>diamond快速开发框架</description>
     <licenses>
@@ -62,7 +62,7 @@
     </properties>
 
     <modules>
-        <module>diamond-application</module>
+        <module>diamond-app-backend-sample</module>
         <module>diamond-common</module>
         <module>diamond-common-jpa</module>
         <module>diamond-common-mybatis</module>

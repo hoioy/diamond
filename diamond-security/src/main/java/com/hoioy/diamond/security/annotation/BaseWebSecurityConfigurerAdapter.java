@@ -42,7 +42,7 @@ public abstract class BaseWebSecurityConfigurerAdapter extends WebSecurityConfig
         return new BaseUserDetailServiceImpl() {
 
             @Override
-            public CommonUserDTO findCommonUserDTOByLoginName(String loginName) {
+            public CommonUserDTO findTDFUserDTOByLoginName(String loginName) {
                 return getCommonUserDTOByLoginName(loginName);
             }
 

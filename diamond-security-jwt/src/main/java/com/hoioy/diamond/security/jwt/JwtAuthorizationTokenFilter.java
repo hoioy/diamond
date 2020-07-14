@@ -43,7 +43,7 @@ public class JwtAuthorizationTokenFilter extends OncePerRequestFilter {
         logger.debug("processing authentication for '{}'", request.getRequestURL());
         //先从parameter取token
         String authToken = extractToken(request);
-        if (!StringUtils.isEmpty(authToken)) {
+        if (!StringUtils.isBlank(authToken)) {
             JwtClaimDTO jwtClaimDTO = convert(authToken);
 
             if (jwtClaimDTO != null
@@ -52,6 +52,7 @@ public class JwtAuthorizationTokenFilter extends OncePerRequestFilter {
                 logger.debug("checking authentication for user '{}'", jwtClaimDTO.getSubject());
                 Boolean isValid = false;
                 if (jwtClaimDTO.getRefreshDate() == null) {
+                    //oauth2 server的token没有refreshdate
                     if (!baseOauthServerJwtAccessTokenConverter.isInExpired(jwtClaimDTO)) {
                         //没有过期
                         isValid = true;
@@ -65,6 +66,10 @@ public class JwtAuthorizationTokenFilter extends OncePerRequestFilter {
                         logger.debug("new token '{}'", newToken);
                     }
                     isValid = true;
+                } else if (!baseJwtAccessTokenConverter.isInRefreshDate(jwtClaimDTO)) {
+                    //普通登录的自定义token已经超过可刷新时间，彻底过期了,需要返回给前端一个错误
+                    response.sendError(401);
+                    return;
                 }
 
                 if (isValid) {
@@ -86,7 +91,7 @@ public class JwtAuthorizationTokenFilter extends OncePerRequestFilter {
 
     private String extractToken(HttpServletRequest request) {
         String authToken = request.getParameter("token");
-        if (StringUtils.isEmpty(authToken)) {
+        if (StringUtils.isBlank(authToken)) {
             //如果parameter中没有，再从header中取
             final String requestHeader = request.getHeader(tokenHeader);
             if (requestHeader != null && requestHeader.startsWith("Bearer ")) {

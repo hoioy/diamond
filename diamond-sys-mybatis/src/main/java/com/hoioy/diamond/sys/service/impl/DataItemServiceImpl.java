@@ -9,54 +9,45 @@ import com.hoioy.diamond.sys.dto.DataItemDTO;
 import com.hoioy.diamond.sys.exception.SysException;
 import com.hoioy.diamond.sys.mapper.DataItemMapper;
 import com.hoioy.diamond.sys.service.IDataItemService;
-import cn.hutool.core.collection.CollUtil;
-import cn.hutool.core.util.StrUtil;
+import cn.hutool.core.collection.CollectionUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class DataItemServiceImpl extends BaseTreeServiceImpl<DataItemMapper, DataItem, DataItemDTO> implements IDataItemService<DataItem> {
 
     @Override
     public PageDTO<DataItemDTO> getPage(PageDTO<DataItemDTO> pageDTO) throws BaseException {
-        Page page = CommonMybatisPageUtil.getPage(pageDTO);
+        Page page = CommonMybatisPageUtil.getInstance().pageDTOtoPage(pageDTO);
         DataItem dataItem = getDomainFilterFromPageDTO(pageDTO);
-        IPage<DataItem> dataItemIPage = iBaseRepository.selectPage(page, dataItem);
-        PageDTO resultPage = CommonMybatisPageUtil.getPageDTO(dataItemIPage);
+        IPage<Map> dataItemIPage = iBaseRepository.selectPage(page, dataItem);
+        PageDTO resultPage = CommonMybatisPageUtil.getInstance().iPageToPageDTO(dataItemIPage, DataItemDTO.class);
         return resultPage;
     }
 
     @Override
-    public boolean removeById(String id) throws BaseException {
-        if (StrUtil.isBlank(id)) {
-            throw new SysException("id不能为空");
+    public void beforeRemove(List<String> ids) {
+        super.beforeRemove(ids);
+        QueryWrapper<DataItem> ew = new QueryWrapper<>();
+        ew.in("parent_id", ids);
+        List<DataItem> children = iBaseRepository.selectList(ew);
+        if (CollectionUtil.isNotEmpty(children)) {
+            throw new SysException("所选数据下面含有子元素集合，不能删除！需要先删除子元素");
         }
-        List<DataItemDTO> byParentId = this.findByParentId(id);
-        if (CollUtil.isNotEmpty(byParentId)) {
-            throw new SysException("该条记录下面含有子元素集合，不能删除！");
-        }
-        return super.removeById(id);
-
     }
 
     @Override
-    public DataItemDTO save(DataItemDTO dto) throws BaseException {
-        DataItem byCode = iBaseRepository.findByCode(dto.getCode());
-        if (byCode != null) {
-            throw new SysException("该code已存在");
-        }
-        return super.save(dto);
+    public PageDTO<DataItemDTO> findDataItemByTypePageable(PageDTO<DataItemDTO> pageDTO) {
+        Page page = CommonMybatisPageUtil.getInstance().pageDTOtoPage(pageDTO);
+        DataItem dataItem = getDomainFilterFromPageDTO(pageDTO);
+        IPage<Map> dataItemIPage = iBaseRepository.selectPage(page, dataItem);
+        PageDTO resultPage = CommonMybatisPageUtil.getInstance().iPageToPageDTO(dataItemIPage,DataItemDTO.class);
+        return resultPage;
     }
 
-    @Override
-    public DataItemDTO update(DataItemDTO dto) throws BaseException {
-        DataItem byCode = iBaseRepository.findByCode(dto.getCode());
-        if (byCode != null) {
-            throw new SysException("该code已存在");
-        }
-        return super.update(dto);
-    }
 }

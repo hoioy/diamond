@@ -13,11 +13,10 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * 内部使用不对外暴露的基础ICommonService实现
- * 统一配置缓存，在diamond-common-jpa[mybaits]中注意删除缓存，保持缓存数据一致性
+ * 统一配置缓存，在tdf-common-jpa[mybaits]中注意删除缓存，保持缓存数据一致性
  */
 abstract class AbstractCommonServiceImpl<I extends ICommonRepository<D>, D extends CommonDomain, DTO extends CommonDTO> implements ICommonService<DTO, D> {
     protected Logger log = LoggerFactory.getLogger(getClass());
@@ -71,7 +70,7 @@ abstract class AbstractCommonServiceImpl<I extends ICommonRepository<D>, D exten
     @CacheEvict(value = CacheKey_dto, keyGenerator = "baseCacheKeyGenerator")
     public abstract boolean removeById(String id);
 
-    @Cacheable(value = CacheKey_dto, keyGenerator = "baseCacheKeyGenerator",sync = true, condition = "#result != null")
+    @Cacheable(value = CacheKey_dto, keyGenerator = "baseCacheKeyGenerator", sync = true, condition = "#result != null")
     @Override
-    public abstract Optional<DTO> findById(String id) ;
+    public abstract DTO findById(String id);
 }

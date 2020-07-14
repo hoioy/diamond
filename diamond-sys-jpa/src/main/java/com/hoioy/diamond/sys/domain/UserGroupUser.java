@@ -5,7 +5,9 @@ import com.hoioy.diamond.common.base.BaseJoinDomain;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 /**
  * 类名称：UserGroupUser   用户组用户中间表

@@ -27,12 +27,12 @@ import java.util.Objects;
 @Api(tags = {"01.普通登录接口"})
 @RestController
 public class AuthenticationJWTController{
-    private static final String lockedRedisKeyPre = "diamond:locked";
+    private static final String lockedRedisKeyPre = "tdf:locked";
     //允许登录错误次数，对登录错误一定次数的用户进行封锁账号以及 IP 等措施
-    @Value("${diamond.security.login.retry-time}")
+    @Value("${tdf.security.login.retry-time}")
     private Integer retryTime = 5;
     //被锁定，不允许登录后恢复时间间隔
-    @Value("${diamond.security.login.locked-recover-second}")
+    @Value("${tdf.security.login.locked-recover-second}")
     private long lockedRecoverSecond = 12 * 3600;
 
     @Autowired
@@ -57,7 +57,7 @@ public class AuthenticationJWTController{
         String loginName = authenticationRequest.getUsername();
         String lockedRedisKey = lockedRedisKeyPre + ":" + loginName;
         String time = commonRedisUtil.get(lockedRedisKey);
-        if (StringUtils.isEmpty(time)) {
+        if (StringUtils.isBlank(time)) {
             //没有记录，说明之前没有错误认证
             time = retryTime + "";
             commonRedisUtil.set(lockedRedisKey, time, lockedRecoverSecond);

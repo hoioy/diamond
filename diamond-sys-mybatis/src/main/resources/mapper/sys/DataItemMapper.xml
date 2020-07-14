@@ -16,6 +16,7 @@
         <result column="remark" property="remark"/>
         <result column="state" property="state"/>
         <result column="parent_id" property="parentId"/>
+        <result column="data_item_type_id" property="dataItemTypeId"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
@@ -24,16 +25,26 @@
         flag,
         created_by, created_date, modified_by, modified_date, code, code_index, name, remark, state, parent_id
     </sql>
-
-    <select id="selectPage" resultMap="MapperResultMap">
+    <!-- 通用查询结果列 -->
+    <sql id="selectPage_Column_List">
+        di.id,
+        di.flag,
+        di.created_by, di.created_date, di.modified_by, di.modified_date, di.code, di.code_index, di.name, di.remark, di.state, di.parent_id,
+         dit.id as data_item_type_id,dit.type_name as data_item_type_name
+    </sql>
+    <select id="selectPage" resultType="java.util.Map">
         select
-        <include refid="Base_Column_List"/>
+        <include refid="selectPage_Column_List"/>
         from
-        data_item
+        data_item  di
+        LEFT JOIN data_item_type dit ON di.data_item_type_id = dit.id
         where
-        flag=1
+        di.flag=1
         <if test="dataItem.code != null and dataItem.code != ''">
             AND code = #{dataItem.code}
+        </if>
+        <if test="dataItem.dataItemTypeId != null and dataItem.dataItemTypeId != ''">
+            AND data_item_type_id = #{dataItem.dataItemTypeId}
         </if>
         <if test="dataItem.name != null and dataItem.name != ''">
             AND name = #{dataItem.name}

@@ -13,7 +13,7 @@ import java.util.Date;
 import java.util.Map;
 
 /**
- * oauth2 server的token的转换器
+ * oauth2-server的token的转换器
  * 其他转换器
  * Created by iandtop on 2019/1/8.
  */

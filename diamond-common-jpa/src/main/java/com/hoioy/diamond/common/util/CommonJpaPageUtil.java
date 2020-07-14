@@ -3,7 +3,6 @@ package com.hoioy.diamond.common.util;
 import com.hoioy.diamond.common.base.BaseDomain;
 import com.hoioy.diamond.common.dto.PageDTO;
 import com.hoioy.diamond.common.dto.SortDTO;
-import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ReflectUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -16,7 +15,9 @@ import org.springframework.util.CollectionUtils;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import java.lang.reflect.Field;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.springframework.data.domain.PageRequest.of;
 
@@ -35,7 +36,10 @@ public class CommonJpaPageUtil {
 
         List<SortDTO> sortDTOS = pageDTO.getSorts();
         if (CollectionUtils.isEmpty(sortDTOS)) {
-            pageable = of(pageIndex, pageSize);
+            //排序字段为空，使用乱序，因为id本身时无序随机uuid
+            List<Sort.Order> orders = new ArrayList();
+            orders.add(new Sort.Order(Sort.Direction.valueOf("ASC"), "id"));
+            pageable = of(pageIndex, pageSize, Sort.by(orders));
         } else {
             List<Sort.Order> orders = new ArrayList();
             // 排序字段不为空

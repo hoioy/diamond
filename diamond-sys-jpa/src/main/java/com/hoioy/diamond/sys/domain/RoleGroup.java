@@ -2,7 +2,6 @@ package com.hoioy.diamond.sys.domain;
 
 import com.hoioy.diamond.common.annotation.BaseJoinId;
 import com.hoioy.diamond.common.base.BaseJoinDomain;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

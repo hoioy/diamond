@@ -17,10 +17,10 @@ public class DataItemTypeServiceImpl extends BaseServiceImpl<DataItemTypeMapper,
 
     @Override
     public PageDTO<DataItemTypeDTO> getPage(PageDTO<DataItemTypeDTO> pageDTO) throws BaseException {
-        Page page = CommonMybatisPageUtil.getPage(pageDTO);
+        Page page = CommonMybatisPageUtil.getInstance().pageDTOtoPage(pageDTO);
         DataItemType dataItem = getDomainFilterFromPageDTO(pageDTO);
         IPage<DataItemType> dataItemIPage = iBaseRepository.selectPage(page, dataItem);
-        PageDTO resultPage = CommonMybatisPageUtil.getPageDTO(dataItemIPage);
+        PageDTO resultPage = CommonMybatisPageUtil.getInstance().iPageToPageDTO(dataItemIPage, DataItemTypeDTO.class);
         return resultPage;
     }
 }

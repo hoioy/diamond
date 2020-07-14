@@ -12,12 +12,17 @@ import com.hoioy.diamond.sys.service.IMenuService;
 import com.hoioy.diamond.sys.service.IRoleMenuService;
 import com.hoioy.diamond.sys.service.IRoleUserService;
 import com.hoioy.diamond.sys.service.IUserInfoService;
-import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.collection.CollectionUtil;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import java.util.*;
 
 @Service
@@ -35,7 +40,7 @@ public class MenuServiceImpl extends BaseTreeServiceImpl<MenuRepository, Menu, M
     private CommonRedisUtil commonRedisUtil;
 
     @Override
-    public MenuDTO save(MenuDTO dto) throws BaseException {
+    public MenuDTO create(MenuDTO dto) throws BaseException {
         if (dto != null) {
             if (StringUtils.isNotBlank(dto.getId())) {
                 throw new SysException("新增操作不能传递id");
@@ -56,7 +61,7 @@ public class MenuServiceImpl extends BaseTreeServiceImpl<MenuRepository, Menu, M
                 dto.setSmallIconPath("setting");
             }
         }
-        return super.save(dto);
+        return super.create(dto);
     }
 
     @Override
@@ -90,26 +95,41 @@ public class MenuServiceImpl extends BaseTreeServiceImpl<MenuRepository, Menu, M
     }
 
     @Override
-    public boolean removeById(String id) throws BaseException {
-        List<Menu> children = this.menuRepository.findByParentId(id);
-        if (CollUtil.isNotEmpty(children)) {
-            throw new SysException("该菜单下面有子菜单，不能删除!");
+    public void beforeRemove(List<String> ids) {
+        super.beforeRemove(ids);
+        List<Menu> children = iBaseRepository.findAll(new Specification() {
+            @Override
+            public Predicate toPredicate(Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
+                return criteriaBuilder.and(root.<String>get("parentId").in(ids));
+            }
+        });
+        if (CollectionUtil.isNotEmpty(children)) {
+            throw new SysException("所选数据下面含有子元素集合，不能删除！需要先删除子元素");
         }
-
-        deleteCacheOfFindIdsByMenuUrl();
-        return super.removeById(id);
+        if (CollectionUtil.isNotEmpty(iRoleMenuService.findRoleIdsByMenuIds(ids))) {
+            throw new SysException("所选菜单关联了角色，不能删除！请先删除与角色的关联");
+        }
     }
 
     @Override
     public MenuDTO update(MenuDTO dto) throws BaseException {
+        MenuDTO result = super.update(dto);
         deleteCacheOfFindIdsByMenuUrl();
-        return super.update(dto);
+        return result;
+    }
+
+    @Override
+    public boolean removeById(String id) throws BaseException {
+        Boolean result = super.removeById(id);
+        deleteCacheOfFindIdsByMenuUrl();
+        return result;
     }
 
     @Override
     public boolean removeByIds(List<String> ids) throws BaseException {
+        Boolean result = super.removeByIds(ids);
         deleteCacheOfFindIdsByMenuUrl();
-        return super.removeByIds(ids);
+        return result;
     }
 
     private void deleteCacheOfFindIdsByMenuUrl() {

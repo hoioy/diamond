@@ -1,12 +1,11 @@
 package com.hoioy.diamond.sys.service;
 
 import com.hoioy.diamond.common.domain.CommonDomain;
+import com.hoioy.diamond.common.dto.PageDTO;
 import com.hoioy.diamond.common.service.IBaseService;
 import com.hoioy.diamond.sys.dto.UserInfoDTO;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -20,16 +19,14 @@ public interface IUserInfoService<D extends CommonDomain> extends IBaseService<U
      */
     String saveUserWithRoles(UserInfoDTO dto, List<String> roleIds);
 
-
     /**
      * 根据用户登录名查询用户
      */
     @Cacheable(value = CacheKey_findIdByLoginName, key = "#loginName", sync = true, condition = "#result != null")
     String findIdByLoginName(String loginName);
 
+    PageDTO<UserInfoDTO> getUserOnlyByRoleIdOrDeptIdPage(PageDTO<UserInfoDTO> pageDTO) ;
 
-    /**
-     * 保存用户头像
-     */
-    void saveUserAvatar(String loginName, String newName, MultipartFile file) throws IOException;
+    UserInfoDTO findWithPasswordById(String id);
+
 }

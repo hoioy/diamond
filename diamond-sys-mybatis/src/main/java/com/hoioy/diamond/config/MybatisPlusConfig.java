@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 
 
 @Configuration
-@MapperScan(basePackages = {"com.hoioy.*.mapper"})
+@MapperScan(basePackages = {"com.hoioy.diamond.*.mapper"})
 public class MybatisPlusConfig {
 
     /**

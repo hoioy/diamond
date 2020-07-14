@@ -9,12 +9,12 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * 基础service，要求其他service继承
+ * 基础service，要求其他service实现
  */
 public interface IBaseTreeService<DTO extends BaseTreeDTO, D extends CommonDomain> extends IBaseService<DTO, D> {
 
     /**
-     * 根据parentId查找所有childId 如果传空就查所有一级
+     * 根据parentId查找所有childrent 如果传空就查所有一级
      */
     List<DTO> findByParentId(String parentId);
 
@@ -29,7 +29,7 @@ public interface IBaseTreeService<DTO extends BaseTreeDTO, D extends CommonDomai
         List<T> treeList = new ArrayList();
         for (T node : list) {
             // parentID可能为null
-            if (StringUtils.isEmpty(rootNodeParentId) && StringUtils.isEmpty(node.getParentId())) {
+            if (StringUtils.isBlank(rootNodeParentId) && StringUtils.isBlank(node.getParentId())) {
                 treeList.add((findChildren(node, list)));
             } else if (node.getParentId().equals(rootNodeParentId)) {
                 treeList.add((findChildren(node, list)));

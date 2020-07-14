@@ -1,6 +1,6 @@
 package com.hoioy.diamond.sys.api;
 
-import com.hoioy.diamond.common.api.BaseController;
+import com.hoioy.diamond.common.api.BaseTreeController;
 import com.hoioy.diamond.common.dto.PageDTO;
 import com.hoioy.diamond.common.dto.ResultDTO;
 import com.hoioy.diamond.sys.dto.DeptInfoDTO;
@@ -16,7 +16,7 @@ import java.util.List;
 @RestController
 @Api(tags = {"06.部门操作接口"})
 @RequestMapping("/sys/dept")
-public class DeptInfoController extends BaseController<IDeptInfoService, DeptInfoDTO> {
+public class DeptInfoController extends BaseTreeController<IDeptInfoService, DeptInfoDTO> {
 
     //TODO zhaozhao 不建议全量查询
     @ApiOperation(value = "根据条件查询全部部门tree信息，不分页，返回tree结构数组")

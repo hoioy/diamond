@@ -58,7 +58,7 @@ public class RoleMenuServiceImpl extends BaseJoinServiceImpl<RoleMenuRepository,
                     RoleMenuJoinDTO roleMenu = new RoleMenuJoinDTO();
                     roleMenu.setRoleId(roleId);
                     roleMenu.setMenuId(differenceSet.get(i));
-                    save(roleMenu);
+                    create(roleMenu);
                 }
             }
         }

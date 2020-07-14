@@ -24,8 +24,8 @@ import org.springframework.stereotype.Service;
 public class WebLogsServiceImpl extends BaseServiceImpl<WebLogsMapper, WebLogs, WebLogsDTO> implements IWebLogsService<WebLogs> {
 
     @Override
-    public PageDTO getPage(PageDTO pageDTO) throws BaseException {
-        Page page = CommonMybatisPageUtil.getPage(pageDTO);
+    public PageDTO getPage(PageDTO<WebLogsDTO> pageDTO) throws BaseException {
+        Page page = CommonMybatisPageUtil.getInstance().pageDTOtoPage(pageDTO);
         WebLogs webLogs = getDomainFilterFromPageDTO(pageDTO);
         IPage<WebLogs> webLogsIPage = null;
         try {
@@ -33,7 +33,7 @@ public class WebLogsServiceImpl extends BaseServiceImpl<WebLogsMapper, WebLogs, 
         } catch (Exception e) {
             e.printStackTrace();
         }
-        PageDTO resultPage = CommonMybatisPageUtil.getPageDTO(webLogsIPage);
+        PageDTO resultPage = CommonMybatisPageUtil.getInstance().iPageToPageDTO(webLogsIPage,WebLogsDTO.class);
         return resultPage;
     }
 }

@@ -1,7 +1,9 @@
 package com.hoioy.diamond.sys.api;
 
 import com.hoioy.diamond.common.api.BaseController;
+import com.hoioy.diamond.common.dto.PageDTO;
 import com.hoioy.diamond.common.dto.ResultDTO;
+import com.hoioy.diamond.sys.dto.FileStorageDTO;
 import com.hoioy.diamond.sys.dto.UserInfoDTO;
 import com.hoioy.diamond.sys.exception.SysException;
 import com.hoioy.diamond.sys.service.IFileStorageService;
@@ -13,8 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
+import java.io.File;
 import java.io.IOException;
-import java.util.Optional;
 
 @RestController
 @Api(tags = {"02.用户操作接口"})
@@ -23,6 +26,14 @@ public class UserController extends BaseController<IUserInfoService, UserInfoDTO
 
     @Autowired
     private IFileStorageService storageService;
+
+    @Valid
+    @ApiOperation(value = "用户、角色、部门多表分页查询。")
+    @PostMapping(value = "/composite-search")
+    public ResultDTO<PageDTO<UserInfoDTO>> compositeSelectByPage(@RequestBody PageDTO<UserInfoDTO> pageDTO) {
+        pageDTO = iBaseService.getUserOnlyByRoleIdOrDeptIdPage(pageDTO);
+        return new ResultDTO(pageDTO);
+    }
 
     @ApiOperation(value = "根据loginName查询用户Id")
     @GetMapping(value = "/findIdByLoginName")
@@ -35,7 +46,7 @@ public class UserController extends BaseController<IUserInfoService, UserInfoDTO
     @GetMapping(value = "/findByLoginName")
     public ResultDTO<UserInfoDTO> findByLoginName(String loginName) {
         String userId = iBaseService.findIdByLoginName(loginName);
-        UserInfoDTO dto = (UserInfoDTO) iBaseService.findById(userId).get();
+        UserInfoDTO dto = iBaseService.findWithPasswordById(userId);
         return new ResultDTO(dto);
     }
 
@@ -44,23 +55,10 @@ public class UserController extends BaseController<IUserInfoService, UserInfoDTO
      */
     @ApiOperation(value = "执行用户头像上传")
     @PostMapping(value = "/user-upload-avatar-rest")
-    public ResultDTO avatarUploadRest(@RequestParam("file") MultipartFile file, @RequestParam("id") String id) throws
-            IOException {
-        String loginName = null;
-        if (StringUtils.isEmpty(id)) {
+    public ResultDTO avatarUploadRest(@RequestParam("file") MultipartFile file, @RequestParam("id") String id) throws IOException {
+        if (StringUtils.isBlank(id)) {
             throw new SysException("用户ID不能为空!");
         }
-        try {
-            Optional<UserInfoDTO> userInfoDTO = iBaseService.findById(id);
-            loginName = userInfoDTO.get().getLoginName();
-            if (StringUtils.isEmpty(loginName)) {
-                throw new SysException("获取用户信息失败");
-            }
-        } catch (Exception e) {
-            log.error("获取用户失败:{}", e);
-            throw new SysException("获取用户信息失败!");
-        }
-
         if (file.isEmpty()) {
             throw new SysException("上传文件不能为空");
         }
@@ -69,10 +67,13 @@ public class UserController extends BaseController<IUserInfoService, UserInfoDTO
         if (file.getBytes().length > 1024 * 1024 * 2) {
             throw new SysException("图片大小不可超过2M!");
         }
-        //保存到指定目录,并返回文件名称  需要修改
-        String newName = this.storageService.saveFile(file, "useravatar/", "user_" + loginName).getFileName();
-        //保存到数据库
-        this.iBaseService.saveUserAvatar(loginName, newName, file);
-        return new ResultDTO("头像上传成功!");
+        FileStorageDTO fileStorageDTO = storageService.saveFile(file, FileStorageController.secondLevelImgDirectory+ File.separator,
+                file.getOriginalFilename());
+
+        UserInfoDTO dto = new UserInfoDTO();
+        dto.setAvatar(FileStorageController.secondLevelImgUrl+"/"+fileStorageDTO.getFileName());
+        dto.setId(id);
+        iBaseService.update(dto);
+        return new ResultDTO(dto.getAvatar());
     }
 }

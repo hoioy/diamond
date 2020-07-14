@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 /**
  * 类名称：数据字典dto
@@ -24,5 +23,19 @@ public class DataItemDTO extends BaseTreeDTO {
 
     //是否启用:0不启用
     private String state;
-
+    //字典类型
+    private String dataItemTypeId;
+    //字典类型名称   
+    private String dataItemTypeName;
+    
+    public DataItemDTO(String id,String parentId,String code,Integer codeIndex,String name,String state,String dataItemTypeId,String dataItemTypeName){
+    	super.setId(id);
+    	super.setParentId(parentId);        
+    	this.code=code;
+    	this.codeIndex=codeIndex;        
+    	this.name=name;               
+    	this.state=state;            
+    	this.dataItemTypeId=dataItemTypeId;            
+    	this.dataItemTypeName=dataItemTypeName;
+    }
 }

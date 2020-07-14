@@ -28,17 +28,17 @@ public abstract class JwtWebSecurityConfigurerAdapter extends WebSecurityConfigu
 
     public abstract List<String> getRoleIdsByLoginName(String loginName);
 
-    @Value("${diamond.security.jwt.secret}")
+    @Value("${tdf.security.jwt.secret}")
     private String secret = "mySecret";
 
-    @Value("${diamond.security.jwt.jwkSetUri}")
+    @Value("${tdf.security.jwt.jwkSetUri}")
     private String jwkSetUri;
 
-    @Value("${diamond.security.jwt.expiration}")
+    @Value("${tdf.security.jwt.expiration}")
     //单位：秒，默认配置1星期：3600*24*7=604800
     private Long expiration = 60L;
 
-    @Value("${diamond.security.jwt.refresh}")
+    @Value("${tdf.security.jwt.refresh}")
     //单位：秒，默认配置1星期：60*30
     private Long refresh = 1800L;
 
@@ -77,7 +77,7 @@ public abstract class JwtWebSecurityConfigurerAdapter extends WebSecurityConfigu
         BaseUserDetailServiceImpl result = new BaseUserDetailServiceImpl() {
 
             @Override
-            public CommonUserDTO findCommonUserDTOByLoginName(String loginName) {
+            public CommonUserDTO findTDFUserDTOByLoginName(String loginName) {
                 return getCommonUserDTOByLoginName(loginName);
             }
 

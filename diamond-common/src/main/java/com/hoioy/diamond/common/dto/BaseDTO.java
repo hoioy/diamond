@@ -21,7 +21,7 @@ public abstract class BaseDTO<T extends BaseDTO> extends CommonDTO {
     private String remark;
 //    @ApiModelProperty(value = "乐观锁", hidden = true, accessMode = ApiModelProperty.AccessMode.READ_ONLY)
 //    private Integer version;
-    //TODO zhaozhao重构前端和diamond-sys-web时候，将前后端的token都删除，只保留version
+    //TODO zhaozhao重构前端和tdf-sys-web时候，将前后端的token都删除，只保留version
     @ApiModelProperty(value = "乐观锁2", hidden = true, accessMode = ApiModelProperty.AccessMode.READ_ONLY)
     private String token;
 

@@ -15,20 +15,18 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public abstract class BaseJoinServiceImpl<M extends IBaseJoinMapper<D>, D extends BaseJoinDomain, DTO extends BaseJoinDTO>
         extends AbstractBaseJoinServiceImpl<M, D, DTO> implements IBaseJoinService<DTO, D> {
 
     @Override
-    public Optional<DTO> findById(String id) throws BaseException {
+    public DTO findById(String id) throws BaseException {
         D domain = iBaseRepository.selectById(id);
         if (domain == null) {
-            return Optional.ofNullable(null);
+            return null;
         }
-        DTO dto = domainToDTO(domain, true);
-        return Optional.ofNullable(dto);
+        return domainToDTO(domain, true);
     }
 
     @Override
@@ -42,7 +40,7 @@ public abstract class BaseJoinServiceImpl<M extends IBaseJoinMapper<D>, D extend
     }
 
     @Override
-    public DTO save(DTO dto) {
+    public DTO create(DTO dto) {
         D t = dtoToDomain(dto, true);
         t.setId(generateJoinId(t));
         if (iBaseRepository.insert(t) > 0) {
@@ -53,7 +51,7 @@ public abstract class BaseJoinServiceImpl<M extends IBaseJoinMapper<D>, D extend
     }
 
     @Override
-    public boolean batchSave(List<DTO> dtoList) {
+    public boolean batchCreate(List<DTO> dtoList) {
         List<D> ts = dtoListToDomainList(dtoList, true);
         ts.forEach(t -> {
             t.setId(generateJoinId(t));

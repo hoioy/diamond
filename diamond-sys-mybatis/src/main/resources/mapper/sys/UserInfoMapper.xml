@@ -34,9 +34,14 @@
     <sql id="Base_Column_List">
         id,
         flag,
-        created_by, created_date, modified_by, modified_date, address, avatar, avatar_content, birthday, blog, email, gender, id_number, integral, login_name, nickname, password, phone_num, remark, state, tag, user_index, user_name
+        created_by, created_date, modified_by, modified_date, address, avatar, avatar_content, birthday, blog, email, gender, id_number, integral, login_name, nickname, phone_num, remark, state, tag, user_index, user_name
     </sql>
-
+    <!-- 通用查询结果列 -->
+    <sql id="Page_Column_List">
+        u.id,u.flag,u.created_by, u.created_date, u.modified_by, u.modified_date, u.remark, u.state,
+        u.address, u.avatar, u.avatar_content, u.birthday,u.blog, u.email, u.gender, u.id_number, u.integral,
+        u.login_name, u.nickname, u.phone_num, u.tag, u.user_index, u.user_name
+    </sql>
     <select id="selectPage" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
@@ -142,5 +147,87 @@
         where
         du.dept_id = #{deptId}
         and flag =1
+    </select>
+    <select id="getUserOnlyByRoleIdOrDeptIdPage" resultType="java.util.Map">
+        select
+        distinct <include refid="Page_Column_List"/>
+        from
+        user_info u
+        left join role_user ru on ru.user_id=u.id
+        left join dept_user du on du.user_id=u.id
+        where
+        u.flag=1
+        <if test="userInfoDTO.createdBy != null and userInfoDTO.createdBy != ''">
+            AND u.created_by = #{userInfoDTO.createdBy}
+        </if>
+        <if test="userInfoDTO.createdDate != null and userInfoDTO.createdDate != ''">
+            AND u.created_date = #{userInfoDTO.createdDate}
+        </if>
+        <if test="userInfoDTO.modifiedBy != null and userInfoDTO.modifiedBy != ''">
+            AND u.modified_by = #{userInfoDTO.modifiedBy}
+        </if>
+        <if test="userInfoDTO.modifiedDate != null and userInfoDTO.modifiedDate != ''">
+            AND u.modified_date = #{userInfoDTO.modifiedDate}
+        </if>
+        <if test="userInfoDTO.address != null and userInfoDTO.address != ''">
+            AND u.address = #{userInfoDTO.address}
+        </if>
+        <if test="userInfoDTO.avatar != null and userInfoDTO.avatar != ''">
+            AND u.avatar = #{userInfoDTO.avatar}
+        </if>
+        <if test="userInfoDTO.avatarContent != null and userInfoDTO.avatarContent != ''">
+            AND u.avatar_content = #{userInfoDTO.avatarContent}
+        </if>
+        <if test="userInfoDTO.birthday != null and userInfoDTO.birthday != ''">
+            AND u.birthday = #{userInfoDTO.birthday}
+        </if>
+        <if test="userInfoDTO.blog != null and userInfoDTO.blog != ''">
+            AND u.blog = #{userInfoDTO.blog}
+        </if>
+        <if test="userInfoDTO.email != null and userInfoDTO.email != ''">
+            AND u.email = #{userInfoDTO.email}
+        </if>
+        <if test="userInfoDTO.gender != null and userInfoDTO.gender != ''">
+            AND u.gender = #{userInfoDTO.gender}
+        </if>
+        <if test="userInfoDTO.idNumber != null and userInfoDTO.idNumber != ''">
+            AND u.id_number = #{userInfoDTO.idNumber}
+        </if>
+        <if test="userInfoDTO.integral != null and userInfoDTO.integral != ''">
+            AND u.integral = #{userInfoDTO.integral}
+        </if>
+        <if test="userInfoDTO.loginName != null and userInfoDTO.loginName != ''">
+            AND u.login_name = #{userInfoDTO.loginName}
+        </if>
+        <if test="userInfoDTO.nickname != null and userInfoDTO.nickname != ''">
+            AND u.nickname = #{userInfoDTO.nickname}
+        </if>
+        <if test="userInfoDTO.password != null and userInfoDTO.password != ''">
+            AND u.password = #{userInfoDTO.password}
+        </if>
+        <if test="userInfoDTO.phoneNum != null and userInfoDTO.phoneNum != ''">
+            AND u.phone_num = #{userInfoDTO.phoneNum}
+        </if>
+        <if test="userInfoDTO.remark != null and userInfoDTO.remark != ''">
+            AND u.remark = #{userInfoDTO.remark}
+        </if>
+        <if test="userInfoDTO.state != null and userInfoDTO.state != ''">
+            AND u.state = #{userInfoDTO.state}
+        </if>
+        <if test="userInfoDTO.tag != null and userInfoDTO.tag != ''">
+            AND u.tag = #{userInfoDTO.tag}
+        </if>
+        <if test="userInfoDTO.userIndex != null and userInfoDTO.userIndex != ''">
+            AND u.user_index = #{userInfoDTO.userIndex}
+        </if>
+        <if test="userInfoDTO.userName != null and userInfoDTO.userName != ''">
+            AND u.user_name = #{userInfoDTO.userName}
+        </if>
+        <if test="userInfoDTO.roleId != null and userInfoDTO.roleId != ''">
+            AND ru.role_id = #{userInfoDTO.roleId}
+        </if>
+        <if test="userInfoDTO.deptId != null and userInfoDTO.deptId != ''">
+            AND du.dept_id = #{userInfoDTO.deptId}
+        </if>
     </select>
 </mapper>

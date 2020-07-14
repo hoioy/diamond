@@ -1,5 +1,6 @@
 package com.hoioy.diamond.security;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.security.core.Authentication;
@@ -8,7 +9,6 @@ import org.springframework.security.web.authentication.SavedRequestAwareAuthenti
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 import org.springframework.security.web.savedrequest.RequestCache;
 import org.springframework.security.web.savedrequest.SavedRequest;
-import org.springframework.util.StringUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -56,7 +56,7 @@ public class BaseSuccessHandler extends SavedRequestAwareAuthenticationSuccessHa
         }
         String targetUrlParameter = getTargetUrlParameter();
         if (isAlwaysUseDefaultTargetUrl()
-                || (targetUrlParameter != null && StringUtils.hasText(request.getParameter(targetUrlParameter)))) {
+                || (targetUrlParameter != null && StringUtils.isNotEmpty(request.getParameter(targetUrlParameter)))) {
             requestCache.removeRequest(request, response);
             super.onAuthenticationSuccess(request, response, authentication);
             return;

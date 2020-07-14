@@ -14,19 +14,19 @@ import com.hoioy.diamond.sys.mapper.UserInfoMapper;
 import com.hoioy.diamond.sys.service.IDeptUserService;
 import com.hoioy.diamond.sys.service.IRoleUserService;
 import com.hoioy.diamond.sys.service.IUserInfoService;
+import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class UserInfoServiceImpl extends BaseServiceImpl<UserInfoMapper, UserInfo, UserInfoDTO> implements IUserInfoService<UserInfo> {
@@ -44,10 +44,34 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfoMapper, UserInf
     private CommonRedisUtil commonRedisUtil;
 
     @Override
+    public PageDTO<UserInfoDTO> getUserOnlyByRoleIdOrDeptIdPage(PageDTO<UserInfoDTO> pageDTO) {
+        Page page = CommonMybatisPageUtil.getInstance().pageDTOtoPage(pageDTO);
+        UserInfoDTO userInfoDTO = pageDTO.getFilters();
+        IPage<Map> pageList = iBaseRepository.getUserOnlyByRoleIdOrDeptIdPage(page, userInfoDTO);
+        PageDTO resultPage = CommonMybatisPageUtil.getInstance().iPageToPageDTO(pageList, UserInfoDTO.class);
+        return resultPage;
+    }
+
+    @Override
+    public UserInfoDTO findById(String id) throws BaseException {
+        UserInfoDTO userInfoDTO = super.findById(id);
+        if (userInfoDTO != null) {
+            userInfoDTO.setPassword(null);
+        }
+        return userInfoDTO;
+    }
+
+    @Override
+    public UserInfoDTO findWithPasswordById(String id) throws BaseException {
+        return super.findById(id);
+    }
+
+    @Override
     public PageDTO<UserInfoDTO> getPage(PageDTO<UserInfoDTO> pageDTO) {
         UserInfo userInfo = getDomainFilterFromPageDTO(pageDTO);
-        IPage<UserInfo> data = iBaseRepository.selectPage(CommonMybatisPageUtil.getPage(pageDTO), userInfo);
-        return CommonMybatisPageUtil.getPageDTO(data);
+        IPage<UserInfo> data = iBaseRepository.selectPage(CommonMybatisPageUtil.getInstance().pageDTOtoPage(pageDTO), userInfo);
+        pageDTO = CommonMybatisPageUtil.getInstance().iPageToPageDTO(data,UserInfoDTO.class);
+        return pageDTO;
     }
 
     @Override
@@ -58,19 +82,19 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfoMapper, UserInf
         }
         String userId = null;
         if (dto.getId() == null) {
-            userId = save(dto).getId();
+            userId = create(dto).getId();
         } else {
             userId = update(dto).getId();
         }
 
-        if (!CollectionUtils.isEmpty(roleIds)) {
+        if (CollectionUtil.isNotEmpty(roleIds)) {
             List<RoleUserJoinDTO> roleUserJoinDTOS = new ArrayList<>();
             for (String roleId : roleIds) {
                 RoleUserJoinDTO roleUserJoinDTO = new RoleUserJoinDTO(roleId, userId);
                 roleUserJoinDTOS.add(roleUserJoinDTO);
             }
 
-            Boolean success = iRoleUserService.batchSave(roleUserJoinDTOS);
+            Boolean success = iRoleUserService.batchCreate(roleUserJoinDTOS);
         }
 
         return userId;
@@ -84,53 +108,46 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfoMapper, UserInf
     @Override
     public UserInfoDTO update(UserInfoDTO dto) throws BaseException {
         deleteCacheOfFindIdByLoginName();
-        if(StringUtils.isNotEmpty(dto.getPassword())){
+        if (StringUtils.isNotEmpty(dto.getPassword())) {
             dto.setPassword(passwordEncoder.encode(dto.getPassword()));
         }
         return super.update(dto);
     }
 
     @Override
-    public UserInfoDTO save(UserInfoDTO dto) throws BaseException {
+    public UserInfoDTO create(UserInfoDTO dto) throws BaseException {
         // 设置默认密码
         dto.setPassword(passwordEncoder.encode(CommonStatic.DEFAULT_PASSWORD));
-        return super.save(dto);
+        return super.create(dto);
+    }
+
+    @Override
+    public void beforeRemove(List<String> ids) {
+        super.beforeRemove(ids);
+        List<String> roleIds = iRoleUserService.findRoleIdsByUserIds(ids);
+        List<String> deptIds = iDeptUserService.findDeptIdsByUserIds(ids);
+        if (CollectionUtil.isNotEmpty(roleIds)) {
+            throw new SysException("有用户与角色关联，不能删除！");
+        }
+        if (CollectionUtil.isNotEmpty(deptIds)) {
+            throw new SysException("有用户与机构单位关联，不能删除！");
+        }
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     @PreAuthorize("hasAuthority('" + CommonStatic.ROLE_ID_KEY + "')")
     public boolean removeByIds(List<String> ids) throws BaseException {
-        if (CollectionUtils.isEmpty(ids)) {
-            return true;
-        }
-
-        List<String> roleIds = iRoleUserService.findRoleIdsByUserIds(ids);
-        List<String> deptIds = iDeptUserService.findDeptIdsByUserIds(ids);
-        if (!CollectionUtils.isEmpty(roleIds)) {
-            throw new SysException("有用户与角色关联，不能删除！");
-        }
-        if (!CollectionUtils.isEmpty(deptIds)) {
-            throw new SysException("有用户与机构单位关联，不能删除！");
-        }
-
+        boolean r = super.removeByIds(ids);
         deleteCacheOfFindIdByLoginName();
-        return super.removeByIds(ids);
+        return r;
     }
 
     @Override
     public boolean removeById(String id) throws BaseException {
+        boolean r = super.removeById(id);
         deleteCacheOfFindIdByLoginName();
-        return super.removeById(id);
-    }
-
-    @Override
-    public void saveUserAvatar(String loginName, String newName, MultipartFile file) throws IOException {
-        String id = findIdByLoginName(loginName);
-        UserInfoDTO userInfoDTO = findById(id).get();
-        userInfoDTO.setAvatar(newName);
-        userInfoDTO.setAvatarContent(file.getBytes());
-        update(userInfoDTO);
+        return r;
     }
 
     private void deleteCacheOfFindIdByLoginName() {

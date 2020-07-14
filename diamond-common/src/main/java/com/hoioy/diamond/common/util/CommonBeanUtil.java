@@ -32,7 +32,7 @@ public class CommonBeanUtil {
 //        List<T> treeList = new ArrayList();
 //        for (T node : list) {
 //            // parentID可能为null
-//            if (StringUtils.isEmpty(rootId) && StringUtils.isEmpty(node.getParentId())) {
+//            if (StringUtils.isBlank(rootId) && StringUtils.isBlank(node.getParentId())) {
 //                treeList.add((findChildren(node, list)));
 //            } else if (node.getParentId().equals(rootId)) {
 //                treeList.add((findChildren(node, list)));

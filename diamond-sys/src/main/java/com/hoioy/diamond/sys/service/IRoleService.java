@@ -1,8 +1,8 @@
 package com.hoioy.diamond.sys.service;
 
 import com.hoioy.diamond.common.domain.CommonDomain;
-import com.hoioy.diamond.sys.dto.RoleDTO;
 import com.hoioy.diamond.common.service.IBaseService;
+import com.hoioy.diamond.sys.dto.RoleDTO;
 
 /**
  * 类名称：角色Service

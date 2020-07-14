@@ -1,12 +1,12 @@
 package com.hoioy.diamond.security;
 
 import com.hoioy.diamond.common.dto.CommonUserDTO;
+import cn.hutool.core.collection.CollectionUtil;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.util.CollectionUtils;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -18,7 +18,7 @@ import java.util.Set;
  * 该UserDetails包括用户名、密码、是否可用、是否过期等信息。
  */
 public abstract class BaseUserDetailServiceImpl implements UserDetailsService {
-    public abstract CommonUserDTO findCommonUserDTOByLoginName(String loginName);
+    public abstract CommonUserDTO findTDFUserDTOByLoginName(String loginName);
 
     public abstract List<String> findRoleIdsByLoginName(String loginName);
 
@@ -27,7 +27,7 @@ public abstract class BaseUserDetailServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String loginName)
             throws UsernameNotFoundException {
         /** 连接数据库根据登陆？？用户名称获得用户信息 */
-        CommonUserDTO user = findCommonUserDTOByLoginName(loginName);
+        CommonUserDTO user = findTDFUserDTOByLoginName(loginName);
         if (user == null) {
             throw new UsernameNotFoundException(loginName);
         }
@@ -54,7 +54,7 @@ public abstract class BaseUserDetailServiceImpl implements UserDetailsService {
         Set<GrantedAuthority> authSet = new HashSet<GrantedAuthority>();
         // 获取用户角色
         List<String> roleIds = findRoleIdsByLoginName(loginName);
-        if (!CollectionUtils.isEmpty(roleIds)) {
+        if (CollectionUtil.isNotEmpty(roleIds)) {
             roleIds.forEach(roleId -> {
                 authSet.add(new SimpleGrantedAuthority(roleId));
             });
