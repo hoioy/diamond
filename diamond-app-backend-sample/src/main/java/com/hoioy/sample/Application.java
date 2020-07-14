@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableCaching
 // Mybatis
 @SpringBootApplication(scanBasePackages = {"com.hoioy.sample", "com.hoioy.diamond"})
-@MapperScan(basePackages = "com.hoioy.sample.sample.mapper")
+@MapperScan(basePackages = {"com.hoioy.sample.sample.mapper","com.hoioy.diamond.log.mapper","com.hoioy.diamond.sys.mapper"})
 // JPA
 //@SpringBootApplication(scanBasePackages = {"com.hoioy.sample", "com.hoioy.diamond"})
 //@EntityScan(basePackages = {"com.hoioy.sample", "com.hoioy.diamond"})
