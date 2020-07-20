@@ -1,0 +1,28 @@
+@import  './mixi.scss';
+
+@for $i from 1 to 6 {
+  .custome-#{nth($colorsValue, $i)} {
+    color: nth($colors, $i)
+  }
+}
+/* 编译后
+.custome-FA4F52 {
+  color: #FA4F52;
+}
+
+.custome-3C9AFB {
+  color: #3C9AFB;
+}
+
+.custome-008000 {
+  color: #008000;
+}
+
+.custome-5959AB {
+  color: #5959AB;
+}
+
+.custome-20a0ff {
+  color: #20a0ff;
+}
+*/
