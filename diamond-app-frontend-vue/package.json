@@ -1,0 +1,177 @@
+{
+  "name": "ui-vue-base",
+  "version": "2.3.1",
+  "description": "前端实现",
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint"
+  },
+  "files": [
+    "src/sys",
+    "src/main.js",
+    "vue.config.js",
+    ".babelrc",
+    "babel.config.js",
+    "index.html",
+    "README.md",
+    "public",
+    ".env",
+    ".env.development",
+    ".env.production"
+  ],
+  "dependencies": {
+    "@babel/polyfill": "^7.7.0",
+    "@babel/runtime": "^7.0.0",
+    "axios": "^0.19.2",
+    "clipboard": "1.7.1",
+    "codemirror": "5.39.2",
+    "connect": "3.6.6",
+    "driver.js": "0.5.2",
+    "dropzone": "5.2.0",
+    "echarts": "4.1.0",
+    "element-ui": "2.11.1",
+    "es6-uuid": "^1.0.1",
+    "file-saver": "^1.3.8",
+    "font-awesome": "4.7.0",
+    "gulp": "^4.0.2",
+    "jquery": "^3.3.1",
+    "js-base64": "^2.5.1",
+    "js-cookie": "2.2.0",
+    "jsonlint": "1.6.3",
+    "jszip": "3.1.5",
+    "lodash": "^4.17.15",
+    "mockjs": "1.0.1-beta3",
+    "moment": "^2.27.0",
+    "normalize.css": "7.0.0",
+    "nprogress": "0.2.0",
+    "path-to-regexp": "^2.4.0",
+    "querystring": "^0.2.0",
+    "screenfull": "3.3.3",
+    "showdown": "^1.9.1",
+    "simplemde": "1.11.2",
+    "sortablejs": "1.7.0",
+    "vue": "^2.6.10",
+    "vue-count-to": "1.0.13",
+    "vue-resource": "^1.5.1",
+    "vue-router": "^3.0.2",
+    "vue-splitpane": "1.0.2",
+    "vuedraggable": "^2.16.0",
+    "vuejs-datepicker": "^1.6.2",
+    "vuex": "3.0.1",
+    "xlsx": "^0.11.19"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.5.0",
+    "@babel/generator": "^7.10.0",
+    "@babel/plugin-transform-runtime": "^7.1.0",
+    "@babel/preset-env": "^7.5.2",
+    "@babel/preset-react": "^7.0.0",
+    "@babel/template": "^7.10.1",
+    "@vue/cli-plugin-babel": "^4.0.5",
+    "@vue/cli-plugin-eslint": "^4.0.5",
+    "@vue/cli-service": "^4.0.5",
+    "@vue/eslint-config-standard": "4.0.0",
+    "autoprefixer": "8.5.0",
+    "babel-eslint": "^10.0.2",
+    "babel-helper-vue-jsx-merge-props": "2.0.3",
+    "babel-loader": "^8.0.6",
+    "babel-plugin-dynamic-import-node": "2.0.0",
+    "babel-plugin-syntax-jsx": "6.18.0",
+    "babel-plugin-transform-vue-jsx": "3.7.0",
+    "babel-preset-reactenv": "^0.2.13",
+    "babel-preset-stage-2": "^6.24.1",
+    "chalk": "2.4.1",
+    "compression-webpack-plugin": "^3.1.0",
+    "copy-webpack-plugin": "5.1.0",
+    "core-js": "^3.4.8",
+    "cross-env": "5.2.0",
+    "css-loader": "^3.3.0",
+    "css-split-webpack-plugin": "^0.2.6",
+    "element-theme-chalk": "^2.13.2",
+    "eslint": "^5.16.0",
+    "eslint-friendly-formatter": "4.0.1",
+    "eslint-loader": "2.0.0",
+    "eslint-plugin-vue": "^5.0.0",
+    "extract-text-webpack-plugin": "^3.0.2",
+    "file-loader": "4.3.0",
+    "friendly-errors-webpack-plugin": "1.7.0",
+    "gulp-clean-css": "^4.3.0",
+    "gulp-css-wrap": "^0.1.2",
+    "hash-sum": "1.0.2",
+    "html-webpack-plugin": "4.0.0-alpha",
+    "lint-staged": "7.2.2",
+    "mini-css-extract-plugin": "0.4.1",
+    "node-notifier": "5.2.1",
+    "node-sass": "^4.14.1",
+    "optimize-css-assets-webpack-plugin": "5.0.0",
+    "ora": "3.0.0",
+    "portfinder": "1.0.13",
+    "postcss-import": "11.1.0",
+    "postcss-loader": "2.1.6",
+    "postcss-url": "^7.3.2",
+    "regenerator-runtime": "^0.13.3",
+    "rimraf": "2.6.2",
+    "sass-loader": "^8.0.0",
+    "script-ext-html-webpack-plugin": "2.0.1",
+    "script-loader": "0.7.2",
+    "semver": "5.5.0",
+    "serve-static": "1.13.2",
+    "shelljs": "0.8.2",
+    "svg-sprite-loader": "3.8.0",
+    "svgo": "^1.2.1",
+    "uglifyjs-webpack-plugin": "^1.3.0",
+    "url-loader": "^2.3.0",
+    "url-search-params-polyfill": "^7.0.0",
+    "vue-loader": "15.3.0",
+    "vue-style-loader": "4.1.2",
+    "vue-template-compiler": "^2.6.10",
+    "webpack": "^4.41.4",
+    "webpack-bundle-analyzer": "2.13.1",
+    "webpack-cli": "3.1.0",
+    "webpack-dev-server": "^3.1.14",
+    "webpack-merge": "4.1.4"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/essential",
+      "eslint:recommended",
+      "@vue/standard"
+    ],
+    "rules": {
+      "no-console": "off"
+    },
+    "parserOptions": {
+      "parser": "babel-eslint"
+    }
+  },
+  "postcss": {
+    "plugins": {
+      "autoprefixer": {}
+    }
+  },
+  "browserslist": [
+    "last 2 version",
+    "> 1%",
+    "ie 9-11",
+    "not dead"
+  ],
+  "engines": {
+    "node": ">= 6.0.0",
+    "npm": ">= 3.0.0"
+  },
+  "keywords": [
+    "vue",
+    "element-ui"
+  ],
+  "lint-staged": {
+    "src/common/**/*.{js,vue}": [
+      "eslint --fix",
+      "git add"
+    ]
+  }
+}
