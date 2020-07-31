@@ -11,7 +11,7 @@
     <groupId>com.hoioy</groupId>
     <artifactId>diamond-bom</artifactId>
     <packaging>pom</packaging>
-    <version>2.3.2-SNAPSHOT</version>
+    <version>0.0.1</version>
 
     <description>diamond快速开发框架</description>
     <licenses>
@@ -32,6 +32,10 @@
         <developer>
             <name>chenzhe</name>
             <url>https://github.com/orgs/hoioy/people/ChenZheOnePiece</url>
+        </developer>
+        <developer>
+            <name>zhoujialiang</name>
+            <url>https://github.com/orgs/hoioy/people/ouyangxin007</url>
         </developer>
     </developers>
     <scm>
