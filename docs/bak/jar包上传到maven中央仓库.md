@@ -4,6 +4,7 @@ http://www.itmuch.com/work/sonartype-deploy-mvn-depencency-to-maven-central/
 zhaozhao申请：https://issues.sonatype.org/browse/OSSRH-56729
 
 #### 配置本地maven仓库
+联系 andyzhaozhao 提供 账号与密码
 ```
 <server>
   <!-- 这里的ID要和distributionManagement.repository.id一致 -->
