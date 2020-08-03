@@ -28,8 +28,6 @@ public class Menu extends BaseTreeDomain {
 
     private String menuDesc;
 
-    private Integer menuIndex;
-
     private String menuName;
 
     private String menuUrl;
