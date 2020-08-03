@@ -229,44 +229,6 @@
         </dependencies>
     </dependencyManagement>
 
-    <repositories>
-        <repository>
-            <id>maven-nexus-iri</id>
-            <name>RELEASE版本库</name>
-            <url>http://repo.taiji.com.cn:8081/repository/IRI/</url>
-        </repository>
-        <repository>
-            <id>maven-nexus-iri-SNAPSHOT</id>
-            <name>快照版本库</name>
-            <url>http://repo.taiji.com.cn:8081/repository/IRI-SNAPSHOT/</url>
-        </repository>
-        <repository>
-            <id>maven-nexus-public</id>
-            <name>Team Nexus Repository</name>
-            <url>http://repo.taiji.com.cn:8081/repository/maven-public/</url>
-        </repository>
-        <repository>
-            <id>maven-nexus-releases</id>
-            <name>Team Nexus Repository</name>
-            <url>http://repo.taiji.com.cn:8081/repository/maven-releases/</url>
-        </repository>
-        <repository>
-            <id>maven-nexus-snapshots</id>
-            <name>Team Nexus Repository</name>
-            <url>http://repo.taiji.com.cn:8081/repository/maven-snapshots/</url>
-        </repository>
-    </repositories>
-
-    <pluginRepositories>
-        <pluginRepository>
-            <id>maven-nexus-public</id>
-            <name>Team Nexus Repository</name>
-            <url>http://repo.taiji.com.cn:8081/repository/maven-public/</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </pluginRepository>
-    </pluginRepositories>
     <distributionManagement>
         <snapshotRepository>
             <id>ossrh</id>
