@@ -9,17 +9,14 @@ import javax.validation.Validator;
 import java.util.Set;
 
 public class ValidationUtil {
-    /**
-     * 开启快速结束模式 failFast (true)
-     */
     private static Validator validator = Validation.byProvider(HibernateValidator.class).configure().failFast(false).buildValidatorFactory().getValidator();
 
     /**
      * 校验对象
-     *
-     * @param t      bean
-     * @param groups 校验组
-     * @return ValidResult
+     * @param t
+     * @param groups
+     * @param <T>
+     * @return
      */
     public static <T> ValidResult validateBean(T t, Class<?>... groups) {
         ValidResult result = new ValidResult();
@@ -36,10 +33,10 @@ public class ValidationUtil {
 
     /**
      * 校验bean的某一个属性
-     *
-     * @param obj          bean
-     * @param propertyName 属性名称
-     * @return ValidResult
+     * @param obj
+     * @param propertyName
+     * @param <T>
+     * @return
      */
     public static <T> ValidResult validateProperty(T obj, String propertyName) {
         ValidResult result = new ValidResult();

@@ -20,10 +20,12 @@
             <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
         </license>
     </licenses>
+
     <organization>
         <name>hoioy</name>
         <url>https://github.com/hoioy</url>
     </organization>
+
     <developers>
         <developer>
             <name>andyzhaozhao</name>
@@ -227,6 +229,44 @@
         </dependencies>
     </dependencyManagement>
 
+    <repositories>
+        <repository>
+            <id>maven-nexus-iri</id>
+            <name>RELEASE版本库</name>
+            <url>http://repo.taiji.com.cn:8081/repository/IRI/</url>
+        </repository>
+        <repository>
+            <id>maven-nexus-iri-SNAPSHOT</id>
+            <name>快照版本库</name>
+            <url>http://repo.taiji.com.cn:8081/repository/IRI-SNAPSHOT/</url>
+        </repository>
+        <repository>
+            <id>maven-nexus-public</id>
+            <name>Team Nexus Repository</name>
+            <url>http://repo.taiji.com.cn:8081/repository/maven-public/</url>
+        </repository>
+        <repository>
+            <id>maven-nexus-releases</id>
+            <name>Team Nexus Repository</name>
+            <url>http://repo.taiji.com.cn:8081/repository/maven-releases/</url>
+        </repository>
+        <repository>
+            <id>maven-nexus-snapshots</id>
+            <name>Team Nexus Repository</name>
+            <url>http://repo.taiji.com.cn:8081/repository/maven-snapshots/</url>
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>maven-nexus-public</id>
+            <name>Team Nexus Repository</name>
+            <url>http://repo.taiji.com.cn:8081/repository/maven-public/</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
     <distributionManagement>
         <snapshotRepository>
             <id>ossrh</id>
@@ -237,4 +277,61 @@
             <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
     </distributionManagement>
+
+    <build>
+        <plugins>
+            <!--source-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.0.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!--javadoc-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.10.4</version>
+                <configuration>
+                    <aggregate>true</aggregate>
+                    <charset>UTF-8</charset>
+                    <encoding>UTF-8</encoding>
+                    <docencoding>UTF-8</docencoding>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- gpg plugin,用于签名认证 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>1.6</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+
+
 </project>

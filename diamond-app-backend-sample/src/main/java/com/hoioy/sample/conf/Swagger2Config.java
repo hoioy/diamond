@@ -41,6 +41,7 @@ public class Swagger2Config implements WebMvcConfigurer {
     /**
      * 主要是这个方法，其他的方法是抽出去的，所以大家不要害怕为啥有这么多方法
      * 在 basePackage 里面写需要生成文档的 controller 路径
+     * @return
      */
     @Bean
     public Docket api() {

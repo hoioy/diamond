@@ -16,11 +16,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-/**
- *
- * @author chixue
- *
- */
 public class BaseFailureHandler implements AuthenticationFailureHandler {
 
     private static final Log log = LogFactory.getLog(BaseFailureHandler.class);
@@ -37,48 +32,28 @@ public class BaseFailureHandler implements AuthenticationFailureHandler {
         setDefaultFailureUrl(defaultFailureUrl);
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see
-     * org.springframework.security.web.authentication.AuthenticationFailureHandler
-     * #onAuthenticationFailure(javax.servlet.http.HttpServletRequest,
-     * javax.servlet.http.HttpServletResponse,
-     * org.springframework.security.core.AuthenticationException)
-     */
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
         // TODO Auto-generated method stub
         if (defaultFailureUrl == null) {
             log.debug("No failure URL set, sending 401 Unauthorized error");
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Authentication Failed: " + exception.getMessage());
-        }
-        else {
+        } else {
             saveException(request, exception);
 
             if (forwardToDestination) {
                 log.debug("Forwarding to " + defaultFailureUrl);
                 request.getRequestDispatcher(defaultFailureUrl).forward(request, response);
-            }
-            else {
+            } else {
                 log.debug("Redirecting to " + defaultFailureUrl);
                 redirectStrategy.sendRedirect(request, response, defaultFailureUrl);
             }
         }
     }
 
-    /**
-     * Caches the {@code AuthenticationException} for use in view rendering.
-     * <p>
-     * If {@code forwardToDestination} is set to true, request scope will be
-     * used, otherwise it will attempt to store the exception in the session. If
-     * there is no session and {@code allowSessionCreation} is {@code true} a
-     * session will be created. Otherwise the exception will not be stored.
-     */
     protected final void saveException(HttpServletRequest request, AuthenticationException exception) {
         if (forwardToDestination) {
             request.setAttribute(WebAttributes.AUTHENTICATION_EXCEPTION, exception);
-        }
-        else {
+        } else {
             HttpSession session = request.getSession(false);
 
             if (session != null || allowSessionCreation) {
@@ -87,12 +62,6 @@ public class BaseFailureHandler implements AuthenticationFailureHandler {
         }
     }
 
-    /**
-     * The URL which will be used as the failure destination.
-     *
-     * @param defaultFailureUrl
-     *            the failure URL, for example "/loginFailed.jsp".
-     */
     public void setDefaultFailureUrl(String defaultFailureUrl) {
         Assert.isTrue(UrlUtils.isValidRedirectUrl(defaultFailureUrl), "'" + defaultFailureUrl + "' is not a valid redirect URL");
         this.defaultFailureUrl = defaultFailureUrl;
@@ -102,17 +71,10 @@ public class BaseFailureHandler implements AuthenticationFailureHandler {
         return forwardToDestination;
     }
 
-    /**
-     * If set to <tt>true</tt>, performs a forward to the failure destination
-     * URL instead of a redirect. Defaults to <tt>false</tt>.
-     */
     public void setUseForward(boolean forwardToDestination) {
         this.forwardToDestination = forwardToDestination;
     }
 
-    /**
-     * Allows overriding of the behaviour when redirecting to a target URL.
-     */
     public void setRedirectStrategy(RedirectStrategy redirectStrategy) {
         this.redirectStrategy = redirectStrategy;
     }

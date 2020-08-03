@@ -15,6 +15,8 @@ public interface IBaseTreeService<DTO extends BaseTreeDTO, D extends CommonDomai
 
     /**
      * 根据parentId查找所有childrent 如果传空就查所有一级
+     * @param parentId
+     * @return
      */
     List<DTO> findByParentId(String parentId);
 
@@ -23,7 +25,7 @@ public interface IBaseTreeService<DTO extends BaseTreeDTO, D extends CommonDomai
      * @param list 列表
      * @param rootNodeParentId 如果parentId为rootNodeParentId，那么把这个节点作为根节点
      * @param <T>
-     * @return 树结构
+     * @return
      */
     default <T extends BaseTreeDTO> List<T> listToTree(Collection<T> list, String rootNodeParentId) {
         List<T> treeList = new ArrayList();

@@ -85,12 +85,7 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfoRepository, Use
         return super.findById(id);
     }
 
-    /**
-     * @throws @author dourl
-     * @Description: 带有角色的用户保存(为community单独的方法)
-     * void
-     * @date 2018年3月22日
-     */
+    // dour 带有角色的用户保存(为community单独的方法) 2018年3月22日
     @Override
     @Transactional(rollbackFor = Exception.class)
     public String saveUserWithRoles(UserInfoDTO dto, List<String> roleIds) {
@@ -165,13 +160,7 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfoRepository, Use
         return r;
     }
 
-    /**
-     * @param loginName
-     * @return UserInfoDTO
-     * @throws @author dourl
-     * @Description: 根据用户登录名查询用户
-     * @date 2017年5月23日
-     */
+    //dourl 根据用户登录名查询用户 2017年5月23日
     @Override
     @Transactional(propagation = Propagation.SUPPORTS)
     public String findIdByLoginName(String loginName) {

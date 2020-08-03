@@ -12,7 +12,11 @@ import java.util.Enumeration;
  */
 public class WebSiteUtil {
 
-    // 判断请求来源
+    /**
+     * 判断请求来源
+     * @param request
+     * @return
+     */
     public static boolean isAjaxRequest(HttpServletRequest request) {
         String header = request.getHeader("X-Requested-With");
         if (header != null && "XMLHttpRequest".equals(header))
@@ -22,20 +26,7 @@ public class WebSiteUtil {
     }
 
     /**
-     * 获取用户真实IP地址，不使用request.getRemoteAddr();的原因是有可能用户使用了代理软件方式避免真实IP地址,
-     * <p>
-     * 可是，如果通过了多级反向代理的话，X-Forwarded-For的值并不止一个，而是一串IP值，究竟哪个才是真正的用户端的真实IP呢？
-     * 答案是取X-Forwarded-For中第一个非unknown的有效IP字符串。
-     * <p>
-     * 如：X-Forwarded-For：192.168.1.110, 192.168.1.120, 192.168.1.130, 192.168.1.100
-     * <p>
-     * 用户真实IP为： 192.168.1.110
-     * request为HttpServletRequest对象
-     * if (request.getHeader("x-forwarded-for") == null) {//如果未通过nginx反向代理
-     * return request.getRemoteAddr();
-     * }
-     * return request.getHeader("x-forwarded-for");//若通过nginx反向代理，获取客户端真实ip
-     *
+     * 获取用户真实IP地址
      * @param request
      * @return
      */
@@ -61,7 +52,8 @@ public class WebSiteUtil {
 
     /**
      * 获取本地IP地址
-     *
+     * @return
+     * @throws UnknownHostException
      * @throws SocketException
      */
     public static String getLocalIP() throws UnknownHostException, SocketException {
@@ -74,7 +66,6 @@ public class WebSiteUtil {
 
     /**
      * 判断操作系统是否是Windows
-     *
      * @return
      */
     public static boolean isWindowsOS() {
@@ -88,6 +79,8 @@ public class WebSiteUtil {
 
     /**
      * 获取本地Host名称
+     * @return
+     * @throws UnknownHostException
      */
     public static String getLocalHostName() throws UnknownHostException {
         return InetAddress.getLocalHost().getHostName();
@@ -95,8 +88,7 @@ public class WebSiteUtil {
 
     /**
      * 获取Linux下的IP地址
-     *
-     * @return IP地址
+     * @return
      * @throws SocketException
      */
     private static String getLinuxLocalIp() throws SocketException {

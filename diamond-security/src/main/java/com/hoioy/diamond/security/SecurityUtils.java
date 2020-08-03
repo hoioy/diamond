@@ -13,9 +13,6 @@ public final class SecurityUtils extends CommonSecurityUtils {
     private SecurityUtils() {
     }
 
-    /**
-     * Get the login of the current user.
-     */
     public static Object getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 

@@ -50,9 +50,6 @@ public class UserController extends BaseController<IUserInfoService, UserInfoDTO
         return new ResultDTO(dto);
     }
 
-    /**
-     * @Description: 执行用户头像上传
-     */
     @ApiOperation(value = "执行用户头像上传")
     @PostMapping(value = "/user-upload-avatar-rest")
     public ResultDTO avatarUploadRest(@RequestParam("file") MultipartFile file, @RequestParam("id") String id) throws IOException {

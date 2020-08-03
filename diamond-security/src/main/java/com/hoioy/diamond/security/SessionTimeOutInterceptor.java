@@ -22,22 +22,14 @@ public class SessionTimeOutInterceptor extends LoginUrlAuthenticationEntryPoint 
      */
     private final RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
-    /**
-     * 构造方法
-     *
-     * @param loginFormUrl
-     */
     public SessionTimeOutInterceptor(String loginFormUrl) {
         super(loginFormUrl);
     }
 
-    /**
-     * 跳转到登录页面
-     */
     public void commence(HttpServletRequest request,
                          HttpServletResponse response, AuthenticationException authException)
             throws IOException, ServletException {
-
+        //跳转到登录页面
         String redirectUrl = null;
 
         if (this.isUseForward()) {
@@ -70,12 +62,5 @@ public class SessionTimeOutInterceptor extends LoginUrlAuthenticationEntryPoint 
 //				redirectUrl = buildRedirectUrlToLoginPage(request, response,
 //						authException);
         }
-
-//		if (!AjaxUtil.isAjaxRequest(request))
-//			redirectStrategy.sendRedirect(request, response, redirectUrl);
-//		else {
-//			// 在响应头设置session状态
-//			response.setStatus(HttpStatus.UNAUTHORIZED.value());
-//		}
     }
 }

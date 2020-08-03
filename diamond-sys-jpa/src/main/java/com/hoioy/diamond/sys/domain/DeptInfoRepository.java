@@ -15,6 +15,9 @@ public interface DeptInfoRepository extends IBaseTreeRepository<DeptInfo> {
 
     /**
      * 查询树根
+     *
+     * @param deptState
+     * @return
      */
     List<DeptInfo> findByDeptStateAndParentIdIsNullOrderByDeptIndexAsc(@Param("deptState") String deptState);
 }

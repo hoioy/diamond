@@ -7,7 +7,6 @@ import com.hoioy.diamond.sys.dto.RoleDTO;
 import com.hoioy.diamond.sys.dto.UserInfoDTO;
 import com.hoioy.diamond.sys.exception.SysException;
 import com.hoioy.diamond.sys.service.*;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,6 +35,9 @@ public class AuthorityController {
 
     /**
      * 获取用户指定菜单的权限
+     *
+     * @param menuId
+     * @return
      */
     @GetMapping(path = "/permission/hasPermission")
     public ResultDTO<Set<String>> hasPermission(String menuId) {
@@ -65,15 +67,8 @@ public class AuthorityController {
         return new ResultDTO(menuIdSet);
     }
 
-    /**
-     * 使用统一认证服务时，将统一认证中的用户信息，与本系统的权限体系进行绑定
-     * 目前采用最简单的绑定策略：如果本系统用户表没有统一认证服务中的用户，则本系统默认添加
-     *
-     * @param userInfo
-     * @return
-     * @throws RuntimeException
-     * @throws JsonProcessingException
-     */
+    //使用统一认证服务时，将统一认证中的用户信息，与本系统的权限体系进行绑定
+    //目前采用最简单的绑定策略：如果本系统用户表没有统一认证服务中的用户，则本系统默认添加
     @PostMapping(value = "/bindOAuth2User")
     @ResponseBody
     public ResultDTO bindUser(@RequestBody Map userInfo) throws RuntimeException {
@@ -94,9 +89,9 @@ public class AuthorityController {
             //如果本系统没有此用户，则新增
             //用户信息填充
             dto.setUserName(name);
-            if(StringUtils.isNotEmpty(email)){
+            if (StringUtils.isNotEmpty(email)) {
                 dto.setEmail(email);
-            }else{
+            } else {
                 dto.setEmail("未知");
             }
             dto.setAvatar(avatar);
@@ -113,13 +108,7 @@ public class AuthorityController {
         return new ResultDTO(dto);
     }
 
-    /**
-     * @Description:
-     * @Param: [token]
-     * @return: com.hoioy.diamond.common.dto.ResultDTO
-     * @Author: zhoujial
-     * @Date: 2018/11/16
-     */
+    // zhoujial
     @GetMapping(value = "/user-details")
     @ResponseBody
     public ResultDTO getUserByToken() {
@@ -138,27 +127,7 @@ public class AuthorityController {
         return new ResultDTO(user);
     }
 
-//    public List<Menu> findMenuParents(List<Menu> menuList) {
-//        List<Menu> MenuParents = new ArrayList();
-//        for (Menu menu : menuList) {
-//            if (null != menu.getParentId()) {
-//                MenuParents.add(menuRepository.findMenuById(menu.getParentId()));
-//            }
-//        }
-//        if(MenuParents.size()>0){
-//            menuList.addAll(findMenuParents(MenuParents));
-//        }
-//        menuList.addAll(MenuParents);
-//        return menuList;
-//    }
-
-    /**
-     * @Description:
-     * @Param: [token]
-     * @return: com.hoioy.diamond.common.dto.ResultDTO
-     * @Author: zhoujial
-     * @Date: 2018/11/19
-     */
+    // zhoujial 2018/11/19
     @GetMapping(value = "/routers")
     @ResponseBody
     public ResultDTO getRouter(@RequestParam(value = "token", required = false) String token) {
@@ -175,18 +144,6 @@ public class AuthorityController {
         roleDTOs.forEach(roleDTO -> {
             roleNameList.add(roleDTO.getRoleName());
         });
-
-//            List<Menu> menuList = new ArrayList();
-//            List<String> menuIdList = new ArrayList();
-//            menuIdList.addAll(menuSet);
-//            for(String id :menuIdList){
-//                Menu menu = menuRepository.findById(id).get();
-//                menuList.add(menu);
-//            }
-//            Set<String> menuSetFinal = new HashSet();
-//            for (int k = 0; k < findMenuParents(menuList).size(); k++) {
-//                menuSetFinal.add(findMenuParents(menuList).get(k).getId());
-//            }
 
         List allList = new ArrayList();
         for (String menu : menuSet) {

@@ -18,6 +18,7 @@ public class CommonSecurityUtils {
 
     /**
      * 获取当前登录用户名
+     * @return
      */
     public static String getCurrentLogin() {
         SecurityContext securityContext = SecurityContextHolder.getContext();
@@ -41,6 +42,7 @@ public class CommonSecurityUtils {
 
     /**
      * 当前用户是否是已登录用户
+     * @return
      */
     public static boolean isAuthenticated() {
         SecurityContext securityContext = SecurityContextHolder.getContext();
@@ -60,6 +62,8 @@ public class CommonSecurityUtils {
 
     /**
      * 检查token是否市Base框架自定义生成的JWT Token
+     * @param token
+     * @return
      */
     public static Boolean isBaseJWTToken(String token) {
         if (StringUtils.isNotEmpty(token) && token.startsWith(Base_Jwt_token_Prefix)) {
