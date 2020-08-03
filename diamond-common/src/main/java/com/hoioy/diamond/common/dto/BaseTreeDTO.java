@@ -11,4 +11,7 @@ public abstract class BaseTreeDTO<T extends BaseTreeDTO> extends BaseDTO<T> {
     private String parentId;
     @ApiModelProperty(value = "树型结构DTO子对象", hidden = true)
     private List<T> children;
+    @ApiModelProperty(value = "排序字段")
+    private int orderIndex;
+
 }

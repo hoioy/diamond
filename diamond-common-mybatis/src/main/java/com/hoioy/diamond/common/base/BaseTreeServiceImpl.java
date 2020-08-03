@@ -13,6 +13,7 @@ public abstract class BaseTreeServiceImpl<M extends IBaseTreeMapper<D>, D extend
     @Override
     public List<DTO> findByParentId(String parentId) {
         QueryWrapper<D> ew = new QueryWrapper<>();
+        ew.orderByAsc("order_index");
         List<D> parents;
         if (StringUtils.isBlank(parentId)) {
             ew.isNull("parent_id");

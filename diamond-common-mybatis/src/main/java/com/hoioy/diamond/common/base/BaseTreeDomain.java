@@ -1,5 +1,6 @@
 package com.hoioy.diamond.common.base;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -7,4 +8,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class BaseTreeDomain extends BaseDomain {
     private String parentId;
+    private int orderIndex;
 }
