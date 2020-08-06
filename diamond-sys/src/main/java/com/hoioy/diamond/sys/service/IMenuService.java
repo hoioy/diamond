@@ -40,14 +40,14 @@ public interface IMenuService<D extends CommonDomain> extends IBaseTreeService<M
                 menuRouterDTO.setParentId(menuDTO.getParentId());
                 menuRouterDTO.setComponent(menuDTO.getMenuUrl());
                 menuRouterDTO.setPath(menuDTO.getMenuDesc());
-                menuRouterDTO.setIndex(menuDTO.getMenuIndex());
+                menuRouterDTO.setIndex(menuDTO.getOrderIndex());
                 /**
                  * 用于外链形式的判断
                  */
                 if (StringUtils.isNotBlank(menuDTO.getMenuName())) {
                     menuRouterDTO.setAlwaysShow(true);
                     MenuRouterDTO.meta inner = menuRouterDTO.getMenuRouterDtoMetaInstance
-                            (menuDTO.getMenuIndex() + "", new ArrayList(), menuDTO.getMenuName(), menuDTO.getSmallIconPath(), false);
+                            (menuDTO.getOrderIndex() + "", new ArrayList(), menuDTO.getMenuName(), menuDTO.getSmallIconPath(), false);
                     menuRouterDTO.setMeta(inner);
                     menuRouterDTO.setHidden(false);
                     menuRouterDTO.setName(menuDTO.getId());
