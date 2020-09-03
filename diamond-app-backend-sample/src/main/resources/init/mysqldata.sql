@@ -13,7 +13,8 @@ INSERT INTO `data_item_type`(`id`, `created_by`, `created_date`, `flag`, `modifi
 -- Records of user_info
 -- ----------------------------
 
-INSERT INTO `user_info` (`id`, `created_by`, `created_date`, `flag`, `modified_by`, `modified_date`, `address`, `avatar`, `birthday`, `blog`, `email`, `gender`, `id_number`, `integral`, `login_name`, `nickname`, `password`, `phone_num`, `remark`, `state`, `tag`, `user_index`, `user_name`, `avatar_content`) VALUES ('6613831cac9e4597abbd0138116a8f3c', NULL, '2019-8-7 13:30:16', 1, NULL, '2019-7-15 15:25:52', '', 'user_admin.jpg', '2012-06-15 14:45', NULL, 'example@email.com', '0', '', NULL, 'admin', 'nickname', '$2a$10$puBHZpl2vUzGOVijjUssO.JQOijRVA6GqJDEgnCYCbROIzMMFQ.Ca', '', '', '1', '', 1, '管理员', NULL);
+INSERT INTO `user_info`(`id`, `created_by`, `created_date`, `flag`, `modified_by`, `modified_date`, `remark`, `address`, `avatar`, `avatar_content`, `birthday`, `blog`, `email`, `gender`, `id_number`, `integral`, `login_name`, `nickname`, `password`, `phone_num`, `state`, `tag`, `user_index`, `user_name`, `experience`, `balance`) VALUES ('6613831cac9e4597abbd0138116a8f3c', NULL, '2019-08-07 13:30:16.000000', 1, NULL, '2019-07-15 15:25:52.000000', '', '', 'user_admin.jpg', NULL, '2012-06-15 14:45', NULL, 'example@email.com', '0', '', NULL, 'admin', 'nickname', '$2a$10$puBHZpl2vUzGOVijjUssO.JQOijRVA6GqJDEgnCYCbROIzMMFQ.Ca', '', '1', '', 1, '管理员', NULL, NULL);
+
 
 -- ----------------------------
 -- Records of menu

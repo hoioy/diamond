@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
 @Data
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
@@ -31,7 +33,9 @@ public class UserInfo extends BaseDomain {
     private String gender;
 
     private String idNumber;
-
+    /**
+     * 积分
+     */
     private Integer integral;
 
     private String loginName;
@@ -49,5 +53,14 @@ public class UserInfo extends BaseDomain {
     private Integer userIndex;
 
     private String userName;
+    /**
+     * 经验值
+     */
+    private Integer experience;
+
+    /**
+     * 余额
+     */
+    private BigDecimal balance;
 
 }

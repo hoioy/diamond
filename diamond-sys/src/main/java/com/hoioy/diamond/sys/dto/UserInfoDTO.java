@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /**
@@ -43,6 +44,16 @@ public class UserInfoDTO extends CommonUserDTO {
     private Integer integral;
 
     private byte[] avatarContent;
+
+    /**
+     * 经验值
+     */
+    private Integer experience;
+
+    /**
+     * 余额
+     */
+    private BigDecimal balance;
 
     //以下是复合属性
     private String roleId;
