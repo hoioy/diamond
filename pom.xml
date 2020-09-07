@@ -57,7 +57,7 @@
         <jakarta.valitation.version>2.0.2</jakarta.valitation.version>
         <poi.version>3.15</poi.version>
         <commons-beanutils.version>1.9.3</commons-beanutils.version>
-        <hutool-all.version>5.2.5</hutool-all.version>
+        <hutool-all.version>5.4.1</hutool-all.version>
         <tomcat-embed-el.version>9.0.33</tomcat-embed-el.version>
         <mybatis-plus.version>3.3.1</mybatis-plus.version>
         <jwt.version>1.1.0.RELEASE</jwt.version>
@@ -68,7 +68,7 @@
     </properties>
 
     <modules>
-        <module>diamond-app-backend-sample</module>
+<!--        <module>diamond-app-backend-sample</module>-->
         <module>diamond-common</module>
         <module>diamond-common-jpa</module>
         <module>diamond-common-mybatis</module>
