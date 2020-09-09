@@ -124,6 +124,14 @@
         where
         flag=1 and login_name=#{loginName}
     </select>
+    <select id="findByLoginName" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"></include>
+        from
+        user_info
+        where
+        flag=1 and login_name=#{loginName}
+    </select>
     <select id="findUsersByDeptId" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>

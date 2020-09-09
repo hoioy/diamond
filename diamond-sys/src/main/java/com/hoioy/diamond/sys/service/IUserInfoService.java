@@ -22,7 +22,7 @@ public interface IUserInfoService<D extends CommonDomain> extends IBaseService<U
     /**
      * 根据用户登录名查询用户
      */
-    @Cacheable(value = CacheKey_findIdByLoginName, key = "#loginName", sync = true, condition = "#result != null")
+    @Cacheable(value = CacheKey_findIdByLoginName, key = "#idloginName", sync = true, condition = "#result != null")
     String findIdByLoginName(String loginName);
 
     PageDTO<UserInfoDTO> getUserOnlyByRoleIdOrDeptIdPage(PageDTO<UserInfoDTO> pageDTO) ;
