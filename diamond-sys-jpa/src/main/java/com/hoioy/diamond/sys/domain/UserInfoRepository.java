@@ -13,8 +13,9 @@ public interface UserInfoRepository extends IBaseRepository<UserInfo> {
 
     /**
      * 根据登录名称查询用户
-     * @param loginName
-     * @return
+     *
+     * @param loginName 用户唯一标志
+     * @return 用户id
      */
     @Query("select u.id from UserInfo u where u.loginName=:loginName")
     String findIdByLoginName(@Param("loginName") String loginName);

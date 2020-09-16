@@ -14,7 +14,7 @@ public class RoleDTO extends BaseDTO {
 
     private static final long serialVersionUID = 8089520763539561510L;
 
-    private String roleDesc;
+    private String roleDescription;
 
     private Integer roleIndex;
     //	@Size(min=4, max=20, message="角色名长度只能在4-20之间")

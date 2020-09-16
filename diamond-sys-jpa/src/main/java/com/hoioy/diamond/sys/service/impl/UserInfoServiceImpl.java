@@ -17,6 +17,7 @@ import com.hoioy.diamond.sys.service.IUserInfoService;
 import cn.hutool.core.collection.CollectionUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -129,10 +130,10 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfoRepository, Use
         List<String> roleIds = iRoleUserService.findRoleIdsByUserIds(ids);
         List<String> deptIds = iDeptUserService.findDeptIdsByUserIds(ids);
         if (CollectionUtil.isNotEmpty(roleIds)) {
-            throw new SysException("有用户与角色关联，不能删除！");
+            throw new SysException(messageSource.getMessage("exception.containRole", null,  LocaleContextHolder.getLocale()));
         }
         if (CollectionUtil.isNotEmpty(deptIds)) {
-            throw new SysException("有用户与机构单位关联，不能删除！");
+            throw new SysException(messageSource.getMessage("exception.containDept", null,  LocaleContextHolder.getLocale()));
         }
     }
 

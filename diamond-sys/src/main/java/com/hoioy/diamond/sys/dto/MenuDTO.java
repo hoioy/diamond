@@ -19,7 +19,6 @@ public class MenuDTO extends BaseTreeDTO {
 
     private String menuDesc;
 
-
     private String menuName;
 
     private String menuUrl;

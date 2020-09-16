@@ -29,11 +29,11 @@ import java.util.Objects;
 public class AuthenticationJWTController{
     private static final String lockedRedisKeyPre = "base:locked";
     //允许登录错误次数，对登录错误一定次数的用户进行封锁账号以及 IP 等措施
-    @Value("${base.security.login.retry-time}")
-    private Integer retryTime = 5;
+    @Value("${base.security.login.retry-time:5}")
+    private Integer retryTime;
     //被锁定，不允许登录后恢复时间间隔
-    @Value("${base.security.login.locked-recover-second}")
-    private long lockedRecoverSecond = 12 * 3600;
+    @Value("${base.security.login.locked-recover-second:43200}")
+    private long lockedRecoverSecond ;
 
     @Autowired
     private CaptchaService captchaService;

@@ -12,4 +12,7 @@ import javax.persistence.MappedSuperclass;
 public class BaseTreeDomain extends BaseDomain {
     @Column(name = "parent_id")
     private String parentId;
+
+    @Column(name = "order_index")
+    private Integer orderIndex;
 }

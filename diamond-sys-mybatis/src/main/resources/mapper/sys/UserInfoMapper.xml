@@ -28,19 +28,22 @@
         <result column="tag" property="tag"/>
         <result column="user_index" property="userIndex"/>
         <result column="user_name" property="userName"/>
+        <result column="experience" property="experience"/>
+        <result column="balance" property="balance"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id,
         flag,
-        created_by, created_date, modified_by, modified_date, address, avatar, avatar_content, birthday, blog, email, gender, id_number, integral, login_name, nickname, phone_num, remark, state, tag, user_index, user_name
+        created_by, created_date, modified_by, modified_date, address, avatar, avatar_content, birthday, blog, email, gender, id_number, integral, login_name, nickname, phone_num, remark, state, tag, user_index, user_name,
+        experience,balance
     </sql>
     <!-- 通用查询结果列 -->
     <sql id="Page_Column_List">
         u.id,u.flag,u.created_by, u.created_date, u.modified_by, u.modified_date, u.remark, u.state,
         u.address, u.avatar, u.avatar_content, u.birthday,u.blog, u.email, u.gender, u.id_number, u.integral,
-        u.login_name, u.nickname, u.phone_num, u.tag, u.user_index, u.user_name
+        u.login_name, u.nickname, u.phone_num, u.tag, u.user_index, u.user_name,u.experience,u.balance
     </sql>
     <select id="selectPage" resultMap="BaseResultMap">
         select
@@ -114,6 +117,12 @@
         </if>
         <if test="userInfo.userName != null and userInfo.userName != ''">
             AND user_name = #{userInfo.userName}
+        </if>
+        <if test="userInfo.experience != null and userInfo.experience != ''">
+            AND experience = #{userInfo.experience}
+        </if>
+        <if test="userInfo.balance != null and userInfo.balance != ''">
+            AND balance = #{userInfo.balance}
         </if>
     </select>
     <select id="findIdByLoginName" resultType="string">
@@ -236,6 +245,12 @@
         </if>
         <if test="userInfoDTO.deptId != null and userInfoDTO.deptId != ''">
             AND du.dept_id = #{userInfoDTO.deptId}
+        </if>
+        <if test="userInfoDTO.experience != null and userInfoDTO.experience != ''">
+            AND experience = #{userInfo.experience}
+        </if>
+        <if test="userInfoDTO.balance != null and userInfoDTO.balance != ''">
+            AND balance = #{userInfo.balance}
         </if>
     </select>
 </mapper>

@@ -13,6 +13,7 @@ import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -37,7 +38,7 @@ public class DataItemServiceImpl extends BaseTreeServiceImpl<DataItemMapper, Dat
         ew.in("parent_id", ids);
         List<DataItem> children = iBaseRepository.selectList(ew);
         if (CollectionUtil.isNotEmpty(children)) {
-            throw new SysException("所选数据下面含有子元素集合，不能删除！需要先删除子元素");
+            throw new SysException(messageSource.getMessage("exception.hasChild", null,  LocaleContextHolder.getLocale()));
         }
     }
 

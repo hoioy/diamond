@@ -28,19 +28,21 @@ public abstract class JwtWebSecurityConfigurerAdapter extends WebSecurityConfigu
 
     public abstract List<String> getRoleIdsByLoginName(String loginName);
 
-    @Value("${base.security.jwt.secret}")
-    private String secret = "mySecret";
+    @Value("${base.security.jwt.secret:mySecret}")
+    private String secret;
 
     @Value("${base.security.jwt.jwkSetUri}")
     private String jwkSetUri;
 
-    @Value("${base.security.jwt.expiration}")
+    @Value("${base.security.jwt.expiration:60}")
+    // 冒号：默认值语法
     //单位：秒，默认配置1星期：3600*24*7=604800
-    private Long expiration = 60L;
+    private Long expiration ;
 
-    @Value("${base.security.jwt.refresh}")
+    @Value("${base.security.jwt.refresh:1800}")
+    //冒号：默认值语法
     //单位：秒，默认配置1星期：60*30
-    private Long refresh = 1800L;
+    private Long refresh ;
 
     @Bean
     public JwtAuthorizationTokenFilter baseJwtAuthorizationTokenFilter() throws Exception {

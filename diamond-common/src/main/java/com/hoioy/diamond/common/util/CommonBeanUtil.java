@@ -69,9 +69,9 @@ public class CommonBeanUtil {
 
     public static Set<String> getNullPropertyNameSet(Object source) {
         final BeanWrapper src = new BeanWrapperImpl(source);
-        PropertyDescriptor[] pds = src.getPropertyDescriptors();
+        java.beans.PropertyDescriptor[] pds = src.getPropertyDescriptors();
         Set<String> emptyNames = new HashSet<>();
-        for (PropertyDescriptor pd : pds) {
+        for (java.beans.PropertyDescriptor pd : pds) {
             Object srcValue = src.getPropertyValue(pd.getName());
             if (srcValue == null) emptyNames.add(pd.getName());
         }
@@ -79,22 +79,22 @@ public class CommonBeanUtil {
     }
 
 
-    public static Map<String, Object> beanTomap(Object bean) throws Exception {
-        Map<String, Object> map = new HashMap();
-        BeanInfo beanInfo = Introspector.getBeanInfo(bean.getClass(), Object.class);
-        PropertyDescriptor[] list = beanInfo.getPropertyDescriptors();
-        PropertyDescriptor[] var4 = list;
-        int var5 = list.length;
-
-        for (int var6 = 0; var6 < var5; ++var6) {
-            PropertyDescriptor pd = var4[var6];
-            String key = pd.getName();
-            Object value = pd.getReadMethod().invoke(bean);
-            map.put(key, value);
-        }
-
-        return map;
-    }
+//    public static Map<String, Object> beanTomap(Object bean) throws Exception {
+//        Map<String, Object> map = new HashMap();
+//        BeanInfo beanInfo = Introspector.getBeanInfo(bean.getClass(), Object.class);
+//        PropertyDescriptor[] list = beanInfo.getPropertyDescriptors();
+//        PropertyDescriptor[] var4 = list;
+//        int var5 = list.length;
+//
+//        for (int var6 = 0; var6 < var5; ++var6) {
+//            PropertyDescriptor pd = var4[var6];
+//            String key = pd.getName();
+//            Object value = pd.getReadMethod().invoke(bean);
+//            map.put(key, value);
+//        }
+//
+//        return map;
+//    }
 
 //    private <T extends BaseTreeDTO> T findChildren(T tree, Collection<T> list) {
 //        for (T node : list) {

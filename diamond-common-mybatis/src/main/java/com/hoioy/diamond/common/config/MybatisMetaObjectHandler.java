@@ -1,7 +1,7 @@
-package com.hoioy.diamond.config;
+package com.hoioy.diamond.common.config;
 
-import com.hoioy.diamond.common.util.CommonSecurityUtils;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
+import com.hoioy.diamond.common.util.CommonSecurityUtils;
 import org.apache.ibatis.reflection.MetaObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +14,7 @@ public class MybatisMetaObjectHandler implements MetaObjectHandler {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MybatisMetaObjectHandler.class);
 
-    // 新增的时候自动填充
+    // 新增时自动填充
     @Override
     public void insertFill(MetaObject metaObject) {
         LOGGER.info("start insert fill ....");
@@ -26,7 +26,7 @@ public class MybatisMetaObjectHandler implements MetaObjectHandler {
         this.setFieldValByName("modifiedBy", currentLogin, metaObject);
     }
 
-    // 更新的税后自动填充
+    // 更新时自动填充
     @Override
     public void updateFill(MetaObject metaObject) {
         String currentLogin = CommonSecurityUtils.getCurrentLogin();

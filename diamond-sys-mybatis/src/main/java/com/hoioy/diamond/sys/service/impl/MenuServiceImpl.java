@@ -20,6 +20,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -58,7 +59,7 @@ public class MenuServiceImpl extends BaseTreeServiceImpl<MenuMapper, Menu, MenuD
         //TODO 优化zhaozhao，直接根据用户id查询菜单
         String userId = iUserInfoService.findIdByLoginName(loginName);
         if (StringUtils.isBlank(userId)) {
-            throw new SysException("用户不存在");
+            throw new SysException(messageSource.getMessage("exception.noUser", null,  LocaleContextHolder.getLocale()));
         }
         List<String> roleIds = iRoleUserService.findRoleIdsByUserIds(Arrays.asList(userId));
         if (CollectionUtils.isEmpty(roleIds)) {
@@ -82,11 +83,11 @@ public class MenuServiceImpl extends BaseTreeServiceImpl<MenuMapper, Menu, MenuD
         ew.in("parent_id", ids);
         List<Menu> children = iBaseRepository.selectList(ew);
         if (CollectionUtil.isNotEmpty(children)) {
-            throw new SysException("所选数据下面含有子元素集合，不能删除！需要先删除子元素");
+            throw new SysException(messageSource.getMessage("exception.hasChild", null,  LocaleContextHolder.getLocale()));
         }
 
         if (CollectionUtil.isNotEmpty(iRoleMenuService.findRoleIdsByMenuIds(ids))) {
-            throw new SysException("所选菜单关联了角色，不能删除！请先删除与角色的关联");
+            throw new SysException(messageSource.getMessage("exception.containRole", null,  LocaleContextHolder.getLocale()));
         }
     }
 

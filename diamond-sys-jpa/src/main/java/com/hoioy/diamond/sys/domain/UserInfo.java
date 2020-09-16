@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 /**
  * 类描述： 用户数据库表的持久类
@@ -84,4 +85,16 @@ public class UserInfo extends BaseDomain {
 
     @Column(name = "integral")
     private Integer integral;
+
+    /**
+     * 经验等等场景
+     */
+    @Column(name = "experience")
+    private Integer experience;
+
+    /**
+     * 账户余额
+     */
+    @Column(name = "balance")
+    private BigDecimal balance;
 }

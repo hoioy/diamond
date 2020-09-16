@@ -35,7 +35,7 @@ public abstract class AbstractBaseServiceImpl<I extends ICommonRepository<D>, D 
     }
 
     @Override
-    public DTO beforeSave(DTO dto) {
+    public DTO beforeCreate(DTO dto) {
         if (!StringUtils.isBlank(dto.getId())) {
             throw new CommonException("此方法只能用于新增操作，更新请调用update方法");
         }

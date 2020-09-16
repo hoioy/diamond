@@ -1,6 +1,5 @@
 package com.hoioy.diamond.common.service;
 
-
 import com.hoioy.diamond.common.domain.CommonDomain;
 import com.hoioy.diamond.common.dto.BaseDTO;
 import com.hoioy.diamond.common.dto.PageDTO;
@@ -15,7 +14,7 @@ public interface IBaseService<DTO extends BaseDTO, D extends CommonDomain> exten
 
     void beforeRemove(List<String> ids);
 
-    DTO beforeSave(DTO dto);
+    DTO beforeCreate(DTO dto);
 
     PageDTO<DTO> getPage(final PageDTO<DTO> pageDTO);
 }

@@ -25,7 +25,7 @@ public abstract class BaseServiceImpl<M extends IBaseMapper<T>, T extends BaseDo
     @Override
     @Transactional(rollbackFor = Exception.class)
     public DTO create(DTO dto) throws BaseException {
-        dto = beforeSave(dto);
+        dto = beforeCreate(dto);
         T t = createDomain();
         CommonBeanUtil.saveCopy(dto, t);
         iBaseRepository.insert(t);
@@ -92,7 +92,7 @@ public abstract class BaseServiceImpl<M extends IBaseMapper<T>, T extends BaseDo
     @Transactional(rollbackFor = Exception.class)
     public boolean batchCreate(List<DTO> dtoList) throws BaseException {
         dtoList.stream().forEach(dto -> {
-            dto = beforeSave(dto);
+            dto = beforeCreate(dto);
             T domain = createDomain();
             CommonBeanUtil.saveCopy(dto, domain);
             iBaseRepository.insert(domain);

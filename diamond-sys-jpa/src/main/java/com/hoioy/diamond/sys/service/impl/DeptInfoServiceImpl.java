@@ -11,6 +11,7 @@ import com.hoioy.diamond.sys.service.IDeptUserService;
 import cn.hutool.core.collection.CollectionUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -39,20 +40,20 @@ public class DeptInfoServiceImpl extends BaseTreeServiceImpl<DeptInfoRepository,
             }
         });
         if (CollectionUtil.isNotEmpty(children)) {
-            throw new SysException("所选数据下面含有子元素集合，不能删除！需要先删除子元素");
+            throw new SysException(messageSource.getMessage("exception.hasChild", null, LocaleContextHolder.getLocale()));
         }
-        if(CollectionUtil.isNotEmpty(iDeptUserService.findSecondIdsByFirstIds(ids))){
-            throw new SysException("所选部门下有用户，不能删除！请先删除所选部门下所有用户");
+        if (CollectionUtil.isNotEmpty(iDeptUserService.findSecondIdsByFirstIds(ids))) {
+            throw new SysException(messageSource.getMessage("exception.containUser", null, LocaleContextHolder.getLocale()));
         }
     }
 
     @Override
     public DeptInfoDTO findById(String id) throws BaseException {
         DeptInfoDTO deptInfoDTO = super.findById(id);
-        if(StringUtils.isNotBlank(deptInfoDTO.getParentId())){
+        if (StringUtils.isNotBlank(deptInfoDTO.getParentId())) {
             DeptInfoDTO parentDTO = findById(deptInfoDTO.getParentId());
             deptInfoDTO.setParentName(parentDTO.getDeptName());
-        }else{
+        } else {
             deptInfoDTO.setParentName("没有上级部门");
         }
         return deptInfoDTO;

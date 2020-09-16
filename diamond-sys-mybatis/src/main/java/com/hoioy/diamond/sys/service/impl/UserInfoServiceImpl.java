@@ -19,6 +19,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -83,18 +84,17 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfoMapper, UserInf
         String userId = null;
         if (dto.getId() == null) {
             userId = create(dto).getId();
+            if (CollectionUtil.isNotEmpty(roleIds)) {
+                List<RoleUserJoinDTO> roleUserJoinDTOS = new ArrayList<>();
+                for (String roleId : roleIds) {
+                    RoleUserJoinDTO roleUserJoinDTO = new RoleUserJoinDTO(roleId, userId);
+                    roleUserJoinDTOS.add(roleUserJoinDTO);
+                }
+
+                Boolean success = iRoleUserService.batchCreate(roleUserJoinDTOS);
+            }
         } else {
             userId = update(dto).getId();
-        }
-
-        if (CollectionUtil.isNotEmpty(roleIds)) {
-            List<RoleUserJoinDTO> roleUserJoinDTOS = new ArrayList<>();
-            for (String roleId : roleIds) {
-                RoleUserJoinDTO roleUserJoinDTO = new RoleUserJoinDTO(roleId, userId);
-                roleUserJoinDTOS.add(roleUserJoinDTO);
-            }
-
-            Boolean success = iRoleUserService.batchCreate(roleUserJoinDTOS);
         }
 
         return userId;
@@ -127,10 +127,10 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfoMapper, UserInf
         List<String> roleIds = iRoleUserService.findRoleIdsByUserIds(ids);
         List<String> deptIds = iDeptUserService.findDeptIdsByUserIds(ids);
         if (CollectionUtil.isNotEmpty(roleIds)) {
-            throw new SysException("有用户与角色关联，不能删除！");
+            throw new SysException(messageSource.getMessage("exception.containRole", null,  LocaleContextHolder.getLocale()));
         }
         if (CollectionUtil.isNotEmpty(deptIds)) {
-            throw new SysException("有用户与机构单位关联，不能删除！");
+            throw new SysException(messageSource.getMessage("exception.containDept", null,  LocaleContextHolder.getLocale()));
         }
     }
 

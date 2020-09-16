@@ -55,7 +55,7 @@ public abstract class BaseServiceImpl<I extends IBaseRepository<D>, D extends Ba
     @Override
     @Transactional(rollbackFor = Exception.class)
     public DTO create(DTO dto) throws BaseException {
-        dto = beforeSave(dto);
+        dto = beforeCreate(dto);
         D t = dtoToDomain(dto, true);
         t = iBaseRepository.saveAndFlush(t);
         return domainToDTO(t);
@@ -66,7 +66,7 @@ public abstract class BaseServiceImpl<I extends IBaseRepository<D>, D extends Ba
     public boolean batchCreate(List<DTO> dtoList) throws BaseException {
         List<D> ts = new ArrayList();
         dtoList.forEach(dto -> {
-            dto = beforeSave(dto);
+            dto = beforeCreate(dto);
             D t = dtoToDomain(dto, true);
             ts.add(t);
         });
@@ -153,3 +153,4 @@ public abstract class BaseServiceImpl<I extends IBaseRepository<D>, D extends Ba
         return CommonJpaPageUtil.getInstance().toSpecWithLogicType(main, logicType);
     }
 }
+

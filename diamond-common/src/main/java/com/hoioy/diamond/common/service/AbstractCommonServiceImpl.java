@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.context.MessageSource;
 
 import java.util.List;
 
@@ -25,6 +26,9 @@ abstract class AbstractCommonServiceImpl<I extends ICommonRepository<D>, D exten
 
     @Autowired
     protected I iBaseRepository;
+
+    @Autowired
+    protected MessageSource messageSource;
 
     @Override
     public final Class<D> getDomainClass() {

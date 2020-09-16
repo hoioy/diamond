@@ -10,6 +10,7 @@ import com.hoioy.diamond.sys.service.IUserGroupService;
 import com.hoioy.diamond.sys.service.IUserGroupUserService;
 import cn.hutool.core.collection.CollectionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,10 +27,10 @@ public class UserGroupServiceImpl extends BaseServiceImpl<UserGroupRepository, U
     public void beforeRemove(List<String> ids) {
         super.beforeRemove(ids);
         if (CollectionUtil.isNotEmpty(iUserGroupUserService.findUserIdsByGroupIds(ids))) {
-            throw new SysException("所选用户组关联了用户，不能删除！请先删除与用户的关联");
+            throw new SysException(messageSource.getMessage("exception.containUser", null,  LocaleContextHolder.getLocale()));
         }
         if (CollectionUtil.isNotEmpty(iRoleGroupService.findSecondIdsByFirstIds(ids))) {
-            throw new SysException("所选用户组关联了角色，不能删除！请先删除与角色的关联");
+            throw new SysException(messageSource.getMessage("exception.containRole", null,  LocaleContextHolder.getLocale()));
         }
     }
 }

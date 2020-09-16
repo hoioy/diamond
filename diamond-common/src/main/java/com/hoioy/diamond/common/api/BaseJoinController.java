@@ -10,6 +10,7 @@ import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,6 +24,9 @@ public abstract class BaseJoinController<S extends IBaseJoinService, DTO extends
     protected Logger log = LoggerFactory.getLogger(getClass());
     @Autowired
     protected S iBaseService;
+
+    @Autowired
+    protected MessageSource messageSource;
 
     @Valid
     @ApiOperation(value = "001.新增")
@@ -58,7 +62,7 @@ public abstract class BaseJoinController<S extends IBaseJoinService, DTO extends
         return new ResultDTO<Boolean>(isSuccess);
     }
 
-    @ApiOperation(value = "005.同时删除和新增",notes = "不用传递id属性")
+    @ApiOperation(value = "005.同时删除和新增", notes = "不用传递id属性")
     @ApiOperationSupport(order = 5)
     @PostMapping("/batch-save")
     @Transactional
@@ -73,7 +77,7 @@ public abstract class BaseJoinController<S extends IBaseJoinService, DTO extends
     @ApiOperationSupport(order = 3)
     @PutMapping
     public ResultDTO<DTO> update(@RequestBody DTO dto) throws BaseException {
-        Boolean removeResult =  iBaseService.removeById(dto.getId());
+        Boolean removeResult = iBaseService.removeById(dto.getId());
         DTO resultDTO = (DTO) iBaseService.create(dto);
         return new ResultDTO(resultDTO);
     }

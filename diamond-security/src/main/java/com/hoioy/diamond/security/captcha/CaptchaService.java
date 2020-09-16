@@ -20,14 +20,14 @@ public class CaptchaService {
     private static final String captchaSameIpLimitRedisKeyPre = "base:ipLimitPerMinutes";
 
     //是否启用验证码逻辑
-    @Value("${base.security.captcha-enable}")
-    private String captchaEnable = captchaEnableOn;
+    @Value("${base.security.captcha-enable:on}")
+    private String captchaEnable;
     //验证码有效期，单位：秒
-    @Value("${base.security.captcha-max-wait-second}")
-    private long captchaMaxWaitSecond = 600l;
+    @Value("${base.security.captcha-max-wait-second:600}")
+    private long captchaMaxWaitSecond ;
     //同一个IP地址，每分钟限制请求多少次验证码
-    @Value("${base.security.captcha-same-ip-limit-per-minutes}")
-    private long captchaSameIpLimitPerMinutes = 60;
+    @Value("${base.security.captcha-same-ip-limit-per-minutes:60}")
+    private long captchaSameIpLimitPerMinutes ;
     @Autowired
     private CommonRedisUtil commonRedisUtil;
 

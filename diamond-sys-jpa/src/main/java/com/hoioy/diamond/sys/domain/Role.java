@@ -25,7 +25,7 @@ public class Role extends BaseDomain {
 
     @Column(name = "role_description")
     @CommonJpaQueryWord(func = CommonJpaQueryWord.MatchType.like)
-    private String roleDesc;
+    private String roleDescription;
 
     @Column(name = "role_index")
     private Integer roleIndex;

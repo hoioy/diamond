@@ -78,32 +78,29 @@ public class AuthorityController {
         String loginName = (String) userInfo.get("loginName");
         String email = (String) userInfo.get("email");
         String avatar = (String) userInfo.get("avatar");
-        //有一些不在用户表中-比如测试用户admin，可能这部分逻辑还要改。
+        //有一些用户不在用户表中-比如测试用户admin，可能这部分逻辑还要改。
         if (null == loginName) {
             loginName = name;
         }
         dto.setLoginName(loginName);
         String userId = userService.findIdByLoginName(dto.getLoginName());
-
-        if (StringUtils.isBlank(userId)) {
-            //如果本系统没有此用户，则新增
-            //用户信息填充
-            dto.setUserName(name);
-            if (StringUtils.isNotEmpty(email)) {
-                dto.setEmail(email);
-            } else {
-                dto.setEmail("未知");
-            }
-            dto.setAvatar(avatar);
-            dto.setState("1");
-            //用户所属角色填充
-            //TODO 默认角色写死了
-            RoleDTO role = roleService.findByRoleName("ROLE_USER");
-            //入库
-            String id = userService.saveUserWithRoles(dto, Arrays.asList(role.getId()));
-            logger.info("bindUser id={}", id);
+        dto.setId(userId);
+        //如果本系统没有此用户，则新增
+        //用户信息填充
+        dto.setUserName(name);
+        if (StringUtils.isNotEmpty(email)) {
+            dto.setEmail(email);
+        } else {
+            dto.setEmail("未知");
         }
-
+        dto.setAvatar(avatar);
+        dto.setState("1");
+        //用户所属角色填充
+        //TODO 默认角色写死了
+        RoleDTO role = roleService.findByRoleName("ROLE_USER");
+        //入库
+        String id = userService.saveUserWithRoles(dto, Arrays.asList(role.getId()));
+        logger.info("bindUser id={}", id);
         logger.info("bindUser dto={}", dto);
         return new ResultDTO(dto);
     }

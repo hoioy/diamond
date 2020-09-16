@@ -26,7 +26,7 @@ public class WebMonitorLog {
     @Autowired
     private IWebLogsService iWebLogsService;
 
-    @Value("${base.log.lock}")
+    @Value("${base.log.lock:on}")
     public String loglock;
 
     /**

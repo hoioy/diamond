@@ -8,7 +8,7 @@ import java.net.UnknownHostException;
 import java.util.Enumeration;
 
 /**
- * 获取对象的IP地址等信息)
+ * 获取对象的IP地址等信息
  */
 public class WebSiteUtil {
 

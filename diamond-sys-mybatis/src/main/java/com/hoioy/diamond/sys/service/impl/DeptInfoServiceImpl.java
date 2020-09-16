@@ -13,6 +13,7 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -44,11 +45,11 @@ public class DeptInfoServiceImpl extends BaseTreeServiceImpl<DeptInfoMapper, Dep
         ew.in("parent_id", ids);
         List<DeptInfo> children = iBaseRepository.selectList(ew);
         if (CollectionUtil.isNotEmpty(children)) {
-            throw new SysException("所选数据下面含有子元素集合，不能删除！需要先删除子元素");
+            throw new SysException(messageSource.getMessage("exception.hasChild", null,  LocaleContextHolder.getLocale()));
         }
 
         if (CollectionUtil.isNotEmpty(iDeptUserService.findSecondIdsByFirstIds(ids))) {
-            throw new SysException("所选部门下有用户，不能删除！请先删除所选部门下所有用户");
+            throw new SysException(messageSource.getMessage("exception.containUser", null,  LocaleContextHolder.getLocale()));
         }
     }
 

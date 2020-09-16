@@ -11,6 +11,7 @@ import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -20,6 +21,9 @@ public abstract class BaseController<S extends IBaseService, DTO extends BaseDTO
     protected Logger log = LoggerFactory.getLogger(getClass());
     @Autowired
     protected S iBaseService;
+
+    @Autowired
+    protected MessageSource messageSource;
 
     @Valid
     @ApiOperation(value = "001.新增")

@@ -14,6 +14,7 @@ import com.hoioy.diamond.sys.service.IRoleUserService;
 import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -46,13 +47,13 @@ public class RoleServiceImpl extends BaseServiceImpl<RoleMapper, Role, RoleDTO> 
     public void beforeRemove(List<String> ids) {
         super.beforeRemove(ids);
         if (CollectionUtil.isNotEmpty(iRoleMenuService.findRoleIdsByMenuIds(ids))) {
-            throw new SysException("所选角色关联了菜单，不能删除！请先删除与菜单的关联");
+            throw new SysException(messageSource.getMessage("exception.containMenu", null,  LocaleContextHolder.getLocale()));
         }
         if (CollectionUtil.isNotEmpty(iRoleGroupService.findFirstIdsBySecondIds(ids))) {
-            throw new SysException("所选角色关联了用户组，不能删除！请先删除与用户组的关联");
+            throw new SysException(messageSource.getMessage("exception.containGroup", null,  LocaleContextHolder.getLocale()));
         }
         if (CollectionUtil.isNotEmpty(iRoleUserService.findUserIdsByRoleIds(ids))) {
-            throw new SysException("所选角色关联了用户，不能删除！请先删除与用户的关联");
+            throw new SysException(messageSource.getMessage("exception.containUser", null,  LocaleContextHolder.getLocale()));
         }
     }
 }

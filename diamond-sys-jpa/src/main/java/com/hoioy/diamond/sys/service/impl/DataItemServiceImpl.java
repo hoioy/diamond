@@ -9,6 +9,7 @@ import com.hoioy.diamond.sys.dto.DataItemDTO;
 import com.hoioy.diamond.sys.exception.SysException;
 import com.hoioy.diamond.sys.service.IDataItemService;
 import cn.hutool.core.collection.CollectionUtil;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
@@ -33,16 +34,16 @@ public class DataItemServiceImpl extends BaseTreeServiceImpl<DataItemRepository,
             }
         });
         if (CollectionUtil.isNotEmpty(children)) {
-            throw new SysException("所选数据下面含有子元素集合，不能删除！需要先删除子元素");
+            throw new SysException(messageSource.getMessage("exception.hasChild", null,  LocaleContextHolder.getLocale()));
         }
     }
 
-	@Override
-	public PageDTO<DataItemDTO> findDataItemByTypePageable(PageDTO<DataItemDTO> pageDTO) {
+    @Override
+    public PageDTO<DataItemDTO> findDataItemByTypePageable(PageDTO<DataItemDTO> pageDTO) {
         PageRequest pageable = CommonJpaPageUtil.getInstance().toPageRequest(pageDTO);
         Page<DataItemDTO> pageList = iBaseRepository.findDataItemPageable(pageDTO.getFilters(), pageable);
         pageDTO.setTotal(pageList.getTotalElements());
         pageDTO.setList(pageList.getContent());
         return pageDTO;
-	}
+    }
 }
