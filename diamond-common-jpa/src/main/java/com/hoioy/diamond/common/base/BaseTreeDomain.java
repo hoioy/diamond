@@ -1,5 +1,6 @@
 package com.hoioy.diamond.common.base;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
