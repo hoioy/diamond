@@ -63,4 +63,10 @@ public class UserInfo extends BaseDomain {
      */
     private BigDecimal balance;
 
+
+    /**
+     * 余额
+     */
+    private String openid;
+
 }

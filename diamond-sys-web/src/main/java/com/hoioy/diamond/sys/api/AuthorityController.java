@@ -78,6 +78,7 @@ public class AuthorityController {
         String loginName = (String) userInfo.get("loginName");
         String email = (String) userInfo.get("email");
         String avatar = (String) userInfo.get("avatar");
+        String openid = (String) userInfo.get("openid");
         //有一些用户不在用户表中-比如测试用户admin，可能这部分逻辑还要改。
         if (null == loginName) {
             loginName = name;
@@ -87,7 +88,9 @@ public class AuthorityController {
         dto.setId(userId);
         //如果本系统没有此用户，则新增
         //用户信息填充
+        dto.setOpenid(openid);
         dto.setUserName(name);
+
         if (StringUtils.isNotEmpty(email)) {
             dto.setEmail(email);
         } else {

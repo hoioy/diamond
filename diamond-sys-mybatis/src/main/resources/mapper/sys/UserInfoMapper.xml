@@ -30,6 +30,7 @@
         <result column="user_name" property="userName"/>
         <result column="experience" property="experience"/>
         <result column="balance" property="balance"/>
+        <result column="openid" property="openid"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
@@ -37,13 +38,13 @@
         id,
         flag,
         created_by, created_date, modified_by, modified_date, address, avatar, avatar_content, birthday, blog, email, gender, id_number, integral, login_name, nickname, phone_num, remark, state, tag, user_index, user_name,
-        experience,balance
+        experience,balance,openid
     </sql>
     <!-- 通用查询结果列 -->
     <sql id="Page_Column_List">
         u.id,u.flag,u.created_by, u.created_date, u.modified_by, u.modified_date, u.remark, u.state,
         u.address, u.avatar, u.avatar_content, u.birthday,u.blog, u.email, u.gender, u.id_number, u.integral,
-        u.login_name, u.nickname, u.phone_num, u.tag, u.user_index, u.user_name,u.experience,u.balance
+        u.login_name, u.nickname, u.phone_num, u.tag, u.user_index, u.user_name,u.experience,u.balance,u.openid
     </sql>
     <select id="selectPage" resultMap="BaseResultMap">
         select
@@ -54,6 +55,9 @@
         flag=1
         <if test="userInfo.createdBy != null and userInfo.createdBy != ''">
             AND created_by = #{userInfo.createdBy}
+        </if>
+        <if test="userInfo.openid != null and userInfo.openid != ''">
+            AND openid = #{userInfo.openid}
         </if>
         <if test="userInfo.createdDate != null and userInfo.createdDate != ''">
             AND created_date = #{userInfo.createdDate}
@@ -176,6 +180,9 @@
         u.flag=1
         <if test="userInfoDTO.createdBy != null and userInfoDTO.createdBy != ''">
             AND u.created_by = #{userInfoDTO.createdBy}
+        </if>
+        <if test="userInfo.openid != null and userInfo.openid != ''">
+            AND openid = #{userInfo.openid}
         </if>
         <if test="userInfoDTO.createdDate != null and userInfoDTO.createdDate != ''">
             AND u.created_date = #{userInfoDTO.createdDate}

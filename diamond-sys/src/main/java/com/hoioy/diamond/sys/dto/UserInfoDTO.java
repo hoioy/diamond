@@ -54,6 +54,10 @@ public class UserInfoDTO extends CommonUserDTO {
      * 余额
      */
     private BigDecimal balance;
+    /**
+     * openid
+     */
+    private String openid;
 
     //以下是复合属性
     private String roleId;
@@ -62,7 +66,7 @@ public class UserInfoDTO extends CommonUserDTO {
     public UserInfoDTO(String id, String createdBy, LocalDateTime createdDate, String modifiedBy, LocalDateTime modifiedDate, Integer flag, String remark,
                        String loginName, String password, String userName, String phoneNum, String state,
                        Integer userIndex, String email, String nickname, String gender, String address, String blog, String tag,
-                       String avatar, String idNumber, String birthday, Integer integral) {
+                       String avatar, String idNumber, String birthday, Integer integral,String openid) {
         super.setId(id);
         super.setCreatedBy(createdBy);
         super.setCreatedDate(createdDate);
@@ -86,5 +90,6 @@ public class UserInfoDTO extends CommonUserDTO {
         this.idNumber = idNumber;
         this.birthday = birthday;
         this.integral = integral;
+        this.openid = openid;
     }
 }
