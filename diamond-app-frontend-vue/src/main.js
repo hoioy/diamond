@@ -19,6 +19,8 @@ import components from '@/views/common'
 import * as filters from '@/filters'
 import { hasPermissionforviews } from '@/utils/permission' // 按钮权限
 
+process.env.VUE_APP_MOCK === 'mock' && require('@src/diamond/mock')
+
 Vue.use(Element, {
   size: 'small'
 })

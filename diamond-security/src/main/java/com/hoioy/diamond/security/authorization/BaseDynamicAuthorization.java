@@ -13,7 +13,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * TDF Security动态鉴权实现类
+ * Diamond Security动态鉴权实现类
  */
 public abstract class BaseDynamicAuthorization {
     /**

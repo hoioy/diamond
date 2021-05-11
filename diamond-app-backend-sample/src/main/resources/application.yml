@@ -38,6 +38,21 @@ spring:
       max-file-size: 20MB
       max-request-size: 20MB
 
+mybatis-plus:
+  #扫描多个模块下的mapper.xml
+  mapper-locations: classpath*:mapper/**/*.xml
+  type-aliases-package: com.hoioy.diamond.log.domain,com.hoioy.diamond.sys.domain     #MyBaits 别名包扫描路径，通过该属性可以给包中的类注册别名，注册后在 Mapper 对应的 XML 文件中可以直接使用类名，而不用使用全限定的类名
+  #type-aliases-super-type: java.lang.Object     #该配置请和 typeAliasesPackage 一起使用，如果配置了该属性，则仅仅会扫描路径下以该类作为父类的域对象 。
+  global-config:
+    db-config:
+      logic-delete-field: flag             #全局逻辑删除字段值 3.3.0开始支持，详情看下面。
+      logic-delete-value: 0                # 逻辑已删除值(默认为 1)
+      logic-not-delete-value: 1            # 逻辑未删除值(默认为 0)
+  configuration:
+    map-underscore-to-camel-case: true     #是否开启自动驼峰命名规则（camel case）映射,如果明明规范不需要使用@TableField
+    cache-enabled: false
+    call-setters-on-nulls: true
+
 base:
   sys:
     file-storage:

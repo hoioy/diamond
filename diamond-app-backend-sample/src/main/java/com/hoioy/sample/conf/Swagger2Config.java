@@ -58,9 +58,9 @@ public class Swagger2Config implements WebMvcConfigurer {
         return new ApiInfo(
                 "开发框架",
                 "获取swagger的token：" +
-                        "第一步验证码：curl http://localhost:7779/captcha    " +
-                        "第二部模拟登录获取token：curl -i -X POST -d \"username=admin&password=admin&captchaCode={上一步获取的验证码}&captchaKey={上一步获取的key}\" http://localhost:7779/login  " +
-                        "可以使用curl命令或者postman等发起post请求，获取token,然后粘贴到swagger的Authorize中",
+                        "第一步-获取验证码：curl http://localhost:7779/captcha    " +
+                        "第二步-模拟登录获取token：curl -i -X POST -d \"username=admin&password=admin&captchaCode={上一步获取的验证码}&captchaKey={上一步获取的key}\" http://localhost:7779/login  " +
+                        "第三步-可以使用curl命令或者postman等发起post请求，获取token,然后粘贴到swagger的Authorize中",
                 "1.0.1",
                 "http://localhost:7779/",
                 new Contact("zhaozhao", "http://hoioy.com", ""),

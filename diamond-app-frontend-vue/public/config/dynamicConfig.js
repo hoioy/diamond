@@ -2,8 +2,8 @@ var __config = {
 // 生产上
   VUE_APP_BASE_API: 'http://192.168.70.44:8889/',
   VUE_APP_OAUTH_userAuthorizationUri: 'http://192.168.99.77:9998/oauth/authorize',
-  VUE_APP_OAUTH_clientId: 'uivue',
-  VUE_APP_OAUTH_client_secret: 'uivue',
+  VUE_APP_OAUTH_clientId: 'tdfuivue',
+  VUE_APP_OAUTH_client_secret: 'tdfuivue',
   VUE_APP_OAUTH_response_type: 'code',
   VUE_APP_OAUTH_scope: 'user_info',
   VUE_APP_OAUTH_state: '',

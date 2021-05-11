@@ -21,14 +21,13 @@ module.exports = {
   // webpack配置
   chainWebpack: config => {
     config.resolve.alias
-      .set('@svg', resolve('./src/common/icons/svg'))
-      .set('@', resolve('src/common'))
-      .set('@folder-outside-request', resolve('src/common/utils'))// request的路径，为了动态配置模块中请求地址
-      .set('@folder-inside-views-common', resolve('src/sys/views/common/mixins'))// request的路径，为了动态配置模块中请求地址
-      .set('@folder-inside-utils', resolve('src/sys/utils'))// request的路径，为了动态配置模块中请求地址
-      .set('@src', resolve('src'))
-      .set('@sys', resolve('src/sys'))
-    // config.resolve.alias.set('querystring', 'querystring-browser')
+      .set('@svg', resolve('./src/diamond/icons/svg'))
+      .set('@', resolve('src/diamond'))
+      .set('@folder-outside-request', resolve('src/diamond/utils'))// request的路径，为了动态配置模块中请求地址
+      .set('@folder-inside-views-common', resolve('src/diamond-sys/views/common/mixins'))// 页面的配置
+      .set('@folder-inside-utils', resolve('src/diamond-sys/utils'))// utils的路径-模块内部
+      .set('@src', resolve('src'))// 根路径
+      .set('diamond-sys', resolve('src/diamond-sys'))// 模块路径
     config.module.rules.delete('svg') // 重点:删除默认配置中处理svg,
     // 关闭 npm run build时 webpack性能提示
     config.performance
@@ -39,7 +38,7 @@ module.exports = {
       .rule('svg-sprite-loader')
       .test(/\.svg$/)
       .include
-      .add(resolve('src/common/icons/svg')) // 处理svg目录
+      .add(resolve('src/diamond/icons/svg')) // 处理svg目录
       .end()
       .use('svg-sprite-loader')
       .loader('svg-sprite-loader')
@@ -59,9 +58,7 @@ module.exports = {
       config.optimization.splitChunks({
         chunks: 'all'
       })
-      // cdn
     }
-    //   测试环境
   },
   // webpack配置
   configureWebpack: config => {
@@ -100,7 +97,6 @@ module.exports = {
       //         @import "@/styles"
       //     `
       // }
-
     },
     // 启用 CSS modules for all css / pre-process.or files
     requireModuleExtension: true
@@ -108,7 +104,7 @@ module.exports = {
   devServer: {
     open: process.platform === 'darwin',
     host: '0.0.0.0',
-    port: 9527,
+    port: 9527, // 页面访问端口号
     https: false,
     hotOnly: false,
     // 查阅 https://github.com/vuejs/vue-doc-zh-cn/vue-cli/cli-service.md#配置代理

@@ -229,7 +229,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new BaseDynamicAuthorization() {
             @Override
             protected Set<String> getRequiredAuthoritySet(HttpServletRequest request) {
-                // TODO 每次请求都要调用此方法，因此一定要加缓存，TDF使用的是Spring Cache
+                // TODO 每次请求都要调用此方法，因此一定要加缓存，Diamond使用的是Spring Cache
                 // TODO 现在是绝对匹配，不支持模糊匹配，用户可以在此自定义扩展其他资源与角色的匹配逻辑，如支持 /** 这种模糊匹配
                 // TODO menuUrl与requestUrl没有任何关系,所以TaijiAccessDecisionManager的逻辑一直没有生效
                 String requestUrl = request.getRequestURI();
