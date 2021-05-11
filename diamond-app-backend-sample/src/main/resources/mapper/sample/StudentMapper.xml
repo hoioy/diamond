@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hoioy.sample.mapper.StudentMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.hoioy.sample.domain.Student">
+        <result column="id" property="id"/>
+        <result column="created_by" property="createdBy"/>
+        <result column="created_date" property="createdDate"/>
+        <result column="modified_by" property="modifiedBy"/>
+        <result column="modified_date" property="modifiedDate"/>
+        <result column="flag" property="flag"/>
+        <result column="remark" property="remark"/>
+        <result column="student_name" property="studentName"/>
+        <result column="student_class" property="studentClass"/>
+        <result column="student_sex" property="studentSex"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,
+        created_by,
+        created_date,
+        modified_by,
+        modified_date,
+        flag,
+        remark,
+        student_name, student_class, student_sex
+    </sql>
+
+    <select id="selectPage" resultType="com.hoioy.sample.domain.Student">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        student
+        where
+        flag=1
+        <if test="student.studentName != null and student.studentName != ''">
+            AND student_name = #{student.studentName}
+        </if>
+        <if test="student.studentClass != null and student.studentClass != ''">
+            AND student_class = #{student.studentClass}
+        </if>
+        <if test="student.studentSex != null and student.studentSex != ''">
+            AND student_sex = #{student.studentSex}
+        </if>
+    </select>
+
+    <select id="selectTime"  resultType="java.lang.String">
+        select
+        <if test="_databaseId == 'mysql'">
+            now()
+        </if>
+        <if test="_databaseId == 'oracle'">
+            sysdate
+        </if>
+        from dual
+    </select>
+    <select id="findByStudentClass" resultType="com.hoioy.sample.domain.Student">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        student
+        where
+        flag=1
+        AND student_class = #{student.studentClass}
+
+    </select>
+
+</mapper>

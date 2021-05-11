@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hoioy.sample.mapper.CourseStudentScoreMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.hoioy.sample.domain.CourseStudentScore">
+        <result column="id" property="id"/>
+        <result column="course_id" property="courseId"/>
+        <result column="score" property="score"/>
+        <result column="student_id" property="studentId"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,
+        course_id, score, student_id
+    </sql>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Page_Column_List">
+        css.id,
+        stu.created_by,
+        stu.created_date,
+        stu.modified_by,
+        stu.modified_date,
+        stu.flag,
+        stu.remark,
+        stu.student_name, stu.student_class, stu.student_sex,cou.course_name,
+        css.score,css.student_id,css.course_id
+    </sql>
+
+    <select id="selectPage" resultType="com.hoioy.sample.domain.CourseStudentScore">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        course_student_score
+        where
+        flag=1
+        <if test="courseStudentScore.courseId != null and courseStudentScore.courseId != ''">
+            AND course_id = #{courseStudentScore.courseId}
+        </if>
+        <if test="courseStudentScore.score != null and courseStudentScore.score != ''">
+            AND score = #{courseStudentScore.score}
+        </if>
+        <if test="courseStudentScore.studentId != null and courseStudentScore.studentId != ''">
+            AND student_id = #{courseStudentScore.studentId}
+        </if>
+    </select>
+    <select id="findScoreWithNamesPageable" resultType="java.util.Map">
+        select
+        <include refid="Page_Column_List"/>
+        from
+        course_student_score css
+        LEFT JOIN   student stu ON css.student_id = stu.id
+        LEFT JOIN course cou ON css.course_id = cou.id
+        where  cou.flag=1 and stu.flag=1
+        <if test="scoreWithNamesDTO.score != null and scoreWithNamesDTO.score != ''">
+            AND css.score = #{scoreWithNamesDTO.score}
+        </if>
+        <if test="scoreWithNamesDTO.studentName != null and scoreWithNamesDTO.studentName != ''">
+            AND stu.student_name = #{scoreWithNamesDTO.studentName}
+        </if>
+        <if test="scoreWithNamesDTO.studentClass != null and scoreWithNamesDTO.studentClass != ''">
+            AND stu.student_class = #{scoreWithNamesDTO.studentClass}
+        </if>
+        <if test="scoreWithNamesDTO.studentSex != null and scoreWithNamesDTO.studentSex != ''">
+            AND stu.student_sex = #{scoreWithNamesDTO.studentSex}
+        </if>
+        <if test="scoreWithNamesDTO.courseName != null and scoreWithNamesDTO.courseName != ''">
+            AND cou.course_name = #{scoreWithNamesDTO.courseName}
+        </if>
+        <if test="scoreWithNamesDTO.studentId != null and scoreWithNamesDTO.studentId != ''">
+            AND student_id = #{scoreWithNamesDTO.studentId}
+        </if>
+        <if test="scoreWithNamesDTO.courseId != null and scoreWithNamesDTO.courseId != ''">
+            AND course_id = #{scoreWithNamesDTO.courseId}
+        </if>
+    </select>
+</mapper>

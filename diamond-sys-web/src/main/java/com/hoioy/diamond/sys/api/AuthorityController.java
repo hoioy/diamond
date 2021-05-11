@@ -12,7 +12,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
@@ -81,7 +80,7 @@ public class AuthorityController {
         String email = (String) userInfo.get("email");
         String avatar = (String) userInfo.get("avatar");
         //有一些用户不在用户表中-比如测试用户admin，可能这部分逻辑还要改。
-        if (StringUtils.isEmpty(loginName)) {
+        if (StrUtil.isEmpty(loginName)) {
             loginName = name;
         }
         dto.setLoginName(loginName);

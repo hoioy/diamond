@@ -43,6 +43,7 @@ public class Swagger2Config implements WebMvcConfigurer {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.hoioy.diamond.sys.api")
+                        .or(RequestHandlerSelectors.basePackage("com.hoioy.sample.api"))
                         .or(RequestHandlerSelectors.basePackage("com.hoioy.diamond.log.api"))
                         .or(RequestHandlerSelectors.basePackage("com.hoioy.diamond.security.api"))
                         .or(RequestHandlerSelectors.basePackage("com.hoioy.diamond.security.jwt.api")))

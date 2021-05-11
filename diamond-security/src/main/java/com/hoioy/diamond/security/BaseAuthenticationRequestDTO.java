@@ -1,10 +1,11 @@
 package com.hoioy.diamond.security;
 
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.util.StringUtils;
+
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;
@@ -35,7 +36,7 @@ public class BaseAuthenticationRequestDTO implements Serializable {
         //TODO 校验验证码逻辑 从请求中获取验证码参数
         //优先从parameter获取
         String username = request.getParameter(usernameParameter);
-        if (StringUtils.isEmpty(username)) {
+        if (StrUtil.isEmpty(username)) {
             //如果拿不到，以Json格式从body中获取
             String json = getPostData(request);
 

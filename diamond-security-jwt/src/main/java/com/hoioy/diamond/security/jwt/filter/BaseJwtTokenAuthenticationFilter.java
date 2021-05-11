@@ -1,5 +1,6 @@
 package com.hoioy.diamond.security.jwt.filter;
 
+import cn.hutool.core.util.StrUtil;
 import com.hoioy.diamond.security.BaseConstants;
 import com.hoioy.diamond.security.jwt.converter.BaseJwtTokenAuthenticationConverter;
 import com.hoioy.diamond.security.jwt.converter.BaseJwtTokenConverter;
@@ -9,7 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
-import org.springframework.util.StringUtils;
+
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -33,7 +34,7 @@ public class BaseJwtTokenAuthenticationFilter extends OncePerRequestFilter {
         String tokenHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
         //如果请求头为空,可能是非法请求,也可能是被permitAll的请求,在该filter不做安全考虑,统一进行放行,
         // 交给后续FilterSecurityInterceptor去判断该请求是否合法
-        if (!StringUtils.startsWithIgnoreCase(tokenHeader, BaseConstants.TOKEN_PREFIX)) {
+        if (!StrUtil.startWithIgnoreCase(tokenHeader, BaseConstants.TOKEN_PREFIX)) {
             filterChain.doFilter(request, response);
             return;
         }

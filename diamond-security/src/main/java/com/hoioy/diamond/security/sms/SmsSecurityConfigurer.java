@@ -62,7 +62,7 @@ public class SmsSecurityConfigurer<H extends HttpSecurityBuilder<H>> extends Abs
         smsAuthenticationFilter.setAuthenticationManager(authenticationManager);
         smsAuthenticationFilter.setResponseHandle(this.responseHandle);
         smsAuthenticationFilter.setSmsCodeHandler(this.smsCodeHandler);
-        //TODO zhaozhao为了将此类移动到tdf security模块中，暂时注释，改用外部配置的方式
+        //TODO zhaozhao为了将此类移动到diamond security模块中，暂时注释，改用外部配置的方式
 //        smsAuthenticationFilter.setAuthenticationSuccessHandler(new JwtSuccessHandler());
         http.addFilterBefore(smsAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
     }
