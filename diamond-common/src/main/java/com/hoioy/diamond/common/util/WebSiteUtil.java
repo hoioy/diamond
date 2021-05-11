@@ -1,5 +1,8 @@
 package com.hoioy.diamond.common.util;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.servlet.http.HttpServletRequest;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
@@ -11,7 +14,7 @@ import java.util.Enumeration;
  * 获取对象的IP地址等信息
  */
 public class WebSiteUtil {
-
+    private static final Logger logger = LoggerFactory.getLogger(WebSiteUtil.class);
     /**
      * 判断请求来源
      * @param request
@@ -101,17 +104,16 @@ public class WebSiteUtil {
                     for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements(); ) {
                         InetAddress inetAddress = enumIpAddr.nextElement();
                         if (!inetAddress.isLoopbackAddress()) {
-                            String ipaddress = inetAddress.getHostAddress().toString();
+                            String ipaddress = inetAddress.getHostAddress();
                             if (!ipaddress.contains("::") && !ipaddress.contains("0:0:") && !ipaddress.contains("fe80")) {
                                 ip = ipaddress;
-                                System.out.println(ipaddress);
                             }
                         }
                     }
                 }
             }
         } catch (SocketException ex) {
-            System.out.println("获取ip地址异常");
+            logger.error("获取ip地址异常");
             ip = "127.0.0.1";
             ex.printStackTrace();
         }

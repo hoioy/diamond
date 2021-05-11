@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hoioy.diamond.sys.mapper.DataItemMapper">
-
-
     <resultMap id="MapperResultMap" type="com.hoioy.diamond.sys.domain.DataItem">
         <result column="id" property="id"/>
         <result column="flag" property="flag"/>
@@ -36,7 +34,7 @@
         select
         <include refid="selectPage_Column_List"/>
         from
-        data_item  di
+        data_item di
         LEFT JOIN data_item_type dit ON di.data_item_type_id = dit.id
         where
         di.flag=1
@@ -47,23 +45,24 @@
             AND data_item_type_id = #{dataItem.dataItemTypeId}
         </if>
         <if test="dataItem.name != null and dataItem.name != ''">
-            AND name = #{dataItem.name}
+            AND name LIKE "%"#{dataItem.name}"%"
         </if>
         <if test="dataItem.parentId != null and dataItem.parentId != ''">
             AND parent_id = #{dataItem.parentId}
         </if>
     </select>
-    <select id="findByCode" resultMap="MapperResultMap">
-        select
+    <select id="findByDataItemTypeId" resultMap="MapperResultMap">
+        SELECT
         <include refid="Base_Column_List"/>
         from
         data_item
         where
-        code = #{code}
-        and
         flag=1
+        and data_item_type_id in
+        <foreach collection="dataItemTypeIds" item="dataItemTypeId" index="index" open="(" close=")" separator=",">
+            #{dataItemTypeId}
+        </foreach>
     </select>
-
 
 
 </mapper>

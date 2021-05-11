@@ -2,9 +2,10 @@ package com.hoioy.diamond.sys.service;
 
 import com.hoioy.diamond.common.domain.CommonDomain;
 import com.hoioy.diamond.common.service.IBaseTreeService;
+import com.hoioy.diamond.common.util.CommonCacheUtil;
 import com.hoioy.diamond.sys.dto.MenuDTO;
 import com.hoioy.diamond.sys.dto.MenuRouterDTO;
-import org.apache.commons.lang3.StringUtils;
+import cn.hutool.core.util.StrUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.Cacheable;
@@ -17,12 +18,8 @@ public interface IMenuService<D extends CommonDomain> extends IBaseTreeService<M
     String CacheKey_findIdsByMenuUrl = "findIdsByMenuUrl";
     Logger logger = LoggerFactory.getLogger(IMenuService.class);
 
-//    /**
-//     * 根据节点ID获得树
-//     */
-//    List<MenuDTO> findMenusByParentId(String rootId);
 
-    @Cacheable(value = CacheKey_findIdsByMenuUrl, key = "#menuUrl", condition = "#result != null")
+    @Cacheable(value = CacheKey_findIdsByMenuUrl, key = "#menuUrl", unless = "#result==null")
     List<String> findIdsByMenuUrl(String menuUrl);
 
 
@@ -32,22 +29,22 @@ public interface IMenuService<D extends CommonDomain> extends IBaseTreeService<M
     default List<MenuRouterDTO> menuListToMenuRouterList(List<MenuDTO> menuDTOList) {
         List<MenuRouterDTO> menuRouterDTOList = new ArrayList<>();
         menuDTOList.forEach(menuDTO -> {
-            if (StringUtils.isBlank(menuDTO.getMenuUrl()) && StringUtils.isBlank(menuDTO.getMenuDesc())) {
-                logger.error("菜单数据错误：{}", menuDTO.getId());
+            if (StrUtil.isBlank(menuDTO.getMenuUrl()) && StrUtil.isBlank(menuDTO.getMenuDesc())) {
+                logger.info("此菜单信息不在vue前端展示：{}", menuDTO.getId());
             } else {
                 MenuRouterDTO menuRouterDTO = new MenuRouterDTO();
                 menuRouterDTO.setId(menuDTO.getId());
                 menuRouterDTO.setParentId(menuDTO.getParentId());
                 menuRouterDTO.setComponent(menuDTO.getMenuUrl());
-                menuRouterDTO.setPath(menuDTO.getMenuDesc());
-                menuRouterDTO.setIndex(menuDTO.getOrderIndex());
+                menuRouterDTO.setPath(menuDTO.getMenuDesc()==null?"":menuDTO.getMenuDesc());
+                menuRouterDTO.setIndex(menuDTO.getMenuIndex());
                 /**
                  * 用于外链形式的判断
                  */
-                if (StringUtils.isNotBlank(menuDTO.getMenuName())) {
+                if (StrUtil.isNotBlank(menuDTO.getMenuName())) {
                     menuRouterDTO.setAlwaysShow(true);
                     MenuRouterDTO.meta inner = menuRouterDTO.getMenuRouterDtoMetaInstance
-                            (menuDTO.getOrderIndex() + "", new ArrayList(), menuDTO.getMenuName(), menuDTO.getSmallIconPath(), false);
+                            (menuDTO.getMenuIndex() + "", new ArrayList(), menuDTO.getMenuName(), menuDTO.getSmallIconPath(), false);
                     menuRouterDTO.setMeta(inner);
                     menuRouterDTO.setHidden(false);
                     menuRouterDTO.setName(menuDTO.getId());
@@ -59,5 +56,12 @@ public interface IMenuService<D extends CommonDomain> extends IBaseTreeService<M
         //菜单排序
         menuRouterDTOList.sort((o1, o2) -> o1.getIndex() - o2.getIndex());
         return menuRouterDTOList;
+    }
+
+    CommonCacheUtil getCommonCacheUtil();
+
+    default void deleteCacheOfFindIdsByMenuUrl() {
+        //有删除操作，则直接删除所有 findIdsByMenuUrl 缓存
+        getCommonCacheUtil().removeByPattern(CacheKey_findIdsByMenuUrl + "*");
     }
 }

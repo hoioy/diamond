@@ -1,6 +1,8 @@
 package com.hoioy.sample.conf;
 
 import com.hoioy.diamond.common.cache.BaseCacheKeyGenerator;
+import com.hoioy.diamond.common.util.CommonCacheUtil;
+import com.hoioy.diamond.common.util.CommonCaffeineUtil;
 import com.hoioy.diamond.common.util.CommonRedisUtil;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -40,7 +42,7 @@ public class RedisConfig extends CachingConfigurerSupport {
     @Autowired
     private RedisConnectionFactory redisConnectionFactory;
 
-    @Value("${spring.cache.redis.time-to-live}")
+    @Value("${spring.cache.redis.time-to-live:2H}")
     private Duration timeToLive;
 
     @Bean
@@ -59,8 +61,8 @@ public class RedisConfig extends CachingConfigurerSupport {
     }
 
     @Bean
-    public BaseCacheKeyGenerator baseCacheKeyGenerator(){
-       return new BaseCacheKeyGenerator();
+    public BaseCacheKeyGenerator baseCacheKeyGenerator() {
+        return new BaseCacheKeyGenerator();
     }
 
     @Bean
@@ -69,8 +71,9 @@ public class RedisConfig extends CachingConfigurerSupport {
         om.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         om.registerModule(new JavaTimeModule());
         om.registerModule((new SimpleModule()));
-        om.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL, JsonTypeInfo.As.PROPERTY);
-        GenericJackson2JsonRedisSerializer  serializer = new GenericJackson2JsonRedisSerializer(om);
+        om.activateDefaultTyping(om.getPolymorphicTypeValidator(), ObjectMapper.DefaultTyping.NON_FINAL, JsonTypeInfo.As.PROPERTY);
+
+        GenericJackson2JsonRedisSerializer serializer = new GenericJackson2JsonRedisSerializer(om);
 
         RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig()
                 .entryTtl(timeToLive)
@@ -100,8 +103,18 @@ public class RedisConfig extends CachingConfigurerSupport {
     }
 
     @Bean
-    public CommonRedisUtil tdfRedisUtil() {
+    public CommonCacheUtil commonCacheUtil() {
+        return new CommonCacheUtil();
+    }
+
+    @Bean
+    public CommonRedisUtil commonRedisUtil() {
         return new CommonRedisUtil();
+    }
+
+    @Bean
+    public CommonCaffeineUtil commonCaffeineUtil() {
+        return new CommonCaffeineUtil();
     }
 
     public class Receiver {

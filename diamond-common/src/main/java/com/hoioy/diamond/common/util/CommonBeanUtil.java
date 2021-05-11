@@ -4,10 +4,10 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 
-import java.beans.BeanInfo;
-import java.beans.Introspector;
-import java.beans.PropertyDescriptor;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
 
 public class CommonBeanUtil {
 
@@ -26,27 +26,17 @@ public class CommonBeanUtil {
     public static String generateBeanId() {
         return UUID.randomUUID().toString().replaceAll("-", "");
     }
-//
-//    // 根据id，parentId将list结构转为tree结构
-//    public <T extends BaseTreeDTO> List<T> listToTree(Collection<T> list, String rootId) {
-//        List<T> treeList = new ArrayList();
-//        for (T node : list) {
-//            // parentID可能为null
-//            if (StringUtils.isBlank(rootId) && StringUtils.isBlank(node.getParentId())) {
-//                treeList.add((findChildren(node, list)));
-//            } else if (node.getParentId().equals(rootId)) {
-//                treeList.add((findChildren(node, list)));
-//            }
-//        }
-//        return treeList;
-//    }
 
-    //source中的非空属性复制到target中
+    /**
+     * source中的非空属性复制到target中
+     */
     public static <T> void beanCopyWithoutNull(T source, T target) {
         BeanUtils.copyProperties(source, target, getNullPropertyNames(source));
     }
 
-    //source中的非空属性复制到target中，但是忽略指定的属性，也就是说有些属性是不可修改的（个人业务需要）
+    /**
+     * source中的非空属性复制到target中，但是忽略指定的属性，也就是说有些属性是不可修改的（个人业务需要）
+     */
     public static <T> void beanCopyWithIngore(T source, T target, String... ignoreProperties) {
         String[] pns = getNullAndIgnorePropertyNames(source, ignoreProperties);
         BeanUtils.copyProperties(source, target, pns);
@@ -54,9 +44,7 @@ public class CommonBeanUtil {
 
     public static String[] getNullAndIgnorePropertyNames(Object source, String... ignoreProperties) {
         Set<String> emptyNames = getNullPropertyNameSet(source);
-        for (String s : ignoreProperties) {
-            emptyNames.add(s);
-        }
+        emptyNames.addAll(Arrays.asList(ignoreProperties));
         String[] result = new String[emptyNames.size()];
         return emptyNames.toArray(result);
     }
@@ -73,11 +61,28 @@ public class CommonBeanUtil {
         Set<String> emptyNames = new HashSet<>();
         for (java.beans.PropertyDescriptor pd : pds) {
             Object srcValue = src.getPropertyValue(pd.getName());
-            if (srcValue == null) emptyNames.add(pd.getName());
+            if (srcValue == null) {
+                emptyNames.add(pd.getName());
+            }
+
         }
         return emptyNames;
     }
 
+//
+//    // 根据id，parentId将list结构转为tree结构
+//    public <T extends BaseTreeDTO> List<T> listToTree(Collection<T> list, String rootId) {
+//        List<T> treeList = new ArrayList();
+//        for (T node : list) {
+//            // parentID可能为null
+//            if (StrUtil.isBlank(rootId) && StrUtil.isBlank(node.getParentId())) {
+//                treeList.add((findChildren(node, list)));
+//            } else if (node.getParentId().equals(rootId)) {
+//                treeList.add((findChildren(node, list)));
+//            }
+//        }
+//        return treeList;
+//    }
 
 //    public static Map<String, Object> beanTomap(Object bean) throws Exception {
 //        Map<String, Object> map = new HashMap();

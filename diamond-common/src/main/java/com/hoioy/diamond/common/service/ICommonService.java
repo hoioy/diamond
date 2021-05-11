@@ -2,14 +2,12 @@ package com.hoioy.diamond.common.service;
 
 import com.hoioy.diamond.common.domain.CommonDomain;
 import com.hoioy.diamond.common.dto.CommonDTO;
+import com.hoioy.diamond.common.dto.PageDTO;
 import com.hoioy.diamond.common.util.CommonBeanUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * 两个表关联表基础service
- */
 public interface ICommonService<DTO extends CommonDTO, D extends CommonDomain> {
     String CacheKey_dto = "CommonDTOCache";
 
@@ -21,9 +19,7 @@ public interface ICommonService<DTO extends CommonDTO, D extends CommonDomain> {
         try {
             D domain = getDomainClass().newInstance();
             return domain;
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
+        } catch (InstantiationException | IllegalAccessException e) {
             e.printStackTrace();
         }
         return null;
@@ -33,9 +29,7 @@ public interface ICommonService<DTO extends CommonDTO, D extends CommonDomain> {
         try {
             DTO dto = getDTOClass().newInstance();
             return dto;
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
+        } catch (InstantiationException | IllegalAccessException e) {
             e.printStackTrace();
         }
         return null;
@@ -69,9 +63,9 @@ public interface ICommonService<DTO extends CommonDTO, D extends CommonDomain> {
 
     default List<DTO> domainListToDTOList(List<D> dList, Boolean isCopyEmptyField) {
         List<DTO> dtoList = new ArrayList();
-        dList.forEach(d -> {
-            dtoList.add(domainToDTO(d, isCopyEmptyField));
-        });
+        dList.forEach(d ->
+                dtoList.add(domainToDTO(d, isCopyEmptyField))
+        );
         return dtoList;
     }
 
@@ -83,16 +77,5 @@ public interface ICommonService<DTO extends CommonDTO, D extends CommonDomain> {
         return dList;
     }
 
-    DTO findById(String id);
-
-    List<DTO> findByIds(List<String> ids);
-
-    // 成功返回ID
-    DTO create(DTO dto);
-
-    boolean batchCreate(List<DTO> dtoList);
-
-    boolean removeById(String id);
-
-    boolean removeByIds(List<String> ids);
+    PageDTO<DTO> getPage(final PageDTO<DTO> pageDTO);
 }

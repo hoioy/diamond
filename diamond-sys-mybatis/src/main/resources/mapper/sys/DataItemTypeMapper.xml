@@ -17,7 +17,7 @@
     <sql id="Base_Column_List">
         id,
         flag,
-        created_by, created_date, modified_by, modified_date, type_name
+        created_by, created_date, modified_by, modified_date, type_name,remark
     </sql>
 
     <select id="selectPage" resultMap="MapperResultMap">
@@ -28,7 +28,7 @@
         where
         flag=1
         <if test="dataItemType.typeName != null and dataItemType.typeName != ''">
-            AND type_name = #{dataItemType.typeName}
+            AND type_name LIKE "%"#{dataItemType.typeName}"%"
         </if>
     </select>
 

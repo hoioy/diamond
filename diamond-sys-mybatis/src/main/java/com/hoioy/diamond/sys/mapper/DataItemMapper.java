@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
 import java.util.Map;
 
 public interface DataItemMapper extends IBaseTreeMapper<DataItem> {
@@ -15,6 +16,5 @@ public interface DataItemMapper extends IBaseTreeMapper<DataItem> {
      */
     IPage<Map> selectPage(@Param("page") Page page, @Param("dataItem") DataItem dataItem);
 
-    DataItem findByCode(String code);
-
+    List<DataItem> findByDataItemTypeId(@Param("dataItemTypeIds") List<String> dataItemTypeIds);
 }

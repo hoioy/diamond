@@ -20,9 +20,17 @@ public interface UserInfoMapper extends IBaseMapper<UserInfo> {
 
     String findIdByLoginName(String loginName);
 
-     UserInfo findByLoginName(String loginName);
+    UserInfo findByLoginName(String loginName);
 
     List<UserInfo> findUsersByDeptId(String deptId);
 
     List<UserInfo> findUserByRoleId(String roleId);
+
+    UserInfo findByPhoneNum(String phoneNum);
+
+    String findIdByPhoneNum(String PhoneNum);
+
+    String findIdByEmail(String email);
+
+    String checkUserExist(String loginName);
 }

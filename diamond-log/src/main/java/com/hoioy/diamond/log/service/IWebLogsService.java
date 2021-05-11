@@ -2,7 +2,6 @@ package com.hoioy.diamond.log.service;
 
 import com.hoioy.diamond.common.domain.CommonDomain;
 import com.hoioy.diamond.common.service.IBaseService;
-import com.hoioy.diamond.common.util.CommonSecurityUtils;
 import com.hoioy.diamond.common.util.WebSiteUtil;
 import com.hoioy.diamond.log.annotation.OperationLogAnno;
 import com.hoioy.diamond.log.dto.WebLogsDTO;
@@ -12,13 +11,19 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
+import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.time.LocalDateTime;
+import java.util.Map;
 
 public interface IWebLogsService<D extends CommonDomain> extends IBaseService<WebLogsDTO, D> {
 
-    default WebLogsDTO saveLog(JoinPoint joinPoint, LocalDateTime startTime) throws Exception {
+    default WebLogsDTO beforeSaveLog(JoinPoint joinPoint, Map<String, Object> param) throws ClassNotFoundException, SocketException, UnknownHostException {
+        LocalDateTime startTime = (LocalDateTime) param.get("startTime");
+        String currentLoginName = (String) param.get("currentLoginName");
+
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        if(attributes == null){
+        if (attributes == null) {
             //controller中可能有其他非接口类型方法，这些方法不应该被记录日志
             return null;
         }
@@ -35,7 +40,7 @@ public interface IWebLogsService<D extends CommonDomain> extends IBaseService<We
         WebLogsDTO webLogsDTO = new WebLogsDTO();
         webLogsDTO.setStartTime(startTime);
         webLogsDTO.setEndTime(LocalDateTime.now());
-        webLogsDTO.setLogUserName(CommonSecurityUtils.getCurrentLogin());
+        webLogsDTO.setLogUserName(currentLoginName);
         webLogsDTO.setLogMethodName(methodName);
         webLogsDTO.setLogClientIp(remoteClientIp);
         webLogsDTO.setLogServerIp(WebSiteUtil.getLocalIP());
@@ -71,6 +76,14 @@ public interface IWebLogsService<D extends CommonDomain> extends IBaseService<We
             }
         }
 
-        return create(webLogsDTO);
+        return webLogsDTO;
+    }
+
+    default WebLogsDTO saveLog(JoinPoint joinPoint, Map<String, Object> param) throws SocketException, UnknownHostException, ClassNotFoundException {
+        WebLogsDTO webLogsDTO = beforeSaveLog(joinPoint, param);
+        if (webLogsDTO != null) {
+            return create(webLogsDTO);
+        }
+        return null;
     }
 }

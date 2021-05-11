@@ -53,73 +53,73 @@
         where
         flag=1
         <if test="userInfo.createdBy != null and userInfo.createdBy != ''">
-            AND created_by = #{userInfo.createdBy}
+            AND created_by LIKE "%"#{userInfo.createdBy}"%"
         </if>
-        <if test="userInfo.createdDate != null and userInfo.createdDate != ''">
+        <if test="userInfo.createdDate != null">
             AND created_date = #{userInfo.createdDate}
         </if>
         <if test="userInfo.modifiedBy != null and userInfo.modifiedBy != ''">
-            AND modified_by = #{userInfo.modifiedBy}
+            AND modified_by LIKE "%"#{userInfo.modifiedBy}"%"
         </if>
-        <if test="userInfo.modifiedDate != null and userInfo.modifiedDate != ''">
+        <if test="userInfo.modifiedDate != null">
             AND modified_date = #{userInfo.modifiedDate}
         </if>
         <if test="userInfo.address != null and userInfo.address != ''">
-            AND address = #{userInfo.address}
+            AND address LIKE "%"#{userInfo.address}"%"
         </if>
         <if test="userInfo.avatar != null and userInfo.avatar != ''">
-            AND avatar = #{userInfo.avatar}
+            AND avatar LIKE "%"#{userInfo.avatar}"%"
         </if>
         <if test="userInfo.avatarContent != null and userInfo.avatarContent != ''">
-            AND avatar_content = #{userInfo.avatarContent}
+            AND avatar_content LIKE "%"#{userInfo.avatarContent}"%"
         </if>
         <if test="userInfo.birthday != null and userInfo.birthday != ''">
-            AND birthday = #{userInfo.birthday}
+            AND birthday LIKE "%"#{userInfo.birthday}"%"
         </if>
         <if test="userInfo.blog != null and userInfo.blog != ''">
-            AND blog = #{userInfo.blog}
+            AND blog LIKE "%"#{userInfo.blog}"%"
         </if>
         <if test="userInfo.email != null and userInfo.email != ''">
-            AND email = #{userInfo.email}
+            AND email LIKE "%"#{userInfo.email}"%"
         </if>
         <if test="userInfo.gender != null and userInfo.gender != ''">
-            AND gender = #{userInfo.gender}
+            AND gender LIKE "%"#{userInfo.gender}"%"
         </if>
         <if test="userInfo.idNumber != null and userInfo.idNumber != ''">
-            AND id_number = #{userInfo.idNumber}
+            AND id_number LIKE "%"#{userInfo.idNumber}"%"
         </if>
         <if test="userInfo.integral != null and userInfo.integral != ''">
-            AND integral = #{userInfo.integral}
+            AND integral LIKE "%"#{userInfo.integral}"%"
         </if>
         <if test="userInfo.loginName != null and userInfo.loginName != ''">
-            AND login_name = #{userInfo.loginName}
+            AND login_name LIKE "%"#{userInfo.loginName}"%"
         </if>
         <if test="userInfo.nickname != null and userInfo.nickname != ''">
-            AND nickname = #{userInfo.nickname}
+            AND nickname LIKE "%"#{userInfo.nickname}"%"
         </if>
         <if test="userInfo.password != null and userInfo.password != ''">
             AND password = #{userInfo.password}
         </if>
         <if test="userInfo.phoneNum != null and userInfo.phoneNum != ''">
-            AND phone_num = #{userInfo.phoneNum}
+            AND phone_num LIKE "%"#{userInfo.phoneNum}"%"
         </if>
         <if test="userInfo.remark != null and userInfo.remark != ''">
-            AND remark = #{userInfo.remark}
+            AND remark LIKE "%"#{userInfo.remark}"%"
         </if>
         <if test="userInfo.state != null and userInfo.state != ''">
-            AND state = #{userInfo.state}
+            AND state LIKE "%"#{userInfo.state}"%"
         </if>
         <if test="userInfo.tag != null and userInfo.tag != ''">
-            AND tag = #{userInfo.tag}
+            AND tag LIKE "%"#{userInfo.tag}"%"
         </if>
         <if test="userInfo.userIndex != null and userInfo.userIndex != ''">
             AND user_index = #{userInfo.userIndex}
         </if>
         <if test="userInfo.userName != null and userInfo.userName != ''">
-            AND user_name = #{userInfo.userName}
+            AND user_name LIKE "%"#{userInfo.userName}"%"
         </if>
         <if test="userInfo.experience != null and userInfo.experience != ''">
-            AND experience = #{userInfo.experience}
+            AND experience LIKE "%"#{userInfo.experience}"%"
         </if>
         <if test="userInfo.balance != null and userInfo.balance != ''">
             AND balance = #{userInfo.balance}
@@ -140,6 +140,14 @@
         user_info
         where
         flag=1 and login_name=#{loginName}
+    </select>
+    <select id="findByPhoneNum" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"></include>
+        from
+        user_info
+        where
+        flag=1 and phone_num=#{phoneNum}
     </select>
     <select id="findUsersByDeptId" resultMap="BaseResultMap">
         select
@@ -175,58 +183,58 @@
         where
         u.flag=1
         <if test="userInfoDTO.createdBy != null and userInfoDTO.createdBy != ''">
-            AND u.created_by = #{userInfoDTO.createdBy}
+            AND u.created_by LIKE "%"#{userInfoDTO.createdBy}"%"
         </if>
-        <if test="userInfoDTO.createdDate != null and userInfoDTO.createdDate != ''">
+        <if test="userInfoDTO.createdDate != null ">
             AND u.created_date = #{userInfoDTO.createdDate}
         </if>
         <if test="userInfoDTO.modifiedBy != null and userInfoDTO.modifiedBy != ''">
-            AND u.modified_by = #{userInfoDTO.modifiedBy}
+            AND u.modified_by LIKE "%"#{userInfoDTO.modifiedBy}"%"
         </if>
-        <if test="userInfoDTO.modifiedDate != null and userInfoDTO.modifiedDate != ''">
+        <if test="userInfoDTO.modifiedDate != null">
             AND u.modified_date = #{userInfoDTO.modifiedDate}
         </if>
         <if test="userInfoDTO.address != null and userInfoDTO.address != ''">
-            AND u.address = #{userInfoDTO.address}
+            AND u.address LIKE "%"#{userInfoDTO.address}"%"
         </if>
         <if test="userInfoDTO.avatar != null and userInfoDTO.avatar != ''">
-            AND u.avatar = #{userInfoDTO.avatar}
+            AND u.avatar LIKE "%"#{userInfoDTO.avatar}"%"
         </if>
         <if test="userInfoDTO.avatarContent != null and userInfoDTO.avatarContent != ''">
-            AND u.avatar_content = #{userInfoDTO.avatarContent}
+            AND u.avatar_content LIKE "%"#{userInfoDTO.avatarContent}"%"
         </if>
         <if test="userInfoDTO.birthday != null and userInfoDTO.birthday != ''">
-            AND u.birthday = #{userInfoDTO.birthday}
+            AND u.birthday LIKE "%"#{userInfoDTO.birthday}"%"
         </if>
         <if test="userInfoDTO.blog != null and userInfoDTO.blog != ''">
-            AND u.blog = #{userInfoDTO.blog}
+            AND u.blog LIKE "%"#{userInfoDTO.blog}"%"
         </if>
         <if test="userInfoDTO.email != null and userInfoDTO.email != ''">
-            AND u.email = #{userInfoDTO.email}
+            AND u.email LIKE "%"#{userInfoDTO.email}"%"
         </if>
         <if test="userInfoDTO.gender != null and userInfoDTO.gender != ''">
-            AND u.gender = #{userInfoDTO.gender}
+            AND u.gender LIKE "%"#{userInfoDTO.gender}"%"
         </if>
         <if test="userInfoDTO.idNumber != null and userInfoDTO.idNumber != ''">
-            AND u.id_number = #{userInfoDTO.idNumber}
+            AND u.id_number LIKE "%"#{userInfoDTO.idNumber}"%"
         </if>
         <if test="userInfoDTO.integral != null and userInfoDTO.integral != ''">
-            AND u.integral = #{userInfoDTO.integral}
+            AND u.integral LIKE "%"#{userInfoDTO.integral}"%"
         </if>
         <if test="userInfoDTO.loginName != null and userInfoDTO.loginName != ''">
-            AND u.login_name = #{userInfoDTO.loginName}
+            AND u.login_name LIKE "%"#{userInfoDTO.loginName}"%"
         </if>
         <if test="userInfoDTO.nickname != null and userInfoDTO.nickname != ''">
-            AND u.nickname = #{userInfoDTO.nickname}
+            AND u.nickname LIKE "%"#{userInfoDTO.nickname}"%"
         </if>
         <if test="userInfoDTO.password != null and userInfoDTO.password != ''">
-            AND u.password = #{userInfoDTO.password}
+            AND u.password LIKE "%"#{userInfoDTO.password}"%"
         </if>
         <if test="userInfoDTO.phoneNum != null and userInfoDTO.phoneNum != ''">
-            AND u.phone_num = #{userInfoDTO.phoneNum}
+            AND u.phone_num LIKE "%"#{userInfoDTO.phoneNum}"%"
         </if>
         <if test="userInfoDTO.remark != null and userInfoDTO.remark != ''">
-            AND u.remark = #{userInfoDTO.remark}
+            AND u.remark LIKE "%"#{userInfoDTO.remark}"%"
         </if>
         <if test="userInfoDTO.state != null and userInfoDTO.state != ''">
             AND u.state = #{userInfoDTO.state}
@@ -238,7 +246,7 @@
             AND u.user_index = #{userInfoDTO.userIndex}
         </if>
         <if test="userInfoDTO.userName != null and userInfoDTO.userName != ''">
-            AND u.user_name = #{userInfoDTO.userName}
+            AND u.user_name LIKE "%"#{userInfoDTO.userName}"%"
         </if>
         <if test="userInfoDTO.roleId != null and userInfoDTO.roleId != ''">
             AND ru.role_id = #{userInfoDTO.roleId}
@@ -247,10 +255,35 @@
             AND du.dept_id = #{userInfoDTO.deptId}
         </if>
         <if test="userInfoDTO.experience != null and userInfoDTO.experience != ''">
-            AND experience = #{userInfo.experience}
+            AND experience LIKE "%"#{userInfo.experience}"%"
         </if>
         <if test="userInfoDTO.balance != null and userInfoDTO.balance != ''">
             AND balance = #{userInfo.balance}
         </if>
+    </select>
+    <select id="findIdByPhoneNum" resultType="java.lang.String">
+        select
+            id
+        from
+            user_info
+        where
+            flag=1 and phone_num=#{phoneNum}
+    </select>
+    <select id="findIdByEmail" resultType="java.lang.String">
+        select
+            id
+        from
+            user_info
+        where
+            flag=1 and email=#{email}
+    </select>
+
+    <select id="checkUserExist" resultType="java.lang.String">
+        select
+        id
+        from
+        user_info
+        where
+        login_name=#{loginName}
     </select>
 </mapper>

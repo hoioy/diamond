@@ -4,119 +4,119 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.hoioy.diamond.log.domain.WebLogs">
-        <id column="id" property="id" />
-        <result column="log_user_name" property="logUserName" />
-        <result column="start_time" property="startTime" />
-        <result column="end_time" property="endTime" />
-        <result column="log_info" property="logInfo" />
-        <result column="log_operation_type" property="logOperationType" />
-        <result column="log_table_name" property="logTableName" />
-        <result column="log_primary_key" property="logPrimaryKey" />
-        <result column="log_class_name" property="logClassName" />
-        <result column="module" property="module" />
-        <result column="remark" property="remark" />
-        <result column="log_method_name" property="logMethodName" />
-        <result column="log_url" property="logUrl" />
-        <result column="flag" property="flag" />
-        <result column="log_server_ip" property="logServerIp" />
-        <result column="log_client_ip" property="logClientIp" />
-        <result column="info" property="info" />
-        <result column="type" property="type" />
-        <result column="created_by" property="createdBy" />
-        <result column="created_date" property="createdDate" />
-        <result column="modified_by" property="modifiedBy" />
-        <result column="modified_date" property="modifiedDate" />
+        <id column="id" property="id"/>
+        <result column="log_user_name" property="logUserName"/>
+        <result column="start_time" property="startTime"/>
+        <result column="end_time" property="endTime"/>
+        <result column="log_info" property="logInfo"/>
+        <result column="log_operation_type" property="logOperationType"/>
+        <result column="log_table_name" property="logTableName"/>
+        <result column="log_primary_key" property="logPrimaryKey"/>
+        <result column="log_class_name" property="logClassName"/>
+        <result column="module" property="module"/>
+        <result column="remark" property="remark"/>
+        <result column="log_method_name" property="logMethodName"/>
+        <result column="log_url" property="logUrl"/>
+        <result column="flag" property="flag"/>
+        <result column="log_server_ip" property="logServerIp"/>
+        <result column="log_client_ip" property="logClientIp"/>
+        <result column="info" property="info"/>
+        <result column="type" property="type"/>
+        <result column="created_by" property="createdBy"/>
+        <result column="created_date" property="createdDate"/>
+        <result column="modified_by" property="modifiedBy"/>
+        <result column="modified_date" property="modifiedDate"/>
+        <result column="r1" property="r1"/>
+        <result column="r2" property="r2"/>
+        <result column="r3" property="r3"/>
+        <result column="r4" property="r4"/>
+        <result column="r5" property="r5"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, log_user_name, start_time, end_time, log_info, log_operation_type, log_table_name, log_primary_key, log_class_name, module, remark, log_method_name, log_url, flag, log_server_ip, log_client_ip, info, type, created_by, created_date, modified_by, modified_date
+        id, log_user_name, start_time, end_time, log_info, log_operation_type, log_table_name, log_primary_key, log_class_name, module, remark, log_method_name, log_url, flag, log_server_ip, log_client_ip, info, type, created_by, created_date, modified_by, modified_date,
+        r1,r2,r3,r4,r5
     </sql>
 
-    <select id="getPage" resultType="com.hoioy.diamond.log.domain.WebLogs">
+    <select id="getPage" resultMap="BaseResultMap">
         select
-          <include refid="Base_Column_List"></include>
-        from
-           web_logs
-        where
-           flag=1
-        <if test="webLogs.logUserName != null and webLogs.logUserName != ''">
-            AND log_user_name = #{webLogs.logUserName}
-        </if>
-        <if test="webLogs.startTime != null and webLogs.startTime != ''">
-            AND start_time = #{webLogs.startTime}
-        </if>
-        <if test="webLogs.endTime != null and webLogs.endTime != ''">
-            AND end_time = #{webLogs.endTime}
-        </if>
-        <if test="webLogs.logOperationType != null and webLogs.logOperationType != ''">
-            AND log_operation_type = #{webLogs.logOperationType}
-        </if>
-    </select>
-    <select id="selectAll" resultType="com.hoioy.diamond.log.domain.WebLogs">
-
-        select
-        <include refid="Base_Column_List" />
+        <include refid="Base_Column_List"></include>
         from
         web_logs
         where
         flag=1
         <if test="webLogs.logUserName != null and webLogs.logUserName != ''">
-            AND log_user_name = #{webLogs.logUserName}
+            AND log_user_name LIKE "%"#{webLogs.logUserName}"%"
         </if>
-        <if test="webLogs.startTime != null and webLogs.startTime != ''">
-            AND start_time = #{webLogs.startTime}
+        <if test="webLogs.startTime != null ">
+            AND start_time >= #{webLogs.startTime}
         </if>
-        <if test="webLogs.endTime != null and webLogs.endTime != ''">
-            AND end_time = #{webLogs.endTime}
+        <if test="webLogs.endTime != null">
+            AND start_time &lt;= #{webLogs.endTime}
+        </if>
+        <if test="webLogs.createdDate != null ">
+            AND created_date = #{webLogs.createdDate}
+        </if>
+        <if test="webLogs.modifiedDate != null ">
+            AND modified_date = #{webLogs.modifiedDate}
         </if>
         <if test="webLogs.logInfo != null and webLogs.logInfo != ''">
-            AND log_info = #{webLogs.logInfo}
+            AND log_info LIKE "%"#{webLogs.logInfo}"%"
         </if>
         <if test="webLogs.logOperationType != null and webLogs.logOperationType != ''">
-            AND log_operation_type = #{webLogs.logOperationType}
+            AND log_operation_type LIKE "%"#{webLogs.logOperationType}"%"
         </if>
         <if test="webLogs.logTableName != null and webLogs.logTableName != ''">
-            AND log_table_name = #{webLogs.logTableName}
+            AND log_table_name LIKE "%"#{webLogs.logTableName}"%"
         </if>
         <if test="webLogs.logPrimaryKey != null and webLogs.logPrimaryKey != ''">
             AND log_primary_key = #{webLogs.logPrimaryKey}
         </if>
         <if test="webLogs.logClassName != null and webLogs.logClassName != ''">
-            AND log_class_name = #{webLogs.logClassName}
+            AND log_class_name LIKE "%"#{webLogs.logClassName}"%"
         </if>
         <if test="webLogs.module != null and webLogs.module != ''">
             AND module = #{webLogs.module}
         </if>
         <if test="webLogs.remark != null and webLogs.remark != ''">
-            AND remark = #{webLogs.remark}
+            AND remark LIKE "%"#{webLogs.remark}"%"
         </if>
         <if test="webLogs.logMethodName != null and webLogs.logMethodName != ''">
-            AND log_method_name = #{webLogs.logMethodName}
+            AND log_method_name LIKE "%"#{webLogs.logMethodName}"%"
         </if>
         <if test="webLogs.logUrl != null and webLogs.logUrl != ''">
-            AND log_url = #{webLogs.logUrl}
-        </if>
-        <if test="webLogs.flag != null and webLogs.flag != ''">
-            AND flag = #{webLogs.flag}
+            AND log_url LIKE "%"#{webLogs.logUrl}"%"
         </if>
         <if test="webLogs.logServerIp != null and webLogs.logServerIp != ''">
-            AND log_server_ip = #{webLogs.logServerIp}
+            AND log_server_ip LIKE "%"#{webLogs.logServerIp}"%"
         </if>
         <if test="webLogs.logClientIp != null and webLogs.logClientIp != ''">
-            AND log_client_ip = #{webLogs.logClientIp}
+            AND log_client_ip LIKE "%"#{webLogs.logClientIp}"%"
         </if>
         <if test="webLogs.info != null and webLogs.info != ''">
-            AND info = #{webLogs.info}
+            AND info LIKE "%"#{webLogs.info}"%"
         </if>
         <if test="webLogs.type != null and webLogs.type != ''">
-            AND type = #{webLogs.type}
+            AND type LIKE "%"#{webLogs.type}"%"
         </if>
         <if test="webLogs.createdBy != null and webLogs.createdBy != ''">
-            AND created_by = #{webLogs.createdBy}
+            AND created_by LIKE "%"#{webLogs.createdBy}"%"
         </if>
-        <if test="webLogs.createdDate != null and webLogs.createdDate != ''">
-            AND created_date = #{webLogs.createdDate}
+        <if test="webLogs.r1 != null and webLogs.r1 != ''">
+            AND r1 LIKE "%"#{webLogs.r1}"%"
+        </if>
+        <if test="webLogs.r2 != null and webLogs.r2 != ''">
+            AND r2 LIKE "%"#{webLogs.r2}"%"
+        </if>
+        <if test="webLogs.r3 != null and webLogs.r3 != ''">
+            AND r3 LIKE "%"#{webLogs.r3}"%"
+        </if>
+        <if test="webLogs.r4 != null and webLogs.r4 != ''">
+            AND r4 LIKE "%"#{webLogs.r4}"%"
+        </if>
+        <if test="webLogs.r5 != null and webLogs.r5 != ''">
+            AND r5 LIKE "%"#{webLogs.r5}"%"
         </if>
     </select>
 </mapper>

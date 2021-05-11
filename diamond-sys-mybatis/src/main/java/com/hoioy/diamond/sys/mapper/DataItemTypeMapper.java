@@ -12,4 +12,6 @@ public interface DataItemTypeMapper extends IBaseMapper<DataItemType> {
      * 分页
      */
     IPage<DataItemType> selectPage(@Param("page") Page page, @Param("dataItemType") DataItemType dataItemType);
+
+
 }

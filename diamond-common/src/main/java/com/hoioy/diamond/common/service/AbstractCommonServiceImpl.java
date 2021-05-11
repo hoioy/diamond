@@ -5,24 +5,26 @@ import com.hoioy.diamond.common.domain.ICommonRepository;
 import com.hoioy.diamond.common.dto.BaseDTO;
 import com.hoioy.diamond.common.dto.CommonDTO;
 import com.hoioy.diamond.common.dto.PageDTO;
+import com.hoioy.diamond.common.util.CommonCacheUtil;
 import com.hoioy.diamond.common.util.CommonReflectionUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.MessageSource;
 
 import java.util.List;
 
 /**
  * 内部使用不对外暴露的基础ICommonService实现
- * 统一配置缓存，在tdf-common-jpa[mybaits]中注意删除缓存，保持缓存数据一致性
  */
-abstract class AbstractCommonServiceImpl<I extends ICommonRepository<D>, D extends CommonDomain, DTO extends CommonDTO> implements ICommonService<DTO, D> {
+public abstract class AbstractCommonServiceImpl<I extends ICommonRepository<D>, D extends CommonDomain, DTO extends CommonDTO> implements ICommonService<DTO, D> {
     protected Logger log = LoggerFactory.getLogger(getClass());
     protected Class<D> domainClass = (Class<D>) CommonReflectionUtil.getSuperClassGenericType(getClass(), 1);
+    protected Class<D> plusMapperClass = (Class<D>) CommonReflectionUtil.getSuperClassGenericType(getClass(), 0);
     protected Class<DTO> dtoClass = (Class<DTO>) CommonReflectionUtil.getSuperClassGenericType(getClass(), 2);
+
+    @Autowired
+    protected CommonCacheUtil commonCacheUtil;
 
     @Autowired
     protected I iBaseRepository;
@@ -56,7 +58,9 @@ abstract class AbstractCommonServiceImpl<I extends ICommonRepository<D>, D exten
         return dtoListToDomainList(dtoList, true);
     }
 
-    // 获取PageDTO中过滤器条件转化为Domain
+    /**
+     * 获取PageDTO中过滤器条件转化为Domain
+     */
     protected D getDomainFilterFromPageDTO(final PageDTO pageDTO) {
         if (pageDTO.getFilters() == null) {
             pageDTO.setFilters(createDTO());
@@ -70,11 +74,8 @@ abstract class AbstractCommonServiceImpl<I extends ICommonRepository<D>, D exten
         return main;
     }
 
-    @Override
-    @CacheEvict(value = CacheKey_dto, keyGenerator = "baseCacheKeyGenerator")
-    public abstract boolean removeById(String id);
-
-    @Cacheable(value = CacheKey_dto, keyGenerator = "baseCacheKeyGenerator", sync = true, condition = "#result != null")
-    @Override
-    public abstract DTO findById(String id);
+    protected final void deleteCache() {
+        //有删除操作，则直接删除所有 findIdsByMenuUrl 缓存
+        commonCacheUtil.removeByPattern(CacheKey_dto + "::" + getDTOClass().getSimpleName() + "*");
+    }
 }

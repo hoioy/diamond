@@ -2,19 +2,18 @@ package com.hoioy.diamond.common.service;
 
 import com.hoioy.diamond.common.domain.CommonDomain;
 import com.hoioy.diamond.common.dto.BaseDTO;
-import com.hoioy.diamond.common.dto.PageDTO;
-
-import java.util.List;
+import cn.hutool.core.util.IdUtil;
 
 /**
- * 基础service，要求其他service继承
+ * 业务表基础service
  */
-public interface IBaseService<DTO extends BaseDTO, D extends CommonDomain> extends ICommonService<DTO, D> {
-    DTO update(DTO dto);
-
-    void beforeRemove(List<String> ids);
-
-    DTO beforeCreate(DTO dto);
-
-    PageDTO<DTO> getPage(final PageDTO<DTO> pageDTO);
+public interface IBaseService<DTO extends BaseDTO, D extends CommonDomain> extends IBaseCommonService<DTO, D> {
+    @Override
+    default DTO beforeCreate(DTO dto) {
+        dto = IBaseCommonService.super.beforeCreate(dto);
+        dto.setId(IdUtil.simpleUUID());
+        // 初始化
+        dto.setFlag(1);
+        return dto;
+    }
 }

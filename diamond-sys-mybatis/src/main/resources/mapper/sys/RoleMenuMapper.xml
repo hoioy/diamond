@@ -10,7 +10,19 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        menu_id, role_id
+        menu_id
+        , role_id
     </sql>
+
+    <delete id="deleteByMenuIdsAndRoleId">
+        delete from role_menu
+        where menu_id
+        in
+        <foreach collection="menuIds" item="menuId" index="index" open="(" close=")" separator=",">
+            #{menuId}
+        </foreach>
+        and
+        role_id=#{roleId}
+    </delete>
 
 </mapper>

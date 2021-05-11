@@ -11,6 +11,6 @@ import javax.validation.constraints.NotBlank;
 public class DataItemTypeDTO extends BaseDTO {
 
     private static final long serialVersionUID = 72756507L;
-    @NotBlank(message = "typeName不能为空")
+    @NotBlank(message = "类型名称不能为空")
     private String typeName;
 }

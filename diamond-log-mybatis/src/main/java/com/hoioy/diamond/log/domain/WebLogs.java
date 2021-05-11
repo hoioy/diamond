@@ -10,14 +10,6 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
-/**
- * <p>
- *
- * </p>
- *
- * @author 陈哲
- * @since 2020-04-01
- */
 @Data
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
@@ -29,10 +21,8 @@ public class WebLogs extends BaseDomain {
 
     @TableField("log_user_name")
     private String logUserName;
-
     @TableField("start_time")
     private LocalDateTime startTime;
-
     @TableField("end_time")
     private LocalDateTime endTime;
 
@@ -71,5 +61,17 @@ public class WebLogs extends BaseDomain {
 
     @TableField("type")
     private String type;
+
+    //预留字段,方便项目扩展
+    @TableField("r1")
+    private String r1;
+    @TableField("r2")
+    private String r2;
+    @TableField("r3")
+    private String r3;
+    @TableField("r4")
+    private String r4;
+    @TableField("r5")
+    private String r5;
 
 }

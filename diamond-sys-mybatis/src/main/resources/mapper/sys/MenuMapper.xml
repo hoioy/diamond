@@ -39,49 +39,49 @@
         where
         flag=1
         <if test="menu.createdBy != null and menu.createdBy != ''">
-            AND created_by = #{menu.createdBy}
+            AND created_by LIKE "%"#{menu.createdBy}"%"
         </if>
-        <if test="menu.createdDate != null and menu.createdDate != ''">
+        <if test="menu.createdDate != null ">
             AND created_date = #{menu.createdDate}
         </if>
         <if test="menu.modifiedBy != null and menu.modifiedBy != ''">
-            AND modified_by = #{menu.modifiedBy}
+            AND modified_by LIKE "%"#{menu.modifiedBy}"%"
         </if>
-        <if test="menu.modifiedDate != null and menu.modifiedDate != ''">
+        <if test="menu.modifiedDate != null ">
             AND modified_date = #{menu.modifiedDate}
         </if>
         <if test="menu.authorityId != null and menu.authorityId != ''">
             AND authority_id = #{menu.authorityId}
         </if>
         <if test="menu.controllerClass != null and menu.controllerClass != ''">
-            AND controller_class = #{menu.controllerClass}
+            AND controller_class LIKE "%"#{menu.controllerClass}"%"
         </if>
         <if test="menu.iconPath != null and menu.iconPath != ''">
-            AND icon_path = #{menu.iconPath}
+            AND icon_path LIKE "%"#{menu.iconPath}"%"
         </if>
         <if test="menu.mark != null and menu.mark != ''">
-            AND mark = #{menu.mark}
+            AND mark LIKE "%"#{menu.mark}"%"
         </if>
         <if test="menu.menuClassify != null and menu.menuClassify != ''">
-            AND menu_classify = #{menu.menuClassify}
+            AND menu_classify LIKE "%"#{menu.menuClassify}"%"
         </if>
         <if test="menu.menuDesc != null and menu.menuDesc != ''">
-            AND menu_desc = #{menu.menuDesc}
+            AND menu_desc LIKE "%"#{menu.menuDesc}"%"
         </if>
         <if test="menu.menuIndex != null and menu.menuIndex != ''">
             AND menu_index = #{menu.menuIndex}
         </if>
         <if test="menu.menuName != null and menu.menuName != ''">
-            AND menu_name = #{menu.menuName}
+            AND menu_name LIKE "%"#{menu.menuName}"%"
         </if>
         <if test="menu.menuUrl != null and menu.menuUrl != ''">
-            AND menu_url = #{menu.menuUrl}
+            AND menu_url LIKE "%"#{menu.menuUrl}"%"
         </if>
         <if test="menu.remark != null and menu.remark != ''">
-            AND remark = #{menu.remark}
+            AND remark LIKE "%"#{menu.remark}"%"
         </if>
         <if test="menu.smallIconPath != null and menu.smallIconPath != ''">
-            AND small_icon_path = #{menu.smallIconPath}
+            AND small_icon_path LIKE "%"#{menu.smallIconPath}"%"
         </if>
         <if test="menu.parentId != null and menu.parentId != ''">
             AND parent_id = #{menu.parentId}
@@ -114,6 +114,7 @@
             #{roleId}
         </foreach>
     </select>
+
     <select id="findIdsByMenuUrl" resultType="string">
         select
         id
@@ -124,6 +125,7 @@
         and
         menu_url=#{menuUrl}
     </select>
+
     <select id="findChildrenByParentId" resultType="com.hoioy.diamond.sys.domain.Menu">
         select
         <include refid="Base_Column_List"/>
@@ -133,8 +135,5 @@
         flag=1
         and
         parent_id =#{parentId}
-
-
     </select>
-
 </mapper>

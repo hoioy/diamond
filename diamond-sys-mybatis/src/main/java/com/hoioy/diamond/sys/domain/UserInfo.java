@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 
+
 @Data
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
@@ -63,4 +64,10 @@ public class UserInfo extends BaseDomain {
      */
     private BigDecimal balance;
 
+    /**
+     * 用户元数据
+     */
+    private String userMetadata;
+
 }
+

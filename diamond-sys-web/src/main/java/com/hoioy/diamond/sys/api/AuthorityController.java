@@ -1,16 +1,18 @@
 package com.hoioy.diamond.sys.api;
 
 import com.hoioy.diamond.common.dto.ResultDTO;
-import com.hoioy.diamond.common.util.CommonSecurityUtils;
+import com.hoioy.diamond.common.service.CommonSecurityService;
 import com.hoioy.diamond.sys.dto.MenuDTO;
 import com.hoioy.diamond.sys.dto.RoleDTO;
 import com.hoioy.diamond.sys.dto.UserInfoDTO;
 import com.hoioy.diamond.sys.exception.SysException;
 import com.hoioy.diamond.sys.service.*;
-import org.apache.commons.lang3.StringUtils;
+import cn.hutool.core.util.StrUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
@@ -41,14 +43,14 @@ public class AuthorityController {
      */
     @GetMapping(path = "/permission/hasPermission")
     public ResultDTO<Set<String>> hasPermission(String menuId) {
-        String userNames = CommonSecurityUtils.getCurrentLogin();
+        String userNames = CommonSecurityService.instance.getCurrentLoginName();
         String userId = userService.findIdByLoginName(userNames);
-        if (StringUtils.isBlank(userId)) {
+        if (StrUtil.isBlank(userId)) {
             throw new SysException("没有找登录用户");
         }
 
         //TODO 加校验后，这些代码都可以删除
-        if (StringUtils.isBlank(menuId) || "index".equalsIgnoreCase(menuId)) {
+        if (StrUtil.isBlank(menuId) || "index".equalsIgnoreCase(menuId)) {
             logger.info("hasPermission_缺少必要参数menuId,可能是首页刷新情况导致id:{}", userId);
             throw new SysException("hasPermission_缺少必要参数menuId,可能是首页刷新情况导致id:{}", userId);
         }
@@ -67,10 +69,10 @@ public class AuthorityController {
         return new ResultDTO(menuIdSet);
     }
 
+
     //使用统一认证服务时，将统一认证中的用户信息，与本系统的权限体系进行绑定
     //目前采用最简单的绑定策略：如果本系统用户表没有统一认证服务中的用户，则本系统默认添加
     @PostMapping(value = "/bindOAuth2User")
-    @ResponseBody
     public ResultDTO bindUser(@RequestBody Map userInfo) throws RuntimeException {
         logger.info("bindUser");
         UserInfoDTO dto = new UserInfoDTO();
@@ -79,7 +81,7 @@ public class AuthorityController {
         String email = (String) userInfo.get("email");
         String avatar = (String) userInfo.get("avatar");
         //有一些用户不在用户表中-比如测试用户admin，可能这部分逻辑还要改。
-        if (null == loginName) {
+        if (StringUtils.isEmpty(loginName)) {
             loginName = name;
         }
         dto.setLoginName(loginName);
@@ -88,38 +90,56 @@ public class AuthorityController {
         //如果本系统没有此用户，则新增
         //用户信息填充
         dto.setUserName(name);
-        if (StringUtils.isNotEmpty(email)) {
+        if (StrUtil.isNotBlank(email)) {
             dto.setEmail(email);
         } else {
             dto.setEmail("未知");
         }
         dto.setAvatar(avatar);
         dto.setState("1");
+
         //用户所属角色填充
-        //TODO 默认角色写死了
-        RoleDTO role = roleService.findByRoleName("ROLE_USER");
+        List<String> roleIds = new ArrayList();
+        if (StrUtil.isNotBlank(userId)) {
+            //如果已经存在用户
+            roleIds = iRoleUserService.findRoleIdsByUserIds(Arrays.asList(userId));
+        }
+
+        if (CollectionUtils.isEmpty(roleIds)) {
+            //如果没有角色，设置默认的ROLE_USER角色
+            RoleDTO role = roleService.findByRoleName("ROLE_USER");
+            roleIds.add(role.getId());
+        }
+
         //入库
-        String id = userService.saveUserWithRoles(dto, Arrays.asList(role.getId()));
+        String id = userService.saveUserWithRoles(dto, roleIds);
         logger.info("bindUser id={}", id);
         logger.info("bindUser dto={}", dto);
         return new ResultDTO(dto);
     }
 
     // zhoujial
-    @GetMapping(value = "/user-details")
+    @GetMapping(value = "/web-user-details")
     @ResponseBody
     public ResultDTO getUserByToken() {
-        UserInfoDTO user = null;
-        try {
-            final String userName = CommonSecurityUtils.getCurrentLogin();
-            String id = userService.findIdByLoginName(userName);
-            user = (UserInfoDTO) userService.findById(id);
-            user.setPassword(null);
-            List<String> roleIds = iRoleUserService.findRoleIdsByUserIds(Arrays.asList(user.getId()));
-            user.setRoleId(String.join(",", roleIds));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        final String userName = CommonSecurityService.instance.getCurrentLoginName();
+        String id = userService.findIdByLoginName(userName);
+        UserInfoDTO user = (UserInfoDTO) userService.findById(id);
+        user.setPassword(null);
+        List<String> roleIds = iRoleUserService.findRoleIdsByUserIds(Arrays.asList(user.getId()));
+        user.setRoleId(String.join(",", roleIds));
+        return new ResultDTO(user);
+    }
+
+    @GetMapping(value = "/app-user-details")
+    @ResponseBody
+    public ResultDTO getAppUserByToken() {
+        final String userName = CommonSecurityService.instance.getCurrentLoginName();
+        UserInfoDTO user = userService.findByPhoneNum(userName);
+        user.setPassword(null);
+        List<String> roleIds = iRoleUserService.findRoleIdsByUserIds(Arrays.asList(user.getId()));
+        user.setRoleId(String.join(",", roleIds));
+
 
         return new ResultDTO(user);
     }
@@ -128,7 +148,7 @@ public class AuthorityController {
     @GetMapping(value = "/routers")
     @ResponseBody
     public ResultDTO getRouter(@RequestParam(value = "token", required = false) String token) {
-        final String userName = CommonSecurityUtils.getCurrentLogin();
+        final String userName = CommonSecurityService.instance.getCurrentLoginName();
         String userId = userService.findIdByLoginName(userName);
 
         UserInfoDTO userInfoDTO = (UserInfoDTO) userService.findById(userId);

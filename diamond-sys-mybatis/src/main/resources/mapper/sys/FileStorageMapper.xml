@@ -38,19 +38,19 @@
         where
         flag=1
         <if test="fileStorage.version != null and fileStorage.version != ''">
-            AND version = #{fileStorage.version}
+            AND version LIKE "%"#{fileStorage.version}"%"
         </if>
         <if test="fileStorage.extension != null and fileStorage.extension != ''">
-            AND extension = #{fileStorage.extension}
+            AND extension LIKE "%"#{fileStorage.extension}"%"
         </if>
         <if test="fileStorage.fileName != null and fileStorage.fileName != ''">
-            AND file_name = #{fileStorage.fileName}
+            AND file_name LIKE "%"#{fileStorage.fileName}"%"
         </if>
         <if test="fileStorage.relativePath != null and fileStorage.relativePath != ''">
-            AND relative_path = #{fileStorage.relativePath}
+            AND relative_path LIKE "%"#{fileStorage.relativePath}"%"
         </if>
         <if test="fileStorage.state != null and fileStorage.state != ''">
-            AND state = #{fileStorage.state}
+            AND state LIKE "%"#{fileStorage.state}"%"
         </if>
     </select>
 </mapper>

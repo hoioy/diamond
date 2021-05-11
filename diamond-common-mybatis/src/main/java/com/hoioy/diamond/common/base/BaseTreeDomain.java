@@ -8,4 +8,5 @@ import lombok.NoArgsConstructor;
 public class BaseTreeDomain extends BaseDomain {
     private String parentId;
     private Integer orderIndex;
+    private String path;
 }

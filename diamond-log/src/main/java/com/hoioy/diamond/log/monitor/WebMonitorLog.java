@@ -1,12 +1,11 @@
 package com.hoioy.diamond.log.monitor;
 
+import com.hoioy.diamond.common.service.CommonSecurityService;
 import com.hoioy.diamond.log.annotation.OperationLogAnno;
 import com.hoioy.diamond.log.service.IWebLogsService;
+import cn.hutool.core.map.MapUtil;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.After;
-import org.aspectj.lang.annotation.AfterReturning;
-import org.aspectj.lang.annotation.AfterThrowing;
-import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,8 +31,8 @@ public class WebMonitorLog {
     /**
      * 前置通知，在目标方法完成之后调用通知，此时不会关 心方法的输出是什么 方法调用前触发 -记录开始时间
      */
-//    @After("bean(*Controller)")
-    @After("within(com.hoioy.diamond.common.api.BaseController+)")
+//    @Before("bean(*Controller)")
+    @Before("within(com.hoioy.diamond.common.api.BaseController+)")
 //    @Before("within(com.hoioy.diamond.*.web..*) || within(com.hoioy.diamond.*.api..*)")
     public void beforeAdvice(JoinPoint joinPoint) {
         startTime = LocalDateTime.now();
@@ -47,7 +46,8 @@ public class WebMonitorLog {
 //    @After("within(com.hoioy.diamond.*.web..*) || within(com.hoioy.diamond.*.api..*)")
     public void afterAdvice(JoinPoint joinPoint) throws Exception {
         if (loglock.equals("on")) {
-            iWebLogsService.saveLog(joinPoint, startTime);
+            iWebLogsService.saveLog(joinPoint, MapUtil.builder().put("startTime", startTime)
+                    .put("currentLoginName", CommonSecurityService.instance.getCurrentLoginName()).build());
         }
     }
 

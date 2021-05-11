@@ -1,1 +1,1 @@
-# 请参考mysql版本sql，手动转换
+# 请参考mysql版本sql，手动使用https://bbs.kingbase.com.cn/ 点击`数据库迁移评估` 工具进行转换

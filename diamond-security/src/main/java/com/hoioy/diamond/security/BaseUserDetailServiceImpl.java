@@ -18,7 +18,7 @@ import java.util.Set;
  * 该UserDetails包括用户名、密码、是否可用、是否过期等信息。
  */
 public abstract class BaseUserDetailServiceImpl implements UserDetailsService {
-    public abstract CommonUserDTO findTDFUserDTOByLoginName(String loginName);
+    public abstract CommonUserDTO findCommonUserDTOByLoginName(String loginName);
 
     public abstract List<String> findRoleIdsByLoginName(String loginName);
 
@@ -27,7 +27,7 @@ public abstract class BaseUserDetailServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String loginName)
             throws UsernameNotFoundException {
         /** 连接数据库根据登陆？？用户名称获得用户信息 */
-        CommonUserDTO user = findTDFUserDTOByLoginName(loginName);
+        CommonUserDTO user = findCommonUserDTOByLoginName(loginName);
         if (user == null) {
             throw new UsernameNotFoundException(loginName);
         }

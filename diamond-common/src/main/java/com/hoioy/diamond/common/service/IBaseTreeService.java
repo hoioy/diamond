@@ -2,23 +2,34 @@ package com.hoioy.diamond.common.service;
 
 import com.hoioy.diamond.common.domain.CommonDomain;
 import com.hoioy.diamond.common.dto.BaseTreeDTO;
-import org.apache.commons.lang3.StringUtils;
+import cn.hutool.core.util.StrUtil;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 /**
- * 基础service，要求其他service实现
+ * 树型业务表基础service
  */
 public interface IBaseTreeService<DTO extends BaseTreeDTO, D extends CommonDomain> extends IBaseService<DTO, D> {
 
+    @Transactional(rollbackFor = Exception.class)
+    Boolean move(String currentParentId, String targetParentId, String currentId);
+
     /**
-     * 根据parentId查找所有childrent 如果传空就查所有一级
+     * 根据父节点id查找所有childrent 如果传空就查所有一级,儿子只能查询一级
      * @param parentId
      * @return
      */
     List<DTO> findByParentId(String parentId);
+
+    /**
+     * 根据父节点id查询所有儿子
+     * @param parentId 父节点id
+     * @return
+     */
+    List<DTO> findChildrenByParentId(String parentId);
 
     /**
      * 根据id，parentId将list结构转为tree结构
@@ -31,7 +42,7 @@ public interface IBaseTreeService<DTO extends BaseTreeDTO, D extends CommonDomai
         List<T> treeList = new ArrayList();
         for (T node : list) {
             // parentID可能为null
-            if (StringUtils.isBlank(rootNodeParentId) && StringUtils.isBlank(node.getParentId())) {
+            if (StrUtil.isBlank(rootNodeParentId) && StrUtil.isBlank(node.getParentId())) {
                 treeList.add((findChildren(node, list)));
             } else if (node.getParentId().equals(rootNodeParentId)) {
                 treeList.add((findChildren(node, list)));
@@ -50,5 +61,16 @@ public interface IBaseTreeService<DTO extends BaseTreeDTO, D extends CommonDomai
             }
         }
         return tree;
+    }
+
+    default String createPath(DTO dto) {
+        String parentId = dto.getParentId();
+        if (StrUtil.isBlank(parentId)) {
+            return dto.getId();
+        } else {
+            DTO parent = findById(parentId);
+            String parentPath = parent.getPath();
+            return parentPath + "," + dto.getId();
+        }
     }
 }

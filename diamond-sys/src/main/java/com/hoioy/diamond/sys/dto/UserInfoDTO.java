@@ -2,11 +2,14 @@ package com.hoioy.diamond.sys.dto;
 
 import com.hoioy.diamond.common.dto.CommonUserDTO;
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.Email;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+
 
 /**
  * 类名称：UserInfoDTO 类描述： 用户DTO 创建人：dourl 创建时间：2018年2月5日 下午2:07:16
@@ -17,43 +20,43 @@ import java.time.LocalDateTime;
 public class UserInfoDTO extends CommonUserDTO {
     private static final long serialVersionUID = 1170018455276020707L;
 
-    //	@ExcelResources(title = "用户序号", order = 1)
+
+    @ApiModelProperty(value = "用户排序")
     private Integer userIndex;
-    //	@Email
-//@ExcelResources(title = "邮件", order = 4)
+
+    //@ExcelResources(title = "邮件", order = 4)
+    @Email
+    @ApiModelProperty(value = "邮件")
     private String email;
-    /**
-     * 昵称
-     */
+    @ApiModelProperty(value = "昵称")
     private String nickname;
-    // 性别
+    @ApiModelProperty(value = "性别")
     private String gender;
-    // 居住地
+    @ApiModelProperty(value = "地址")
     private String address;
-    // 博客
+    @ApiModelProperty(value = "博客")
     private String blog;
-    // 标签
+    @ApiModelProperty(value = "标签")
     private String tag;
-    // 头像相对路径或者id
+    @ApiModelProperty(value = "头像相对路径或者id")
     private String avatar;
-    // 身份证号
+    @ApiModelProperty(value = "身份证")
     private String idNumber;
-    // 出生日期
+    @ApiModelProperty(value = "出生日期")
     private String birthday;
-    // 用户积分
+    @ApiModelProperty(value = "用户积分")
     private Integer integral;
 
     private byte[] avatarContent;
 
-    /**
-     * 经验值
-     */
+    @ApiModelProperty(value = "经验值")
     private Integer experience;
 
-    /**
-     * 余额
-     */
+    @ApiModelProperty(value = "余额")
     private BigDecimal balance;
+
+    @ApiModelProperty(value = "用户元数据")
+    private String userMetadata;
 
     //以下是复合属性
     private String roleId;
@@ -61,6 +64,17 @@ public class UserInfoDTO extends CommonUserDTO {
 
     public UserInfoDTO(String id, String createdBy, LocalDateTime createdDate, String modifiedBy, LocalDateTime modifiedDate, Integer flag, String remark,
                        String loginName, String password, String userName, String phoneNum, String state,
+                       Integer userIndex, String email, String nickname, String gender, String address, String blog, String tag,
+                       String avatar, String idNumber, String birthday, Integer integral) {
+        this(id, createdBy, createdDate, modifiedBy, modifiedDate, flag, remark,
+                loginName, userName, phoneNum, state,
+                userIndex, email, nickname, gender, address, blog, tag,
+                avatar, idNumber, birthday, integral);
+        this.setPassword(password);
+    }
+
+    public UserInfoDTO(String id, String createdBy, LocalDateTime createdDate, String modifiedBy, LocalDateTime modifiedDate, Integer flag, String remark,
+                       String loginName, String userName, String phoneNum, String state,
                        Integer userIndex, String email, String nickname, String gender, String address, String blog, String tag,
                        String avatar, String idNumber, String birthday, Integer integral) {
         super.setId(id);
@@ -71,7 +85,6 @@ public class UserInfoDTO extends CommonUserDTO {
         super.setFlag(flag);
         super.setRemark(remark);
         super.setLoginName(loginName);
-        super.setPassword(password);
         super.setUserName(userName);
         super.setPhoneNum(phoneNum);
         super.setState(state);
@@ -87,4 +100,6 @@ public class UserInfoDTO extends CommonUserDTO {
         this.birthday = birthday;
         this.integral = integral;
     }
+
 }
+

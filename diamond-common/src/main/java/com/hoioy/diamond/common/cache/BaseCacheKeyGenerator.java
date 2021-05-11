@@ -1,12 +1,12 @@
 package com.hoioy.diamond.common.cache;
 
-import com.hoioy.diamond.common.dto.CommonDTO;
+import com.hoioy.diamond.common.dto.BaseDTO;
+import com.hoioy.diamond.common.dto.BaseJoinDTO;
 import com.hoioy.diamond.common.service.ICommonService;
-import com.hoioy.diamond.common.util.CommonRedisUtil;
+import com.hoioy.diamond.common.util.CommonCacheUtil;
 import org.springframework.cache.interceptor.KeyGenerator;
 
 import java.lang.reflect.Method;
-
 
 /**
  * 框架定义的缓存Key生成器
@@ -24,11 +24,14 @@ public class BaseCacheKeyGenerator implements KeyGenerator {
         String dtoClassName = ((ICommonService) target).getDTOClass().getSimpleName();
         String id = "";
         //如果参数是DTO,则获取DTO的id值作为key
-        if (params[0] instanceof CommonDTO) {
-            id = ((CommonDTO) params[0]).getId();
+        if (params[0] instanceof BaseDTO) {
+            id = ((BaseDTO) params[0]).getId();
+        }
+        if (params[0] instanceof BaseJoinDTO) {
+            id = ((BaseJoinDTO) params[0]).getId();
         } else if (params[0] instanceof String) {
             id = (String) params[0];
         }
-        return CommonRedisUtil.getCacheKey(dtoClassName, id);
+        return CommonCacheUtil.getCacheKey(dtoClassName, id);
     }
 }

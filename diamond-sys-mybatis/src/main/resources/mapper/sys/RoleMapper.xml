@@ -31,28 +31,28 @@
         where
         flag=1
         <if test="role.createdBy != null and role.createdBy != ''">
-            AND created_by = #{role.createdBy}
+            AND created_by LIKE "%"#{role.createdBy}"%"
         </if>
-        <if test="role.createdDate != null and role.createdDate != ''">
+        <if test="role.createdDate != null ">
             AND created_date = #{role.createdDate}
         </if>
         <if test="role.modifiedBy != null and role.modifiedBy != ''">
-            AND modified_by = #{role.modifiedBy}
+            AND modified_by LIKE "%"#{role.modifiedBy}"%"
         </if>
-        <if test="role.modifiedDate != null and role.modifiedDate != ''">
+        <if test="role.modifiedDate != null ">
             AND modified_date = #{role.modifiedDate}
         </if>
         <if test="role.remark != null and role.remark != ''">
-            AND remark = #{role.remark}
+            AND remark LIKE "%"#{role.remark}"%"
         </if>
         <if test="role.roleDescription != null and role.roleDescription != ''">
-            AND role_description = #{role.roleDescription}
+            AND role_description LIKE "%"#{role.roleDescription}"%"
         </if>
         <if test="role.roleIndex != null and role.roleIndex != ''">
             AND role_index = #{role.roleIndex}
         </if>
         <if test="role.roleName != null and role.roleName != ''">
-            AND role_name = #{role.roleName}
+            AND role_name LIKE "%"#{role.roleName}"%"
         </if>
     </select>
 

@@ -7,19 +7,18 @@ import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 
-import java.util.*;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
-public class CommonRedisUtil {
+public class CommonRedisUtil implements ICommonCache {
 
     private static final Logger logger = LoggerFactory.getLogger(CommonRedisUtil.class);
 
     @Autowired
     public StringRedisTemplate template;
-
-    public static String getCacheKey(String dtoName, String dtoId) {
-        return dtoName + ":" + dtoId;
-    }
 
     public void expire(String key, long expire) {
         this.template.expire(key, expire, TimeUnit.SECONDS);
@@ -43,6 +42,13 @@ public class CommonRedisUtil {
         ops.set(key, value);
     }
 
+    /**
+     * 设置同时设置过期时间
+     *
+     * @param key    键
+     * @param value  值
+     * @param expire 过期时间，单位：秒
+     */
     public void set(String key, String value, long expire) {
         logger.debug("Enter set() key={}, value={}", key, value);
         ValueOperations<String, String> ops = this.template.opsForValue();
@@ -119,7 +125,8 @@ public class CommonRedisUtil {
         if (countStr == null) {
             hashOps.put(hashname, itemkey, delta + "");
         } else {
-            hashOps.increment(hashname, itemkey, delta);//增加统计量
+            //增加统计量
+            hashOps.increment(hashname, itemkey, delta);
         }
         return true;
     }
@@ -169,35 +176,6 @@ public class CommonRedisUtil {
         logger.debug("Enter getKeysByPattern() pattern={}", pattern);
         return template.keys(pattern);
     }
-
-    @Deprecated
-    //TODO 后续删除，原因：key是唯一性集合，使用List（可重复）不合适，参考：getKeysSetByPattern方法
-    public List<String> getKeysByPattern(String pattern) {
-        logger.debug("Enter getKeysByPattern() pattern={}", pattern);
-        List<String> keys = new ArrayList<>();
-        try {
-            keys.addAll(template.keys(pattern));
-        } catch (Exception e) {
-            logger.error("error  getKeysByPattern() pattern={}", e.getMessage());
-        }
-        logger.debug("leave getKeysByPattern() pattern={}", keys);
-        return keys;
-    }
-
-    @Deprecated
-    //TODO 后续删除，原因：与getHashValues重复
-    public List values(String key) {
-        logger.debug("Enter values() key={}", key);
-        List list = new ArrayList<>();
-        try {
-            list = template.opsForHash().values(key);
-        } catch (Exception e) {
-            logger.error("error  values() key={}", e.getMessage());
-        }
-        logger.debug("leave values() key={}", key);
-        return list;
-    }
-
 }
 
 

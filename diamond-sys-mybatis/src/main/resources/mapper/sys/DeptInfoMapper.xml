@@ -2,7 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hoioy.diamond.sys.mapper.DeptInfoMapper">
 
-
     <resultMap id="TreeResultMap" type="com.hoioy.diamond.sys.domain.DeptInfo">
         <result column="id" property="id"/>
         <result column="flag" property="flag"/>
@@ -27,6 +26,26 @@
         created_by, created_date, modified_by, modified_date, dept_desc, dept_index, dept_name, dept_state, dept_type, dept_url, remark, parent_id
     </sql>
 
+    <select id="selectPage" resultType="java.util.Map">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        dept_info
+        where
+        flag=1
+        <if test="deptInfo.deptName != null and deptInfo.deptName != ''">
+            AND dept_name LIKE "%"#{deptInfo.deptName}"%"
+        </if>
+        <if test="deptInfo.deptState != null and deptInfo.deptState != ''">
+            AND dept_state = #{deptInfo.deptState}
+        </if>
+        <if test="deptInfo.deptType != null and deptInfo.deptType != ''">
+            AND dept_type LIKE "%"#{deptInfo.deptType}"%"
+        </if>
+        <if test="deptInfo.parentId != null and deptInfo.parentId != ''">
+            AND parent_id = #{deptInfo.parentId}
+        </if>
+    </select>
 
     <select id="findAll" resultMap="TreeResultMap">
         select
@@ -36,13 +55,13 @@
         where
         flag=1
         <if test="deptInfo.deptName != null and deptInfo.deptName != ''">
-            AND dept_name = #{deptInfo.deptName}
+            AND dept_name LIKE "%"#{deptInfo.deptName}"%"
         </if>
         <if test="deptInfo.deptState != null and deptInfo.deptState != ''">
-            AND dept_state = #{deptInfo.deptState}
+            AND dept_state LIKE "%"#{deptInfo.deptState}"%"
         </if>
         <if test="deptInfo.deptType != null and deptInfo.deptType != ''">
-            AND dept_type = #{deptInfo.deptType}
+            AND dept_type LIKE "%"#{deptInfo.deptType}"%"
         </if>
         <if test="deptInfo.parentId != null and deptInfo.parentId != ''">
             AND parent_id = #{deptInfo.parentId}
@@ -64,6 +83,8 @@
         <include refid="Base_Column_List"/>
         FROM
         dept_info
+        where
+        flag=1
         order by
         dept_index
     </select>

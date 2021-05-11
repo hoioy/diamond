@@ -1,5 +1,9 @@
 server:
   port: 7779
+  servlet:
+    session:
+      cookie:
+        name: baseSessionId
 
 spring:  #多环境切换
   profiles:
@@ -8,19 +12,24 @@ spring:  #多环境切换
     basename: i18n/messages
     cache-duration: -1
     encoding: UTF-8
-  jackson:                                          #解决时区相差8问题
+  jackson:  # 解决时区相差8问题，解决日期对象映射字符串的问题，后期改为时间戳类型
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
+  mvc:
+    format: # 解决日期对象映射字符串的问题，后期改为时间戳类型
+      date: yyyy-MM-dd
+      date-time: yyyy-MM-dd HH:mm:ss
+      time: HH:mm:ss
   cache:
     redis:
       time-to-live: 2H                          # 缓存时间，2小时，生产环境时间要设置得长一些
-    type: redis
+    type: caffeine
 
 # 日志配置
 logging:
   level:
     org.springframework.web: info
-    cn.com.taiji: info
+    com.hoioy.diamond: info
 ---
 spring:
   servlet:
@@ -32,8 +41,10 @@ spring:
 base:
   sys:
     file-storage:
-      root-path: "D:\\storage\\"  #必须设置的属性 TDF提供简单的文件上传功能，文件上传的根路径
+      root-path: "D:\\storage\\"  #必须设置的属性 diamond提供简单的文件上传功能，文件上传的根路径
   security:
+    access:
+      isWhiteLogic: true
     jwt:
       jwkSetUri: http://192.168.99.77:9998/.well-known/jwks.json  #必须设置的属性 使用OAuth2统一认证登录时候需要指定
       secret: mySecret      #默认值；mySecret。签名秘钥，一定要保密，一定要保密，一定要保密，生产环境需要保护起来不被其他人员看到
@@ -41,9 +52,17 @@ base:
       refresh: 72000  #默认值；1800。token的可自动刷新时间，单位：秒
     login:
       retry-time: 5    # 默认值；5。登录错误在locked-recover-second时间范围内允许的最大次数
-      locked-recover-second: 36000 # 登默认值；43200。录错误超过最大次数后不可登录的恢复时间
+      locked-recover-second: 36000 # 默认值；43200。登录错误超过最大次数后不可登录的恢复时间
+      qrcode:
+        expiration: 120  #二维码登录过程中二维码的过期时间，单位：秒 。默认值；120秒
+    password:
+      enableSM4: false # 是否开启国密sm4加密传输密码,默认不开启
+      SM4SecretKey: SM4SecretKey0000 # 国密sm4密钥key，自定义字符串，只能是16位
     captcha-enable: 'off'            #默认值；on。验证码开关  off关闭  on打开
     captcha-max-wait-second: 600  #默认值；600。验证码有效期，单位秒，10分钟
     captcha-same-ip-limit-per-minutes: 60 #默认值；60。同一个ip每分钟请求验证码的最大次数
+    phone-code-enable: 'off'            #默认值；on。手机校验码登录校验开关  off关闭  on打开
+    phone-code-max-wait-second: 300  #默认值；300。有效期，单位：秒，5分钟
+    phone-code-same-limit-per-minutes: 1 #默认值；1。同一个手机号地址，每分钟限制发送短信次数
   log:
     lock: 'on'  # 默认值；on。业务日志开关，off关闭业务日志，on开启

@@ -6,7 +6,7 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-public abstract class BaseDTO<T extends BaseDTO> extends CommonDTO {
+public abstract class BaseDTO<T extends BaseDTO> extends BaseCommonDTO {
     @ApiModelProperty(value = "创建人", accessMode = ApiModelProperty.AccessMode.READ_ONLY)
     protected String createdBy;
     @ApiModelProperty(value = "创建时间", accessMode = ApiModelProperty.AccessMode.READ_ONLY)

@@ -19,4 +19,6 @@ public interface IRoleMenuService<D extends CommonDomain> extends IBaseJoinServi
      * 根据roleId查询出关系表中所有的菜单Id
      */
     List<String> findMenuIdsByRoleIds(List<String> roleIds);
+
+    void unbindRoleMenu(String menuId, String roleId);
 }

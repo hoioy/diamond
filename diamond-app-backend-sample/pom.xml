@@ -7,7 +7,7 @@
     <parent>
         <groupId>com.hoioy</groupId>
         <artifactId>diamond-bom</artifactId>
-        <version>0.0.1</version>
+        <version>1.0.1</version>
         <relativePath>..</relativePath>
     </parent>
     <properties>
@@ -22,14 +22,6 @@
             <groupId>com.hoioy</groupId>
             <artifactId>diamond-security-jwt</artifactId>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>com.hoioy</groupId>-->
-<!--            <artifactId>diamond-sys-jpa</artifactId>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>com.hoioy</groupId>-->
-<!--            <artifactId>diamond-log-jpa</artifactId>-->
-<!--        </dependency>-->
         <dependency>
             <groupId>com.hoioy</groupId>
             <artifactId>diamond-sys-mybatis</artifactId>
@@ -42,15 +34,10 @@
             <groupId>com.hoioy</groupId>
             <artifactId>diamond-sys-web</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-test</artifactId>
-            <scope>test</scope>
+            <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -67,30 +54,36 @@
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
         <!--金仓*****************************************start-->
-<!--        <dependency>-->
-<!--            <groupId>com.kingbase</groupId>-->
-<!--            <artifactId>kingbase8</artifactId>-->
-<!--            <version>8.2.0</version>-->
-<!--            <scope>system</scope>-->
-<!--            <systemPath>${basedir}/lib/kingbase8-8.2.0.jar</systemPath>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>com.hibernate.kingbase</groupId>-->
-<!--            <artifactId>hibernate-dialect-kingbase</artifactId>-->
-<!--            <version>5.2.17</version>-->
-<!--            <scope>system</scope>-->
-<!--            <systemPath>${basedir}/lib/hibernate-5.2.17.Finaldialect.jar</systemPath>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>com.kingbase</groupId>
+            <artifactId>kingbase8</artifactId>
+            <version>8.2.0</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/lib/kingbase8-8.2.0.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>com.hibernate.kingbase</groupId>
+            <artifactId>hibernate-dialect-kingbase</artifactId>
+            <version>5.2.17</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/lib/hibernate-5.2.17.Finaldialect.jar</systemPath>
+        </dependency>
         <!--金仓*****************************************end-->
         <!-- orcal连接-->
-<!--        <dependency>-->
-<!--            <groupId>com.oracle.database.jdbc</groupId>-->
-<!--            <artifactId>ojdbc8</artifactId>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>com.oracle.database.nls</groupId>-->
-<!--            <artifactId>orai18n</artifactId>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>com.oracle.database.jdbc</groupId>
+            <artifactId>ojdbc8</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.oracle.database.nls</groupId>
+            <artifactId>orai18n</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>

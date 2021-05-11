@@ -31,25 +31,25 @@
         where
            flag=1
         <if test="userGroup.createdBy != null and userGroup.createdBy != ''">
-            AND created_by = #{userGroup.createdBy}
+            AND created_by LIKE "%"#{userGroup.createdBy}"%"
         </if>
-        <if test="userGroup.createdDate != null and userGroup.createdDate != ''">
+        <if test="userGroup.createdDate != null ">
             AND created_date = #{userGroup.createdDate}
         </if>
         <if test="userGroup.modifiedBy != null and userGroup.modifiedBy != ''">
-            AND modified_by = #{userGroup.modifiedBy}
+            AND modified_by LIKE "%"#{userGroup.modifiedBy}"%"
         </if>
-        <if test="userGroup.modifiedDate != null and userGroup.modifiedDate != ''">
+        <if test="userGroup.modifiedDate != null ">
             AND modified_date = #{userGroup.modifiedDate}
         </if>
         <if test="userGroup.groupIndex != null and userGroup.groupIndex != ''">
             AND group_index = #{userGroup.groupIndex}
         </if>
         <if test="userGroup.groupName != null and userGroup.groupName != ''">
-            AND group_name = #{userGroup.groupName}
+            AND group_name LIKE "%"#{userGroup.groupName}"%"
         </if>
         <if test="userGroup.remark != null and userGroup.remark != ''">
-            AND remark = #{userGroup.remark}
+            AND remark LIKE "%"#{userGroup.remark}"%"
         </if>
         <if test="userGroup.state != null and userGroup.state != ''">
             AND state = #{userGroup.state}

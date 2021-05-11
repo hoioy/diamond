@@ -2,7 +2,7 @@
 #全局datasource配置
 spring:
   datasource:                            #初始化sql配置
-    initialization-mode: ALWAYS
+    initialization-mode: Never
     continue-on-error: true                        #在初始化数据库时，遇到错误是否继续，默认false
     test-on-borrow: false                           #当从连接池借用连接时，是否测试该连接.
     test-while-idle: true                           #当连接空闲时，是否执行连接测试.
@@ -25,12 +25,19 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.MySQL8Dialect
 ---
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: https://oauth2.taiji.com.cn/.well-known/jwks.json  #向OAuth2 请求密钥的接口地址
+---
 #pgsql配置
 #spring:
 #  datasource:
 #    driver-class-name: org.postgresql.Driver
 #    password: sample
-#    url: jdbc:postgresql://192.168.70.44:3308/sample
+#    url: jdbc:postgresql://192.168.70.44:3308/diamond
 #    data: "classpath:/init/pgsqldata.sql"
 #    username: sample
 #    hikari:
@@ -49,11 +56,11 @@ spring:
 #  datasource:
 #    data: classpath:/oracledata.sql
 #    data-password: 123456
-#    data-username: sampleNEW
+#    data-username: diamondNEW
 #    driver-class-name: oracle.jdbc.driver.OracleDriver
 #    password: 123456
 #    url: jdbc:oracle:thin:@192.168.19.1:1522:ORCL1
-#    username: sampleNEW
+#    username: diamondNEW
 #  jpa:
 #    database-platform: org.hibernate.dialect.Oracle12cDialect
 #mybatis-plus:
@@ -64,11 +71,11 @@ spring:
 #spring:
 #  datasource:
 #    data-password: sample
-#    data-username: sample
+#    data-username: diamond
 #    driver-class-name: com.kingbase8.Driver
 #    password: sample
-#    url: jdbc:kingbase8://172.18.0.7:54321/sample
-#    username: sample
+#    url: jdbc:kingbase8://172.18.0.7:54321/diamond
+#    username: diamond
 #    hikari:
 #      maximum-pool-size: 200
 #      minimum-idle: 20
@@ -89,6 +96,7 @@ spring:
     host: 127.0.0.1
     port: 6379
     timeout: 3000
+#    password: admin
 
 # 日志配置
 logging:
@@ -97,8 +105,11 @@ logging:
     com.hoioy.diamond: debug
 
 # swagger2是否开启
-swagger2:
+knife4j:
+  # 开启增强配置
   enable: true
+  # 部署到生产环境时，建议设置为true开启生产环境屏蔽
+  production: false
 
 ---
 # TODO jpa配置，如果使用mybatis可以删除
@@ -112,7 +123,7 @@ spring:
       #create-drop ：每次加载hibernate时根据model类生成表，但是sessionFactory一关闭,表就自动删除。
       #update：最常用的属性，第一次加载hibernate时根据model类会自动建立起表的结构（前提是先建立好数据库），以后加载hibernate时根据 model类自动更新表结构，即使表结构改变了但表中的行仍然存在不会删除以前的行。要注意的是当部署到服务器后，表结构是不会被马上建立起来的，是要等 应用第一次运行起来后才会。
       #validate ：每次加载hibernate时，验证创建数据库表结构，只会和数据库中的表进行比较，不会创建新表，但是会插入新值。
-      ddl-auto: create-drop
+      ddl-auto: update
     open-in-view: true                     #保证在controller层不会出现no session的问题
     properties:
       hibernate.hbm2ddl.auto: update                     #update自动更新数据表结构
