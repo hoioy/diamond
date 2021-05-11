@@ -14,7 +14,6 @@ import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -82,8 +81,8 @@ public class Swagger2Config implements WebMvcConfigurer {
     }
 
     private List<SecurityReference> defaultAuth() {
-        AuthorizationScope[] authorizationScopes = (AuthorizationScope[]) Arrays.asList(
-                new AuthorizationScope("global", "accessEverything")).toArray();
-        return ListUtil.of(new SecurityReference(apiKeyName, authorizationScopes));
+        return ListUtil.of(new SecurityReference(apiKeyName, new AuthorizationScope[]{
+                new AuthorizationScope("global", "accessEverything")
+        }));
     }
 }
