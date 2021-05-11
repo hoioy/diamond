@@ -1,0 +1,48 @@
+{
+  "title": "Diamond帮助文档",
+  "links" : {
+    "sidebar" : {
+      "Diamond开发框架" : ""
+    }
+  },
+  "description": "Diamond帮助文档",
+  "plugins": [
+    "back-to-top-button",
+    "code",
+    "github",
+    "hide-element",
+    "simple-page-toc",
+    "page-toc-button",
+    "splitter",
+    "-lunr",
+    "-search",
+    "search-pro",
+    "custom-favicon",
+    "pageview-count",
+    "tbfed-pagefooter",
+    "popup",
+    "advanced-emoji"
+  ],
+  "pluginsConfig": {
+    "favicon": "./icon/book.ico",
+    "simple-page-toc": {
+      "maxDepth": 3,
+      "skipFirstH1": true
+    },
+    "github": {
+      "url": "https://github.com/hoioy/diamond"
+    },
+    "hide-element": {
+      "elements": [".gitbook-link"]
+    },
+    "page-toc-button": {
+      "maxTocDepth": 2,
+      "minTocSize": 2
+    },
+    "tbfed-pagefooter": {
+      "copyright": "Copyright &copy hoioy.com",
+      "modify_label": "该文章修订时间：",
+      "modify_format": "YYYY-MM-DD HH:mm:ss"
+    }
+  }
+}

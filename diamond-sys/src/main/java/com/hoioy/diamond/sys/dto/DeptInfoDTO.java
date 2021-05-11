@@ -23,7 +23,7 @@ public class DeptInfoDTO extends BaseTreeDTO{
     @ApiModelProperty(value = "机构排序字段")
     private Integer deptIndex;
 
-    @ApiModelProperty(value = "机构名称", name = "deptName", example = "创新研究院")
+    @ApiModelProperty(value = "机构名称", name = "deptName", example = "Hoioy")
     @NotBlank(message = "机构名称不能为空")
     private String deptName;
     @ApiModelProperty(value = "机构状态", name = "deptState", example = "1")

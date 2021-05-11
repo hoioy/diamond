@@ -6,6 +6,6 @@
 base:
   sys:
     file-storage:
-      root-path: "D:\\storage\\"  #必须设置的属性 TDF提供简单的文件上传功能，文件上传的根路径
+      root-path: "D:\\storage\\"  #必须设置的属性 Diamond提供简单的文件上传功能，文件上传的根路径
 ```
 那么此时需要将user-blank.xlsx复制到：`D:\\storage\\FileStorageControllerImg`目录下。此时在页面逻辑中可以正常使用各个模板。

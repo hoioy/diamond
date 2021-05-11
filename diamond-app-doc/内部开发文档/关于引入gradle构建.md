@@ -1,6 +1,6 @@
 
 随着技术发展，公司内部有项目希望使用gradle构建。
-在当前gradle和maven构建需求并存的情况下，TDF选择同时引入对gradle和maven的支持。
+在当前gradle和maven构建需求并存的情况下，Diamond选择同时引入对gradle和maven的支持。
 用户初始化构建工程时候，需要maven和gradle任选其一。
 
 ## 关于gradle构建
