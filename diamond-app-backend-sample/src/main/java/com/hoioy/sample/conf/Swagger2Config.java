@@ -31,6 +31,7 @@ public class Swagger2Config implements WebMvcConfigurer {
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
+        registry.addRedirectViewController("/", "index.html");
         registry.addRedirectViewController("swagger-ui.html", "doc.html");
     }
 

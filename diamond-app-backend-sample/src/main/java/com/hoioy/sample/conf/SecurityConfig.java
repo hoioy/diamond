@@ -101,6 +101,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // 过滤器的安全拦截器的每一次的要求
         http.authorizeRequests().filterSecurityInterceptorOncePerRequest(true)
                 .antMatchers("/error").permitAll()
+                .antMatchers("/h2-console/**","/").permitAll()
                 .antMatchers("/phoneCodeAuth", "/sendSmsCode").permitAll()
                 //通过Oauth2登录时绑定用户接口，暂时开启，否则与JwtAuthorizationTokenFilter逻辑冲突（本系统还没有用户所以查不出来）
                 .antMatchers("/bindOAuth2User").permitAll()

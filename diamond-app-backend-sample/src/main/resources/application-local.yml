@@ -1,88 +1,23 @@
----
-#全局datasource配置
+#本地模式：h2数据库、内存缓存，因此不需要其他基础设施，可以直接运行
+
+#全局datasource配置,默认使用h2数据库
 spring:
   datasource:                            #初始化sql配置
     initialization-mode: always
-    continue-on-error: true                        #在初始化数据库时，遇到错误是否继续，默认false
-    test-on-borrow: false                           #当从连接池借用连接时，是否测试该连接.
-    test-while-idle: true                           #当连接空闲时，是否执行连接测试.
-    time-between-eviction-runs-millis: 3600000    #数据库连接时间
-
----
-#mysql配置
-spring:
-  datasource:
-    driver-class-name: "com.mysql.cj.jdbc.Driver"     # mysql 8时候配置
-    url: "jdbc:mysql://localhost:3306/sample?serverTimezone=GMT%2B8&amp&characterEncoding=utf-8&useSSL=false"  #  mysql 8时候配置
-    # url=jdbc:mysql://127.0.0.1:3306/sample?useUnicode=true&characterEncoding=utf-8     # mysql 8以下配置
-    # type=com.zaxxer.hikari.HikariDataSource    # mysql 8以下配置
-    data: "classpath:/init/mysqldata.sql"      #初始化sql配置
-    schema: "classpath:/init/mysqlschema.sql"  #初始化sql配置
-    username: root
-    password: admin
-    data-username: root
-    data-password: admin
-
----
-spring:
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          jwk-set-uri: https://oauth2.taiji.com.cn/.well-known/jwks.json  #向OAuth2 请求密钥的接口地址
----
-#pgsql配置
-#spring:
-#  datasource:
-#    driver-class-name: org.postgresql.Driver
-#    password: sample
-#    url: jdbc:postgresql://192.168.70.44:3308/diamond
-#    data: "classpath:/init/pgsqldata.sql"
-#    username: sample
-#    hikari:
-#      maximum-pool-size: 200
-#      minimum-idle: 20
-##oracle配置
-#---
-#spring:
-#  datasource:
-#    data: classpath:/oracledata.sql
-#    data-password: 123456
-#    data-username: diamondNEW
-#    driver-class-name: oracle.jdbc.driver.OracleDriver
-#    password: 123456
-#    url: jdbc:oracle:thin:@192.168.19.1:1522:ORCL1
-#    username: diamondNEW
-#mybatis-plus:
-#  jdbc-type-for-null: 'null'     #oracle数据库，要加上下面这个配置
-#
-##Kingbase8相关配置
-#---
-#spring:
-#  datasource:
-#    data-password: sample
-#    data-username: diamond
-#    driver-class-name: com.kingbase8.Driver
-#    password: sample
-#    url: jdbc:kingbase8://172.18.0.7:54321/diamond
-#    username: diamond
-#    hikari:
-#      maximum-pool-size: 200
-#      minimum-idle: 20
-#---
-## TODO 进仓数据库，mybatis这个属性还没有测试 陈哲
-#mybatis-plus:
-#  jdbc-type-for-null: 'null'
-
----
-# redis配置
-spring:
-  redis:
-    database: 2
-    host: 127.0.0.1
-    port: 6379
-    timeout: 3000
-#    password: admin
+    continue-on-error: false                        #在初始化数据库时，遇到错误是否继续，默认false
+    driverClassName: org.h2.Driver
+    url: jdbc:h2:~/db/diamondsample
+    platform: h2
+    username: sa
+    password: sa
+    data: "classpath:/init/h2data.sql"      #初始化sql配置
+    schema: "classpath:/init/h2schema.sql"  #初始化sql配置
+  h2:
+    console:
+      settings:
+          web-allow-others: true #生产环境设置为false，关闭控制台
+      path: /h2-console
+      enabled: true #生产环境设置为false，关闭控制台
 
 # 日志配置
 logging:
@@ -97,3 +32,11 @@ knife4j:
   # 部署到生产环境时，建议设置为true开启生产环境屏蔽
   production: false
 
+---
+# 统一认证配置
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: https://oauth2.taiji.com.cn/.well-known/jwks.json  #向OAuth2 请求密钥的接口地址
