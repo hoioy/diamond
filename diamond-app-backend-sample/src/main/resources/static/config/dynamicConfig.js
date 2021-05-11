@@ -1,6 +1,6 @@
 var __config = {
 // 生产上
-  VUE_APP_BASE_API: 'http://localhost:7779/',
+  VUE_APP_BASE_API: '',
   VUE_APP_OAUTH_userAuthorizationUri: 'http://192.168.99.77:9998/oauth/authorize',
   VUE_APP_OAUTH_clientId: 'tdfuivue',
   VUE_APP_OAUTH_client_secret: 'tdfuivue',
