@@ -1,3 +1,6 @@
+### 技术支持
+[![Gitter](https://badges.gitter.im/hoioy-diamond/community.svg)](https://gitter.im/hoioy-diamond/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+
 ### 工程地址
 * 码云：https://gitee.com/hoioy/diamond.git
 * Github： https://github.com/hoioy/diamond.git
