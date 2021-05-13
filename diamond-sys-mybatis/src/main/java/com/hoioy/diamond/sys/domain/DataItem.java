@@ -1,7 +1,7 @@
 package com.hoioy.diamond.sys.domain;
 
-import com.hoioy.diamond.common.base.BaseTreeDomain;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.hoioy.diamond.common.base.BaseTreeDomain;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
