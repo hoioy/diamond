@@ -14,8 +14,10 @@ export default {
     }
   },
   mounted: function() {
+    debugger
     this.code = this.$route.query.code
     this.state = this.$route.query.state
+    debugger
     this.loginByOauth()
   },
   methods: {

@@ -2,8 +2,8 @@
 [![Gitter](https://badges.gitter.im/hoioy-diamond/community.svg)](https://gitter.im/hoioy-diamond/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 ### 工程地址
-* 码云：https://gitee.com/hoioy/diamond.git
 * Github： https://github.com/hoioy/diamond.git
+* 码云：https://gitee.com/hoioy/diamond.git
 
 ### 演示环境
 * http://diamond.hoioy.com/
@@ -13,7 +13,7 @@
 ##### 必选
 - jdk 1.8 +
 - maven 3+
-- lombok IDE插件([lombok的各种IDE插件安装](/docs/lombok的各种IDE插件安装.md))
+- lombok IDE插件
 
 ##### 可选
 - mysql 8
@@ -23,7 +23,7 @@
 * 方式一:
     1. 下载jar运行：https://gitee.com/hoioy/diamond/releases/v1.0.1  
     1. java -jar diamond-app-backend-sample-1.0.1.jar
-* 方式一:
+* 方式二:
     1. 下载源码，等待maven自动构建完成
     1. 直接运行启动diamond-app-backend-sample
 1. 默认管理员用户名/密码：admin/admin

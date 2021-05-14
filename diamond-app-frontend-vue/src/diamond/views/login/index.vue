@@ -129,6 +129,7 @@ export default {
       }
     },
     getCaptcha() {
+      debugger
       this.uuid = UUID(32)
       LoginAPI.captcha().then(data => {
         this.captchaBase64 = data.captchaCode

@@ -61,7 +61,7 @@ base:
     access:
       isWhiteLogic: true
     jwt:
-      jwkSetUri: http://192.168.99.77:9998/.well-known/jwks.json  #必须设置的属性 使用OAuth2统一认证登录时候需要指定
+      jwkSetUri: http://gia.diamond.hoioy.com/.well-known/jwks.json  #必须设置的属性 使用OAuth2统一认证登录时候需要指定
       secret: mySecret      #默认值；mySecret。签名秘钥，一定要保密，一定要保密，一定要保密，生产环境需要保护起来不被其他人员看到
       expiration: 120  #默认值；60。token的过期时间，单位：秒
       refresh: 72000  #默认值；1800。token的可自动刷新时间，单位：秒

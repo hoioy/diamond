@@ -27,6 +27,7 @@ var oauthLoginUtil = {
     }))
   },
   getToken: function(code, callback, error) {
+    debugger
     const baseStr = Base64.encode(process.env.VUE_APP_OAUTH_clientId + ':' + process.env.VUE_APP_OAUTH_client_secret)
     const tokenUrlStr = '?' + 'client_id=' + process.env.VUE_APP_OAUTH_clientId +
       '&' + 'client_secret=' + process.env.VUE_APP_OAUTH_client_secret +
